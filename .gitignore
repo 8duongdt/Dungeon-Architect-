@@ -1,0 +1,110 @@
+# This file is part of .NET/C# .gitignore
+# This will ignore Unity-generated files, you never need to commit them
+
+# ===========================
+# Unity generated files
+# ===========================
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Aa]rts/
+/[Bb]uild[Ss]ettings/
+
+# Don't track the .csproj or .sln files, let the user generate them
+*.csproj
+*.sln
+
+# ===========================
+# Microsoft Visual Studio
+# ===========================
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ===========================
+# ReSharper is a .NET coding add-in
+# ===========================
+.idea/
+*.DotSettings
+*.DotSettings.user
+
+# ===========================
+# MonoDevelop / Xamarin Studio
+# ===========================
+.monodevelop/
+.mdb
+*.mdb
+*.unityproj
+*.pidb
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# ===========================
+# Unity3D generated meta files
+# ===========================
+*.pidb.meta
+*.pdb.meta
+
+# ===========================
+# Unity3D generated file on crash reports
+# ===========================
+sysinfo.txt
+crash.log
+crash.log.meta
+
+# ===========================
+# Builds
+# ===========================
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# ===========================
+# Rider IDE
+# ===========================
+.idea/
+.idea/**
+*.sln.iml
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ===========================
+# Environment files
+# ===========================
+.env
+.env.local
+.DS_Store
+Thumbs.db
+
+# ===========================
+# Visual Studio Code
+# ===========================
+.vscode/*
+!.vscode/*.json
+
+# ===========================
+# JetBrains IDEs
+# ===========================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ===========================
+# OS files
+# ===========================
+.DS_Store
+Thumbs.db
+Desktop.ini

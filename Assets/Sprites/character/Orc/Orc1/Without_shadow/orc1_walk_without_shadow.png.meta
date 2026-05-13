@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: b77018247e5df0a4baa9669f021c459f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -607569306816466307
+    second: orc1_walk_without_shadow_0
+  - first:
+      213: 237762024495821690
+    second: orc1_walk_without_shadow_1
+  - first:
+      213: -8717121111075019209
+    second: orc1_walk_without_shadow_2
+  - first:
+      213: 239824259440771824
+    second: orc1_walk_without_shadow_3
+  - first:
+      213: 1612114667450620401
+    second: orc1_walk_without_shadow_4
+  - first:
+      213: 4241605962449218042
+    second: orc1_walk_without_shadow_5
+  - first:
+      213: 3169460209774440763
+    second: orc1_walk_without_shadow_6
+  - first:
+      213: -7617283609123640430
+    second: orc1_walk_without_shadow_7
+  - first:
+      213: -795581360516770634
+    second: orc1_walk_without_shadow_8
+  - first:
+      213: -2477109015945045639
+    second: orc1_walk_without_shadow_9
+  - first:
+      213: -7786418992614875114
+    second: orc1_walk_without_shadow_10
+  - first:
+      213: -4231862154865944399
+    second: orc1_walk_without_shadow_11
+  - first:
+      213: -2094882190496693759
+    second: orc1_walk_without_shadow_12
+  - first:
+      213: -5240493112446625208
+    second: orc1_walk_without_shadow_13
+  - first:
+      213: -4600898423989990979
+    second: orc1_walk_without_shadow_14
+  - first:
+      213: 2107919520420140578
+    second: orc1_walk_without_shadow_15
+  - first:
+      213: -3921737067845079410
+    second: orc1_walk_without_shadow_16
+  - first:
+      213: 6290484626747015116
+    second: orc1_walk_without_shadow_17
+  - first:
+      213: 6924100305259886767
+    second: orc1_walk_without_shadow_18
+  - first:
+      213: 4620700156295334118
+    second: orc1_walk_without_shadow_19
+  - first:
+      213: 9170817994046081368
+    second: orc1_walk_without_shadow_20
+  - first:
+      213: 2307152508996571712
+    second: orc1_walk_without_shadow_21
+  - first:
+      213: -8333154665189376757
+    second: orc1_walk_without_shadow_22
+  - first:
+      213: -3160747235309745402
+    second: orc1_walk_without_shadow_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 24
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 211
+        width: 36
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7236ca3fea7197f0800000000000000
+      internalID: -607569306816466307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 213
+        width: 37
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a73b6233d43bc4300800000000000000
+      internalID: 237762024495821690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 212
+        width: 36
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 736a056e880960780800000000000000
+      internalID: -8717121111075019209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 212
+        width: 35
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f20d70b4e6045300800000000000000
+      internalID: 239824259440771824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 213
+        width: 36
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f9579aafb16f5610800000000000000
+      internalID: 1612114667450620401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_5
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 212
+        width: 36
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af9e6fc56263dda30800000000000000
+      internalID: 4241605962449218042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_6
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 147
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b31375da44f2cfb20800000000000000
+      internalID: 3169460209774440763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_7
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 149
+        width: 36
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29ba7c46ae8f94690800000000000000
+      internalID: -7617283609123640430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_8
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 148
+        width: 35
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b4d970c7f685f4f0800000000000000
+      internalID: -795581360516770634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_9
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 148
+        width: 34
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9799daa697a8f9dd0800000000000000
+      internalID: -2477109015945045639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_10
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 149
+        width: 34
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 610e5d03e2511f390800000000000000
+      internalID: -7786418992614875114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_11
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 148
+        width: 34
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b8dbc0aac76545c0800000000000000
+      internalID: -4231862154865944399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_12
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 85
+        width: 19
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10207253fbb7de2e0800000000000000
+      internalID: -2094882190496693759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_13
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 85
+        width: 22
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84adcb097470647b0800000000000000
+      internalID: -5240493112446625208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_14
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 85
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db90c6e82435620c0800000000000000
+      internalID: -4600898423989990979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_15
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 85
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22611c5b2a5d04d10800000000000000
+      internalID: 2107919520420140578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_16
+      rect:
+        serializedVersion: 2
+        x: 275
+        y: 85
+        width: 21
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8eac904ae03399c0800000000000000
+      internalID: -3921737067845079410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_17
+      rect:
+        serializedVersion: 2
+        x: 340
+        y: 85
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ccfbf4a807a4c4750800000000000000
+      internalID: 6290484626747015116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_18
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 21
+        width: 21
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa8703cca88571060800000000000000
+      internalID: 6924100305259886767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_19
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 21
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e843958f46002040800000000000000
+      internalID: 4620700156295334118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_20
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 21
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85980e2606a454f70800000000000000
+      internalID: 9170817994046081368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_21
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 21
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 042546dabf6a40020800000000000000
+      internalID: 2307152508996571712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_22
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 20
+        width: 20
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0d7ff2abffaa5c80800000000000000
+      internalID: -8333154665189376757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_walk_without_shadow_23
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 21
+        width: 19
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60b8096c225c224d0800000000000000
+      internalID: -3160747235309745402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      orc1_walk_without_shadow_0: -607569306816466307
+      orc1_walk_without_shadow_1: 237762024495821690
+      orc1_walk_without_shadow_10: -7786418992614875114
+      orc1_walk_without_shadow_11: -4231862154865944399
+      orc1_walk_without_shadow_12: -2094882190496693759
+      orc1_walk_without_shadow_13: -5240493112446625208
+      orc1_walk_without_shadow_14: -4600898423989990979
+      orc1_walk_without_shadow_15: 2107919520420140578
+      orc1_walk_without_shadow_16: -3921737067845079410
+      orc1_walk_without_shadow_17: 6290484626747015116
+      orc1_walk_without_shadow_18: 6924100305259886767
+      orc1_walk_without_shadow_19: 4620700156295334118
+      orc1_walk_without_shadow_2: -8717121111075019209
+      orc1_walk_without_shadow_20: 9170817994046081368
+      orc1_walk_without_shadow_21: 2307152508996571712
+      orc1_walk_without_shadow_22: -8333154665189376757
+      orc1_walk_without_shadow_23: -3160747235309745402
+      orc1_walk_without_shadow_3: 239824259440771824
+      orc1_walk_without_shadow_4: 1612114667450620401
+      orc1_walk_without_shadow_5: 4241605962449218042
+      orc1_walk_without_shadow_6: 3169460209774440763
+      orc1_walk_without_shadow_7: -7617283609123640430
+      orc1_walk_without_shadow_8: -795581360516770634
+      orc1_walk_without_shadow_9: -2477109015945045639
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

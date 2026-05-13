@@ -9,7 +9,7 @@ public class PlayerControll : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
-    private Vector2 lastMove = new Vector2(0, -1); // Mặc định nhìn xuống dưới khi bắt đầu
+    private Vector2 lastMove = new Vector2(0, -1); 
     private Animator animator;
     private bool isAttacking;
     private float attackTimer;
@@ -18,6 +18,12 @@ public class PlayerControll : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        if (rb != null)
+        {
+            rb.gravityScale = 0f;
+            rb.freezeRotation = true;
+        }
 
         // Auto-sync with the attack clip length to avoid cutting animation early.
         float detectedAttackLength = GetAttackClipLength();
@@ -44,22 +50,16 @@ public class PlayerControll : MonoBehaviour
             else if (keyboard.sKey.isPressed) moveInput.y = -1;
         }
 
-        //Di chuyển nhân vật
-        Vector2 movement = moveInput.normalized;
-        transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
-
         //Cập nhật Animator
         animator.SetFloat("Speed", moveInput.magnitude);
 
-        if (moveInput != Vector2.zero)
-        {
-            //lưu hướng quay mặt cuối cùng
-            lastMove = moveInput;
+        UpdateFacingDirection();
 
-            // Gửi thông số hướng vào Animator
-            animator.SetFloat("Horizontal", lastMove.x);
-            animator.SetFloat("Vertical", lastMove.y);
-        }
+        // if (PauseController.IsGamePaused || isWaiting)
+        // {
+        //     animator.SetBool("isRunning", false);
+        //     return;
+        // }
 
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -67,6 +67,50 @@ public class PlayerControll : MonoBehaviour
         }
 
         UpdateAttackState();
+    }
+
+    private void FixedUpdate()
+    {
+        if (rb == null)
+        {
+            return;
+        }
+
+        Vector2 movement = moveInput.normalized;
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void UpdateFacingDirection()
+    {
+        if (Camera.main == null || Mouse.current == null)
+        {
+            if (moveInput != Vector2.zero)
+            {
+                lastMove = moveInput.normalized;
+            }
+
+            animator.SetFloat("Horizontal", lastMove.x);
+            animator.SetFloat("Vertical", lastMove.y);
+            return;
+        }
+
+        Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
+        mouseScreenPosition.z = -Camera.main.transform.position.z;
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+
+        Vector2 direction = mouseWorldPosition - transform.position;
+        if (direction.sqrMagnitude < 0.0001f)
+        {
+            direction = lastMove;
+        }
+        else
+        {
+            direction.Normalize();
+            lastMove = direction;
+        }
+
+        animator.SetFloat("Horizontal", direction.x);
+        animator.SetFloat("Vertical", direction.y);
     }
 
     private void StartAttack()

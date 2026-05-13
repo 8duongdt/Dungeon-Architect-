@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: 1a4000c69df74d9428c3a67918537d3d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6979224055594033102
+    second: orc1_idle_with_shadow_0
+  - first:
+      213: 4181752233069704730
+    second: orc1_idle_with_shadow_1
+  - first:
+      213: -7031308654250709959
+    second: orc1_idle_with_shadow_2
+  - first:
+      213: 1015141627738907550
+    second: orc1_idle_with_shadow_3
+  - first:
+      213: -8640472258616278699
+    second: orc1_idle_with_shadow_4
+  - first:
+      213: 2701320367744909163
+    second: orc1_idle_with_shadow_5
+  - first:
+      213: -3271255604103623539
+    second: orc1_idle_with_shadow_6
+  - first:
+      213: 6873744026174357758
+    second: orc1_idle_with_shadow_7
+  - first:
+      213: -6676802458295208067
+    second: orc1_idle_with_shadow_8
+  - first:
+      213: 6940736943203595490
+    second: orc1_idle_with_shadow_9
+  - first:
+      213: -345533762731406531
+    second: orc1_idle_with_shadow_10
+  - first:
+      213: 2896648697493558039
+    second: orc1_idle_with_shadow_11
+  - first:
+      213: 4912791696567414939
+    second: orc1_idle_with_shadow_12
+  - first:
+      213: -6273789092104655960
+    second: orc1_idle_with_shadow_13
+  - first:
+      213: -82418021530590784
+    second: orc1_idle_with_shadow_14
+  - first:
+      213: 8818831266895339156
+    second: orc1_idle_with_shadow_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 22
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 209
+        width: 36
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 230e47ee2b0d42f90800000000000000
+      internalID: -6979224055594033102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 209
+        width: 39
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a16f0d60081980a30800000000000000
+      internalID: 4181752233069704730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 209
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93ca14d4806cb6e90800000000000000
+      internalID: -7031308654250709959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 209
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e93e6169ee1861e00800000000000000
+      internalID: 1015141627738907550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 145
+        width: 36
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5514f8d8240e61880800000000000000
+      internalID: -8640472258616278699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_5
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 145
+        width: 39
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6f76ffef840d7520800000000000000
+      internalID: 2701320367744909163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_6
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 145
+        width: 40
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8cc5e32c5a2a92d0800000000000000
+      internalID: -3271255604103623539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_7
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 145
+        width: 39
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef0061de5c1746f50800000000000000
+      internalID: 6873744026174357758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_8
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 81
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d77fbd51a8b3753a0800000000000000
+      internalID: -6676802458295208067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_9
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 81
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e4b41be973725060800000000000000
+      internalID: 6940736943203595490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_10
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 81
+        width: 24
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3b8d7e9fda643bf0800000000000000
+      internalID: -345533762731406531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_11
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 81
+        width: 23
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 713933da4a6f23820800000000000000
+      internalID: 2896648697493558039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_12
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 17
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b90b369d40ebd2440800000000000000
+      internalID: 4912791696567414939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_13
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 17
+        width: 22
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aba1698f060fe8a0800000000000000
+      internalID: -6273789092104655960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_14
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 17
+        width: 22
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c1249ffe313bdef0800000000000000
+      internalID: -82418021530590784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_idle_with_shadow_15
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 17
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49e97652058c26a70800000000000000
+      internalID: 8818831266895339156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      orc1_idle_with_shadow_0: -6979224055594033102
+      orc1_idle_with_shadow_1: 4181752233069704730
+      orc1_idle_with_shadow_10: -345533762731406531
+      orc1_idle_with_shadow_11: 2896648697493558039
+      orc1_idle_with_shadow_12: 4912791696567414939
+      orc1_idle_with_shadow_13: -6273789092104655960
+      orc1_idle_with_shadow_14: -82418021530590784
+      orc1_idle_with_shadow_15: 8818831266895339156
+      orc1_idle_with_shadow_2: -7031308654250709959
+      orc1_idle_with_shadow_3: 1015141627738907550
+      orc1_idle_with_shadow_4: -8640472258616278699
+      orc1_idle_with_shadow_5: 2701320367744909163
+      orc1_idle_with_shadow_6: -3271255604103623539
+      orc1_idle_with_shadow_7: 6873744026174357758
+      orc1_idle_with_shadow_8: -6676802458295208067
+      orc1_idle_with_shadow_9: 6940736943203595490
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

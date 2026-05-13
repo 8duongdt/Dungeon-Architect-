@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: 20dad33c0a73ccd4fb081d1dbd878866
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6993963954138037619
+    second: orc1_hurt_with_shadow_0
+  - first:
+      213: -4556618178505023900
+    second: orc1_hurt_with_shadow_1
+  - first:
+      213: 1657604477608164214
+    second: orc1_hurt_with_shadow_2
+  - first:
+      213: -4514999716458528317
+    second: orc1_hurt_with_shadow_3
+  - first:
+      213: 6252925077101418949
+    second: orc1_hurt_with_shadow_4
+  - first:
+      213: -6599432194053407246
+    second: orc1_hurt_with_shadow_5
+  - first:
+      213: -5007890392396930583
+    second: orc1_hurt_with_shadow_6
+  - first:
+      213: -9195832882011984158
+    second: orc1_hurt_with_shadow_7
+  - first:
+      213: -5274218228173931422
+    second: orc1_hurt_with_shadow_8
+  - first:
+      213: -6490385684552648126
+    second: orc1_hurt_with_shadow_9
+  - first:
+      213: 6215667820339691406
+    second: orc1_hurt_with_shadow_10
+  - first:
+      213: -5686051804584111467
+    second: orc1_hurt_with_shadow_11
+  - first:
+      213: -1391316127098978626
+    second: orc1_hurt_with_shadow_12
+  - first:
+      213: -6792765998966358335
+    second: orc1_hurt_with_shadow_13
+  - first:
+      213: -1458231623473624269
+    second: orc1_hurt_with_shadow_14
+  - first:
+      213: -6195534159442622907
+    second: orc1_hurt_with_shadow_15
+  - first:
+      213: -4718947987052572717
+    second: orc1_hurt_with_shadow_16
+  - first:
+      213: 8476649088173693690
+    second: orc1_hurt_with_shadow_17
+  - first:
+      213: 2910840223932932078
+    second: orc1_hurt_with_shadow_18
+  - first:
+      213: -3449487934703860332
+    second: orc1_hurt_with_shadow_19
+  - first:
+      213: 5202347752840512715
+    second: orc1_hurt_with_shadow_20
+  - first:
+      213: -646989529839529869
+    second: orc1_hurt_with_shadow_21
+  - first:
+      213: -1863429419164865244
+    second: orc1_hurt_with_shadow_22
+  - first:
+      213: 174394472289877790
+    second: orc1_hurt_with_shadow_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 22
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 209
+        width: 36
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37db842292d8f0160800000000000000
+      internalID: 6993963954138037619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 209
+        width: 39
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46ede1d98e3a3c0c0800000000000000
+      internalID: -4556618178505023900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 209
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b7ee17d7ef00710800000000000000
+      internalID: 1657604477608164214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 209
+        width: 40
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c1008bedaf7751c0800000000000000
+      internalID: -4514999716458528317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 209
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c913cb6a3ad6c650800000000000000
+      internalID: 6252925077101418949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_5
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 209
+        width: 39
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fd7b22826b1a64a0800000000000000
+      internalID: -6599432194053407246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_6
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 145
+        width: 37
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e1e6179836608ab0800000000000000
+      internalID: -5007890392396930583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_7
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 145
+        width: 39
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eea1d527b6d16080800000000000000
+      internalID: -9195832882011984158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_8
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 145
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26c7dc927763ec6b0800000000000000
+      internalID: -5274218228173931422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_9
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 145
+        width: 40
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24a75f08b948de5a0800000000000000
+      internalID: -6490385684552648126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_10
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 145
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f7c2953fc724650800000000000000
+      internalID: 6215667820339691406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_11
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 145
+        width: 39
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5929b4d72061711b0800000000000000
+      internalID: -5686051804584111467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_12
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 81
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebe3ef99a5d01bce0800000000000000
+      internalID: -1391316127098978626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_13
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 81
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ce3245405f3bb1a0800000000000000
+      internalID: -6792765998966358335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_14
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 81
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33b0d92801253cbe0800000000000000
+      internalID: -1458231623473624269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_15
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 81
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 546cf90e18a050aa0800000000000000
+      internalID: -6195534159442622907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_16
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 81
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dfcf2ececde28eb0800000000000000
+      internalID: -4718947987052572717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_17
+      rect:
+        serializedVersion: 2
+        x: 341
+        y: 81
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: afa5b3a3f6b13a570800000000000000
+      internalID: 8476649088173693690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_18
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 17
+        width: 22
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eefd079e2c1656820800000000000000
+      internalID: 2910840223932932078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_19
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 17
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4950bf2eff4f020d0800000000000000
+      internalID: -3449487934703860332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_20
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 17
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc44c1ec7b3723840800000000000000
+      internalID: 5202347752840512715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_21
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 17
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3709484537e6507f0800000000000000
+      internalID: -646989529839529869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_22
+      rect:
+        serializedVersion: 2
+        x: 274
+        y: 17
+        width: 25
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42d6aaee0d4c326e0800000000000000
+      internalID: -1863429419164865244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: orc1_hurt_with_shadow_23
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 17
+        width: 24
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1f31ab39d29b6200800000000000000
+      internalID: 174394472289877790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      orc1_hurt_with_shadow_0: 6993963954138037619
+      orc1_hurt_with_shadow_1: -4556618178505023900
+      orc1_hurt_with_shadow_10: 6215667820339691406
+      orc1_hurt_with_shadow_11: -5686051804584111467
+      orc1_hurt_with_shadow_12: -1391316127098978626
+      orc1_hurt_with_shadow_13: -6792765998966358335
+      orc1_hurt_with_shadow_14: -1458231623473624269
+      orc1_hurt_with_shadow_15: -6195534159442622907
+      orc1_hurt_with_shadow_16: -4718947987052572717
+      orc1_hurt_with_shadow_17: 8476649088173693690
+      orc1_hurt_with_shadow_18: 2910840223932932078
+      orc1_hurt_with_shadow_19: -3449487934703860332
+      orc1_hurt_with_shadow_2: 1657604477608164214
+      orc1_hurt_with_shadow_20: 5202347752840512715
+      orc1_hurt_with_shadow_21: -646989529839529869
+      orc1_hurt_with_shadow_22: -1863429419164865244
+      orc1_hurt_with_shadow_23: 174394472289877790
+      orc1_hurt_with_shadow_3: -4514999716458528317
+      orc1_hurt_with_shadow_4: 6252925077101418949
+      orc1_hurt_with_shadow_5: -6599432194053407246
+      orc1_hurt_with_shadow_6: -5007890392396930583
+      orc1_hurt_with_shadow_7: -9195832882011984158
+      orc1_hurt_with_shadow_8: -5274218228173931422
+      orc1_hurt_with_shadow_9: -6490385684552648126
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,25 +8,26 @@ using Random = UnityEngine.Random;
 
 public class SimpleRandomWalkDungeonGenerator : AbstractDungeonGenerator
 {
-    [SerializeField] private SimpleRandomWalkSO randomWalkParameters;
+    [SerializeField] 
+    protected SimpleRandomWalkSO randomWalkParameters;
 
     protected override void RunProceduralGeneration()
     {
-        HashSet<Vector2Int> floorPositions = RunRandomWalk();
+        HashSet<Vector2Int> floorPositions = RunRandomWalk(randomWalkParameters, startPosition);
         tilemapVisualizer.Clear();
         tilemapVisualizer.PaintFloorTiles(floorPositions);
         WallGeneration.CreateWalls(floorPositions, tilemapVisualizer);
     }
 
-    protected HashSet<Vector2Int> RunRandomWalk()
+    protected HashSet<Vector2Int> RunRandomWalk(SimpleRandomWalkSO parameters, Vector2Int position)
     {
-        var currentPosition = startPosition;
+        var currentPosition = position;
         HashSet<Vector2Int> floorPositions = new HashSet<Vector2Int>();
-        for (int i = 0; i < randomWalkParameters.iterations; i++)
+        for (int i = 0; i < parameters.iterations; i++)
         {
-            var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, randomWalkParameters.walkLength);
+            var path = ProceduralGenerationAlgorithms.SimpleRandomWalk(currentPosition, parameters.walkLength);
             floorPositions.UnionWith(path);
-            if (randomWalkParameters.startRandomlyEachIteration)
+            if (parameters.startRandomlyEachIteration)
             {
                 currentPosition = floorPositions.ElementAt(Random.Range(0, floorPositions.Count));
             }

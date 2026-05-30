@@ -102,6 +102,7 @@ public static class ProceduralGenerationAlgorithms
     }
 }
 
+
 public static class Direction2D
 {
     public static List<Vector2Int> cardinalDirectionsList = new List<Vector2Int>

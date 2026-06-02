@@ -43,8 +43,12 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
 
-        HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-        floor.UnionWith(corridors);
+        List<List<Vector2Int>> corridors = ConnectRooms(roomCenters);
+        for (int i = 0; i < corridors.Count; i++)
+        {
+            corridors[i] = IncreaseCorridorBrush3by3(corridors[i]);
+            floor.UnionWith(corridors[i]);
+        }
 
         tilemapVisualizer.PaintFloorTiles(floor);
         WallGeneration.CreateWalls(floor, tilemapVisualizer);
@@ -69,9 +73,25 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         return floor;
     }
 
-    private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
+    public List<Vector2Int> IncreaseCorridorBrush3by3(List<Vector2Int> corridor)
     {
-        HashSet<Vector2Int> corridors = new HashSet<Vector2Int>();
+        List<Vector2Int> newCorridor = new List<Vector2Int>();
+        for (int i = 1; i < corridor.Count - 1; i++)
+        {
+            for (int x = -1; x <= 1; x++)
+            {
+                for (int y = -1; y <= 1; y++)
+                {
+                    newCorridor.Add(corridor[i - 1] + new Vector2Int(x, y));
+                }
+            }
+        }
+        return newCorridor;
+    }
+
+    private List<List<Vector2Int>> ConnectRooms(List<Vector2Int> roomCenters)
+    {
+        List<List<Vector2Int>> corridors = new List<List<Vector2Int>>();
         var currentRoomCenter = roomCenters[Random.Range(0, roomCenters.Count)];
         roomCenters.Remove(currentRoomCenter);
 
@@ -79,16 +99,16 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         {
             Vector2Int closest = FindClosestPointTo(currentRoomCenter, roomCenters);
             roomCenters.Remove(closest);
-            HashSet<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
+            List<Vector2Int> newCorridor = CreateCorridor(currentRoomCenter, closest);
             currentRoomCenter = closest;
-            corridors.UnionWith(newCorridor);
+            corridors.Add(newCorridor);
         }
         return corridors;
     }
 
-    private HashSet<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
+    private List<Vector2Int> CreateCorridor(Vector2Int currentRoomCenter, Vector2Int destination)
     {
-        HashSet<Vector2Int> corridor = new HashSet<Vector2Int>();
+        List<Vector2Int> corridor = new List<Vector2Int>();
         var position = currentRoomCenter;
         corridor.Add(position);
         while (position.y != destination.y)

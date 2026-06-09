@@ -4,64 +4,65 @@ using UnityEngine.InputSystem;
 
 public class RTSController : MonoBehaviour
 {
-    [SerializeField] private Transform selectionBoxTransform; // Kéo UI vùng chọn vào đây
+    [SerializeField] private Transform selectionBoxTransform;
+    [SerializeField] private float dragSelectThreshold = 0.1f;
+    [SerializeField] private float clickSelectRadius = 0.25f;
+
     private Vector3 startMousePosition;
     private List<UnitRTS> selectedUnitList;
 
     private void Awake()
     {
         selectedUnitList = new List<UnitRTS>();
-        selectionBoxTransform.gameObject.SetActive(false);
+
+        if (selectionBoxTransform != null)
+        {
+            selectionBoxTransform.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
     {
+        if (Mouse.current == null || Camera.main == null)
+        {
+            return;
+        }
+
         HandleSelectionInputs();
         HandleMovementCommand();
     }
 
-    // Xử lý logic click và kéo chuột để chọn lính
     private void HandleSelectionInputs()
     {
-        // 1. Nhấn chuột trái
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             startMousePosition = MouseUtils.GetMouseWorldPosition();
-            selectionBoxTransform.gameObject.SetActive(true);
+            ShowSelectionBox(true);
+            UpdateSelectionBoxVisual(startMousePosition, startMousePosition);
         }
 
-        // 2. Giữ chuột trái
         if (Mouse.current.leftButton.isPressed)
         {
-            Vector3 currentMousePosition = MouseUtils.GetMouseWorldPosition();
-            UpdateSelectionBoxVisual(startMousePosition, currentMousePosition);
+            UpdateSelectionBoxVisual(startMousePosition, MouseUtils.GetMouseWorldPosition());
         }
 
-        // 3. Nhả chuột trái
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            selectionBoxTransform.gameObject.SetActive(false);
-            
-            foreach (UnitRTS unit in selectedUnitList)
-            {
-                unit.SetSelectedVisible(false);
-            }
-            selectedUnitList.Clear();
+            ShowSelectionBox(false);
+            ClearSelection();
 
             Vector3 endMousePosition = MouseUtils.GetMouseWorldPosition();
-            selectedUnitList = GetUnitsInSelectionArea(startMousePosition, endMousePosition);
-            
-            foreach (UnitRTS unit in selectedUnitList)
-            {
-                unit.SetSelectedVisible(true);
-            }
+            bool isDragSelection = Vector3.Distance(startMousePosition, endMousePosition) > dragSelectThreshold;
+            List<UnitRTS> units = isDragSelection
+                ? GetUnitsInSelectionArea(startMousePosition, endMousePosition)
+                : GetUnitsAtPoint(endMousePosition);
+
+            SelectUnits(units);
         }
     }
 
-    // Xử lý logic click chuột phải để di chuyển
     private void HandleMovementCommand()
     {
-        // Nhấn chuột phải
         if (Mouse.current.rightButton.wasPressedThisFrame && selectedUnitList.Count > 0)
         {
             Vector3 targetPosition = MouseUtils.GetMouseWorldPosition();
@@ -74,33 +75,86 @@ public class RTSController : MonoBehaviour
         }
     }
 
-    // Cập nhật vị trí và kích thước UI Vùng Chọn
+    private void ShowSelectionBox(bool visible)
+    {
+        if (selectionBoxTransform != null)
+        {
+            selectionBoxTransform.gameObject.SetActive(visible);
+        }
+    }
+
+    private void ClearSelection()
+    {
+        foreach (UnitRTS unit in selectedUnitList)
+        {
+            if (unit != null)
+            {
+                unit.SetSelectedVisible(false);
+            }
+        }
+
+        selectedUnitList.Clear();
+    }
+
+    private void SelectUnits(List<UnitRTS> units)
+    {
+        selectedUnitList = units;
+
+        foreach (UnitRTS unit in selectedUnitList)
+        {
+            if (unit != null)
+            {
+                unit.SetSelectedVisible(true);
+            }
+        }
+    }
+
     private void UpdateSelectionBoxVisual(Vector3 startPos, Vector3 currentPos)
     {
+        if (selectionBoxTransform == null)
+        {
+            return;
+        }
+
         Vector3 lowerLeft = new Vector3(Mathf.Min(startPos.x, currentPos.x), Mathf.Min(startPos.y, currentPos.y));
         Vector3 upperRight = new Vector3(Mathf.Max(startPos.x, currentPos.x), Mathf.Max(startPos.y, currentPos.y));
-        
+
         selectionBoxTransform.position = lowerLeft;
         selectionBoxTransform.localScale = upperRight - lowerLeft;
+    }
+
+    private List<UnitRTS> GetUnitsAtPoint(Vector3 point)
+    {
+        List<UnitRTS> units = new List<UnitRTS>();
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(point, clickSelectRadius);
+
+        AddUnitsFromColliders(colliders, units);
+        return units;
     }
 
     private List<UnitRTS> GetUnitsInSelectionArea(Vector3 startPos, Vector3 endPos)
     {
         List<UnitRTS> units = new List<UnitRTS>();
-        Collider2D[] colliders = Physics2D.OverlapAreaAll(startPos, endPos);
-        
+        Vector2 lowerLeft = new Vector2(Mathf.Min(startPos.x, endPos.x), Mathf.Min(startPos.y, endPos.y));
+        Vector2 upperRight = new Vector2(Mathf.Max(startPos.x, endPos.x), Mathf.Max(startPos.y, endPos.y));
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(lowerLeft, upperRight);
+
+        AddUnitsFromColliders(colliders, units);
+        return units;
+    }
+
+    private void AddUnitsFromColliders(Collider2D[] colliders, List<UnitRTS> units)
+    {
         foreach (Collider2D col in colliders)
         {
             UnitRTS unit = col.GetComponentInParent<UnitRTS>();
-            if (unit != null)
+            if (unit != null && !units.Contains(unit))
             {
                 units.Add(unit);
             }
         }
-        return units;
     }
 
-    // Tính toán đội hình di chuyển (vòng tròn)
     private List<Vector3> CalculateFormationPositions(Vector3 targetPos, int unitCount)
     {
         List<Vector3> positions = new List<Vector3>();
@@ -110,17 +164,20 @@ public class RTSController : MonoBehaviour
             return positions;
         }
 
-        float[] ringDistances = { 1.5f, 3f, 4.5f, 6f }; 
-        int[] unitsPerRing = { 5, 10, 15, 20 };         
+        float[] ringDistances = { 1.5f, 3f, 4.5f, 6f };
+        int[] unitsPerRing = { 5, 10, 15, 20 };
 
-        positions.Add(targetPos); 
+        positions.Add(targetPos);
         int unitsPlaced = 1;
 
         for (int i = 0; i < ringDistances.Length; i++)
         {
             for (int j = 0; j < unitsPerRing[i]; j++)
             {
-                if (unitsPlaced >= unitCount) return positions;
+                if (unitsPlaced >= unitCount)
+                {
+                    return positions;
+                }
 
                 float angle = j * (360f / unitsPerRing[i]);
                 Vector3 direction = Quaternion.Euler(0, 0, angle) * Vector3.right;
@@ -128,6 +185,7 @@ public class RTSController : MonoBehaviour
                 unitsPlaced++;
             }
         }
+
         return positions;
     }
 }

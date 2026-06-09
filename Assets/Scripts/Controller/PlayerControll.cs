@@ -1,83 +1,92 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControll : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    [SerializeField] private float attackDuration = 0.2f;
-
+    [SerializeField] private CharacterAnimationController animationController;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
-    private Vector2 lastMove = new Vector2(0, -1); 
-    private Animator animator;
-    private bool isAttacking;
-    private float attackTimer;
+    private Vector2 lastMove = new Vector2(0, -1);
 
-    private void Start()
+    public bool HasMovementInput => moveInput.sqrMagnitude > 0.0001f;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        animationController = GetAnimationController();
+        SetupRigidbody();
+    }
 
+    private void SetupRigidbody()
+    {
         if (rb != null)
         {
             rb.gravityScale = 0f;
             rb.freezeRotation = true;
         }
-
-        // Auto-sync with the attack clip length to avoid cutting animation early.
-        float detectedAttackLength = GetAttackClipLength();
-        if (detectedAttackLength > 0f)
-        {
-            attackDuration = detectedAttackLength;
-        }
-
-        // Nếu dùng Rigidbody2D để di chuyển, nên để Gravity Scale = 0 
-        // và đóng băng trục Z (Freeze Rotation Z) trong Inspector.
     }
 
     private void Update()
     {
-        var keyboard = Keyboard.current;
-
-        moveInput = Vector2.zero;
-        if (keyboard != null)
-        {
-            if (keyboard.dKey.isPressed) moveInput.x = 1;
-            else if (keyboard.aKey.isPressed) moveInput.x = -1;
-
-            if (keyboard.wKey.isPressed) moveInput.y = 1;
-            else if (keyboard.sKey.isPressed) moveInput.y = -1;
-        }
-
-        //Cập nhật Animator
-        animator.SetFloat("Speed", moveInput.magnitude);
-
+        ReadMovementInput();
+        animationController?.PlayMove(moveInput);
         UpdateFacingDirection();
-
-        // if (PauseController.IsGamePaused || isWaiting)
-        // {
-        //     animator.SetBool("isRunning", false);
-        //     return;
-        // }
 
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             StartAttack();
         }
 
-        UpdateAttackState();
+        animationController?.TickAttack(Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
-        if (rb == null)
+        Vector2 movement = moveInput.normalized;
+        if (movement == Vector2.zero)
         {
             return;
         }
 
-        Vector2 movement = moveInput.normalized;
+        if (rb == null)
+        {
+            transform.position += (Vector3)(movement * moveSpeed * Time.fixedDeltaTime);
+            return;
+        }
+
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+    }
+
+    private void ReadMovementInput()
+    {
+        Keyboard keyboard = Keyboard.current;
+
+        moveInput = Vector2.zero;
+        if (keyboard == null)
+        {
+            return;
+        }
+
+        if (keyboard.dKey.isPressed)
+        {
+            moveInput.x = 1;
+        }
+        else if (keyboard.aKey.isPressed)
+        {
+            moveInput.x = -1;
+        }
+
+        if (keyboard.wKey.isPressed)
+        {
+            moveInput.y = 1;
+        }
+        else if (keyboard.sKey.isPressed)
+        {
+            moveInput.y = -1;
+        }
     }
 
     private void UpdateFacingDirection()
@@ -89,8 +98,7 @@ public class PlayerControll : MonoBehaviour
                 lastMove = moveInput.normalized;
             }
 
-            animator.SetFloat("Horizontal", lastMove.x);
-            animator.SetFloat("Vertical", lastMove.y);
+            animationController?.SetFacingDirection(lastMove);
             return;
         }
 
@@ -109,46 +117,27 @@ public class PlayerControll : MonoBehaviour
             lastMove = direction;
         }
 
-        animator.SetFloat("Horizontal", direction.x);
-        animator.SetFloat("Vertical", direction.y);
+        animationController?.SetFacingDirection(direction);
     }
 
     private void StartAttack()
     {
-        if (isAttacking) return;
-
-        isAttacking = true;
-        attackTimer = attackDuration;
-        animator.SetBool("Attack", true);
+        animationController?.PlayAttack();
     }
 
-    private void UpdateAttackState()
+    private CharacterAnimationController GetAnimationController()
     {
-        if (!isAttacking) return;
-
-        attackTimer -= Time.deltaTime;
-        if (attackTimer > 0f) return;
-
-        isAttacking = false;
-        animator.SetBool("Attack", false);
-    }
-
-    private float GetAttackClipLength()
-    {
-        if (animator == null || animator.runtimeAnimatorController == null)
+        if (animationController != null)
         {
-            return 0f;
+            return animationController;
         }
 
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        foreach (AnimationClip clip in clips)
+        CharacterAnimationController controller = GetComponent<CharacterAnimationController>();
+        if (controller == null)
         {
-            if (clip != null && clip.name.ToLower().Contains("attack"))
-            {
-                return clip.length;
-            }
+            controller = gameObject.AddComponent<CharacterAnimationController>();
         }
 
-        return 0f;
+        return controller;
     }
 }

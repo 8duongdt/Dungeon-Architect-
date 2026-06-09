@@ -1008,6 +1008,7 @@ GameObject:
   - component: {fileID: 273957675}
   - component: {fileID: 273957674}
   - component: {fileID: 273957673}
+  - component: {fileID: 273957681}
   m_Layer: 0
   m_Name: Player_1
   m_TagString: Untagged
@@ -1028,7 +1029,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControll
   moveSpeed: 5
+  animationController: {fileID: 273957681}
+--- !u!114 &273957681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273957672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079793f5709e49d59121f968f51728cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationController
+  animator: {fileID: 273957674}
   attackDuration: 0.2
+  autoDetectAttackDuration: 1
+  horizontalParameter: Horizontal
+  verticalParameter: Vertical
+  speedParameter: Speed
+  attackParameter: Attack
 --- !u!95 &273957674
 Animator:
   serializedVersion: 7
@@ -12547,8 +12567,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1035912865}
   - {fileID: 397725597}
+  - {fileID: 1035912865}
   - {fileID: 378131291}
   - {fileID: 804819724}
   m_Father: {fileID: 0}
@@ -12682,7 +12702,7 @@ SpriteRenderer:
   m_Size: {x: 2.909091, y: 2.909091}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1702376831
 Transform:

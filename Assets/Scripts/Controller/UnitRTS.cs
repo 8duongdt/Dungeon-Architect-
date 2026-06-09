@@ -2,29 +2,46 @@ using UnityEngine;
 
 public class UnitRTS : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 5f; // Tốc độ di chuyển
-    private GameObject selectedVisual; // Vòng tròn hiển thị dưới chân
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float stoppingDistance = 0.1f;
+
+    private GameObject selectedVisual;
+    private CharacterAnimationController animationController;
+    private Rigidbody2D rb;
     private Vector3 targetPosition;
+    private Vector2 currentMoveDirection;
 
     private void Awake()
     {
-        // Tìm object con có tên "Selected" (nhớ tạo một sprite con tên này trong lính của bạn)
+        rb = GetComponent<Rigidbody2D>();
+        animationController = GetAnimationController();
+
+        if (rb != null)
+        {
+            rb.gravityScale = 0f;
+            rb.freezeRotation = true;
+        }
+
         Transform selectedTransform = transform.Find("Selected");
         if (selectedTransform != null)
         {
             selectedVisual = selectedTransform.gameObject;
         }
-        
-        targetPosition = transform.position; // Đứng yên lúc mới sinh ra
+
+        targetPosition = transform.position;
         SetSelectedVisible(false);
     }
 
     private void Update()
     {
+        UpdateAnimation();
+    }
+
+    private void FixedUpdate()
+    {
         MoveTowardsTarget();
     }
 
-    // Bật/tắt hiển thị vòng tròn
     public void SetSelectedVisible(bool visible)
     {
         if (selectedVisual != null)
@@ -33,19 +50,60 @@ public class UnitRTS : MonoBehaviour
         }
     }
 
-    // Nhận lệnh di chuyển từ Controller
     public void MoveTo(Vector3 targetPos)
     {
-        this.targetPosition = targetPos;
+        targetPosition = targetPos;
+        targetPosition.z = transform.position.z;
     }
 
-    // Tự động di chuyển mỗi khung hình
     private void MoveTowardsTarget()
     {
-        if (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        Vector2 currentPosition = rb != null ? rb.position : (Vector2)transform.position;
+        Vector2 targetPosition2D = targetPosition;
+        Vector2 toTarget = targetPosition2D - currentPosition;
+
+        if (toTarget.sqrMagnitude <= stoppingDistance * stoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
-            transform.position += moveDirection * moveSpeed * Time.deltaTime;
+            currentMoveDirection = Vector2.zero;
+            return;
         }
+
+        currentMoveDirection = toTarget.normalized;
+        Vector2 nextPosition = Vector2.MoveTowards(
+            currentPosition,
+            targetPosition2D,
+            moveSpeed * Time.fixedDeltaTime
+        );
+
+        if (rb != null)
+        {
+            rb.MovePosition(nextPosition);
+        }
+        else
+        {
+            transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
+        }
+    }
+
+    private void UpdateAnimation()
+    {
+        if (currentMoveDirection.sqrMagnitude > 0.0001f)
+        {
+            animationController?.PlayMove(currentMoveDirection);
+            return;
+        }
+
+        animationController?.PlayIdle();
+    }
+
+    private CharacterAnimationController GetAnimationController()
+    {
+        CharacterAnimationController controller = GetComponent<CharacterAnimationController>();
+        if (controller == null && GetComponentInChildren<Animator>() != null)
+        {
+            controller = gameObject.AddComponent<CharacterAnimationController>();
+        }
+
+        return controller;
     }
 }

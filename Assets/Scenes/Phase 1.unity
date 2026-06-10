@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 99647153}
   - component: {fileID: 99647152}
   - component: {fileID: 99647155}
+  - component: {fileID: 99647156}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -272,7 +273,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 20
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -347,6 +348,26 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &99647156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99647151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1d42556fa22f1428fd0910aa4a9368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RTSCamera
+  moveSpeed: 20
+  screenEdgeThickness: 10
+  useScreenEdge: 1
+  minMaxX: {x: -50, y: 50}
+  minMaxY: {x: -50, y: 50}
+  zoomSpeed: 10
+  minHeight: 5
+  maxHeight: 40
 --- !u!1 &170780777
 GameObject:
   m_ObjectHideFlags: 0

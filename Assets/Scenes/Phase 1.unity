@@ -38917,7 +38917,7 @@ MonoBehaviour:
   m_CategoryHash: 4.8641864e-29
   m_labelHash: 9.046874e-39
   m_SpriteKey: 0
-  m_SpriteHash: 780361230
+  m_SpriteHash: 1023252879
 --- !u!50 &516105761
 Rigidbody2D:
   serializedVersion: 5
@@ -39062,7 +39062,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1571780299, guid: a64ee174e395e654c990bea5b2987e5b, type: 3}
+  m_Sprite: {fileID: -253073389, guid: 3d2dc6e9deb94fd4dbd0a5ec66f6cc0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

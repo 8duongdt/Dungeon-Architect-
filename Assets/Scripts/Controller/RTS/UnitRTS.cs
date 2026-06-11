@@ -7,6 +7,7 @@ public class UnitRTS : MonoBehaviour
 
     private GameObject selectedVisual;
     private CharacterAnimationController animationController;
+    private RTSUnitAI unitAI;
     private Rigidbody2D rb;
     private Vector3 targetPosition;
     private Vector2 currentMoveDirection;
@@ -15,6 +16,7 @@ public class UnitRTS : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animationController = GetAnimationController();
+        unitAI = GetComponent<RTSUnitAI>();
 
         if (rb != null)
         {
@@ -34,6 +36,13 @@ public class UnitRTS : MonoBehaviour
 
     private void Update()
     {
+        animationController?.TickAttack(Time.deltaTime);
+
+        if (unitAI != null && unitAI.HasActiveCombatTarget)
+        {
+            return;
+        }
+
         UpdateAnimation();
     }
 
@@ -54,10 +63,19 @@ public class UnitRTS : MonoBehaviour
     {
         targetPosition = targetPos;
         targetPosition.z = transform.position.z;
+        unitAI?.HandleMoveCommand();
     }
 
     private void MoveTowardsTarget()
     {
+        if (unitAI != null && unitAI.HasActiveCombatTarget)
+        {
+            targetPosition = transform.position;
+            currentMoveDirection = Vector2.zero;
+            unitAI.CompleteMoveCommand();
+            return;
+        }
+
         Vector2 currentPosition = rb != null ? rb.position : (Vector2)transform.position;
         Vector2 targetPosition2D = targetPosition;
         Vector2 toTarget = targetPosition2D - currentPosition;
@@ -65,6 +83,7 @@ public class UnitRTS : MonoBehaviour
         if (toTarget.sqrMagnitude <= stoppingDistance * stoppingDistance)
         {
             currentMoveDirection = Vector2.zero;
+            unitAI?.CompleteMoveCommand();
             return;
         }
 

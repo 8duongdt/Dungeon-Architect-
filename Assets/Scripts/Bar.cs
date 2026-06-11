@@ -13,24 +13,32 @@ public class Bar : MonoBehaviour
     [SerializeField]
     private Image _topBarImage;
     [SerializeField]
-    private Image _bottomBarImage;
+    private Image _middleBarImage;
+
     [SerializeField]
     private float _animationspeed = 5f;
+    [SerializeField]
+    private bool _enableMouseDebugControls;
 
     private float TargetFillAmount => MaxValue > 0 ? (float)Value / MaxValue : 0f;
 
     private Coroutine _adjustBarFillCoroutine;
 
+    private void Awake()
+    {
+        ResolveReferences();
+    }
+
     private void Start()
     {
         Value = Mathf.Clamp(Value, 0, MaxValue);
         SetBarFill(_topBarImage, TargetFillAmount);
-        SetBarFill(_bottomBarImage, TargetFillAmount);
+        SetBarFill(_middleBarImage, TargetFillAmount);
     }
 
     private void Update()
     {
-        if (Mouse.current == null)
+        if (!_enableMouseDebugControls || Mouse.current == null)
         {
             return;
         }
@@ -47,8 +55,8 @@ public class Bar : MonoBehaviour
 
     private IEnumerator AdjustBarFill(int amount)
     {
-        Image suddenChange = amount >= 0 ? _bottomBarImage : _topBarImage;
-        Image slowChange = amount >= 0 ? _topBarImage : _bottomBarImage;
+        Image suddenChange = amount >= 0 ? _middleBarImage : _topBarImage;
+        Image slowChange = amount >= 0 ? _topBarImage : _middleBarImage;
 
         SetBarFill(suddenChange, TargetFillAmount);
         while (slowChange != null && Mathf.Abs(slowChange.fillAmount - TargetFillAmount) > 0.01f)
@@ -82,7 +90,7 @@ public class Bar : MonoBehaviour
         }
 
         SetBarFill(_topBarImage, fillAmount);
-        SetBarFill(_bottomBarImage, fillAmount);
+        SetBarFill(_middleBarImage, fillAmount);
     }
 
     private static void SetBarFill(Image barImage, float fillAmount)
@@ -93,5 +101,19 @@ public class Bar : MonoBehaviour
         }
 
         barImage.fillAmount = Mathf.Clamp01(fillAmount);
+    }
+
+    private void ResolveReferences()
+    {
+        if (_middleBarImage != null)
+        {
+            return;
+        }
+
+        Transform middleBar = transform.Find("Bar");
+        if (middleBar != null)
+        {
+            _middleBarImage = middleBar.GetComponent<Image>();
+        }
     }
 }

@@ -203,12 +203,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 213
-        width: 39
-        height: 28
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 203
-        width: 52
-        height: 35
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -248,11 +248,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 198
-        width: 57
-        height: 43
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +269,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_3
       rect:
         serializedVersion: 2
-        x: 202
-        y: 198
-        width: 47
-        height: 25
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +291,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_4
       rect:
         serializedVersion: 2
-        x: 217
-        y: 213
-        width: 31
-        height: 28
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -313,12 +313,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_5
       rect:
         serializedVersion: 2
-        x: 280
-        y: 213
-        width: 23
-        height: 28
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -335,12 +335,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_6
       rect:
         serializedVersion: 2
-        x: 334
-        y: 213
-        width: 32
-        height: 27
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -357,12 +357,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_7
       rect:
         serializedVersion: 2
-        x: 274
-        y: 200
-        width: 33
-        height: 12
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -379,12 +379,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_8
       rect:
         serializedVersion: 2
-        x: 19
-        y: 149
-        width: 41
-        height: 28
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -401,12 +401,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_9
       rect:
         serializedVersion: 2
-        x: 77
-        y: 149
-        width: 52
-        height: 34
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -423,12 +423,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_10
       rect:
         serializedVersion: 2
-        x: 137
-        y: 149
-        width: 55
-        height: 39
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -445,12 +445,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_11
       rect:
         serializedVersion: 2
-        x: 201
-        y: 162
-        width: 45
-        height: 26
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -467,12 +467,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_12
       rect:
         serializedVersion: 2
-        x: 202
-        y: 149
-        width: 28
-        height: 30
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -489,12 +489,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_13
       rect:
         serializedVersion: 2
-        x: 269
-        y: 149
-        width: 33
-        height: 37
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -511,12 +511,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_14
       rect:
         serializedVersion: 2
-        x: 339
-        y: 149
-        width: 34
-        height: 30
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -533,12 +533,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_15
       rect:
         serializedVersion: 2
-        x: 19
-        y: 85
-        width: 29
-        height: 31
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -555,12 +555,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_16
       rect:
         serializedVersion: 2
-        x: 70
-        y: 77
-        width: 49
-        height: 33
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -577,12 +577,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_17
       rect:
         serializedVersion: 2
-        x: 132
-        y: 74
-        width: 47
-        height: 45
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -599,12 +599,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_18
       rect:
         serializedVersion: 2
-        x: 197
-        y: 73
-        width: 33
-        height: 41
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -621,12 +621,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_19
       rect:
         serializedVersion: 2
-        x: 205
-        y: 85
-        width: 28
-        height: 33
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -643,12 +643,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_20
       rect:
         serializedVersion: 2
-        x: 257
-        y: 74
-        width: 19
-        height: 25
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -665,12 +665,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_21
       rect:
         serializedVersion: 2
-        x: 265
-        y: 85
-        width: 30
-        height: 31
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -687,12 +687,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_22
       rect:
         serializedVersion: 2
-        x: 335
-        y: 85
-        width: 26
-        height: 31
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -709,12 +709,12 @@ TextureImporter:
       name: orc1_walk_attack_front _without_shadow_23
       rect:
         serializedVersion: 2
-        x: 11
-        y: 17
-        width: 35
-        height: 35
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -727,143 +727,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_24
-      rect:
-        serializedVersion: 2
-        x: 76
-        y: 15
-        width: 49
-        height: 29
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e82bf45098f33bf70800000000000000
-      internalID: 9201768321380233870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_25
-      rect:
-        serializedVersion: 2
-        x: 140
-        y: 13
-        width: 47
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 112b340a595226ab0800000000000000
-      internalID: -5016405710368165359
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_26
-      rect:
-        serializedVersion: 2
-        x: 218
-        y: 12
-        width: 34
-        height: 45
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7e55eace1a3858520800000000000000
-      internalID: 2703711882789672423
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_27
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 21
-        width: 30
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e8ad364b5a68e0340800000000000000
-      internalID: 4831947496469289614
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_28
-      rect:
-        serializedVersion: 2
-        x: 297
-        y: 13
-        width: 19
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 55f6fbc5b923ca060800000000000000
-      internalID: 6965998366492684117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: orc1_walk_attack_front _without_shadow_29
-      rect:
-        serializedVersion: 2
-        x: 346
-        y: 21
-        width: 27
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 545d3aaa39eb8ce60800000000000000
-      internalID: 7982839880946537797
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c8c44262672118c4f9bbe365d16dcf71
     internalID: 0
     vertices: []
     indices: 
@@ -871,7 +739,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       orc1_walk_attack_front _without_shadow_0: -2424437246013154319
       orc1_walk_attack_front _without_shadow_1: 5356961947832794479
@@ -890,12 +760,6 @@ TextureImporter:
       orc1_walk_attack_front _without_shadow_21: 3162712014381709284
       orc1_walk_attack_front _without_shadow_22: 2131538356950976938
       orc1_walk_attack_front _without_shadow_23: 683734014412087850
-      orc1_walk_attack_front _without_shadow_24: 9201768321380233870
-      orc1_walk_attack_front _without_shadow_25: -5016405710368165359
-      orc1_walk_attack_front _without_shadow_26: 2703711882789672423
-      orc1_walk_attack_front _without_shadow_27: 4831947496469289614
-      orc1_walk_attack_front _without_shadow_28: 6965998366492684117
-      orc1_walk_attack_front _without_shadow_29: 7982839880946537797
       orc1_walk_attack_front _without_shadow_3: -311354900781359849
       orc1_walk_attack_front _without_shadow_4: -7700566041759168317
       orc1_walk_attack_front _without_shadow_5: -4955378686161463215

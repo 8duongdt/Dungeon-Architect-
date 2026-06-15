@@ -1,0 +1,4498 @@
+fileFormatVersion: 2
+guid: b866fbbf6fe7fcc40b7adc4c5cfb649f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3365990655065406761
+    second: Vampires1_Death_with_shadow_0
+  - first:
+      213: -7055994049912305235
+    second: Vampires1_Death_with_shadow_1
+  - first:
+      213: -7303499572733482423
+    second: Vampires1_Death_with_shadow_2
+  - first:
+      213: 5686088912737518768
+    second: Vampires1_Death_with_shadow_3
+  - first:
+      213: -7935952882956424681
+    second: Vampires1_Death_with_shadow_4
+  - first:
+      213: -4028488849375151274
+    second: Vampires1_Death_with_shadow_5
+  - first:
+      213: -7849850871665940143
+    second: Vampires1_Death_with_shadow_6
+  - first:
+      213: -5585671734124348760
+    second: Vampires1_Death_with_shadow_7
+  - first:
+      213: 5830629919281256790
+    second: Vampires1_Death_with_shadow_8
+  - first:
+      213: -2886021002633221473
+    second: Vampires1_Death_with_shadow_9
+  - first:
+      213: -2368182111556522052
+    second: Vampires1_Death_with_shadow_10
+  - first:
+      213: -3637951730998924621
+    second: Vampires1_Death_with_shadow_11
+  - first:
+      213: 7817093747368818638
+    second: Vampires1_Death_with_shadow_12
+  - first:
+      213: -553182363332268253
+    second: Vampires1_Death_with_shadow_13
+  - first:
+      213: -7900000391889225966
+    second: Vampires1_Death_with_shadow_14
+  - first:
+      213: 3862447242017199048
+    second: Vampires1_Death_with_shadow_15
+  - first:
+      213: -8948175543012694919
+    second: Vampires1_Death_with_shadow_16
+  - first:
+      213: -5973539791633281304
+    second: Vampires1_Death_with_shadow_17
+  - first:
+      213: 5781052321918912454
+    second: Vampires1_Death_with_shadow_18
+  - first:
+      213: -3286780020628409891
+    second: Vampires1_Death_with_shadow_19
+  - first:
+      213: -7673359307978396944
+    second: Vampires1_Death_with_shadow_20
+  - first:
+      213: 5559985414326852737
+    second: Vampires1_Death_with_shadow_21
+  - first:
+      213: 1733074649668386951
+    second: Vampires1_Death_with_shadow_22
+  - first:
+      213: 8088789496746745665
+    second: Vampires1_Death_with_shadow_23
+  - first:
+      213: -6563166332606190569
+    second: Vampires1_Death_with_shadow_24
+  - first:
+      213: 5049808059044973225
+    second: Vampires1_Death_with_shadow_25
+  - first:
+      213: 4722464769751159200
+    second: Vampires1_Death_with_shadow_26
+  - first:
+      213: 4764451051624177346
+    second: Vampires1_Death_with_shadow_27
+  - first:
+      213: -126334058931350627
+    second: Vampires1_Death_with_shadow_28
+  - first:
+      213: 19050650178059794
+    second: Vampires1_Death_with_shadow_29
+  - first:
+      213: 2377094624125259384
+    second: Vampires1_Death_with_shadow_30
+  - first:
+      213: -5033528489131921756
+    second: Vampires1_Death_with_shadow_31
+  - first:
+      213: -4262622499512189216
+    second: Vampires1_Death_with_shadow_32
+  - first:
+      213: -2096541831894511066
+    second: Vampires1_Death_with_shadow_33
+  - first:
+      213: -2561872816439311034
+    second: Vampires1_Death_with_shadow_34
+  - first:
+      213: -2721710771183939453
+    second: Vampires1_Death_with_shadow_35
+  - first:
+      213: 1872336956696572875
+    second: Vampires1_Death_with_shadow_36
+  - first:
+      213: -7262024392392790270
+    second: Vampires1_Death_with_shadow_37
+  - first:
+      213: 408295408923265870
+    second: Vampires1_Death_with_shadow_38
+  - first:
+      213: 7243550555742240505
+    second: Vampires1_Death_with_shadow_39
+  - first:
+      213: 3890336347035314649
+    second: Vampires1_Death_with_shadow_40
+  - first:
+      213: -6000663103914312912
+    second: Vampires1_Death_with_shadow_41
+  - first:
+      213: -3301274089084028560
+    second: Vampires1_Death_with_shadow_42
+  - first:
+      213: -4361056093155652239
+    second: Vampires1_Death_with_shadow_43
+  - first:
+      213: -6045674422469088720
+    second: Vampires1_Death_with_shadow_44
+  - first:
+      213: -9177789945818940734
+    second: Vampires1_Death_with_shadow_45
+  - first:
+      213: 5166193404763898407
+    second: Vampires1_Death_with_shadow_46
+  - first:
+      213: -9056359144999532272
+    second: Vampires1_Death_with_shadow_47
+  - first:
+      213: 8264052782263345355
+    second: Vampires1_Death_with_shadow_48
+  - first:
+      213: 8887151750254911768
+    second: Vampires1_Death_with_shadow_49
+  - first:
+      213: -4600489966394429360
+    second: Vampires1_Death_with_shadow_50
+  - first:
+      213: -20259741487624807
+    second: Vampires1_Death_with_shadow_51
+  - first:
+      213: 1157175953037131544
+    second: Vampires1_Death_with_shadow_52
+  - first:
+      213: -5132712389191244923
+    second: Vampires1_Death_with_shadow_53
+  - first:
+      213: -1568970570806292888
+    second: Vampires1_Death_with_shadow_54
+  - first:
+      213: 7394460419737214275
+    second: Vampires1_Death_with_shadow_55
+  - first:
+      213: -4761150279809762299
+    second: Vampires1_Death_with_shadow_56
+  - first:
+      213: -6297465397920375253
+    second: Vampires1_Death_with_shadow_57
+  - first:
+      213: -2920212770123244911
+    second: Vampires1_Death_with_shadow_58
+  - first:
+      213: 614680001338338756
+    second: Vampires1_Death_with_shadow_59
+  - first:
+      213: 7473546503993259255
+    second: Vampires1_Death_with_shadow_60
+  - first:
+      213: 86527718298049778
+    second: Vampires1_Death_with_shadow_61
+  - first:
+      213: 6117764645354696522
+    second: Vampires1_Death_with_shadow_62
+  - first:
+      213: 7469154385890709301
+    second: Vampires1_Death_with_shadow_63
+  - first:
+      213: -6424656595475819290
+    second: Vampires1_Death_with_shadow_64
+  - first:
+      213: 2445031643396997369
+    second: Vampires1_Death_with_shadow_65
+  - first:
+      213: -399937931532432755
+    second: Vampires1_Death_with_shadow_66
+  - first:
+      213: 2343061813419704657
+    second: Vampires1_Death_with_shadow_67
+  - first:
+      213: 5365438330825685238
+    second: Vampires1_Death_with_shadow_68
+  - first:
+      213: 5570277880916973872
+    second: Vampires1_Death_with_shadow_69
+  - first:
+      213: -579330309809609634
+    second: Vampires1_Death_with_shadow_70
+  - first:
+      213: 1833116445131842837
+    second: Vampires1_Death_with_shadow_71
+  - first:
+      213: -7281640467699371764
+    second: Vampires1_Death_with_shadow_72
+  - first:
+      213: 8049985471998915718
+    second: Vampires1_Death_with_shadow_73
+  - first:
+      213: -7381711354073429689
+    second: Vampires1_Death_with_shadow_74
+  - first:
+      213: 1911388427697957095
+    second: Vampires1_Death_with_shadow_75
+  - first:
+      213: -6199303972364156379
+    second: Vampires1_Death_with_shadow_76
+  - first:
+      213: 6966566668784884754
+    second: Vampires1_Death_with_shadow_77
+  - first:
+      213: 4304777695019316883
+    second: Vampires1_Death_with_shadow_78
+  - first:
+      213: -8659994069214794683
+    second: Vampires1_Death_with_shadow_79
+  - first:
+      213: -2691408372642645001
+    second: Vampires1_Death_with_shadow_80
+  - first:
+      213: 4364218720620419983
+    second: Vampires1_Death_with_shadow_81
+  - first:
+      213: -3843534394652222014
+    second: Vampires1_Death_with_shadow_82
+  - first:
+      213: -5115631803109861034
+    second: Vampires1_Death_with_shadow_83
+  - first:
+      213: -8433389003381268276
+    second: Vampires1_Death_with_shadow_84
+  - first:
+      213: 7525577305794139581
+    second: Vampires1_Death_with_shadow_85
+  - first:
+      213: -2043943140126109837
+    second: Vampires1_Death_with_shadow_86
+  - first:
+      213: -9165606599142958043
+    second: Vampires1_Death_with_shadow_87
+  - first:
+      213: 2940187083696851169
+    second: Vampires1_Death_with_shadow_88
+  - first:
+      213: 4416441112822588063
+    second: Vampires1_Death_with_shadow_89
+  - first:
+      213: 8588968763047279027
+    second: Vampires1_Death_with_shadow_90
+  - first:
+      213: 1890980816803286744
+    second: Vampires1_Death_with_shadow_91
+  - first:
+      213: 801139853506895837
+    second: Vampires1_Death_with_shadow_92
+  - first:
+      213: 8454901069191267089
+    second: Vampires1_Death_with_shadow_93
+  - first:
+      213: 755176030552074948
+    second: Vampires1_Death_with_shadow_94
+  - first:
+      213: 8147694299894613010
+    second: Vampires1_Death_with_shadow_95
+  - first:
+      213: 2644884493950376921
+    second: Vampires1_Death_with_shadow_96
+  - first:
+      213: 1185140602579084912
+    second: Vampires1_Death_with_shadow_97
+  - first:
+      213: 5359720197010081748
+    second: Vampires1_Death_with_shadow_98
+  - first:
+      213: 4238432268835434964
+    second: Vampires1_Death_with_shadow_99
+  - first:
+      213: 3714012422621618592
+    second: Vampires1_Death_with_shadow_100
+  - first:
+      213: 4953658300811472164
+    second: Vampires1_Death_with_shadow_101
+  - first:
+      213: -427137932322632002
+    second: Vampires1_Death_with_shadow_102
+  - first:
+      213: 5967591978319169595
+    second: Vampires1_Death_with_shadow_103
+  - first:
+      213: -28610017386665243
+    second: Vampires1_Death_with_shadow_104
+  - first:
+      213: 6624231130954245766
+    second: Vampires1_Death_with_shadow_105
+  - first:
+      213: -3299861595217381726
+    second: Vampires1_Death_with_shadow_106
+  - first:
+      213: -3754418624847048634
+    second: Vampires1_Death_with_shadow_107
+  - first:
+      213: 3517142700099532652
+    second: Vampires1_Death_with_shadow_108
+  - first:
+      213: -8981861963570440613
+    second: Vampires1_Death_with_shadow_109
+  - first:
+      213: 6918618295495171980
+    second: Vampires1_Death_with_shadow_110
+  - first:
+      213: 8627599087927312482
+    second: Vampires1_Death_with_shadow_111
+  - first:
+      213: -7580191814330580003
+    second: Vampires1_Death_with_shadow_112
+  - first:
+      213: 2237193544251949316
+    second: Vampires1_Death_with_shadow_113
+  - first:
+      213: -2436362962556450594
+    second: Vampires1_Death_with_shadow_114
+  - first:
+      213: 3815543348958660861
+    second: Vampires1_Death_with_shadow_115
+  - first:
+      213: -3975023632381311629
+    second: Vampires1_Death_with_shadow_116
+  - first:
+      213: -4222086527988153887
+    second: Vampires1_Death_with_shadow_117
+  - first:
+      213: -7782394842801211750
+    second: Vampires1_Death_with_shadow_118
+  - first:
+      213: 8261317729826548981
+    second: Vampires1_Death_with_shadow_119
+  - first:
+      213: 7067680648748179113
+    second: Vampires1_Death_with_shadow_120
+  - first:
+      213: -8891550355173862704
+    second: Vampires1_Death_with_shadow_121
+  - first:
+      213: 7077391320550204657
+    second: Vampires1_Death_with_shadow_122
+  - first:
+      213: -6409599649513866498
+    second: Vampires1_Death_with_shadow_123
+  - first:
+      213: 6129683384774385672
+    second: Vampires1_Death_with_shadow_124
+  - first:
+      213: 6760148048362824470
+    second: Vampires1_Death_with_shadow_125
+  - first:
+      213: 8482382130472829647
+    second: Vampires1_Death_with_shadow_126
+  - first:
+      213: 33902462671682369
+    second: Vampires1_Death_with_shadow_127
+  - first:
+      213: -9141942557581647164
+    second: Vampires1_Death_with_shadow_128
+  - first:
+      213: 8373587867289404136
+    second: Vampires1_Death_with_shadow_129
+  - first:
+      213: -5830505709801537356
+    second: Vampires1_Death_with_shadow_130
+  - first:
+      213: 9023779025269973885
+    second: Vampires1_Death_with_shadow_131
+  - first:
+      213: -8787437341909857447
+    second: Vampires1_Death_with_shadow_132
+  - first:
+      213: -5431575763500646478
+    second: Vampires1_Death_with_shadow_133
+  - first:
+      213: 7363778739277074700
+    second: Vampires1_Death_with_shadow_134
+  - first:
+      213: 569770332630585110
+    second: Vampires1_Death_with_shadow_135
+  - first:
+      213: -2659113128485093876
+    second: Vampires1_Death_with_shadow_136
+  - first:
+      213: 4518351965853097061
+    second: Vampires1_Death_with_shadow_137
+  - first:
+      213: 2056065449851483782
+    second: Vampires1_Death_with_shadow_138
+  - first:
+      213: 5406878847658341962
+    second: Vampires1_Death_with_shadow_139
+  - first:
+      213: -1667280680915108447
+    second: Vampires1_Death_with_shadow_140
+  - first:
+      213: 3946192796336431861
+    second: Vampires1_Death_with_shadow_141
+  - first:
+      213: 887957002777997645
+    second: Vampires1_Death_with_shadow_142
+  - first:
+      213: 5236854300671763708
+    second: Vampires1_Death_with_shadow_143
+  - first:
+      213: -6283791799708628093
+    second: Vampires1_Death_with_shadow_144
+  - first:
+      213: -9037507466498360210
+    second: Vampires1_Death_with_shadow_145
+  - first:
+      213: 1898344228110637722
+    second: Vampires1_Death_with_shadow_146
+  - first:
+      213: 67284623210209763
+    second: Vampires1_Death_with_shadow_147
+  - first:
+      213: 3781861971106597141
+    second: Vampires1_Death_with_shadow_148
+  - first:
+      213: 7102287238419563971
+    second: Vampires1_Death_with_shadow_149
+  - first:
+      213: 1305178268648339636
+    second: Vampires1_Death_with_shadow_150
+  - first:
+      213: -4921080388131511925
+    second: Vampires1_Death_with_shadow_151
+  - first:
+      213: 2893225210453733429
+    second: Vampires1_Death_with_shadow_152
+  - first:
+      213: 8961135675057568105
+    second: Vampires1_Death_with_shadow_153
+  - first:
+      213: -763907336839697931
+    second: Vampires1_Death_with_shadow_154
+  - first:
+      213: 8005058250712490650
+    second: Vampires1_Death_with_shadow_155
+  - first:
+      213: -5868240280944807217
+    second: Vampires1_Death_with_shadow_156
+  - first:
+      213: -3267333654459998333
+    second: Vampires1_Death_with_shadow_157
+  - first:
+      213: 5604045655342421725
+    second: Vampires1_Death_with_shadow_158
+  - first:
+      213: -2714800830804261496
+    second: Vampires1_Death_with_shadow_159
+  - first:
+      213: 5047915999279658539
+    second: Vampires1_Death_with_shadow_160
+  - first:
+      213: -1174766393675485889
+    second: Vampires1_Death_with_shadow_161
+  - first:
+      213: -8422703629690418666
+    second: Vampires1_Death_with_shadow_162
+  - first:
+      213: 2080977697603022755
+    second: Vampires1_Death_with_shadow_163
+  - first:
+      213: -8195775493299251412
+    second: Vampires1_Death_with_shadow_164
+  - first:
+      213: -4879341513805311210
+    second: Vampires1_Death_with_shadow_165
+  - first:
+      213: 3043979170348597192
+    second: Vampires1_Death_with_shadow_166
+  - first:
+      213: 7954041060916515721
+    second: Vampires1_Death_with_shadow_167
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_0
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 223
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92d3570caa666be20800000000000000
+      internalID: 3365990655065406761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_1
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 229
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da905bdbbc2141e90800000000000000
+      internalID: -7055994049912305235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_2
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 237
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94ae00e85d1c4aa90800000000000000
+      internalID: -7303499572733482423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_3
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 241
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b4c10d6dbb09ee40800000000000000
+      internalID: 5686088912737518768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_4
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 233
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71a252146e4ddd190800000000000000
+      internalID: -7935952882956424681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_5
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 236
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65b3f5f3cbee718c0800000000000000
+      internalID: -4028488849375151274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_6
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 243
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 159af86f83abf0390800000000000000
+      internalID: -7849850871665940143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_7
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 3
+        width: 84
+        height: 249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aaf397e625bb72b0800000000000000
+      internalID: -5585671734124348760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_8
+      rect:
+        serializedVersion: 2
+        x: 614
+        y: 235
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6591683050f8ae050800000000000000
+      internalID: 5830629919281256790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_9
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 208
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9aeabb503bc2f7d0800000000000000
+      internalID: -2886021002633221473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_10
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 208
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbf2d3daae6822fd0800000000000000
+      internalID: -2368182111556522052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_11
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 208
+        width: 31
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3baaac3ec26638dc0800000000000000
+      internalID: -3637951730998924621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_12
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 208
+        width: 23
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec778d3b855eb7c60800000000000000
+      internalID: 7817093747368818638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_13
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 208
+        width: 23
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32fa1994293b258f0800000000000000
+      internalID: -553182363332268253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_14
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 208
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 217fef3ef7f8d5290800000000000000
+      internalID: -7900000391889225966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_15
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 208
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c35f107d4b2a9530800000000000000
+      internalID: 3862447242017199048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_16
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 226
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 974e3eac0c1b1d380800000000000000
+      internalID: -8948175543012694919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_17
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 231
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ee890c6539b91da0800000000000000
+      internalID: -5973539791633281304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_18
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 229
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c78ceb157c6a3050800000000000000
+      internalID: 5781052321918912454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_19
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 228
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd1b79f3cf20362d0800000000000000
+      internalID: -3286780020628409891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_20
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 235
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0faa2065d50c28590800000000000000
+      internalID: -7673359307978396944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_21
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 212
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18c1e49b649092d40800000000000000
+      internalID: 5559985414326852737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_22
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 218
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78008be263e1d0810800000000000000
+      internalID: 1733074649668386951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_23
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 214
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14f1088e037214070800000000000000
+      internalID: 8088789496746745665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_24
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 223
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71c643f5ef2fae4a0800000000000000
+      internalID: -6563166332606190569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_25
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 217
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aac747bca5841640800000000000000
+      internalID: 5049808059044973225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_26
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 210
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a19059ffa0998140800000000000000
+      internalID: 4722464769751159200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_27
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 223
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ce9bc10dfabe1240800000000000000
+      internalID: 4764451051624177346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_28
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 223
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d931d5eb7db2f3ef0800000000000000
+      internalID: -126334058931350627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_29
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 216
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21e7a94277ea34000800000000000000
+      internalID: 19050650178059794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_30
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 222
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87e0a7c57f22df020800000000000000
+      internalID: 2377094624125259384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_31
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 209
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aeab760280552ab0800000000000000
+      internalID: -5033528489131921756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_32
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 205
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eefcf8cb6f18d4c0800000000000000
+      internalID: -4262622499512189216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_33
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 209
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6225e25df4697e2e0800000000000000
+      internalID: -2096541831894511066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_34
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 213
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 645c7603f36627cd0800000000000000
+      internalID: -2561872816439311034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_35
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 210
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3801a3e497a8a3ad0800000000000000
+      internalID: -2721710771183939453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_36
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 211
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc33cb3ca80ebf910800000000000000
+      internalID: 1872336956696572875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_37
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 215
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20fa43d7a4b183b90800000000000000
+      internalID: -7262024392392790270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_38
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 201
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4b4b4cd28e8aa500800000000000000
+      internalID: 408295408923265870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_39
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 205
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fe799b3ad2468460800000000000000
+      internalID: 7243550555742240505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_40
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 198
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d9a4d5bb404df530800000000000000
+      internalID: 3890336347035314649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_41
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 203
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03bf46a23bc59bca0800000000000000
+      internalID: -6000663103914312912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_42
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 144
+        width: 25
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 079f1f5f4b48f22d0800000000000000
+      internalID: -3301274089084028560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_43
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 144
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17d87e1d69a6a73c0800000000000000
+      internalID: -4361056093155652239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_44
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 144
+        width: 31
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03aa015e423791ca0800000000000000
+      internalID: -6045674422469088720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_45
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 144
+        width: 23
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ca7f489ba0f1a080800000000000000
+      internalID: -9177789945818940734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_46
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 144
+        width: 23
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7220beba78102b740800000000000000
+      internalID: 5166193404763898407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_47
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 144
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01941fb1759515280800000000000000
+      internalID: -9056359144999532272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_48
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 144
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc0a2eb7830dfa270800000000000000
+      internalID: 8264052782263345355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_49
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 165
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8116fe24e61855b70800000000000000
+      internalID: 8887151750254911768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_50
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 162
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 050bf4000c6c720c0800000000000000
+      internalID: -4600489966394429360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_51
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 159
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99d83695fd508bff0800000000000000
+      internalID: -20259741487624807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_52
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 169
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81ff667f56d1f0010800000000000000
+      internalID: 1157175953037131544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_53
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 164
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 583620cb641f4c8b0800000000000000
+      internalID: -5132712389191244923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_54
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 177
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86e8c002495e93ae0800000000000000
+      internalID: -1568970570806292888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_55
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 165
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34d5f1003966e9660800000000000000
+      internalID: 7394460419737214275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_56
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 173
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50cffa1db0ffcedb0800000000000000
+      internalID: -4761150279809762299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_57
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 167
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2e54a30698ea98a0800000000000000
+      internalID: -6297465397920375253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_58
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 159
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19a9e3025f15977d0800000000000000
+      internalID: -2920212770123244911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_59
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 172
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cdee4a5438c78800800000000000000
+      internalID: 614680001338338756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_60
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 178
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f471e6e2fe57b760800000000000000
+      internalID: 7473546503993259255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_61
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 171
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fc51685088633100800000000000000
+      internalID: 86527718298049778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_62
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 153
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4f6fc9188aa6e450800000000000000
+      internalID: 6117764645354696522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_63
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 159
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53f01973754c7a760800000000000000
+      internalID: 7469154385890709301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_64
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 158
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e41bce9dd807d6a0800000000000000
+      internalID: -6424656595475819290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_65
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 159
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f08449435f7ee120800000000000000
+      internalID: 2445031643396997369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_66
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 159
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8a0ecaf192237af0800000000000000
+      internalID: -399937931532432755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_67
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 162
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1510aa32e4a348020800000000000000
+      internalID: 2343061813419704657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_68
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 145
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f8312d0cbdd57a40800000000000000
+      internalID: 5365438330825685238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_69
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 150
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0399548583a9d4d40800000000000000
+      internalID: 5570277880916973872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_70
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 141
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e546e24172ec5f7f0800000000000000
+      internalID: -579330309809609634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_71
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 154
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 515a200d1b9807910800000000000000
+      internalID: 1833116445131842837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_72
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 148
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c017bac039a62fa90800000000000000
+      internalID: -7281640467699371764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_73
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 152
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 684fc89d22b47bf60800000000000000
+      internalID: 8049985471998915718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_74
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 149
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7494cf922a4ee8990800000000000000
+      internalID: -7381711354073429689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_75
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 146
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e8aab4e5ad968a10800000000000000
+      internalID: 1911388427697957095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_76
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 146
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5220198e1e5a7f9a0800000000000000
+      internalID: -6199303972364156379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_77
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 145
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21cdffc89773ea060800000000000000
+      internalID: 6966566668784884754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_78
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 146
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 396b6a48184adbb30800000000000000
+      internalID: 4304777695019316883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_79
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 141
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54c6673d64581d780800000000000000
+      internalID: -8659994069214794683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_80
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 137
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fb7f13485236aad0800000000000000
+      internalID: -2691408372642645001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_81
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 147
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8b90b4cdc1d09c30800000000000000
+      internalID: 4364218720620419983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_82
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 139
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cd12ccf4d509aac0800000000000000
+      internalID: -3843534394652222014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_83
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 134
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65912f59aff9109b0800000000000000
+      internalID: -5115631803109861034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_84
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 80
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc026c8226596fa80800000000000000
+      internalID: -8433389003381268276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_85
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 80
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db5d999ffa8307860800000000000000
+      internalID: 7525577305794139581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_86
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 80
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37fcfa71b8472a3e0800000000000000
+      internalID: -2043943140126109837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_87
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 80
+        width: 20
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52c9b1b0c593dc080800000000000000
+      internalID: -9165606599142958043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_88
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 80
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e841f82394adc820800000000000000
+      internalID: 2940187083696851169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_89
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 80
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f92a835fac95a4d30800000000000000
+      internalID: 4416441112822588063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_90
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 80
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b9fb5c6595223770800000000000000
+      internalID: 8588968763047279027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_91
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 101
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8de43a6b80d1e3a10800000000000000
+      internalID: 1890980816803286744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_92
+      rect:
+        serializedVersion: 2
+        x: 473
+        y: 98
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddfdfafb3783e1b00800000000000000
+      internalID: 801139853506895837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_93
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 95
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1134738f9b7d55570800000000000000
+      internalID: 8454901069191267089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_94
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 105
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ca22f3499cea7a00800000000000000
+      internalID: 755176030552074948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_95
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 100
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21481b32ccc621170800000000000000
+      internalID: 8147694299894613010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_96
+      rect:
+        serializedVersion: 2
+        x: 531
+        y: 113
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dbd9dd1f6484b420800000000000000
+      internalID: 2644884493950376921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_97
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 101
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0766e915917727010800000000000000
+      internalID: 1185140602579084912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_98
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 109
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d7c5464f1d816a40800000000000000
+      internalID: 5359720197010081748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_99
+      rect:
+        serializedVersion: 2
+        x: 549
+        y: 103
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d13d7c31bfe1da30800000000000000
+      internalID: 4238432268835434964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_100
+      rect:
+        serializedVersion: 2
+        x: 587
+        y: 95
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a1efb5ee92da8330800000000000000
+      internalID: 3714012422621618592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_101
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 108
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42d688e9afdeeb440800000000000000
+      internalID: 4953658300811472164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_102
+      rect:
+        serializedVersion: 2
+        x: 616
+        y: 114
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebe80d94050821af0800000000000000
+      internalID: -427137932322632002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_103
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 107
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b384f20694521d250800000000000000
+      internalID: 5967591978319169595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_104
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 89
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ea66ac375b5a9ff0800000000000000
+      internalID: -28610017386665243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_105
+      rect:
+        serializedVersion: 2
+        x: 469
+        y: 95
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 686ac9eed1ffdeb50800000000000000
+      internalID: 6624231130954245766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_106
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 94
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a63d11dc598432d0800000000000000
+      internalID: -3299861595217381726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_107
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 95
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64091e70720a5ebc0800000000000000
+      internalID: -3754418624847048634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_108
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 95
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c677acfa6a66fc030800000000000000
+      internalID: 3517142700099532652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_109
+      rect:
+        serializedVersion: 2
+        x: 584
+        y: 98
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b569acfc1240a5380800000000000000
+      internalID: -8981861963570440613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_110
+      rect:
+        serializedVersion: 2
+        x: 462
+        y: 81
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8f128feeaed30060800000000000000
+      internalID: 6918618295495171980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_111
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 86
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2604464d8a36bb770800000000000000
+      internalID: 8627599087927312482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_112
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 77
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd38089d4bfbdc690800000000000000
+      internalID: -7580191814330580003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_113
+      rect:
+        serializedVersion: 2
+        x: 481
+        y: 90
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4014fe2ecab1c0f10800000000000000
+      internalID: 2237193544251949316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_114
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 84
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed887e04bcc403ed0800000000000000
+      internalID: -2436362962556450594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_115
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 88
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df809c3d57883f430800000000000000
+      internalID: 3815543348958660861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_116
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 85
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37501222111e5d8c0800000000000000
+      internalID: -3975023632381311629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_117
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 82
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e1cd402ca22865c0800000000000000
+      internalID: -4222086527988153887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_118
+      rect:
+        serializedVersion: 2
+        x: 583
+        y: 82
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9670059f116ff390800000000000000
+      internalID: -7782394842801211750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_119
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 81
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fca2f674b816a270800000000000000
+      internalID: 8261317729826548981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_120
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 82
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ae99869a12751260800000000000000
+      internalID: 7067680648748179113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_121
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 77
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d21d59bf0eda9480800000000000000
+      internalID: -8891550355173862704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_122
+      rect:
+        serializedVersion: 2
+        x: 540
+        y: 73
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f4e3dd88e1f73260800000000000000
+      internalID: 7077391320550204657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_123
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 83
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efaf14a04178c07a0800000000000000
+      internalID: -6409599649513866498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_124
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 75
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 800671fdf82011550800000000000000
+      internalID: 6129683384774385672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_125
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 70
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61367bb45ded0dd50800000000000000
+      internalID: 6760148048362824470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_126
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 31
+        width: 19
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc244f72b9977b570800000000000000
+      internalID: 8482382130472829647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_127
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 37
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14b7e843c12787000800000000000000
+      internalID: 33902462671682369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_128
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 45
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c2e1521eab412180800000000000000
+      internalID: -9141942557581647164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_129
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 49
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e24e45dcc5f43470800000000000000
+      internalID: 8373587867289404136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_130
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 41
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b08462c2f1e51fa0800000000000000
+      internalID: -5830505709801537356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_131
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 44
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7366d4a637ea3d70800000000000000
+      internalID: 9023779025269973885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_132
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 51
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95bc57d9b40cc0680800000000000000
+      internalID: -8787437341909857447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_133
+      rect:
+        serializedVersion: 2
+        x: 621
+        y: 48
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bf3cedee9a2f94b0800000000000000
+      internalID: -5431575763500646478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_134
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 16
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c011f279fb5613660800000000000000
+      internalID: 7363778739277074700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_135
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 16
+        width: 25
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61f8008491b38e700800000000000000
+      internalID: 569770332630585110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_136
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 16
+        width: 26
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0e711fb2bee81bd0800000000000000
+      internalID: -2659113128485093876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_137
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 16
+        width: 20
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56c9cd67c2964be30800000000000000
+      internalID: 4518351965853097061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_138
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 16
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 686f95512ac988c10800000000000000
+      internalID: 2056065449851483782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_139
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 16
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a46bf324aa7190b40800000000000000
+      internalID: 5406878847658341962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_140
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 16
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1adfe29ed01acd8e0800000000000000
+      internalID: -1667280680915108447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_141
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 34
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f2a6d0c071b3c630800000000000000
+      internalID: 3946192796336431861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_142
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 39
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d41376e7038a25c00800000000000000
+      internalID: 887957002777997645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_143
+      rect:
+        serializedVersion: 2
+        x: 538
+        y: 37
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf4640c8d3b0da840800000000000000
+      internalID: 5236854300671763708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_144
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 36
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38bcadfa6ac7bc8a0800000000000000
+      internalID: -6283791799708628093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_145
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 43
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6cbc6c87d2549280800000000000000
+      internalID: -9037507466498360210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_146
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 31
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9a92f18406485a10800000000000000
+      internalID: 1898344228110637722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_147
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 25
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e16a41220b0fe000800000000000000
+      internalID: 67284623210209763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_148
+      rect:
+        serializedVersion: 2
+        x: 523
+        y: 31
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5190e51fc6fdb7430800000000000000
+      internalID: 3781861971106597141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_149
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 31
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c5c9c22d94609260800000000000000
+      internalID: 7102287238419563971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_150
+      rect:
+        serializedVersion: 2
+        x: 558
+        y: 30
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b8f75f58bcec1210800000000000000
+      internalID: 1305178268648339636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_151
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 17
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b81a742c57fc4bbb0800000000000000
+      internalID: -4921080388131511925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_152
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 34
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 530bc4cfffcc62820800000000000000
+      internalID: 2893225210453733429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_153
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 20
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 969f2e71b695c5c70800000000000000
+      internalID: 8961135675057568105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_154
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 13
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f9ea52135e0665f0800000000000000
+      internalID: -763907336839697931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_155
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 26
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a922700011ea71f60800000000000000
+      internalID: 8005058250712490650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_156
+      rect:
+        serializedVersion: 2
+        x: 478
+        y: 22
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc275a54e82df8ea0800000000000000
+      internalID: -5868240280944807217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_157
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 17
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38f9b333a5918a2d0800000000000000
+      internalID: -3267333654459998333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_158
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 18
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dd691cff4d195cd40800000000000000
+      internalID: 5604045655342421725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_159
+      rect:
+        serializedVersion: 2
+        x: 543
+        y: 21
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8850afb2707135ad0800000000000000
+      internalID: -2714800830804261496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_160
+      rect:
+        serializedVersion: 2
+        x: 554
+        y: 24
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2633193bdccd0640800000000000000
+      internalID: 5047915999279658539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_161
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 23
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3de7ea603462bfe0800000000000000
+      internalID: -1174766393675485889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_162
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 9
+        width: 14
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61ac8e79cab8c1b80800000000000000
+      internalID: -8422703629690418666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_163
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 13
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3af6323c03e11ec10800000000000000
+      internalID: 2080977697603022755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_164
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 18
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c27db07ac91c24e80800000000000000
+      internalID: -8195775493299251412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_165
+      rect:
+        serializedVersion: 2
+        x: 610
+        y: 19
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61351dbbeb8194cb0800000000000000
+      internalID: -4879341513805311210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_166
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 6
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cff0508de26e3a20800000000000000
+      internalID: 3043979170348597192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Vampires1_Death_with_shadow_167
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 11
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 983dcccd33e626e60800000000000000
+      internalID: 7954041060916515721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Vampires1_Death_with_shadow_0: 3365990655065406761
+      Vampires1_Death_with_shadow_1: -7055994049912305235
+      Vampires1_Death_with_shadow_10: -2368182111556522052
+      Vampires1_Death_with_shadow_100: 3714012422621618592
+      Vampires1_Death_with_shadow_101: 4953658300811472164
+      Vampires1_Death_with_shadow_102: -427137932322632002
+      Vampires1_Death_with_shadow_103: 5967591978319169595
+      Vampires1_Death_with_shadow_104: -28610017386665243
+      Vampires1_Death_with_shadow_105: 6624231130954245766
+      Vampires1_Death_with_shadow_106: -3299861595217381726
+      Vampires1_Death_with_shadow_107: -3754418624847048634
+      Vampires1_Death_with_shadow_108: 3517142700099532652
+      Vampires1_Death_with_shadow_109: -8981861963570440613
+      Vampires1_Death_with_shadow_11: -3637951730998924621
+      Vampires1_Death_with_shadow_110: 6918618295495171980
+      Vampires1_Death_with_shadow_111: 8627599087927312482
+      Vampires1_Death_with_shadow_112: -7580191814330580003
+      Vampires1_Death_with_shadow_113: 2237193544251949316
+      Vampires1_Death_with_shadow_114: -2436362962556450594
+      Vampires1_Death_with_shadow_115: 3815543348958660861
+      Vampires1_Death_with_shadow_116: -3975023632381311629
+      Vampires1_Death_with_shadow_117: -4222086527988153887
+      Vampires1_Death_with_shadow_118: -7782394842801211750
+      Vampires1_Death_with_shadow_119: 8261317729826548981
+      Vampires1_Death_with_shadow_12: 7817093747368818638
+      Vampires1_Death_with_shadow_120: 7067680648748179113
+      Vampires1_Death_with_shadow_121: -8891550355173862704
+      Vampires1_Death_with_shadow_122: 7077391320550204657
+      Vampires1_Death_with_shadow_123: -6409599649513866498
+      Vampires1_Death_with_shadow_124: 6129683384774385672
+      Vampires1_Death_with_shadow_125: 6760148048362824470
+      Vampires1_Death_with_shadow_126: 8482382130472829647
+      Vampires1_Death_with_shadow_127: 33902462671682369
+      Vampires1_Death_with_shadow_128: -9141942557581647164
+      Vampires1_Death_with_shadow_129: 8373587867289404136
+      Vampires1_Death_with_shadow_13: -553182363332268253
+      Vampires1_Death_with_shadow_130: -5830505709801537356
+      Vampires1_Death_with_shadow_131: 9023779025269973885
+      Vampires1_Death_with_shadow_132: -8787437341909857447
+      Vampires1_Death_with_shadow_133: -5431575763500646478
+      Vampires1_Death_with_shadow_134: 7363778739277074700
+      Vampires1_Death_with_shadow_135: 569770332630585110
+      Vampires1_Death_with_shadow_136: -2659113128485093876
+      Vampires1_Death_with_shadow_137: 4518351965853097061
+      Vampires1_Death_with_shadow_138: 2056065449851483782
+      Vampires1_Death_with_shadow_139: 5406878847658341962
+      Vampires1_Death_with_shadow_14: -7900000391889225966
+      Vampires1_Death_with_shadow_140: -1667280680915108447
+      Vampires1_Death_with_shadow_141: 3946192796336431861
+      Vampires1_Death_with_shadow_142: 887957002777997645
+      Vampires1_Death_with_shadow_143: 5236854300671763708
+      Vampires1_Death_with_shadow_144: -6283791799708628093
+      Vampires1_Death_with_shadow_145: -9037507466498360210
+      Vampires1_Death_with_shadow_146: 1898344228110637722
+      Vampires1_Death_with_shadow_147: 67284623210209763
+      Vampires1_Death_with_shadow_148: 3781861971106597141
+      Vampires1_Death_with_shadow_149: 7102287238419563971
+      Vampires1_Death_with_shadow_15: 3862447242017199048
+      Vampires1_Death_with_shadow_150: 1305178268648339636
+      Vampires1_Death_with_shadow_151: -4921080388131511925
+      Vampires1_Death_with_shadow_152: 2893225210453733429
+      Vampires1_Death_with_shadow_153: 8961135675057568105
+      Vampires1_Death_with_shadow_154: -763907336839697931
+      Vampires1_Death_with_shadow_155: 8005058250712490650
+      Vampires1_Death_with_shadow_156: -5868240280944807217
+      Vampires1_Death_with_shadow_157: -3267333654459998333
+      Vampires1_Death_with_shadow_158: 5604045655342421725
+      Vampires1_Death_with_shadow_159: -2714800830804261496
+      Vampires1_Death_with_shadow_16: -8948175543012694919
+      Vampires1_Death_with_shadow_160: 5047915999279658539
+      Vampires1_Death_with_shadow_161: -1174766393675485889
+      Vampires1_Death_with_shadow_162: -8422703629690418666
+      Vampires1_Death_with_shadow_163: 2080977697603022755
+      Vampires1_Death_with_shadow_164: -8195775493299251412
+      Vampires1_Death_with_shadow_165: -4879341513805311210
+      Vampires1_Death_with_shadow_166: 3043979170348597192
+      Vampires1_Death_with_shadow_167: 7954041060916515721
+      Vampires1_Death_with_shadow_17: -5973539791633281304
+      Vampires1_Death_with_shadow_18: 5781052321918912454
+      Vampires1_Death_with_shadow_19: -3286780020628409891
+      Vampires1_Death_with_shadow_2: -7303499572733482423
+      Vampires1_Death_with_shadow_20: -7673359307978396944
+      Vampires1_Death_with_shadow_21: 5559985414326852737
+      Vampires1_Death_with_shadow_22: 1733074649668386951
+      Vampires1_Death_with_shadow_23: 8088789496746745665
+      Vampires1_Death_with_shadow_24: -6563166332606190569
+      Vampires1_Death_with_shadow_25: 5049808059044973225
+      Vampires1_Death_with_shadow_26: 4722464769751159200
+      Vampires1_Death_with_shadow_27: 4764451051624177346
+      Vampires1_Death_with_shadow_28: -126334058931350627
+      Vampires1_Death_with_shadow_29: 19050650178059794
+      Vampires1_Death_with_shadow_3: 5686088912737518768
+      Vampires1_Death_with_shadow_30: 2377094624125259384
+      Vampires1_Death_with_shadow_31: -5033528489131921756
+      Vampires1_Death_with_shadow_32: -4262622499512189216
+      Vampires1_Death_with_shadow_33: -2096541831894511066
+      Vampires1_Death_with_shadow_34: -2561872816439311034
+      Vampires1_Death_with_shadow_35: -2721710771183939453
+      Vampires1_Death_with_shadow_36: 1872336956696572875
+      Vampires1_Death_with_shadow_37: -7262024392392790270
+      Vampires1_Death_with_shadow_38: 408295408923265870
+      Vampires1_Death_with_shadow_39: 7243550555742240505
+      Vampires1_Death_with_shadow_4: -7935952882956424681
+      Vampires1_Death_with_shadow_40: 3890336347035314649
+      Vampires1_Death_with_shadow_41: -6000663103914312912
+      Vampires1_Death_with_shadow_42: -3301274089084028560
+      Vampires1_Death_with_shadow_43: -4361056093155652239
+      Vampires1_Death_with_shadow_44: -6045674422469088720
+      Vampires1_Death_with_shadow_45: -9177789945818940734
+      Vampires1_Death_with_shadow_46: 5166193404763898407
+      Vampires1_Death_with_shadow_47: -9056359144999532272
+      Vampires1_Death_with_shadow_48: 8264052782263345355
+      Vampires1_Death_with_shadow_49: 8887151750254911768
+      Vampires1_Death_with_shadow_5: -4028488849375151274
+      Vampires1_Death_with_shadow_50: -4600489966394429360
+      Vampires1_Death_with_shadow_51: -20259741487624807
+      Vampires1_Death_with_shadow_52: 1157175953037131544
+      Vampires1_Death_with_shadow_53: -5132712389191244923
+      Vampires1_Death_with_shadow_54: -1568970570806292888
+      Vampires1_Death_with_shadow_55: 7394460419737214275
+      Vampires1_Death_with_shadow_56: -4761150279809762299
+      Vampires1_Death_with_shadow_57: -6297465397920375253
+      Vampires1_Death_with_shadow_58: -2920212770123244911
+      Vampires1_Death_with_shadow_59: 614680001338338756
+      Vampires1_Death_with_shadow_6: -7849850871665940143
+      Vampires1_Death_with_shadow_60: 7473546503993259255
+      Vampires1_Death_with_shadow_61: 86527718298049778
+      Vampires1_Death_with_shadow_62: 6117764645354696522
+      Vampires1_Death_with_shadow_63: 7469154385890709301
+      Vampires1_Death_with_shadow_64: -6424656595475819290
+      Vampires1_Death_with_shadow_65: 2445031643396997369
+      Vampires1_Death_with_shadow_66: -399937931532432755
+      Vampires1_Death_with_shadow_67: 2343061813419704657
+      Vampires1_Death_with_shadow_68: 5365438330825685238
+      Vampires1_Death_with_shadow_69: 5570277880916973872
+      Vampires1_Death_with_shadow_7: -5585671734124348760
+      Vampires1_Death_with_shadow_70: -579330309809609634
+      Vampires1_Death_with_shadow_71: 1833116445131842837
+      Vampires1_Death_with_shadow_72: -7281640467699371764
+      Vampires1_Death_with_shadow_73: 8049985471998915718
+      Vampires1_Death_with_shadow_74: -7381711354073429689
+      Vampires1_Death_with_shadow_75: 1911388427697957095
+      Vampires1_Death_with_shadow_76: -6199303972364156379
+      Vampires1_Death_with_shadow_77: 6966566668784884754
+      Vampires1_Death_with_shadow_78: 4304777695019316883
+      Vampires1_Death_with_shadow_79: -8659994069214794683
+      Vampires1_Death_with_shadow_8: 5830629919281256790
+      Vampires1_Death_with_shadow_80: -2691408372642645001
+      Vampires1_Death_with_shadow_81: 4364218720620419983
+      Vampires1_Death_with_shadow_82: -3843534394652222014
+      Vampires1_Death_with_shadow_83: -5115631803109861034
+      Vampires1_Death_with_shadow_84: -8433389003381268276
+      Vampires1_Death_with_shadow_85: 7525577305794139581
+      Vampires1_Death_with_shadow_86: -2043943140126109837
+      Vampires1_Death_with_shadow_87: -9165606599142958043
+      Vampires1_Death_with_shadow_88: 2940187083696851169
+      Vampires1_Death_with_shadow_89: 4416441112822588063
+      Vampires1_Death_with_shadow_9: -2886021002633221473
+      Vampires1_Death_with_shadow_90: 8588968763047279027
+      Vampires1_Death_with_shadow_91: 1890980816803286744
+      Vampires1_Death_with_shadow_92: 801139853506895837
+      Vampires1_Death_with_shadow_93: 8454901069191267089
+      Vampires1_Death_with_shadow_94: 755176030552074948
+      Vampires1_Death_with_shadow_95: 8147694299894613010
+      Vampires1_Death_with_shadow_96: 2644884493950376921
+      Vampires1_Death_with_shadow_97: 1185140602579084912
+      Vampires1_Death_with_shadow_98: 5359720197010081748
+      Vampires1_Death_with_shadow_99: 4238432268835434964
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

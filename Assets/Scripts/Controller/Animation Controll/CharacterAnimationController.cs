@@ -57,6 +57,30 @@ public class CharacterAnimationController : MonoBehaviour
         attackAnimation.StopAttack();
     }
 
+    public bool PlayHurt()
+    {
+        attackAnimation?.StopAttack();
+        return animatorParameters != null && animatorParameters.PlayHurt();
+    }
+
+    public bool PlayDeath()
+    {
+        attackAnimation?.StopAttack();
+        locomotionAnimation?.PlayIdle();
+        return animatorParameters != null && animatorParameters.PlayDeath();
+    }
+
+    public bool PlayIdleState()
+    {
+        locomotionAnimation?.PlayIdle();
+        return animatorParameters != null && animatorParameters.PlayIdleState();
+    }
+
+    public float GetClipLengthContaining(string clipNamePart)
+    {
+        return animatorParameters != null ? animatorParameters.GetClipLengthContaining(clipNamePart) : 0f;
+    }
+
     private void ResolveComponents()
     {
         animatorParameters = GetOrAdd(animatorParameters);

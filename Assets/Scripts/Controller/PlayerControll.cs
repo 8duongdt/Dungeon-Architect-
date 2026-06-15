@@ -8,6 +8,7 @@ public class PlayerControll : MonoBehaviour
     [SerializeField] private CharacterAnimationController animationController;
 
     private Rigidbody2D rb;
+    private UnitHealth health;
     private Vector2 moveInput;
     private Vector2 lastMove = new Vector2(0, -1);
 
@@ -16,8 +17,40 @@ public class PlayerControll : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        health = GetComponent<UnitHealth>();
         animationController = GetAnimationController();
         SetupRigidbody();
+
+        if (health != null)
+        {
+            health.Damaged += OnDamaged;
+            health.Died += OnDied;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (health != null)
+        {
+            health.Damaged -= OnDamaged;
+            health.Died -= OnDied;
+        }
+    }
+
+    private void OnDamaged(UnitHealth source, float amount)
+    {
+        if (animationController != null)
+        {
+            animationController.PlayHurt();
+        }
+    }
+
+    private void OnDied(UnitHealth source)
+    {
+        if (animationController != null)
+        {
+            animationController.PlayDeath();
+        }
     }
 
     private void SetupRigidbody()
@@ -31,6 +64,12 @@ public class PlayerControll : MonoBehaviour
 
     private void Update()
     {
+        if (health != null && health.IsDead)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         ReadMovementInput();
         animationController?.PlayMove(moveInput);
         UpdateFacingDirection();
@@ -45,6 +84,11 @@ public class PlayerControll : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (health != null && health.IsDead)
+        {
+            return;
+        }
+
         Vector2 movement = moveInput.normalized;
         if (movement == Vector2.zero)
         {

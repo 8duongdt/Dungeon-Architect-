@@ -64,6 +64,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Unity crash recovery artifacts
+/[Aa]ssets/_[Rr]ecovery/
+/[Aa]ssets/_[Rr]ecovery.meta
+
 # Packed datasmith files
 *.uedatasmith
 *.udatasmith

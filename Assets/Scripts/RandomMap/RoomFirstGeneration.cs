@@ -16,6 +16,20 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     [SerializeField]
     private bool randomWalkRooms = false;
 
+    [Header("Portal")]
+    [Tooltip("Prefab của cổng sẽ được đặt ngẫu nhiên vào một vài phòng.")]
+    [SerializeField]
+    private GameObject portalPrefab;
+    [Tooltip("Số lượng cổng tối đa sinh ra trên bản đồ. Sẽ được giới hạn theo số phòng hiện có.")]
+    [SerializeField]
+    [Min(0)]
+    private int portalCount = 1;
+    [Tooltip("Vật chứa (cha) cho các cổng được sinh ra. Để trống sẽ tự tạo một đối tượng chứa.")]
+    [SerializeField]
+    private Transform portalParent;
+
+    private readonly List<GameObject> spawnedPortals = new List<GameObject>();
+
     protected override void RunProceduralGeneration()
     {
         CreateRooms();
@@ -42,6 +56,9 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         {
             roomCenters.Add((Vector2Int)Vector3Int.RoundToInt(room.center));
         }
+
+        // Đặt cổng sinh quái trước khi ConnectRooms làm thay đổi danh sách tâm phòng.
+        SpawnPortals(roomCenters);
 
         List<List<Vector2Int>> corridors = ConnectRooms(roomCenters);
         for (int i = 0; i < corridors.Count; i++)
@@ -151,6 +168,65 @@ public class RoomFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             }
         }
         return closest;
+    }
+
+    // Sinh ngẫu nhiên các cổng vào một vài phòng (số lượng cấu hình qua portalCount).
+    private void SpawnPortals(List<Vector2Int> roomCenters)
+    {
+        ClearPortals();
+
+        if (portalPrefab == null || portalCount <= 0 || roomCenters.Count == 0)
+        {
+            return;
+        }
+
+        // Tạo vật chứa nếu chưa được gán để giữ Hierarchy gọn gàng.
+        if (portalParent == null)
+        {
+            portalParent = new GameObject("Portals").transform;
+            portalParent.SetParent(transform, false);
+        }
+
+        // Số cổng không vượt quá số phòng đang có.
+        int portalsToSpawn = Mathf.Min(portalCount, roomCenters.Count);
+
+        // Trộn danh sách tâm phòng rồi lấy ra portalsToSpawn phòng đầu tiên
+        // để mỗi phòng chỉ có tối đa một cổng và vị trí là ngẫu nhiên.
+        List<Vector2Int> shuffledCenters = new List<Vector2Int>(roomCenters);
+        for (int i = shuffledCenters.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (shuffledCenters[i], shuffledCenters[j]) = (shuffledCenters[j], shuffledCenters[i]);
+        }
+
+        for (int i = 0; i < portalsToSpawn; i++)
+        {
+            Vector3 worldPosition = tilemapVisualizer.CellToWorldCenter(shuffledCenters[i]);
+            GameObject portal = Instantiate(portalPrefab, worldPosition, Quaternion.identity, portalParent);
+            spawnedPortals.Add(portal);
+        }
+    }
+
+    // Xóa các cổng đã sinh ở lần tạo bản đồ trước để tránh trùng lặp khi tạo lại.
+    private void ClearPortals()
+    {
+        for (int i = 0; i < spawnedPortals.Count; i++)
+        {
+            if (spawnedPortals[i] == null)
+            {
+                continue;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(spawnedPortals[i]);
+            }
+            else
+            {
+                DestroyImmediate(spawnedPortals[i]);
+            }
+        }
+        spawnedPortals.Clear();
     }
 
     private HashSet<Vector2Int> CreateSimpleRooms(List<BoundsInt> roomsList)

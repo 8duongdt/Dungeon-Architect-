@@ -1,55 +1,55 @@
 fileFormatVersion: 2
-guid: 88d4606a620bb2448981c6d9bdb888da
+guid: 0d2f4188d4f89744783ea7deaae224ce
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8075368094052267863
-    second: Vampires3_Idle_without_shadow_0
+      213: 9112860607432706206
+    second: Vampires3_Hurt_without_shadow_0
   - first:
-      213: 7822869679242879583
-    second: Vampires3_Idle_without_shadow_1
+      213: -9188200748446235326
+    second: Vampires3_Hurt_without_shadow_1
   - first:
-      213: 3107356636388990371
-    second: Vampires3_Idle_without_shadow_2
+      213: -7100888812354633383
+    second: Vampires3_Hurt_without_shadow_2
   - first:
-      213: -6954954413433628014
-    second: Vampires3_Idle_without_shadow_3
+      213: 6625649638735683190
+    second: Vampires3_Hurt_without_shadow_3
   - first:
-      213: 7819655388324380268
-    second: Vampires3_Idle_without_shadow_4
+      213: 728815601061014531
+    second: Vampires3_Hurt_without_shadow_4
   - first:
-      213: 1839106871003249236
-    second: Vampires3_Idle_without_shadow_5
+      213: -105610373516689155
+    second: Vampires3_Hurt_without_shadow_5
   - first:
-      213: -3414115489856213512
-    second: Vampires3_Idle_without_shadow_6
+      213: -2280660362700846805
+    second: Vampires3_Hurt_without_shadow_6
   - first:
-      213: 2855502466482375481
-    second: Vampires3_Idle_without_shadow_7
+      213: -6892887911801621619
+    second: Vampires3_Hurt_without_shadow_7
   - first:
-      213: 268292645364318228
-    second: Vampires3_Idle_without_shadow_8
+      213: -7923765917363006975
+    second: Vampires3_Hurt_without_shadow_8
   - first:
-      213: 2655000208376802893
-    second: Vampires3_Idle_without_shadow_9
+      213: -401244146751086606
+    second: Vampires3_Hurt_without_shadow_9
   - first:
-      213: 3905171689556548968
-    second: Vampires3_Idle_without_shadow_10
+      213: -5201437086147201263
+    second: Vampires3_Hurt_without_shadow_10
   - first:
-      213: -174375707331038452
-    second: Vampires3_Idle_without_shadow_11
+      213: -4538752564414769867
+    second: Vampires3_Hurt_without_shadow_11
   - first:
-      213: -3276264532301608979
-    second: Vampires3_Idle_without_shadow_12
+      213: 6301448006559277142
+    second: Vampires3_Hurt_without_shadow_12
   - first:
-      213: -6480035997532452784
-    second: Vampires3_Idle_without_shadow_13
+      213: 1990590400355301518
+    second: Vampires3_Hurt_without_shadow_13
   - first:
-      213: 2617135677314775232
-    second: Vampires3_Idle_without_shadow_14
+      213: 4353107956532579187
+    second: Vampires3_Hurt_without_shadow_14
   - first:
-      213: -4356875706483712108
-    second: Vampires3_Idle_without_shadow_15
+      213: -8831083102771492790
+    second: Vampires3_Hurt_without_shadow_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -120,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,353 +158,353 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_0
+      name: hurt_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 211
-        width: 41
-        height: 29
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9a8cd7be0878eef80800000000000000
-      internalID: -8075368094052267863
+      spriteID: 06950bcf963c69442b90077bab08ca00
+      internalID: -1242966239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_1
+      name: hurt_1
       rect:
         serializedVersion: 2
-        x: 75
-        y: 211
-        width: 41
-        height: 30
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f522273a68a609c60800000000000000
-      internalID: 7822869679242879583
+      spriteID: 2186e486718d63f4eb41b74203216819
+      internalID: -1617801461
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_2
+      name: hurt_2
       rect:
         serializedVersion: 2
-        x: 139
-        y: 211
-        width: 41
-        height: 29
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3ad1b66b56c8f1b20800000000000000
-      internalID: 3107356636388990371
+      spriteID: 449fabcd52b2db04f936be05a9f1812b
+      internalID: -1782807680
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_3
+      name: hurt_3
       rect:
         serializedVersion: 2
-        x: 203
-        y: 211
-        width: 41
-        height: 28
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 29ad0465fc90b7f90800000000000000
-      internalID: -6954954413433628014
+      spriteID: 947013fb476eb0b41ad2d620ea29d495
+      internalID: 89179346
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_4
+      name: hurt_4
       rect:
         serializedVersion: 2
-        x: 11
-        y: 147
-        width: 41
-        height: 29
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c6e3b07352ff48c60800000000000000
-      internalID: 7819655388324380268
+      spriteID: 15f788682ece12b46a14384908bf2bb2
+      internalID: -810697903
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_5
+      name: hurt_5
       rect:
         serializedVersion: 2
-        x: 75
-        y: 147
-        width: 41
-        height: 30
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 45af02684f1d58910800000000000000
-      internalID: 1839106871003249236
+      spriteID: 37a0c3fb27ea6ca4a9eabf5be907c45d
+      internalID: -1040247135
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_6
+      name: hurt_6
       rect:
         serializedVersion: 2
-        x: 139
-        y: 147
-        width: 41
-        height: 29
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8fd26fcfc00ae90d0800000000000000
-      internalID: -3414115489856213512
+      spriteID: b836079523eba3344851b8fd45f39c4e
+      internalID: 921861165
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_7
+      name: hurt_7
       rect:
         serializedVersion: 2
-        x: 203
-        y: 147
-        width: 41
-        height: 28
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 93b0fe93d58c0a720800000000000000
-      internalID: 2855502466482375481
+      spriteID: b93858287b5162c47bfdca82c3feda70
+      internalID: -1207409201
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_8
+      name: hurt_8
       rect:
         serializedVersion: 2
-        x: 20
-        y: 83
-        width: 30
-        height: 29
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4104ace4dba29b300800000000000000
-      internalID: 268292645364318228
+      spriteID: 7c3677ea8c700e74f9b1bd7ce05f6108
+      internalID: -1130423290
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_9
+      name: hurt_9
       rect:
         serializedVersion: 2
-        x: 84
-        y: 83
-        width: 30
-        height: 30
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d4e23ea6f9478d420800000000000000
-      internalID: 2655000208376802893
+      spriteID: adf5664353b31af46bca515fb621fbe3
+      internalID: 1559773570
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_10
+      name: hurt_10
       rect:
         serializedVersion: 2
-        x: 148
-        y: 83
-        width: 30
-        height: 29
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 86d1eee06f4f13630800000000000000
-      internalID: 3905171689556548968
+      spriteID: d345f82ac2cf041498fae871e2761ca1
+      internalID: -1280707338
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_11
+      name: hurt_11
       rect:
         serializedVersion: 2
-        x: 212
-        y: 83
-        width: 30
-        height: 28
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c037313d73e749df0800000000000000
-      internalID: -174375707331038452
+      spriteID: 314d9c5d1f9c45f46805f8a310fa099e
+      internalID: 1114465705
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_12
+      name: hurt_12
       rect:
         serializedVersion: 2
-        x: 13
-        y: 19
-        width: 30
-        height: 29
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: de783f924ce5882d0800000000000000
-      internalID: -3276264532301608979
+      spriteID: 0d5ee844570375049a706148d1441c4b
+      internalID: 1640468469
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_13
+      name: hurt_13
       rect:
         serializedVersion: 2
-        x: 77
-        y: 19
-        width: 30
-        height: 30
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 058855bc7994216a0800000000000000
-      internalID: -6480035997532452784
+      spriteID: edbd94f6325c94e47ab1e7a1d58a7b00
+      internalID: -440858093
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_14
+      name: hurt_14
       rect:
         serializedVersion: 2
-        x: 141
-        y: 19
-        width: 30
-        height: 29
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0c83957480fe15420800000000000000
-      internalID: 2617135677314775232
+      spriteID: 15e2a39f3a53b664aa98a90505c7a702
+      internalID: -233224116
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Vampires3_Idle_without_shadow_15
+      name: hurt_15
       rect:
         serializedVersion: 2
-        x: 205
-        y: 19
-        width: 30
-        height: 28
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 49f5280f0a44983c0800000000000000
-      internalID: -4356875706483712108
+      spriteID: 6817f7cf1552c1e4f957a2510e2f8b66
+      internalID: -952759684
       vertices: []
       indices: 
       edges: []
@@ -513,7 +513,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 040723e454276ce489bdf8423387a620
     internalID: 0
     vertices: []
     indices: 
@@ -521,24 +521,26 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Vampires3_Idle_without_shadow_0: -8075368094052267863
-      Vampires3_Idle_without_shadow_1: 7822869679242879583
-      Vampires3_Idle_without_shadow_10: 3905171689556548968
-      Vampires3_Idle_without_shadow_11: -174375707331038452
-      Vampires3_Idle_without_shadow_12: -3276264532301608979
-      Vampires3_Idle_without_shadow_13: -6480035997532452784
-      Vampires3_Idle_without_shadow_14: 2617135677314775232
-      Vampires3_Idle_without_shadow_15: -4356875706483712108
-      Vampires3_Idle_without_shadow_2: 3107356636388990371
-      Vampires3_Idle_without_shadow_3: -6954954413433628014
-      Vampires3_Idle_without_shadow_4: 7819655388324380268
-      Vampires3_Idle_without_shadow_5: 1839106871003249236
-      Vampires3_Idle_without_shadow_6: -3414115489856213512
-      Vampires3_Idle_without_shadow_7: 2855502466482375481
-      Vampires3_Idle_without_shadow_8: 268292645364318228
-      Vampires3_Idle_without_shadow_9: 2655000208376802893
+      hurt_0: -1242966239
+      hurt_1: -1617801461
+      hurt_10: -1280707338
+      hurt_11: 1114465705
+      hurt_12: 1640468469
+      hurt_13: -440858093
+      hurt_14: -233224116
+      hurt_15: -952759684
+      hurt_2: -1782807680
+      hurt_3: 89179346
+      hurt_4: -810697903
+      hurt_5: -1040247135
+      hurt_6: 921861165
+      hurt_7: -1207409201
+      hurt_8: -1130423290
+      hurt_9: 1559773570
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

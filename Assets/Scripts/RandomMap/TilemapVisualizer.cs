@@ -111,6 +111,13 @@ public class TilemapVisualizer : MonoBehaviour
         wallTilemap.ClearAllTiles();
     }
 
+    // Chuyển tọa độ ô (cell) trên bản đồ thành tọa độ tâm ô trong không gian thế giới (world),
+    // dùng để đặt các GameObject (ví dụ: Cổng sinh quái) vào đúng giữa phòng.
+    public Vector3 CellToWorldCenter(Vector2Int cellPosition)
+    {
+        return floorTilemap.GetCellCenterWorld((Vector3Int)cellPosition);
+    }
+
     internal void PaintSingleCornerWall(Vector2Int position, string binaryType)
     {
         int typeASInt = Convert.ToInt32(binaryType, 2);

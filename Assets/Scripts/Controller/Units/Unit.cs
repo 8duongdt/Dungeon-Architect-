@@ -4,6 +4,8 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float stoppingDistance = 0.1f;
+    [Tooltip("Lực hãm vận tốc dư do va chạm. Càng cao thì unit càng không bị đẩy trôi đi (vẫn va chạm chống đè lên nhau).")]
+    [SerializeField] private float collisionRecoveryDamping = 12f;
 
     private GameObject selectedVisual;
     private CharacterAnimationController animationController;
@@ -24,6 +26,9 @@ public class Unit : MonoBehaviour
         {
             rb.gravityScale = 0f;
             rb.freezeRotation = true;
+            // Giữ va chạm (chống đè lên nhau) nhưng dập tắt quán tính sau mỗi cú va
+            // để unit không bị đẩy trôi đi.
+            rb.linearDamping = Mathf.Max(rb.linearDamping, collisionRecoveryDamping);
         }
 
         Transform selectedTransform = transform.Find("Selected");
@@ -83,6 +88,8 @@ public class Unit : MonoBehaviour
     {
         if (unitAI != null && unitAI.HasActiveCombatTarget)
         {
+            // Đang combat: nhường quyền điều khiển vận tốc cho AI (ChaseState/AttackState).
+            // KHÔNG xóa linearVelocity ở đây, nếu không unit sẽ không thể áp sát mục tiêu.
             targetPosition = transform.position;
             currentMoveDirection = Vector2.zero;
             unitAI.CompleteMoveCommand();
@@ -96,6 +103,10 @@ public class Unit : MonoBehaviour
         if (toTarget.sqrMagnitude <= stoppingDistance * stoppingDistance)
         {
             currentMoveDirection = Vector2.zero;
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
             unitAI?.CompleteMoveCommand();
             return;
         }

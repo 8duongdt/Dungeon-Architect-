@@ -5,6 +5,8 @@ public class UnitMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float stoppingDistance = 0.1f;
+    [Tooltip("Lực hãm vận tốc dư do va chạm. Càng cao thì unit càng không bị đẩy trôi đi (vẫn va chạm chống đè lên nhau).")]
+    [SerializeField] private float collisionRecoveryDamping = 12f;
     [SerializeField] private CharacterAnimationController animationController;
 
     private Rigidbody2D rb;
@@ -15,6 +17,13 @@ public class UnitMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animationController = GetAnimationController();
+
+        if (rb != null)
+        {
+            // Giữ va chạm (chống đè lên nhau) nhưng dập tắt quán tính sau mỗi cú va
+            // để unit không bị đẩy trôi đi.
+            rb.linearDamping = Mathf.Max(rb.linearDamping, collisionRecoveryDamping);
+        }
     }
 
     public void MoveTowards(Vector3 targetPosition)
@@ -38,7 +47,10 @@ public class UnitMovement : MonoBehaviour
 
         if (rb != null)
         {
-            rb.linearVelocity = direction * moveSpeed;
+            // Bù phần vận tốc bị linearDamping hãm bớt để tốc độ di chuyển chủ động
+            // không bị chậm đi, trong khi quán tính do va chạm vẫn tắt nhanh.
+            float dampingCompensation = 1f + rb.linearDamping * Time.fixedDeltaTime;
+            rb.linearVelocity = direction * moveSpeed * dampingCompensation;
         }
         else
         {
@@ -63,6 +75,7 @@ public class UnitMovement : MonoBehaviour
     {
         moveSpeed = Mathf.Max(0f, moveSpeed);
         stoppingDistance = Mathf.Max(0f, stoppingDistance);
+        collisionRecoveryDamping = Mathf.Max(0f, collisionRecoveryDamping);
     }
 
     private CharacterAnimationController GetAnimationController()

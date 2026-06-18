@@ -12,6 +12,7 @@ public class AttackState : MonoBehaviour
     private AttackAreaBase attackArea;
     private float nextAttackTime;
     private bool hasDealtDamageThisSwing;
+    private float attackAnimationLength;
 
     public void Initialize(UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea)
     {
@@ -19,6 +20,7 @@ public class AttackState : MonoBehaviour
         movement = unitMovement;
         attackArea = unitAttackArea;
         animationController = GetAnimationController();
+        CacheAttackAnimationLength();
     }
 
     public void Tick()
@@ -62,7 +64,22 @@ public class AttackState : MonoBehaviour
         if (Time.time >= nextAttackTime)
         {
             StartSwing(target);
-            nextAttackTime = Time.time + attackCooldown;
+            // Nhịp đánh không bao giờ ngắn hơn thời lượng animation -> animation
+            // luôn chạy xong trước khi bắt đầu đòn kế tiếp.
+            if (attackAnimationLength <= 0f)
+            {
+                CacheAttackAnimationLength();
+            }
+
+            nextAttackTime = Time.time + Mathf.Max(attackCooldown, attackAnimationLength);
+        }
+    }
+
+    private void CacheAttackAnimationLength()
+    {
+        if (animationController != null)
+        {
+            attackAnimationLength = animationController.GetLongestClipLengthContaining("attack");
         }
     }
 

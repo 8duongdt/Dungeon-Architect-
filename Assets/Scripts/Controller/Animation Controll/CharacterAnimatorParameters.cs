@@ -144,6 +144,29 @@ public class CharacterAnimatorParameters : MonoBehaviour
         return 0f;
     }
 
+    // Trả về độ dài clip DÀI NHẤT khớp tên (vd nhiều hướng attack_w/attack_s...),
+    // để thời lượng đòn đánh không bị cắt ngắn theo clip ngắn nhất.
+    public float GetLongestClipLengthContaining(string clipNamePart)
+    {
+        if (!IsReady() || animator.runtimeAnimatorController == null)
+        {
+            return 0f;
+        }
+
+        string loweredNamePart = clipNamePart.ToLowerInvariant();
+        float longestLength = 0f;
+        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            if (clip != null && clip.name.ToLowerInvariant().Contains(loweredNamePart) && clip.length > longestLength)
+            {
+                longestLength = clip.length;
+            }
+        }
+
+        return longestLength;
+    }
+
     private void ResolveAnimator()
     {
         if (animator != null)

@@ -67,11 +67,7 @@ public class UnitController : MonoBehaviour
         {
             Vector3 targetPosition = MouseUtils.GetMouseWorldPosition();
             List<Vector3> formationPositions = CalculateFormationPositions(targetPosition, selectedUnitList.Count);
-
-            for (int i = 0; i < selectedUnitList.Count; i++)
-            {
-                selectedUnitList[i].MoveTo(formationPositions[i]);
-            }
+            AssignNearestFormationSlots(formationPositions);
         }
     }
 
@@ -151,6 +147,44 @@ public class UnitController : MonoBehaviour
             if (unit != null && !units.Contains(unit))
             {
                 units.Add(unit);
+            }
+        }
+    }
+
+    // Gán mỗi unit tới ô đội hình GẦN nó nhất để các unit không cắt ngang đường
+    // nhau khi tiến vào vòng tròn, giảm va chạm và đứng đúng vị trí riêng.
+    private void AssignNearestFormationSlots(List<Vector3> formationPositions)
+    {
+        bool[] slotTaken = new bool[formationPositions.Count];
+
+        foreach (Unit unit in selectedUnitList)
+        {
+            if (unit == null)
+            {
+                continue;
+            }
+
+            int bestSlot = -1;
+            float bestSqrDistance = float.MaxValue;
+            for (int slot = 0; slot < formationPositions.Count; slot++)
+            {
+                if (slotTaken[slot])
+                {
+                    continue;
+                }
+
+                float sqrDistance = (formationPositions[slot] - unit.transform.position).sqrMagnitude;
+                if (sqrDistance < bestSqrDistance)
+                {
+                    bestSqrDistance = sqrDistance;
+                    bestSlot = slot;
+                }
+            }
+
+            if (bestSlot >= 0)
+            {
+                slotTaken[bestSlot] = true;
+                unit.MoveTo(formationPositions[bestSlot]);
             }
         }
     }

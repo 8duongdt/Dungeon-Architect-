@@ -59,10 +59,14 @@ public class CharacterAttackAnimation : MonoBehaviour
         animatorParameters?.SetAttack(false);
     }
 
+    public float AttackDuration => attackDuration;
+
     private void SyncAttackDurationFromClip()
     {
+        // Dùng clip đánh DÀI NHẤT để cờ IsAttacking không tắt sớm khi animation
+        // vẫn đang chạy (tránh đánh đòn 2 khi đòn 1 chưa xong).
         float detectedAttackLength = animatorParameters != null
-            ? animatorParameters.GetClipLengthContaining("attack")
+            ? animatorParameters.GetLongestClipLengthContaining("attack")
             : 0f;
 
         if (detectedAttackLength > 0f)

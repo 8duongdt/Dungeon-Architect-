@@ -21,15 +21,17 @@ public class IdleState : MonoBehaviour
 
     public void Tick()
     {
+        // Lệnh di chuyển của người chơi ưu tiên cao nhất: không tự động khóa mục tiêu
+        // trong lúc unit đang thực hiện lệnh di chuyển thủ công.
+        if (ai.IsManualMoveCommandActive)
+        {
+            return;
+        }
+
         Transform visibleTarget = attackArea.FindVisibleTarget(ai);
         if (visibleTarget != null)
         {
             ai.SetTarget(visibleTarget, UnitAI.UnitState.Chase);
-            return;
-        }
-
-        if (ai.IsManualMoveCommandActive)
-        {
             return;
         }
 

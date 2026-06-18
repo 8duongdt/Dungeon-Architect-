@@ -17,7 +17,10 @@ public class UnitAI : MonoBehaviour
     public UnitState currentState = UnitState.Idle;
 
     [SerializeField] private Transform targetEnemy;
-    [SerializeField] private float moveCommandCombatIgnoreDistance = 0.75f;
+    [Tooltip("Khi bị kẹt (không tiến được, vd gặp vật cản) quá số giây này thì kết thúc lệnh di chuyển để unit không bị treo.")]
+    [SerializeField] private float moveCommandStuckTimeout = 1.5f;
+
+    private const float MoveProgressThreshold = 0.05f;
 
     private UnitHealth health;
     private UnitFaction faction;
@@ -28,7 +31,8 @@ public class UnitAI : MonoBehaviour
     private AttackState attackState;
     private bool ignoringCombatForMoveCommand;
     private bool manualMoveCommandActive;
-    private Vector3 moveCommandStartPosition;
+    private Vector3 lastMoveProgressPosition;
+    private float lastMoveProgressTime;
 
     public Transform TargetEnemy => targetEnemy;
     public UnitHealth Health => health;
@@ -71,7 +75,7 @@ public class UnitAI : MonoBehaviour
             return;
         }
 
-        UpdateMoveCommandCombatIgnore();
+        UpdateManualMoveCommand();
         if (ignoringCombatForMoveCommand)
         {
             return;
@@ -116,7 +120,8 @@ public class UnitAI : MonoBehaviour
         ClearTarget();
         manualMoveCommandActive = true;
         ignoringCombatForMoveCommand = true;
-        moveCommandStartPosition = transform.position;
+        lastMoveProgressPosition = transform.position;
+        lastMoveProgressTime = Time.time;
     }
 
     public void CompleteMoveCommand()
@@ -186,22 +191,30 @@ public class UnitAI : MonoBehaviour
         return component != null ? component : gameObject.AddComponent<T>();
     }
 
-    private void UpdateMoveCommandCombatIgnore()
+    // Lệnh di chuyển của người chơi có ưu tiên cao nhất: bỏ qua hoàn toàn combat
+    // cho tới khi unit tới đích (Unit.MoveTowardsTarget gọi CompleteMoveCommand).
+    // Chỉ dừng sớm nếu bị kẹt (không tiến được) để tránh treo vĩnh viễn khi gặp vật cản.
+    private void UpdateManualMoveCommand()
     {
         if (!ignoringCombatForMoveCommand)
         {
             return;
         }
 
-        float movedDistance = Vector2.Distance(transform.position, moveCommandStartPosition);
-        if (movedDistance >= moveCommandCombatIgnoreDistance)
+        float movedDistance = Vector2.Distance(transform.position, lastMoveProgressPosition);
+        if (movedDistance >= MoveProgressThreshold)
         {
-            ignoringCombatForMoveCommand = false;
+            lastMoveProgressPosition = transform.position;
+            lastMoveProgressTime = Time.time;
+        }
+        else if (Time.time - lastMoveProgressTime >= moveCommandStuckTimeout)
+        {
+            CompleteMoveCommand();
         }
     }
 
     private void OnValidate()
     {
-        moveCommandCombatIgnoreDistance = Mathf.Max(0f, moveCommandCombatIgnoreDistance);
+        moveCommandStuckTimeout = Mathf.Max(0f, moveCommandStuckTimeout);
     }
 }

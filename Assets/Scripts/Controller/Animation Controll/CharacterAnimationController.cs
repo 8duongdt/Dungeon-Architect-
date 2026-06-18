@@ -81,6 +81,11 @@ public class CharacterAnimationController : MonoBehaviour
         return animatorParameters != null ? animatorParameters.GetClipLengthContaining(clipNamePart) : 0f;
     }
 
+    public float GetLongestClipLengthContaining(string clipNamePart)
+    {
+        return animatorParameters != null ? animatorParameters.GetLongestClipLengthContaining(clipNamePart) : 0f;
+    }
+
     private void ResolveComponents()
     {
         animatorParameters = GetOrAdd(animatorParameters);

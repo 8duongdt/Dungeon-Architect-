@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class UnitMovement : MonoBehaviour
+public class UnitMovement : MonoBehaviour, ISpeedModifiable
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private float stoppingDistance = 0.1f;
@@ -11,6 +11,15 @@ public class UnitMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    // Hệ số nhân tốc độ do hệ thống hiệu ứng đặt (1 = bình thường). Áp cho lúc AI đuổi đánh.
+    private float speedMultiplier = 1f;
+    public float SpeedMultiplier
+    {
+        get => speedMultiplier;
+        set => speedMultiplier = Mathf.Max(0f, value);
+    }
+
+    // Tốc độ gốc theo cấu hình (không gồm hệ số hiệu ứng).
     public float MoveSpeed => moveSpeed;
 
     private void Awake()
@@ -50,11 +59,11 @@ public class UnitMovement : MonoBehaviour
             // Bù phần vận tốc bị linearDamping hãm bớt để tốc độ di chuyển chủ động
             // không bị chậm đi, trong khi quán tính do va chạm vẫn tắt nhanh.
             float dampingCompensation = 1f + rb.linearDamping * Time.fixedDeltaTime;
-            rb.linearVelocity = direction * moveSpeed * dampingCompensation;
+            rb.linearVelocity = direction * moveSpeed * speedMultiplier * dampingCompensation;
         }
         else
         {
-            transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
+            transform.position += (Vector3)(direction * moveSpeed * speedMultiplier * Time.deltaTime);
         }
     }
 

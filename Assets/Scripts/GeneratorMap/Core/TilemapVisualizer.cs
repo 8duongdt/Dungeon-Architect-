@@ -58,6 +58,27 @@ public class TilemapVisualizer : MonoBehaviour
     [SerializeField]
     private TileBase wallDiagonalCornerUpLeft;
 
+    // Áp dụng một bộ tile (theme) lúc chạy để đổi diện mạo map.
+    // Chỉ ghi đè khi theme có giá trị (giữ nguyên tile mặc định nếu field theme bỏ trống).
+    public void ApplyTheme(MapThemeSO theme)
+    {
+        if (theme == null)
+            return;
+
+        floorTile = theme.floorTile != null ? theme.floorTile : floorTile;
+        wallTop = theme.wallTop != null ? theme.wallTop : wallTop;
+        wallSideRight = theme.wallSideRight != null ? theme.wallSideRight : wallSideRight;
+        wallSiderLeft = theme.wallSideLeft != null ? theme.wallSideLeft : wallSiderLeft;
+        wallBottom = theme.wallBottom != null ? theme.wallBottom : wallBottom;
+        wallFull = theme.wallFull != null ? theme.wallFull : wallFull;
+        wallInnerCornerDownLeft = theme.wallInnerCornerDownLeft != null ? theme.wallInnerCornerDownLeft : wallInnerCornerDownLeft;
+        wallInnerCornerDownRight = theme.wallInnerCornerDownRight != null ? theme.wallInnerCornerDownRight : wallInnerCornerDownRight;
+        wallDiagonalCornerDownRight = theme.wallDiagonalCornerDownRight != null ? theme.wallDiagonalCornerDownRight : wallDiagonalCornerDownRight;
+        wallDiagonalCornerDownLeft = theme.wallDiagonalCornerDownLeft != null ? theme.wallDiagonalCornerDownLeft : wallDiagonalCornerDownLeft;
+        wallDiagonalCornerUpRight = theme.wallDiagonalCornerUpRight != null ? theme.wallDiagonalCornerUpRight : wallDiagonalCornerUpRight;
+        wallDiagonalCornerUpLeft = theme.wallDiagonalCornerUpLeft != null ? theme.wallDiagonalCornerUpLeft : wallDiagonalCornerUpLeft;
+    }
+
     public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
         PaintTiles(floorPositions, floorTilemap, floorTile);

@@ -1,11 +1,19 @@
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, ISpeedModifiable
 {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float stoppingDistance = 0.1f;
     [Tooltip("Lực hãm vận tốc dư do va chạm. Càng cao thì unit càng không bị đẩy trôi đi (vẫn va chạm chống đè lên nhau).")]
     [SerializeField] private float collisionRecoveryDamping = 12f;
+
+    // Hệ số nhân tốc độ do hệ thống hiệu ứng đặt (1 = bình thường). Áp cho lệnh di chuyển tay.
+    private float speedMultiplier = 1f;
+    public float SpeedMultiplier
+    {
+        get => speedMultiplier;
+        set => speedMultiplier = Mathf.Max(0f, value);
+    }
 
     private GameObject selectedVisual;
     private CharacterAnimationController animationController;
@@ -115,7 +123,7 @@ public class Unit : MonoBehaviour
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition,
             targetPosition2D,
-            moveSpeed * Time.fixedDeltaTime
+            moveSpeed * speedMultiplier * Time.fixedDeltaTime
         );
 
         if (rb != null)

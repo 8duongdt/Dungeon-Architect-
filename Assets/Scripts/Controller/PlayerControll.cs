@@ -2,10 +2,18 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerControll : MonoBehaviour
+public class PlayerControll : MonoBehaviour, ISpeedModifiable
 {
     public float moveSpeed = 5f;
     [SerializeField] private CharacterAnimationController animationController;
+
+    // Hệ số nhân tốc độ do hệ thống hiệu ứng đặt (1 = bình thường).
+    private float speedMultiplier = 1f;
+    public float SpeedMultiplier
+    {
+        get => speedMultiplier;
+        set => speedMultiplier = Mathf.Max(0f, value);
+    }
 
     private Rigidbody2D rb;
     private UnitHealth health;
@@ -97,11 +105,11 @@ public class PlayerControll : MonoBehaviour
 
         if (rb == null)
         {
-            transform.position += (Vector3)(movement * moveSpeed * Time.fixedDeltaTime);
+            transform.position += (Vector3)(movement * moveSpeed * speedMultiplier * Time.fixedDeltaTime);
             return;
         }
 
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * speedMultiplier * Time.fixedDeltaTime);
     }
 
     private void ReadMovementInput()

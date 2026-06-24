@@ -72,6 +72,10 @@ crashlytics-build.properties
 *.uedatasmith
 *.udatasmith
 
+# Local-only AI assistant notes (never commit)
+[Cc][Ll][Aa][Uu][Dd][Ee].md
+[Cc][Ll][Oo][Uu][Dd].md
+
 # OS generated
 .DS_Store
 .DS_Store?

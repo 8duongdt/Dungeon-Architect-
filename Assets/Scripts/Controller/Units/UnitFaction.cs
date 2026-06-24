@@ -43,11 +43,13 @@ public class UnitFaction : MonoBehaviour
         }
 
         activeUnits.Add(this);
+        MinimapRegistry.Register(this);
     }
 
     private void OnDisable()
     {
         activeUnits.Remove(this);
+        MinimapRegistry.Unregister(this);
     }
 
     private void CacheBodyColliders()

@@ -11,8 +11,8 @@ public class RTSCamera : MonoBehaviour
     public bool useScreenEdge = true;
 
     [Header("Map Bounds")]
-    public Vector2 minMaxX = new Vector2(-50f, 50f);
-    public Vector2 minMaxY = new Vector2(-50f, 50f);
+    public Vector2 minMaxX = new Vector2(-1000f, 1000f);
+    public Vector2 minMaxY = new Vector2(-1000f, 1000f);
 
     [Header("Zoom")]
     public float zoomSpeed = 10f;
@@ -145,6 +145,16 @@ public class RTSCamera : MonoBehaviour
                 minHeight,
                 maxHeight);
         }
+    }
+
+    // Đưa camera tới một vị trí world (X,Y), clamp trong map bounds và giữ nguyên Z cố định.
+    // Dùng cho click/kéo trên mini-map để nhảy camera mà vẫn tôn trọng giới hạn di chuyển.
+    public void MoveTo(Vector2 worldXY)
+    {
+        transform.position = new Vector3(
+            Mathf.Clamp(worldXY.x, minMaxX.x, minMaxX.y),
+            Mathf.Clamp(worldXY.y, minMaxY.x, minMaxY.y),
+            FixedZ);
     }
 
     void LockZPosition()

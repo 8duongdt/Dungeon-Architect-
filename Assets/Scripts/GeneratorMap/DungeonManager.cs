@@ -1,173 +1,195 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 /// <summary>
-/// Điều phối toàn bộ quá trình sinh dungeon cho Phase 1:
-/// sinh dữ liệu (DungeonGenerator) -> vẽ map (TilemapVisualizer cũ) -> rải vật (DungeonDecorator).
-/// Tái sử dụng pipeline vẽ tường có sẵn (WallGeneration) để giữ tương thích ngược.
+/// Điều phối sinh map: chọn một <see cref="MapThemeSO"/> -> theo generatorType của theme mà chạy
+/// generator phù hợp (Room-First chia phòng / Undead một khu vực vuông to kín) -> vẽ sàn/tường
+/// (TilemapVisualizer lấy tile từ theme) -> rải vật trang trí bằng decorator tương ứng -> rải cổng
+/// cho map Room-First.
 /// </summary>
 public class DungeonManager : MonoBehaviour
 {
-    // Danh sách "thể loại map". Mỗi lần sinh sẽ random chọn 1 theme để ra map khác nhau.
+    [Header("Themes (DungeonManager tự chọn 1)")]
+    // Mỗi theme gom bộ tile + DungeonData (đã chứa generatorType). DungeonManager chọn 1 để sinh.
     [SerializeField]
-    private List<MapThemeSO> mapThemes = new List<MapThemeSO>();
+    private List<MapThemeSO> themes = new List<MapThemeSO>();
 
-    // DungeonData dự phòng: dùng khi danh sách theme trống hoặc theme không gán DungeonData.
+    // -1 = chọn ngẫu nhiên mỗi lần sinh; >=0 = luôn dùng theme tại chỉ số này.
     [SerializeField]
-    private DungeonData fallbackDungeonData;
+    private int themeIndex = -1;
 
-    // Visualizer cũ - KHÔNG chỉnh sửa, chỉ gọi qua các public method có sẵn.
+    [Header("Tham chiếu vẽ & trang trí")]
     [SerializeField]
     private TilemapVisualizer tilemapVisualizer;
 
-    [SerializeField]
-    private DungeonDecorator dungeonDecorator;
-
-    [Header("Undead Swamp Phase")]
-    // Cấu hình riêng cho phase Undead Swamp (kích thước, phòng, tỉ lệ nước...). Bỏ trống thì dùng fallback.
-    [SerializeField]
-    private DungeonData undeadDungeonData;
-
+    // Trang trí cho map Undead (hazard nước, bộ xương, bàn thờ...).
     [SerializeField]
     private UndeadDecorator undeadDecorator;
 
-    // Lớp Tilemap riêng để phủ nước đầm lầy - tách khỏi floor/wall của TilemapVisualizer (không sửa visualizer).
+    // Trang trí cho map Room-First (đuốc trên tường, rương trên sàn).
     [SerializeField]
-    private Tilemap swampTilemap;
+    private DungeonDecorator dungeonDecorator;
 
+    [Header("Cổng sinh quái")]
+    // Vật chứa các cổng đã sinh (để Hierarchy gọn). Bỏ trống sẽ tự tạo.
     [SerializeField]
-    private TileBase swampTile;
+    private Transform portalParent;
 
-    /// <summary>
-    /// Sinh lại dungeon cho Phase 1: random 1 theme, dọn map+vật cũ, sinh mảng mới, vẽ và rải vật.
-    /// </summary>
-    [ContextMenu("Start Phase One")]
-    public void StartPhaseOne()
+    private readonly List<GameObject> spawnedPortals = new List<GameObject>();
+
+    /// <summary>Bắn ra sau mỗi lần sinh map xong (để mini-map dựng lại nền từ <see cref="CurrentMap"/>).</summary>
+    public event Action DungeonGenerated;
+
+    /// <summary>Lưới ô của lần sinh gần nhất; null nếu chưa sinh. Mini-map đọc để dựng texture nền.</summary>
+    public TileType[,] CurrentMap { get; private set; }
+
+    // Tự sinh một dungeon mới mỗi khi vào Phase 1 (Play). Đây cũng là thứ khởi động mini-map:
+    // sinh xong sẽ set CurrentMap và bắn DungeonGenerated cho mini-map dựng nền.
+    private void Start()
     {
-        if (tilemapVisualizer == null || dungeonDecorator == null)
+        GenerateDungeon();
+    }
+
+    /// <summary>Sinh lại map: chọn theme -> chạy đúng generator -> vẽ -> trang trí -> cổng.</summary>
+    [ContextMenu("Generate Dungeon")]
+    public void GenerateDungeon()
+    {
+        MapThemeSO theme = PickTheme();
+        if (theme == null || !HasRequiredReferences())
         {
-            Debug.LogError("[DungeonManager] Thiếu tham chiếu TilemapVisualizer / DungeonDecorator.");
             return;
         }
 
-        // 1. Random chọn 1 thể loại map và xác định DungeonData sẽ dùng.
-        MapThemeSO theme = PickRandomTheme();
-        DungeonData data = ResolveDungeonData(theme);
+        DungeonData data = theme.dungeonData;
         if (data == null)
         {
-            Debug.LogError("[DungeonManager] Không có DungeonData (theme lẫn fallback đều trống).");
+            Debug.LogError("[DungeonManager] Theme chưa gán DungeonData.");
             return;
         }
 
-        // 2. Dọn tile và vật trang trí của lần trước.
-        tilemapVisualizer.Clear();
-        dungeonDecorator.ClearDecorations();
+        PrepareForGeneration(theme);
 
-        // 3. Áp dụng diện mạo + prefab của theme (nếu có).
-        if (theme != null)
+        switch (data.generatorType)
         {
-            tilemapVisualizer.ApplyTheme(theme);
-            dungeonDecorator.SetDecorationPrefabs(theme.torchPrefab, theme.chestPrefab);
+            case DungeonGeneratorType.RoomFirst:
+                GenerateRoomFirst(theme, data);
+                break;
+            case DungeonGeneratorType.UndeadBigRoom:
+                GenerateUndead(data);
+                break;
         }
 
-        // 4. Sinh mảng TileType[,] mới.
-        var generator = new DungeonGenerator(data);
+        DungeonGenerated?.Invoke();
+    }
+
+    // Giữ tên ContextMenu quen thuộc; trỏ về luồng sinh thống nhất.
+    [ContextMenu("Start Undead Phase")]
+    public void StartUndeadPhase()
+    {
+        GenerateDungeon();
+    }
+
+    // Áp theme cho visualizer rồi dọn tile + vật + cổng của lần sinh trước.
+    private void PrepareForGeneration(MapThemeSO theme)
+    {
+        tilemapVisualizer.SetTheme(theme);
+        tilemapVisualizer.Clear();
+        undeadDecorator.ClearSpawned();
+        dungeonDecorator.ClearSpawned();
+        ClearPortals();
+    }
+
+    private void GenerateRoomFirst(MapThemeSO theme, DungeonData data)
+    {
+        var generator = new RoomFirstGenerator(data);
         TileType[,] map = generator.Generate();
+        CurrentMap = map;
 
-        // 5. Chuyển sang tập floor và vẽ qua visualizer cũ (vẽ sàn + tường).
-        HashSet<Vector2Int> floorPositions = CollectFloorPositions(map);
-        tilemapVisualizer.PaintFloorTiles(floorPositions);
-        WallGeneration.CreateWalls(floorPositions, tilemapVisualizer);
+        HashSet<Vector2Int> floorPositions = CollectPositions(map, TileType.Floor);
+        PaintFloorAndWalls(floorPositions);
 
-        // 6. Rải vật trang trí.
         dungeonDecorator.Decorate(map, data, tilemapVisualizer);
+        SpawnPortals(theme, generator.Rooms);
+        PlacePlayerAndCameraAtSpawn(generator.Rooms);
     }
 
-    // Random 1 theme còn hợp lệ; trả null nếu danh sách trống (sẽ dùng fallback).
-    private MapThemeSO PickRandomTheme()
+    private void GenerateUndead(DungeonData data)
     {
-        var validThemes = mapThemes.FindAll(t => t != null);
-        if (validThemes.Count == 0)
-            return null;
-        return validThemes[Random.Range(0, validThemes.Count)];
-    }
-
-    private DungeonData ResolveDungeonData(MapThemeSO theme)
-    {
-        if (theme != null && theme.dungeonData != null)
-            return theme.dungeonData;
-        return fallbackDungeonData;
-    }
-
-    // Bộ chuyển đổi: TileType[,] -> HashSet<Vector2Int> các ô sàn,
-    // đúng định dạng mà TilemapVisualizer/WallGeneration cũ mong đợi.
-    private HashSet<Vector2Int> CollectFloorPositions(TileType[,] map)
-    {
-        var floorPositions = new HashSet<Vector2Int>();
-        int width = map.GetLength(0);
-        int height = map.GetLength(1);
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (map[x, y] == TileType.Floor)
-                    floorPositions.Add(new Vector2Int(x, y));
-            }
-        }
-
-        return floorPositions;
-    }
-
-    // ===================== Undead Swamp Phase =====================
-
-    /// <summary>
-    /// Sinh map Undead Swamp (Room-First, vuông, thoáng cho nhân vật tầm xa):
-    /// dọn map+vật cũ -> sinh layout -> vẽ sàn/tường (visualizer cũ) + phủ nước -> rải hazard/vật/cổng.
-    /// Không đụng tới pipeline Cellular Automata của StartPhaseOne.
-    /// </summary>
-    [ContextMenu("Start Undead Swamp Phase")]
-    public void StartUndeadSwampPhase()
-    {
-        if (tilemapVisualizer == null || undeadDecorator == null)
-        {
-            Debug.LogError("[DungeonManager] Thiếu tham chiếu TilemapVisualizer / UndeadDecorator.");
-            return;
-        }
-
-        DungeonData data = undeadDungeonData != null ? undeadDungeonData : fallbackDungeonData;
-        if (data == null)
-        {
-            Debug.LogError("[DungeonManager] Không có DungeonData cho Undead Swamp (cả undeadDungeonData lẫn fallback đều trống).");
-            return;
-        }
-
-        // 1. Dọn tile cũ (floor/wall qua visualizer cũ + lớp nước) và vật của cả hai pipeline.
-        tilemapVisualizer.Clear();
-        ClearSwampTiles();
-        dungeonDecorator?.ClearDecorations();
-        undeadDecorator.ClearProps();
-
-        // 2. Sinh ma trận layout kiểu Room-First.
-        var generator = new UndeadSwampGenerator(data);
+        var generator = new UndeadGenerator(data);
         TileType[,] map = generator.Generate();
+        CurrentMap = map;
 
-        // 3. Vẽ sàn + tường qua visualizer cũ. Ô nước/cổng vẫn tính là sàn để có nền đi lại
-        //    và để tường được tính đúng quanh toàn bộ vùng walkable.
-        HashSet<Vector2Int> floorPositions = CollectWalkablePositions(map);
-        tilemapVisualizer.PaintFloorTiles(floorPositions);
-        WallGeneration.CreateWalls(floorPositions, tilemapVisualizer);
+        // Ô nước/cổng vẫn tính là sàn để có nền đi lại và tính tường đúng quanh toàn vùng.
+        HashSet<Vector2Int> walkablePositions =
+            CollectPositions(map, TileType.Floor, TileType.SwampWater, TileType.Gate);
+        PaintFloorAndWalls(walkablePositions);
 
-        // 4. Phủ tile nước lên các ô SwampWater (lớp Tilemap riêng).
-        PaintSwampTiles(map);
-
-        // 5. Rải hazard nước, cây/sọ trên sàn, và cổng ở phòng cuối.
-        undeadDecorator.Decorate(map, tilemapVisualizer);
+        undeadDecorator.Decorate(map, generator.Rooms, data, tilemapVisualizer);
+        PlacePlayerAndCameraAtSpawn(generator.Rooms);
     }
 
-    // Vùng đi lại được = Floor + SwampWater + Gate (nước và cổng đều nằm trên nền sàn).
-    private HashSet<Vector2Int> CollectWalkablePositions(TileType[,] map)
+    // Sau khi sinh map ngẫu nhiên, dời người chơi (và camera) về tâm phòng đầu tiên - ô luôn
+    // đi được (sàn hoặc cổng) - để tránh avatar bị kẹt trong tường ở vị trí cố định cũ.
+    private void PlacePlayerAndCameraAtSpawn(IReadOnlyList<RectInt> rooms)
+    {
+        if (rooms == null || rooms.Count == 0)
+        {
+            return;
+        }
+
+        Vector2Int spawnCell = RoomCenter(rooms[0]);
+        Vector3 spawnWorld = tilemapVisualizer.CellToWorldCenter(spawnCell);
+
+        PlayerControll player = FindFirstObjectByType<PlayerControll>();
+        if (player != null)
+        {
+            player.transform.position = new Vector3(spawnWorld.x, spawnWorld.y, player.transform.position.z);
+        }
+
+        RTSCamera camera = FindFirstObjectByType<RTSCamera>();
+        if (camera != null)
+        {
+            camera.MoveTo(spawnWorld);
+        }
+    }
+
+    private static Vector2Int RoomCenter(RectInt room)
+    {
+        return new Vector2Int(room.xMin + room.width / 2, room.yMin + room.height / 2);
+    }
+
+    private MapThemeSO PickTheme()
+    {
+        if (themes == null || themes.Count == 0)
+        {
+            Debug.LogError("[DungeonManager] Chưa gán theme nào trong danh sách 'themes'.");
+            return null;
+        }
+
+        if (themeIndex >= 0 && themeIndex < themes.Count)
+        {
+            return themes[themeIndex];
+        }
+
+        return themes[Random.Range(0, themes.Count)];
+    }
+
+    private bool HasRequiredReferences()
+    {
+        if (tilemapVisualizer == null || undeadDecorator == null || dungeonDecorator == null)
+        {
+            Debug.LogError(
+                "[DungeonManager] Thiếu tham chiếu TilemapVisualizer / UndeadDecorator / DungeonDecorator.");
+            return false;
+        }
+
+        return true;
+    }
+
+    // TileType[,] -> HashSet<Vector2Int> các ô thuộc wantedTypes (định dạng visualizer/WallGeneration cần).
+    private HashSet<Vector2Int> CollectPositions(TileType[,] map, params TileType[] wantedTypes)
     {
         var positions = new HashSet<Vector2Int>();
         int width = map.GetLength(0);
@@ -177,8 +199,7 @@ public class DungeonManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                TileType tile = map[x, y];
-                if (tile == TileType.Floor || tile == TileType.SwampWater || tile == TileType.Gate)
+                if (System.Array.IndexOf(wantedTypes, map[x, y]) >= 0)
                     positions.Add(new Vector2Int(x, y));
             }
         }
@@ -186,31 +207,81 @@ public class DungeonManager : MonoBehaviour
         return positions;
     }
 
-    // Phủ swampTile lên đúng các ô SwampWater. Dùng cùng quy ước tọa độ như visualizer cũ.
-    private void PaintSwampTiles(TileType[,] map)
+    // Vẽ sàn rồi dựng tường quanh vùng đi lại qua pipeline vẽ có sẵn.
+    private void PaintFloorAndWalls(HashSet<Vector2Int> floorPositions)
     {
-        if (swampTilemap == null || swampTile == null)
-            return;
+        tilemapVisualizer.PaintFloorTiles(floorPositions);
+        WallGeneration.CreateWalls(floorPositions, tilemapVisualizer);
+    }
 
-        int width = map.GetLength(0);
-        int height = map.GetLength(1);
+    // ----- Cổng sinh quái (chỉ map Room-First) -----
 
-        for (int x = 0; x < width; x++)
+    // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ theme.portalCount).
+    private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms)
+    {
+        if (theme.portalPrefab == null || theme.portalCount <= 0 || rooms == null || rooms.Count == 0)
         {
-            for (int y = 0; y < height; y++)
-            {
-                if (map[x, y] != TileType.SwampWater)
-                    continue;
+            return;
+        }
 
-                var worldCell = new Vector3Int(x, y, 0);
-                swampTilemap.SetTile(swampTilemap.WorldToCell(worldCell), swampTile);
-            }
+        EnsurePortalParent();
+
+        List<Vector2Int> centers = ShuffledRoomCenters(rooms);
+        int portalsToSpawn = Mathf.Min(theme.portalCount, centers.Count);
+        for (int i = 0; i < portalsToSpawn; i++)
+        {
+            Vector3 worldPosition = tilemapVisualizer.CellToWorldCenter(centers[i]);
+            GameObject portal = Instantiate(theme.portalPrefab, worldPosition, Quaternion.identity, portalParent);
+            spawnedPortals.Add(portal);
         }
     }
 
-    private void ClearSwampTiles()
+    private void EnsurePortalParent()
     {
-        if (swampTilemap != null)
-            swampTilemap.ClearAllTiles();
+        if (portalParent == null)
+        {
+            portalParent = new GameObject("Portals").transform;
+            portalParent.SetParent(transform, false);
+        }
+    }
+
+    // Tâm các phòng, đã trộn ngẫu nhiên -> mỗi phòng tối đa một cổng, vị trí ngẫu nhiên.
+    private List<Vector2Int> ShuffledRoomCenters(IReadOnlyList<RectInt> rooms)
+    {
+        var centers = new List<Vector2Int>(rooms.Count);
+        foreach (RectInt room in rooms)
+        {
+            centers.Add(RoomCenter(room));
+        }
+
+        for (int i = centers.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (centers[i], centers[j]) = (centers[j], centers[i]);
+        }
+
+        return centers;
+    }
+
+    private void ClearPortals()
+    {
+        foreach (GameObject portal in spawnedPortals)
+        {
+            if (portal == null)
+            {
+                continue;
+            }
+
+            if (Application.isPlaying)
+            {
+                Destroy(portal);
+            }
+            else
+            {
+                DestroyImmediate(portal);
+            }
+        }
+
+        spawnedPortals.Clear();
     }
 }

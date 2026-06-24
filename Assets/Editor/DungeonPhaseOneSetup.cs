@@ -147,10 +147,20 @@ public class DungeonPhaseOneSetup : EditorWindow
     private void WireManager(DungeonManager manager, DungeonData data, TilemapVisualizer visualizer, DungeonDecorator decorator)
     {
         var so = new SerializedObject(manager);
-        so.FindProperty("fallbackDungeonData").objectReferenceValue = data;
-        so.FindProperty("tilemapVisualizer").objectReferenceValue = visualizer;
-        so.FindProperty("dungeonDecorator").objectReferenceValue = decorator;
+        // DungeonManager chọn map qua danh sách 'themes' (mỗi theme tự ôm DungeonData); ở đây chỉ
+        // gán những tham chiếu trực tiếp mà tool tạo ra. Mỗi property đều kiểm tra null cho an toàn.
+        AssignReference(so, "tilemapVisualizer", visualizer);
+        AssignReference(so, "dungeonDecorator", decorator);
         so.ApplyModifiedProperties();
+    }
+
+    private static void AssignReference(SerializedObject so, string propertyName, Object value)
+    {
+        SerializedProperty property = so.FindProperty(propertyName);
+        if (property != null)
+        {
+            property.objectReferenceValue = value;
+        }
     }
 
     private static T GetOrAddComponent<T>(GameObject go) where T : Component

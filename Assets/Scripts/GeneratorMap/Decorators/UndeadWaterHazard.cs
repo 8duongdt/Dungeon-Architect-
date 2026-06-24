@@ -9,7 +9,7 @@ using UnityEngine;
 /// kích hoạt riêng nên nhiều unit cùng đứng trong nước vẫn được làm chậm/hồi độc lập.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-public class SwampWaterHazard : MonoBehaviour
+public class UndeadWaterHazard : MonoBehaviour
 {
     [Tooltip("Hệ số tốc độ khi unit lội trong nước (0.5 = còn một nửa tốc độ gốc).")]
     [Range(0f, 1f)]

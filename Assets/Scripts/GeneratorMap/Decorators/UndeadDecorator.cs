@@ -2,164 +2,203 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Rải hazard + vật trang trí cho map Undead Swamp dựa trên ma trận TileType[,] do
-/// <see cref="UndeadSwampGenerator"/> sinh ra. CHỈ đọc layout và spawn prefab - không tự sinh map.
+/// Rải hazard + vật trang trí cho map Undead Swamp dựa trên ma trận <see cref="TileType"/>[,] do
+/// <see cref="UndeadGenerator"/> sinh ra. CHỈ đọc layout và spawn prefab - không tự sinh map,
+/// KHÔNG sửa <see cref="TilemapVisualizer"/> (chỉ gọi public method để đổi ô -> tâm ô thế giới).
 ///
 /// Đặt vật theo NGỮ CẢNH (spatial awareness) thay vì rải ngẫu nhiên thuần:
-///   - Cây khô  -> mọc ở "bờ nước" (ô sàn sát SwampWater).
-///   - Đống sọ  -> chỉ trên đất khô (không có nước trong bán kính 2 ô).
-///   - Bẫy chông -> ở "điểm nghẽn" (hành lang/cửa hẹp, sàn kẹp giữa hai tường).
-/// Ngoài ra spawn hazard nước (1:1) và cổng ở đúng tọa độ generator đánh dấu.
-/// Dùng TilemapVisualizer (không sửa đổi) để đổi tọa độ ô sang tâm ô thế giới.
+///   - Vua bộ xương khổng lồ -> góc TRÊN của phòng lớn, tựa vào tường (ranh giới hoành tráng).
+///   - Cây gai khô            -> "bờ nước" (ô sàn có hàng xóm là SwampWater).
+///   - Dây gai                -> cụm 2-4 nối tiếp trên đất khô (chướng ngại tuyến tính).
+///   - Sọ / xương / bia mộ    -> rải lẻ trên đất khô, không sát nước.
+///   - Bàn thờ/Crypt trung tâm-> ô Gate ở tâm khu vực (cổng thoát Phase 1).
 /// </summary>
-public class UndeadDecorator : MonoBehaviour
+public class UndeadDecorator : DungeonDecoratorBase
 {
     // Bán kính (Chebyshev) tính "bờ nước": 1 = xét đúng 8 ô lân cận.
     private const int ShorelineRadius = 1;
 
-    // Sọ chỉ đặt khi KHÔNG có nước trong bán kính này -> giữ sọ trên đất khô.
-    private const int SkullDrySafeRadius = 2;
+    // Trang trí lẻ chỉ đặt khi KHÔNG có nước trong bán kính này -> đất khô thực sự.
+    private const int DecorationDryRadius = 1;
 
-    [Header("Hazard / Cổng")]
+    // Vua bộ xương chỉ dựng ở phòng đủ lớn (mỗi cạnh >= ngưỡng này) để không chiếm không gian đánh nhau.
+    private const int GiantSkeletonMinRoomDimension = 14;
+
+    // Một cụm dây gai dài từ 2 đến 4 ô nối tiếp.
+    private const int ThornVineMinCluster = 2;
+    private const int ThornVineMaxCluster = 4;
+
+    [Header("Hazard nước & Bàn thờ trung tâm")]
     [SerializeField] private GameObject swampWaterHazardPrefab;
-    [SerializeField] private GameObject gatePrefab;
+    [Tooltip("Bàn thờ / Crypt đặt ở ô Gate - cổng thoát Phase 1.")]
+    [SerializeField] private GameObject centralAltarPrefab;
 
-    [Header("Cây khô - mọc ở bờ nước (Objects_separately)")]
-    [SerializeField] private GameObject deadTreePrefab;
-    [Tooltip("Tỉ lệ % một ô bờ nước mọc cây khô.")]
+    [Header("Vua bộ xương khổng lồ - góc trên phòng lớn (undead_king_skeleton)")]
+    [SerializeField] private GameObject giantSkeletonPrefab;
+
+    [Header("Cây gai khô - mép nước")]
+    [SerializeField] private GameObject shorelineTreePrefab;
+    [Tooltip("Tỉ lệ % một ô bờ nước mọc cây gai khô.")]
     [Range(0f, 100f)]
-    [SerializeField] private float treeShorelineChance = 60f;
+    [SerializeField] private float treeShorelineChance = 50f;
 
-    [Header("Đống sọ - chỉ trên đất khô (undead_skull_pile)")]
-    [SerializeField] private GameObject skullPilePrefab;
-    [Tooltip("Tỉ lệ % một ô đất khô hợp lệ đặt đống sọ.")]
+    [Header("Dây gai - chướng ngại tuyến tính")]
+    [SerializeField] private GameObject thornVinePrefab;
+
+    [Header("Trang trí lẻ - đất khô (sọ / xương / bia mộ)")]
+    [SerializeField] private GameObject[] decorationPrefabs;
+    [Tooltip("Tỉ lệ % một ô đất khô hợp lệ đặt một vật trang trí lẻ.")]
     [Range(0f, 100f)]
-    [SerializeField] private float skullDryChance = 10f;
+    [SerializeField] private float decorationScatterChance = 8f;
 
-    [Header("Bẫy chông - ở điểm nghẽn (undead_spike_trap)")]
+    [Header("Bẫy chông - điểm nghẽn")]
     [SerializeField] private GameObject spikeTrapPrefab;
     [Tooltip("Tỉ lệ % một ô điểm nghẽn đặt bẫy chông.")]
     [Range(0f, 100f)]
     [SerializeField] private float spikeTrapChance = 40f;
 
-    // Gốc gom các vật đã spawn (để scene gọn và dễ dọn). Có thể bỏ trống.
-    [Header("Tổ chức scene")]
-    [SerializeField] private Transform propParent;
+    // 4 hướng đặt dây gai theo trục (phải/trái/lên/xuống).
+    private static readonly Vector2Int[] AxisDirections =
+    {
+        new Vector2Int(1, 0), new Vector2Int(-1, 0),
+        new Vector2Int(0, 1), new Vector2Int(0, -1)
+    };
 
-    // Theo dõi vật đã spawn để dọn ở lần sinh map sau.
-    private readonly List<GameObject> spawnedProps = new List<GameObject>();
-
-    // Các ô sàn đã có vật, để 3 luật đặt không chồng lên nhau.
+    // Các ô sàn đã có vật, để các luật đặt không chồng lên nhau.
     private readonly HashSet<Vector2Int> occupiedFloorTiles = new HashSet<Vector2Int>();
 
     // Ngữ cảnh của lần Decorate hiện tại (các sub-method dùng chung, không cần truyền tham số).
     private TileType[,] map;
+    private DungeonData data;
     private TilemapVisualizer visualizer;
     private int mapWidth;
     private int mapHeight;
 
     /// <summary>
-    /// Spawn hazard/cổng rồi đặt vật trang trí theo ngữ cảnh. Thứ tự ưu tiên ô tranh chấp:
-    /// bẫy (gameplay) -> cây (bờ nước) -> sọ (đất khô).
+    /// Spawn hazard/bàn thờ rồi đặt vật theo ngữ cảnh. Thứ tự ưu tiên ô tranh chấp (đặt trước = thắng):
+    /// bàn thờ -> bộ xương khổng lồ -> bẫy chông -> dây gai -> cây bờ nước -> trang trí lẻ.
     /// </summary>
-    public void Decorate(TileType[,] map, TilemapVisualizer visualizer)
+    public void Decorate(
+        TileType[,] map, IReadOnlyList<RectInt> rooms, DungeonData data, TilemapVisualizer visualizer)
     {
-        if (map == null || visualizer == null)
+        if (map == null || data == null || visualizer == null)
         {
             return;
         }
 
+        BeginDecorationContext(map, data, visualizer);
+
+        SpawnSwampHazards();
+        SpawnCentralAltar();
+        SpawnGiantSkeletons(rooms);
+        SpawnSpikeTrapsInChokePoints();
+        SpawnThornVines();
+        SpawnShorelineTrees();
+        SpawnDecorations();
+    }
+
+    private void BeginDecorationContext(TileType[,] map, DungeonData data, TilemapVisualizer visualizer)
+    {
         this.map = map;
+        this.data = data;
         this.visualizer = visualizer;
         mapWidth = map.GetLength(0);
         mapHeight = map.GetLength(1);
         occupiedFloorTiles.Clear();
-
-        SpawnSwampHazardsAndGate();
-        SpawnSpikeTrapsInChokePoints();
-        SpawnTreesNearWater();
-        SpawnSkullsOnDryFloor();
     }
 
-    // Phủ hazard lên ô nước (1:1) và đặt cổng ở ô Gate. Không đụng tới ô sàn.
-    private void SpawnSwampHazardsAndGate()
+    // ----- Hazard nước (1:1 trên ô SwampWater); không chiếm ô sàn -----
+
+    private void SpawnSwampHazards()
     {
+        if (swampWaterHazardPrefab == null)
+        {
+            return;
+        }
+
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
                 if (map[x, y] == TileType.SwampWater)
                 {
-                    Spawn(swampWaterHazardPrefab, x, y);
-                }
-                else if (map[x, y] == TileType.Gate)
-                {
-                    Spawn(gatePrefab, x, y);
+                    Spawn(swampWaterHazardPrefab, visualizer, new Vector2Int(x, y));
                 }
             }
         }
     }
 
-    /// <summary>
-    /// Cây khô mọc ra từ mép đầm lầy: mỗi ô Floor có ÍT NHẤT một trong 8 hàng xóm là SwampWater
-    /// được coi là "bờ nước" và mọc cây với xác suất cao (treeShorelineChance).
-    /// </summary>
-    private void SpawnTreesNearWater()
+    /// <summary>Đặt bàn thờ/Crypt ở ô Gate (tâm khu vực) làm cổng thoát Phase 1.</summary>
+    private void SpawnCentralAltar()
     {
-        if (deadTreePrefab == null)
+        if (centralAltarPrefab == null || !TryFindGate(out Vector2Int gate))
         {
             return;
         }
 
+        SpawnFloorProp(centralAltarPrefab, gate.x, gate.y);
+    }
+
+    private bool TryFindGate(out Vector2Int gate)
+    {
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
-                if (!IsPlaceableFloor(x, y))
+                if (map[x, y] == TileType.Gate)
                 {
-                    continue;
-                }
-
-                bool isShoreline = HasSwampWithinRadius(x, y, ShorelineRadius);
-                if (isShoreline && RollPercent(treeShorelineChance))
-                {
-                    SpawnFloorProp(deadTreePrefab, x, y);
+                    gate = new Vector2Int(x, y);
+                    return true;
                 }
             }
         }
+
+        gate = default;
+        return false;
     }
 
     /// <summary>
-    /// Đống sọ CHỈ đặt trên ô Floor không có ô SwampWater nào trong bán kính 2 ô -> nằm trên đất khô.
+    /// Dựng Vua bộ xương khổng lồ ở HAI góc trên của mỗi phòng lớn, tựa vào tường. Góc phòng
+    /// luôn kề tường (mép ngoài phòng) nên bộ xương đứng sát viền, không lấn vào không gian combat.
     /// </summary>
-    private void SpawnSkullsOnDryFloor()
+    private void SpawnGiantSkeletons(IReadOnlyList<RectInt> rooms)
     {
-        if (skullPilePrefab == null)
+        if (giantSkeletonPrefab == null || rooms == null)
         {
             return;
         }
 
-        for (int x = 0; x < mapWidth; x++)
+        foreach (RectInt room in rooms)
         {
-            for (int y = 0; y < mapHeight; y++)
+            if (!IsLargeRoom(room))
             {
-                if (!IsPlaceableFloor(x, y))
-                {
-                    continue;
-                }
-
-                bool isDryLand = !HasSwampWithinRadius(x, y, SkullDrySafeRadius);
-                if (isDryLand && RollPercent(skullDryChance))
-                {
-                    SpawnFloorProp(skullPilePrefab, x, y);
-                }
+                continue;
             }
+
+            int topRow = room.yMax - 1;
+            TryPlaceGiantSkeleton(room.xMin, topRow);
+            TryPlaceGiantSkeleton(room.xMax - 1, topRow);
+        }
+    }
+
+    private bool IsLargeRoom(RectInt room)
+    {
+        return room.width >= GiantSkeletonMinRoomDimension
+            && room.height >= GiantSkeletonMinRoomDimension;
+    }
+
+    private void TryPlaceGiantSkeleton(int x, int y)
+    {
+        bool isCornerAgainstWall = IsPlaceableFloor(x, y) && LeansAgainstWall(x, y);
+        if (isCornerAgainstWall && RollPercent(data.giantSkeletonSpawnChance))
+        {
+            SpawnFloorProp(giantSkeletonPrefab, x, y);
         }
     }
 
     /// <summary>
-    /// Bẫy chông ở "điểm nghẽn": ô Floor bị kẹp chặt giữa hai ô Wall (hành lang/cửa hẹp 1 ô) -
-    /// nơi người chơi tầm xa buộc phải đi qua, thách thức việc chọn vị trí.
+    /// Bẫy chông ở "điểm nghẽn": ô Floor bị kẹp giữa hai tường (lối hẹp 1 ô) - nơi người chơi
+    /// tầm xa buộc phải đi qua, thách thức việc chọn vị trí.
     /// </summary>
     private void SpawnSpikeTrapsInChokePoints()
     {
@@ -168,30 +207,113 @@ public class UndeadDecorator : MonoBehaviour
             return;
         }
 
-        for (int x = 0; x < mapWidth; x++)
+        ForEachPlaceableFloor((x, y) =>
         {
-            for (int y = 0; y < mapHeight; y++)
+            if (IsChokePoint(x, y) && RollPercent(spikeTrapChance))
             {
-                if (!IsPlaceableFloor(x, y))
-                {
-                    continue;
-                }
-
-                if (IsChokePoint(x, y) && RollPercent(spikeTrapChance))
-                {
-                    SpawnFloorProp(spikeTrapPrefab, x, y);
-                }
+                SpawnFloorProp(spikeTrapPrefab, x, y);
             }
+        });
+    }
+
+    /// <summary>
+    /// Dây gai thành CỤM tuyến tính: từ một ô đất khô khởi đầu, kéo một đường thẳng 2-4 ô và
+    /// đặt dây gai trên các ô đất khô liên tiếp -> hàng rào chặn lối đi tự nhiên.
+    /// </summary>
+    private void SpawnThornVines()
+    {
+        if (thornVinePrefab == null)
+        {
+            return;
+        }
+
+        ForEachPlaceableFloor((x, y) =>
+        {
+            if (IsDryFloor(x, y) && RollPercent(data.thornyVineDensity))
+            {
+                PlaceThornVineCluster(x, y);
+            }
+        });
+    }
+
+    private void PlaceThornVineCluster(int startX, int startY)
+    {
+        Vector2Int direction = AxisDirections[Random.Range(0, AxisDirections.Length)];
+        int clusterLength = RandomRange(ThornVineMinCluster, ThornVineMaxCluster);
+
+        var cell = new Vector2Int(startX, startY);
+        for (int i = 0; i < clusterLength; i++)
+        {
+            if (!IsPlaceableFloor(cell.x, cell.y) || !IsDryFloor(cell.x, cell.y))
+            {
+                return;
+            }
+
+            SpawnFloorProp(thornVinePrefab, cell.x, cell.y);
+            cell += direction;
         }
     }
+
+    /// <summary>
+    /// Cây gai mọc ra từ mép đầm lầy: mỗi ô Floor có ÍT NHẤT một trong 8 hàng xóm là SwampWater
+    /// được coi là "bờ nước" và mọc cây với xác suất treeShorelineChance.
+    /// </summary>
+    private void SpawnShorelineTrees()
+    {
+        if (shorelineTreePrefab == null)
+        {
+            return;
+        }
+
+        ForEachPlaceableFloor((x, y) =>
+        {
+            bool isShoreline = HasSwampWithinRadius(x, y, ShorelineRadius);
+            if (isShoreline && RollPercent(treeShorelineChance))
+            {
+                SpawnFloorProp(shorelineTreePrefab, x, y);
+            }
+        });
+    }
+
+    /// <summary>
+    /// Rải vật trang trí lẻ (sọ/xương/bia mộ) trên ô đất khô không có nước kề bên - thuần thẩm mỹ.
+    /// </summary>
+    private void SpawnDecorations()
+    {
+        if (decorationPrefabs == null || decorationPrefabs.Length == 0)
+        {
+            return;
+        }
+
+        ForEachPlaceableFloor((x, y) =>
+        {
+            if (IsDryFloor(x, y) && RollPercent(decorationScatterChance))
+            {
+                SpawnFloorProp(PickRandomDecoration(), x, y);
+            }
+        });
+    }
+
+    private GameObject PickRandomDecoration()
+    {
+        return decorationPrefabs[Random.Range(0, decorationPrefabs.Length)];
+    }
+
+    // ----- Vị từ ngữ cảnh (spatial checks) -----
 
     // Ô đặt được = là Floor và chưa có vật nào chiếm.
     private bool IsPlaceableFloor(int x, int y)
     {
-        return map[x, y] == TileType.Floor && !occupiedFloorTiles.Contains(new Vector2Int(x, y));
+        return IsTile(x, y, TileType.Floor) && !occupiedFloorTiles.Contains(new Vector2Int(x, y));
     }
 
-    // true nếu có ít nhất một ô SwampWater trong vùng vuông bán kính cho trước (bỏ qua ô tâm là sàn).
+    // Đất khô = không có ô SwampWater nào trong bán kính trang trí.
+    private bool IsDryFloor(int x, int y)
+    {
+        return !HasSwampWithinRadius(x, y, DecorationDryRadius);
+    }
+
+    // true nếu có ít nhất một ô SwampWater trong vùng vuông bán kính cho trước.
     private bool HasSwampWithinRadius(int centerX, int centerY, int radius)
     {
         for (int dx = -radius; dx <= radius; dx++)
@@ -216,59 +338,50 @@ public class UndeadDecorator : MonoBehaviour
         return squeezedHorizontally || squeezedVertically;
     }
 
+    // true nếu có ít nhất một trong 4 ô kề là tường (vật tựa vào tường).
+    private bool LeansAgainstWall(int x, int y)
+    {
+        return IsTile(x - 1, y, TileType.Wall) || IsTile(x + 1, y, TileType.Wall)
+            || IsTile(x, y - 1, TileType.Wall) || IsTile(x, y + 1, TileType.Wall);
+    }
+
     private bool IsTile(int x, int y, TileType type)
     {
         return x >= 0 && y >= 0 && x < mapWidth && y < mapHeight && map[x, y] == type;
     }
 
+    // ----- Quét lưới & spawn -----
+
+    // Duyệt mọi ô đặt được và áp một hành động đặt vật lên nó (gom vòng lặp lưới về một chỗ).
+    private void ForEachPlaceableFloor(System.Action<int, int> placeAction)
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                if (IsPlaceableFloor(x, y))
+                {
+                    placeAction(x, y);
+                }
+            }
+        }
+    }
+
     // Spawn một vật trên ô sàn và đánh dấu ô đó đã bị chiếm (chống chồng vật).
     private void SpawnFloorProp(GameObject prefab, int x, int y)
     {
-        Spawn(prefab, x, y);
+        Spawn(prefab, visualizer, new Vector2Int(x, y));
         occupiedFloorTiles.Add(new Vector2Int(x, y));
     }
 
-    private void Spawn(GameObject prefab, int x, int y)
+    private int RandomRange(int minInclusive, int maxInclusive)
     {
-        if (prefab == null)
-        {
-            return;
-        }
-
-        Vector3 worldPosition = visualizer.CellToWorldCenter(new Vector2Int(x, y));
-        GameObject instance = Instantiate(prefab, worldPosition, Quaternion.identity, propParent);
-        spawnedProps.Add(instance);
+        return Random.Range(minInclusive, maxInclusive + 1);
     }
 
-    // true nếu trúng theo tỉ lệ phần trăm (0-100).
-    private static bool RollPercent(float percent)
+    // Dọn thêm tập ô đã chiếm mỗi khi base dọn các vật đã spawn.
+    protected override void OnCleared()
     {
-        return Random.value * 100f < percent;
-    }
-
-    /// <summary>
-    /// Dọn toàn bộ hazard/vật trang trí của lần sinh map trước.
-    /// </summary>
-    public void ClearProps()
-    {
-        foreach (GameObject prop in spawnedProps)
-        {
-            if (prop == null)
-            {
-                continue;
-            }
-
-            if (Application.isPlaying)
-            {
-                Destroy(prop);
-            }
-            else
-            {
-                DestroyImmediate(prop);
-            }
-        }
-
-        spawnedProps.Clear();
         occupiedFloorTiles.Clear();
     }
 }

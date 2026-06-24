@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ce78f296aa469b4e8c95f80a4714f55, type: 3}
   m_Name: MapTheme_DarkDungeon
   m_EditorClassIdentifier: Assembly-CSharp::MapThemeSO
-  dungeonData: {fileID: 0}
-  floorTile: {fileID: 0}
-  wallTop: {fileID: 0}
-  wallSideRight: {fileID: 0}
-  wallSideLeft: {fileID: 0}
-  wallBottom: {fileID: 0}
-  wallFull: {fileID: 0}
+  dungeonData: {fileID: 11400000, guid: afb13257eb449754f9e1f866a50e3d37, type: 2}
+  floorTile: {fileID: 11400000, guid: 0e8647025afeb5840a2a222d16a39de5, type: 2}
+  wallTop: {fileID: 11400000, guid: f49c5a409be1151459612221bbfcf7a6, type: 2}
+  wallSideRight: {fileID: 11400000, guid: 76899599432bde946b8edcbae69f3796, type: 2}
+  wallSideLeft: {fileID: 11400000, guid: 5595cb7e7646a0c42bb5eb2f37dcf7c5, type: 2}
+  wallBottom: {fileID: 11400000, guid: dccdc33ca6646234ab946be4f707879b, type: 2}
+  wallFull: {fileID: 11400000, guid: 5225d96f00615644495c7e407f778c27, type: 2}
   wallInnerCornerDownLeft: {fileID: 0}
   wallInnerCornerDownRight: {fileID: 0}
-  wallDiagonalCornerDownRight: {fileID: 0}
-  wallDiagonalCornerDownLeft: {fileID: 0}
-  wallDiagonalCornerUpRight: {fileID: 0}
-  wallDiagonalCornerUpLeft: {fileID: 0}
+  wallDiagonalCornerDownRight: {fileID: 11400000, guid: 77b49ffb890d99047aea9160b48dedd1, type: 2}
+  wallDiagonalCornerDownLeft: {fileID: 11400000, guid: c866bc4746b00e14dba3aa756c967bf4, type: 2}
+  wallDiagonalCornerUpRight: {fileID: 11400000, guid: 0647dbe876f6d354bab12965eefb774c, type: 2}
+  wallDiagonalCornerUpLeft: {fileID: 11400000, guid: f3f2c1e83387ab74282c685d073ad408, type: 2}
   torchPrefab: {fileID: 0}
   chestPrefab: {fileID: 0}
+  portalPrefab: {fileID: 0}
+  portalCount: 1

@@ -31,4 +31,12 @@ public class MapThemeSO : ScriptableObject
     [Header("Prefab trang trí")]
     public GameObject torchPrefab;
     public GameObject chestPrefab;
+
+    [Header("Cổng sinh quái (Room-First)")]
+    // Cổng (EnemySpawner) rải vào tâm một vài phòng khi sinh map kiểu Room-First.
+    public GameObject portalPrefab;
+
+    // Số cổng tối đa; sẽ bị giới hạn theo số phòng hiện có.
+    [Min(0)]
+    public int portalCount = 1;
 }

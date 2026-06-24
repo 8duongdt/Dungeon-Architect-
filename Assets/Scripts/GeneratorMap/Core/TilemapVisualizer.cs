@@ -1,9 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Vẽ sàn/tường lên Tilemap. KHÔNG còn giữ bộ tile riêng - bộ tile là nguồn DUY NHẤT ở
+/// <see cref="MapThemeSO"/>. DungeonManager gọi <see cref="SetTheme"/> trước khi vẽ để chọn diện mạo.
+/// </summary>
 public class TilemapVisualizer : MonoBehaviour
 {
     [SerializeField]
@@ -12,76 +15,23 @@ public class TilemapVisualizer : MonoBehaviour
     [SerializeField]
     private Tilemap wallTilemap;
 
-    [SerializeField]
-    private TileBase floorTile;
+    // Theme đang dùng để lấy tile sàn/tường. Gán qua SetTheme trước khi paint.
+    private MapThemeSO activeTheme;
 
-    // Wall: ô tường phía trên - dùng khi ô này ở trên cùng của nhóm tường (floor dưới ô này)
-    [SerializeField]
-    private TileBase wallTop;
-
-    // Wall: cạnh phải - dùng khi ô có sàn ở bên phải
-    [SerializeField]
-    private TileBase wallSideRight;
-
-    // Wall: cạnh trái - dùng khi ô có sàn ở bên trái
-    [SerializeField]
-    private TileBase wallSiderLeft;
-
-    // Wall: phía dưới - dùng khi ô này là đáy tường (sàn ở trên ô này)
-    [SerializeField]
-    private TileBase wallBottom;
-
-    // Wall: tường đầy (được dùng khi ô này được bao quanh bởi sàn nhiều hướng)
-    [SerializeField]
-    private TileBase wallFull;
-
-    [SerializeField]
-    private TileBase wallInnerCornerDownLeft;
-
-    // Inner corner: góc trong phía dưới-trái (sàn có xu hướng tạo góc lõm ở dưới trái)
-    [SerializeField]
-    private TileBase wallInnerCornerDownRight;
-
-    // Inner corner: góc trong phía dưới-phải (sàn có xu hướng tạo góc lõm ở dưới phải)
-    [SerializeField]
-    private TileBase wallDiagonalCornerDownRight;
-
-    // Diagonal corner: góc chéo xuống phải
-    [SerializeField]
-    private TileBase wallDiagonalCornerDownLeft;
-
-    // Diagonal corner: góc chéo xuống trái
-    [SerializeField]
-    private TileBase wallDiagonalCornerUpRight;
-
-    // Diagonal corner: góc chéo lên phải
-    [SerializeField]
-    private TileBase wallDiagonalCornerUpLeft;
-
-    // Áp dụng một bộ tile (theme) lúc chạy để đổi diện mạo map.
-    // Chỉ ghi đè khi theme có giá trị (giữ nguyên tile mặc định nếu field theme bỏ trống).
-    public void ApplyTheme(MapThemeSO theme)
+    /// <summary>Chọn bộ tile (theme) sẽ dùng cho các lần paint kế tiếp.</summary>
+    public void SetTheme(MapThemeSO theme)
     {
-        if (theme == null)
-            return;
-
-        floorTile = theme.floorTile != null ? theme.floorTile : floorTile;
-        wallTop = theme.wallTop != null ? theme.wallTop : wallTop;
-        wallSideRight = theme.wallSideRight != null ? theme.wallSideRight : wallSideRight;
-        wallSiderLeft = theme.wallSideLeft != null ? theme.wallSideLeft : wallSiderLeft;
-        wallBottom = theme.wallBottom != null ? theme.wallBottom : wallBottom;
-        wallFull = theme.wallFull != null ? theme.wallFull : wallFull;
-        wallInnerCornerDownLeft = theme.wallInnerCornerDownLeft != null ? theme.wallInnerCornerDownLeft : wallInnerCornerDownLeft;
-        wallInnerCornerDownRight = theme.wallInnerCornerDownRight != null ? theme.wallInnerCornerDownRight : wallInnerCornerDownRight;
-        wallDiagonalCornerDownRight = theme.wallDiagonalCornerDownRight != null ? theme.wallDiagonalCornerDownRight : wallDiagonalCornerDownRight;
-        wallDiagonalCornerDownLeft = theme.wallDiagonalCornerDownLeft != null ? theme.wallDiagonalCornerDownLeft : wallDiagonalCornerDownLeft;
-        wallDiagonalCornerUpRight = theme.wallDiagonalCornerUpRight != null ? theme.wallDiagonalCornerUpRight : wallDiagonalCornerUpRight;
-        wallDiagonalCornerUpLeft = theme.wallDiagonalCornerUpLeft != null ? theme.wallDiagonalCornerUpLeft : wallDiagonalCornerUpLeft;
+        activeTheme = theme;
     }
 
     public void PaintFloorTiles(IEnumerable<Vector2Int> floorPositions)
     {
-        PaintTiles(floorPositions, floorTilemap, floorTile);
+        if (!HasTheme())
+        {
+            return;
+        }
+
+        PaintTiles(floorPositions, floorTilemap, activeTheme.floorTile);
     }
 
     private void PaintTiles(IEnumerable<Vector2Int> positions, Tilemap tilemap, TileBase tile)
@@ -94,29 +44,82 @@ public class TilemapVisualizer : MonoBehaviour
 
     internal void PaintSingleBasicWall(Vector2Int position, string binaryType)
     {
+        if (!HasTheme())
+        {
+            return;
+        }
+
         int typeAsInt = Convert.ToInt32(binaryType, 2);
         TileBase tile = null;
         if (WallTypesHelper.wallTop.Contains(typeAsInt))
         {
-            tile = wallTop;
-        }else if (WallTypesHelper.wallSideRight.Contains(typeAsInt))
+            tile = activeTheme.wallTop;
+        }
+        else if (WallTypesHelper.wallSideRight.Contains(typeAsInt))
         {
-            tile = wallSideRight;
+            tile = activeTheme.wallSideRight;
         }
         else if (WallTypesHelper.wallSideLeft.Contains(typeAsInt))
         {
-            tile = wallSiderLeft;
+            tile = activeTheme.wallSideLeft;
         }
         else if (WallTypesHelper.wallBottm.Contains(typeAsInt))
         {
-            tile = wallBottom;
+            tile = activeTheme.wallBottom;
         }
         else if (WallTypesHelper.wallFull.Contains(typeAsInt))
         {
-            tile = wallFull;
+            tile = activeTheme.wallFull;
         }
 
-        if (tile!=null)
+        if (tile != null)
+            PaintSingleTile(wallTilemap, tile, position);
+    }
+
+    internal void PaintSingleCornerWall(Vector2Int position, string binaryType)
+    {
+        if (!HasTheme())
+        {
+            return;
+        }
+
+        int typeASInt = Convert.ToInt32(binaryType, 2);
+        TileBase tile = null;
+
+        if (WallTypesHelper.wallInnerCornerDownLeft.Contains(typeASInt))
+        {
+            tile = activeTheme.wallInnerCornerDownLeft;
+        }
+        else if (WallTypesHelper.wallInnerCornerDownRight.Contains(typeASInt))
+        {
+            tile = activeTheme.wallInnerCornerDownRight;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerDownLeft.Contains(typeASInt))
+        {
+            tile = activeTheme.wallDiagonalCornerDownLeft;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerDownRight.Contains(typeASInt))
+        {
+            tile = activeTheme.wallDiagonalCornerDownRight;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerUpRight.Contains(typeASInt))
+        {
+            tile = activeTheme.wallDiagonalCornerUpRight;
+        }
+        else if (WallTypesHelper.wallDiagonalCornerUpLeft.Contains(typeASInt))
+        {
+            tile = activeTheme.wallDiagonalCornerUpLeft;
+        }
+        else if (WallTypesHelper.wallFullEightDirections.Contains(typeASInt))
+        {
+            tile = activeTheme.wallFull;
+        }
+        else if (WallTypesHelper.wallBottmEightDirections.Contains(typeASInt))
+        {
+            tile = activeTheme.wallBottom;
+        }
+
+        if (tile != null)
             PaintSingleTile(wallTilemap, tile, position);
     }
 
@@ -132,52 +135,30 @@ public class TilemapVisualizer : MonoBehaviour
         wallTilemap.ClearAllTiles();
     }
 
-    // Chuyển tọa độ ô (cell) trên bản đồ thành tọa độ tâm ô trong không gian thế giới (world),
+    // Chuyển tọa độ ô (cell) thành tọa độ tâm ô trong không gian thế giới (world),
     // dùng để đặt các GameObject (ví dụ: Cổng sinh quái) vào đúng giữa phòng.
     public Vector3 CellToWorldCenter(Vector2Int cellPosition)
     {
         return floorTilemap.GetCellCenterWorld((Vector3Int)cellPosition);
     }
 
-    internal void PaintSingleCornerWall(Vector2Int position, string binaryType)
+    // Khung world (Rect) bao trọn lưới kích thước cellWidth x cellHeight bắt đầu từ ô (0,0).
+    // Tính theo gốc và cellSize thực của tilemap nên đã gồm offset của Grid -> mini-map map
+    // toạ độ world<->khung chính xác (không hardcode (0,0)).
+    public Rect GetWorldBounds(int cellWidth, int cellHeight)
     {
-        int typeASInt = Convert.ToInt32(binaryType, 2);
-        TileBase tile = null;
+        Vector3 origin = floorTilemap.CellToWorld(Vector3Int.zero);
+        Vector3 cellSize = floorTilemap.layoutGrid.cellSize;
+        return new Rect(origin.x, origin.y, cellWidth * cellSize.x, cellHeight * cellSize.y);
+    }
 
-        if (WallTypesHelper.wallInnerCornerDownLeft.Contains(typeASInt))
+    private bool HasTheme()
+    {
+        if (activeTheme == null)
         {
-            tile = wallInnerCornerDownLeft;
+            Debug.LogError("[TilemapVisualizer] Chưa gọi SetTheme - không có bộ tile để vẽ.");
+            return false;
         }
-        else if (WallTypesHelper.wallInnerCornerDownRight.Contains(typeASInt))
-        {
-            tile = wallInnerCornerDownRight;
-        }
-        else if (WallTypesHelper.wallDiagonalCornerDownLeft.Contains(typeASInt))
-        {
-            tile = wallDiagonalCornerDownLeft;
-        }
-        else if (WallTypesHelper.wallDiagonalCornerDownRight.Contains(typeASInt))
-        {
-            tile = wallDiagonalCornerDownRight;
-        }
-        else if (WallTypesHelper.wallDiagonalCornerUpRight.Contains(typeASInt))
-        {
-            tile = wallDiagonalCornerUpRight;
-        }
-        else if (WallTypesHelper.wallDiagonalCornerUpLeft.Contains(typeASInt))
-        {
-            tile = wallDiagonalCornerUpLeft;
-        }
-        else if (WallTypesHelper.wallFullEightDirections.Contains(typeASInt))
-        {
-            tile = wallFull;
-        }
-        else if (WallTypesHelper.wallBottmEightDirections.Contains(typeASInt))
-        {
-            tile = wallBottom;
-        }
-
-        if (tile != null)
-            PaintSingleTile(wallTilemap, tile, position);
+        return true;
     }
 }

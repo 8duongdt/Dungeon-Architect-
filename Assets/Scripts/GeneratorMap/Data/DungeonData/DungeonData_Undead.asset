@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c80b93934d0d641ad3fd949f36e4d6, type: 3}
+  m_Name: DungeonData_Undead
+  m_EditorClassIdentifier: Assembly-CSharp::DungeonData
+  generatorType: 1
+  mapWidth: 80
+  mapHeight: 50
+  floorGenerationChance: 45
+  simulationSteps: 5
+  torchSpawnRate: 0
+  chestSpawnRate: 0
+  roomFirstMapWidth: 60
+  roomFirstMapHeight: 40
+  roomFirstMinRoomWidth: 8
+  roomFirstMinRoomHeight: 8
+  roomFirstOffset: 1
+  squareMapSize: 100
+  minRoomSize: 12
+  maxRoomSize: 20
+  maxRooms: 8
+  roomPadding: 3
+  hallwayWidth: 4
+  swampRoomChance: 20
+  swampWaterPercentage: 25
+  giantSkeletonSpawnChance: 35
+  thornyVineDensity: 4
+  undeadSpawnRate: 10

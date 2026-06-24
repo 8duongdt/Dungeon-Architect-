@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,20 +5,13 @@ using UnityEngine;
 /// Quy tắc đặt: đuốc chỉ lên ô Wall có ô Floor ngay bên dưới; rương chỉ lên ô Floor.
 /// Không tự sinh map - chỉ đọc dữ liệu và spawn prefab.
 /// </summary>
-public class DungeonDecorator : MonoBehaviour
+public class DungeonDecorator : DungeonDecoratorBase
 {
     [SerializeField]
     private GameObject torchPrefab;
 
     [SerializeField]
     private GameObject chestPrefab;
-
-    // Gốc chứa các vật trang trí đã spawn (để gom gọn và dễ dọn dẹp). Có thể bỏ trống.
-    [SerializeField]
-    private Transform decorationParent;
-
-    // Theo dõi các vật đã spawn để dọn ở lần sinh map sau.
-    private readonly List<GameObject> spawnedDecorations = new List<GameObject>();
 
     /// <summary>
     /// Đổi prefab trang trí lúc chạy (dùng khi mỗi theme có đuốc/rương riêng).
@@ -66,7 +58,7 @@ public class DungeonDecorator : MonoBehaviour
             return;
 
         if (RollPercent(data.torchSpawnRate))
-            SpawnAt(torchPrefab, visualizer, x, y);
+            Spawn(torchPrefab, visualizer, new Vector2Int(x, y));
     }
 
     // Rương: chỉ trên ô Floor.
@@ -76,38 +68,6 @@ public class DungeonDecorator : MonoBehaviour
             return;
 
         if (RollPercent(data.chestSpawnRate))
-            SpawnAt(chestPrefab, visualizer, x, y);
-    }
-
-    private void SpawnAt(GameObject prefab, TilemapVisualizer visualizer, int x, int y)
-    {
-        Vector3 worldPosition = visualizer.CellToWorldCenter(new Vector2Int(x, y));
-        GameObject instance = Instantiate(prefab, worldPosition, Quaternion.identity, decorationParent);
-        spawnedDecorations.Add(instance);
-    }
-
-    // true nếu trúng theo tỉ lệ phần trăm (0-100).
-    private bool RollPercent(float percent)
-    {
-        return Random.value * 100f < percent;
-    }
-
-    /// <summary>
-    /// Dọn toàn bộ vật trang trí của lần sinh map trước.
-    /// </summary>
-    public void ClearDecorations()
-    {
-        foreach (var decoration in spawnedDecorations)
-        {
-            if (decoration == null)
-                continue;
-
-            if (Application.isPlaying)
-                Destroy(decoration);
-            else
-                DestroyImmediate(decoration);
-        }
-
-        spawnedDecorations.Clear();
+            Spawn(chestPrefab, visualizer, new Vector2Int(x, y));
     }
 }

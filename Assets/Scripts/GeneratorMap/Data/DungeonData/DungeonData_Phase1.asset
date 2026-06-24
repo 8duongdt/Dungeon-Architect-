@@ -12,9 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c80b93934d0d641ad3fd949f36e4d6, type: 3}
   m_Name: DungeonData_Phase1
   m_EditorClassIdentifier: Assembly-CSharp::DungeonData
+  generatorType: 0
   mapWidth: 100
   mapHeight: 100
-  floorGenerationChance: 45
-  simulationSteps: 5
+  floorGenerationChance: 25
+  simulationSteps: 1
   torchSpawnRate: 20
   chestSpawnRate: 5
+  roomFirstMapWidth: 40
+  roomFirstMapHeight: 40
+  roomFirstMinRoomWidth: 8
+  roomFirstMinRoomHeight: 8
+  roomFirstOffset: 1
+  squareMapSize: 100
+  swampRoomChance: 65
+  swampWaterPercentage: 25
+  giantSkeletonSpawnChance: 10
+  thornyVineDensity: 4
+  undeadSpawnRate: 10

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1148035832032711560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6222264855162415362}
+  - component: {fileID: 5506224372210181490}
+  m_Layer: 0
+  m_Name: UndeadDecorator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6222264855162415362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148035832032711560}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.51807, y: 13.95054, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5506224372210181490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148035832032711560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 747351b3f30448cb8254f1be0a2f3fbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UndeadDecorator
+  swampWaterHazardPrefab: {fileID: 0}
+  centralAltarPrefab: {fileID: 6982043215715512938, guid: 462eca2e658727f499a3a18d2ca41496, type: 3}
+  giantSkeletonPrefab: {fileID: 853153461577338444, guid: 1094d03c88e1e5e40ab2799a6855e665, type: 3}
+  shorelineTreePrefab: {fileID: 7224206905701204335, guid: 6b61026749d340247a2d183631c84906, type: 3}
+  treeShorelineChance: 50
+  thornVinePrefab: {fileID: 3326510012932389810, guid: 33285249b1e38814ead972725dd1ef65, type: 3}
+  decorationPrefabs:
+  - {fileID: 6595051956342437008, guid: 3cdc7ae3fe43a6b49bbfb8a3e493166e, type: 3}
+  - {fileID: 8741318381661748121, guid: 7130f41ed3939c0438562a80c07978ad, type: 3}
+  - {fileID: 7292638042390547560, guid: d3e675c5b96413f4bab3ac28a4ae36df, type: 3}
+  - {fileID: 6478866644293952256, guid: 41c0e11dd60439d458b35401e1b2cb5f, type: 3}
+  - {fileID: 9189733559691245735, guid: 04d4fea01fdfe4342bd19a56c6676d40, type: 3}
+  - {fileID: 4109635953512809333, guid: 391a4c75209556c4bb6ba42e7331a3ae, type: 3}
+  - {fileID: 6333303571540348583, guid: f394bcf4cafc2dc4ab8dff29f524a9ae, type: 3}
+  - {fileID: 501981325312200467, guid: 5909e5d7b94f8e3419aa4d9f74320ff3, type: 3}
+  decorationScatterChance: 8
+  spikeTrapPrefab: {fileID: 0}
+  spikeTrapChance: 40
+  propParent: {fileID: 0}

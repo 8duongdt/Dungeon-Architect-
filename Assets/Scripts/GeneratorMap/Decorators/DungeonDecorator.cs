@@ -34,6 +34,8 @@ public class DungeonDecorator : DungeonDecoratorBase
         if (map == null || data == null || visualizer == null)
             return;
 
+        BeginPlacement(new MapPlacement(map, visualizer));
+
         int width = map.GetLength(0);
         int height = map.GetLength(1);
 
@@ -41,14 +43,15 @@ public class DungeonDecorator : DungeonDecoratorBase
         {
             for (int y = 0; y < height; y++)
             {
-                TryPlaceTorch(map, data, visualizer, x, y);
-                TryPlaceChest(map, data, visualizer, x, y);
+                TryPlaceTorch(map, data, x, y);
+                TryPlaceChest(data, x, y);
             }
         }
     }
 
-    // Đuốc: chỉ trên ô Wall và ô ngay bên dưới (y - 1) là Floor.
-    private void TryPlaceTorch(TileType[,] map, DungeonData data, TilemapVisualizer visualizer, int x, int y)
+    // Đuốc: chỉ trên ô Wall và ô ngay bên dưới (y - 1) là Floor. Đuốc ở trên tường nên không
+    // chiếm ô sàn -> dùng SpawnAt (không đánh dấu chiếm).
+    private void TryPlaceTorch(TileType[,] map, DungeonData data, int x, int y)
     {
         if (torchPrefab == null || map[x, y] != TileType.Wall)
             return;
@@ -58,16 +61,17 @@ public class DungeonDecorator : DungeonDecoratorBase
             return;
 
         if (RollPercent(data.torchSpawnRate))
-            Spawn(torchPrefab, visualizer, new Vector2Int(x, y));
+            SpawnAt(torchPrefab, new Vector2Int(x, y));
     }
 
-    // Rương: chỉ trên ô Floor.
-    private void TryPlaceChest(TileType[,] map, DungeonData data, TilemapVisualizer visualizer, int x, int y)
+    // Rương: chỉ trên ô sàn còn trống; đặt xong đánh dấu ô đã chiếm.
+    private void TryPlaceChest(DungeonData data, int x, int y)
     {
-        if (chestPrefab == null || map[x, y] != TileType.Floor)
+        var cell = new Vector2Int(x, y);
+        if (chestPrefab == null || !Placement.IsFree(cell))
             return;
 
         if (RollPercent(data.chestSpawnRate))
-            Spawn(chestPrefab, visualizer, new Vector2Int(x, y));
+            SpawnAndOccupy(chestPrefab, cell);
     }
 }

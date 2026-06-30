@@ -1,0 +1,41 @@
+{
+  "group_id": null,
+  "objects": [
+    {
+      "id": "8952bc49-d832-44dd-b115-fb6da448dd9f",
+      "name": null,
+      "prompt": "Crypt of Ruin\nBase Structure & Environment:\n\nThe Pit: A gaping, jagged crater acting as the central focal point. The edges are framed with corrupted, dark-purple soil and fractured cobblestones that transition seamlessly into the standard dungeon floor.\n\nSurrounding Decor: Weathered, moss-covered gravestones lean at uneven angles around the perimeter. Heaps of bleached white skulls and rusted, broken weapons are half-buried in the dirt.\n\nLighting & VFX: A sickly, luminescent green glow emanates from the deep center of the pit, casting harsh, static shadows on the surrounding rocks. A continuous, low-opacity fog rolls over the edges, created by soft-edged mist sprites drifting lazily across the ground layer.",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {
+        "Core_Pulses_The_green_liquid_in_the_center_is_not": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_000.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_001.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_002.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_003.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_004.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_005.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_006.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_007.png",
+                "animations/Core_Pulses_The_green_liquid_in_the_center_is_not/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "1.0",
+  "export_date": "2026-06-30T08:08:13.753360"
+}

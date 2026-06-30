@@ -1,0 +1,41 @@
+{
+  "group_id": null,
+  "objects": [
+    {
+      "id": "828ee3d0-53dd-4e8e-b6cd-85102688b68d",
+      "name": null,
+      "prompt": "Hellforge Barracks\nBase Structure & Environment:\n\nThe Foundation: Built upon a raised platform of scorched, soot-stained bricks. Narrow trenches cut intricately through the floor, carrying bright, flowing molten lava that creates a sharp visual contrast against the dark stone.\n\nThe Forge: At the center sits a massive, imposing anvil made of spiked, blackened iron. Behind it is a heavy, gear-driven furnace radiating heat, equipped with a large iron-banded bellows. Piles of jagged raw ore and freshly forged, glowing-hot armor plates rest on nearby wooden workbenches.\n\nLighting & VFX: The entire environment is bathed in a harsh, emissive orange-red light from the lava and the furnace. A particle emitter continuously sends tiny, glowing embers floating upward, slowly fading out as they rise into the air.",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {
+        "Furnace_Fire_The_fire_inside_the_central_hearth_f": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_000.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_001.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_002.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_003.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_004.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_005.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_006.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_007.png",
+                "animations/Furnace_Fire_The_fire_inside_the_central_hearth_f/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "1.0",
+  "export_date": "2026-06-30T08:13:09.533805"
+}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3534b94a785f57e40a657499b825dfaf, type: 3}
+  m_Name: PlacedObjectType_Crypt_of_Ruin
+  m_EditorClassIdentifier: Assembly-CSharp::PlacedObjectTypeSO
+  nameString: Crypt of Ruin (Lv1)
+  prefab: {fileID: 2377655890210368884, guid: ed6e15ab0b19f244b8639f1771a444dc, type: 3}
+  visual: {fileID: 2377655890210368884, guid: ed6e15ab0b19f244b8639f1771a444dc, type: 3}
+  icon: {fileID: -1817366122, guid: d061357f2aa559f41ba52f124046d3d0, type: 3}
+  goldCost: 100
+  manaCost: 0
+  hotkey: E
+  description: "Tr\u1EA1i hu\u1EA5n luy\u1EC7n l\xEDnh: sinh Orc/Slime/Vampire theo
+    chu k\u1EF3."
+  width: 3
+  height: 3

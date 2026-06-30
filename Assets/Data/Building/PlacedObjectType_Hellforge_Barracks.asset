@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3534b94a785f57e40a657499b825dfaf, type: 3}
+  m_Name: PlacedObjectType_Hellforge_Barracks
+  m_EditorClassIdentifier: Assembly-CSharp::PlacedObjectTypeSO
+  nameString: Hellforge Barracks (Lv2)
+  prefab: {fileID: 3757479249524751571, guid: 01c60ec69ab75e54da6fe032716326bd, type: 3}
+  visual: {fileID: 3757479249524751571, guid: 01c60ec69ab75e54da6fe032716326bd, type: 3}
+  icon: {fileID: 1428196548, guid: 52f1c349aec88154f991697bb2734f1b, type: 3}
+  goldCost: 200
+  manaCost: 50
+  hotkey: R
+  description: "Tr\u1EA1i hu\u1EA5n luy\u1EC7n l\xEDnh: sinh Orc/Slime/Vampire theo
+    chu k\u1EF3."
+  width: 3
+  height: 3

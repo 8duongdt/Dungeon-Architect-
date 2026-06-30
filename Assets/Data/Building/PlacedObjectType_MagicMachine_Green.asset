@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3534b94a785f57e40a657499b825dfaf, type: 3}
+  m_Name: PlacedObjectType_MagicMachine_Green
+  m_EditorClassIdentifier: Assembly-CSharp::PlacedObjectTypeSO
+  nameString: MagicMachine_Green
+  prefab: {fileID: 9093047791341306923, guid: 70f0f3750e6c465b8678fb9df05c336d, type: 3}
+  visual: {fileID: 9093047791341306923, guid: 70f0f3750e6c465b8678fb9df05c336d, type: 3}
+  icon: {fileID: -1808982527863717971, guid: 40846c487369c3d429c020f7f64723b8, type: 3}
+  width: 3
+  height: 3

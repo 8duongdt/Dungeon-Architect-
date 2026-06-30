@@ -526,7 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d19c967ce464d3d8df87c2a16ba6b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitFaction
-  faction: 0
+  faction: 1
   canBeTargeted: 1
   useDefaultHostiles: 1
   hostileFactions: 

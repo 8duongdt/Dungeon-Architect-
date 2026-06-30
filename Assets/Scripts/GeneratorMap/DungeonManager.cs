@@ -32,6 +32,10 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private DungeonDecorator dungeonDecorator;
 
+    // Rải vật/quái gameplay theo trọng số + luật spawn (an toàn/cap/Perlin). Có thể bỏ trống.
+    [SerializeField]
+    private WeightedScatterSpawner scatterSpawner;
+
     [Header("Cổng sinh quái")]
     // Vật chứa các cổng đã sinh (để Hierarchy gọn). Bỏ trống sẽ tự tạo.
     [SerializeField]
@@ -98,6 +102,10 @@ public class DungeonManager : MonoBehaviour
         tilemapVisualizer.Clear();
         undeadDecorator.ClearSpawned();
         dungeonDecorator.ClearSpawned();
+        if (scatterSpawner != null)
+        {
+            scatterSpawner.ClearSpawned();
+        }
         ClearPortals();
     }
 
@@ -112,7 +120,9 @@ public class DungeonManager : MonoBehaviour
 
         dungeonDecorator.Decorate(map, data, tilemapVisualizer);
         SpawnPortals(theme, generator.Rooms);
-        PlacePlayerAndCameraAtSpawn(generator.Rooms);
+
+        Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
+        ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
     }
 
     private void GenerateUndead(DungeonData data)
@@ -121,38 +131,115 @@ public class DungeonManager : MonoBehaviour
         TileType[,] map = generator.Generate();
         CurrentMap = map;
 
-        // Ô nước/cổng vẫn tính là sàn để có nền đi lại và tính tường đúng quanh toàn vùng.
-        HashSet<Vector2Int> walkablePositions =
-            CollectPositions(map, TileType.Floor, TileType.SwampWater, TileType.Gate);
-        PaintFloorAndWalls(walkablePositions);
+        PaintUndeadTerrain(map);
 
         undeadDecorator.Decorate(map, generator.Rooms, data, tilemapVisualizer);
-        PlacePlayerAndCameraAtSpawn(generator.Rooms);
+
+        Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
+        ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
+    }
+
+    // Vẽ địa hình map Undead: sàn + tường, tile nước, và viền bờ bao quanh nước.
+    private void PaintUndeadTerrain(TileType[,] map)
+    {
+        // Sàn vẽ dưới MỌI ô đi lại được (gồm cả ô nước - nước phủ tile riêng đè lên sàn).
+        HashSet<Vector2Int> floorPaintPositions =
+            CollectPositions(map, TileType.Floor, TileType.SwampWater, TileType.Gate);
+        tilemapVisualizer.PaintFloorTiles(floorPaintPositions);
+
+        // Tường ring ngoài: coi nước/cổng là "trong" để chỉ dựng tường ở viền ngoài map.
+        WallGeneration.CreateWalls(floorPaintPositions, tilemapVisualizer);
+
+        // Nước = tile riêng phủ trên sàn (vật cản mềm: làm chậm qua hazard prefab, không có collider).
+        HashSet<Vector2Int> waterCells = CollectPositions(map, TileType.SwampWater);
+        tilemapVisualizer.PaintWaterTiles(waterCells);
+
+        // Viền bờ bao quanh nước - vẽ trên layer trang trí nên không chặn di chuyển.
+        ShoreGeneration.CreateShoreTiles(CollectShoreCells(map), waterCells, tilemapVisualizer);
+    }
+
+    // Viền bờ = ô Floor có ÍT NHẤT một trong 8 hàng xóm là SwampWater -> vẽ tile bờ cho mép nước tự nhiên.
+    private HashSet<Vector2Int> CollectShoreCells(TileType[,] map)
+    {
+        var shore = new HashSet<Vector2Int>();
+        int width = map.GetLength(0);
+        int height = map.GetLength(1);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (map[x, y] == TileType.Floor && HasSwampNeighbor(map, x, y, width, height))
+                {
+                    shore.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+
+        return shore;
+    }
+
+    private static bool HasSwampNeighbor(TileType[,] map, int x, int y, int width, int height)
+    {
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                if (dx == 0 && dy == 0)
+                {
+                    continue;
+                }
+
+                int nx = x + dx;
+                int ny = y + dy;
+                bool inBounds = nx >= 0 && ny >= 0 && nx < width && ny < height;
+                if (inBounds && map[nx, ny] == TileType.SwampWater)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private void ScatterGameplayObjects(
+        TileType[,] map, IReadOnlyList<RectInt> rooms, Vector2Int spawnCell, DungeonData data)
+    {
+        if (scatterSpawner == null)
+        {
+            return;
+        }
+
+        scatterSpawner.Scatter(map, rooms, spawnCell, tilemapVisualizer, data);
     }
 
     // Sau khi sinh map ngẫu nhiên, dời người chơi (và camera) về tâm phòng đầu tiên - ô luôn
     // đi được (sàn hoặc cổng) - để tránh avatar bị kẹt trong tường ở vị trí cố định cũ.
-    private void PlacePlayerAndCameraAtSpawn(IReadOnlyList<RectInt> rooms)
+    // Trả về ô xuất phát (làm tâm vùng an toàn cho luật spawn).
+    private Vector2Int PlacePlayerAndCameraAtSpawn(IReadOnlyList<RectInt> rooms)
     {
         if (rooms == null || rooms.Count == 0)
         {
-            return;
+            return Vector2Int.zero;
         }
 
         Vector2Int spawnCell = RoomCenter(rooms[0]);
         Vector3 spawnWorld = tilemapVisualizer.CellToWorldCenter(spawnCell);
 
-        PlayerControll player = FindFirstObjectByType<PlayerControll>();
+        PlayerControll player = FindAnyObjectByType<PlayerControll>();
         if (player != null)
         {
             player.transform.position = new Vector3(spawnWorld.x, spawnWorld.y, player.transform.position.z);
         }
 
-        RTSCamera camera = FindFirstObjectByType<RTSCamera>();
+        RTSCamera camera = FindAnyObjectByType<RTSCamera>();
         if (camera != null)
         {
             camera.MoveTo(spawnWorld);
         }
+
+        return spawnCell;
     }
 
     private static Vector2Int RoomCenter(RectInt room)

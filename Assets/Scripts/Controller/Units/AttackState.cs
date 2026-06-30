@@ -7,6 +7,9 @@ public class AttackState : MonoBehaviour
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private CharacterAnimationController animationController;
 
+    /// <summary>Sát thương mỗi đòn đánh (chỉ đọc) - để HUD hiển thị chỉ số ATTACK.</summary>
+    public float AttackDamage => attackDamage;
+
     private UnitAI ai;
     private UnitMovement movement;
     private AttackAreaBase attackArea;

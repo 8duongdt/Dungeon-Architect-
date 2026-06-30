@@ -64,13 +64,9 @@ public class UndeadDecorator : DungeonDecoratorBase
         new Vector2Int(0, 1), new Vector2Int(0, -1)
     };
 
-    // Các ô sàn đã có vật, để các luật đặt không chồng lên nhau.
-    private readonly HashSet<Vector2Int> occupiedFloorTiles = new HashSet<Vector2Int>();
-
     // Ngữ cảnh của lần Decorate hiện tại (các sub-method dùng chung, không cần truyền tham số).
     private TileType[,] map;
     private DungeonData data;
-    private TilemapVisualizer visualizer;
     private int mapWidth;
     private int mapHeight;
 
@@ -101,10 +97,12 @@ public class UndeadDecorator : DungeonDecoratorBase
     {
         this.map = map;
         this.data = data;
-        this.visualizer = visualizer;
         mapWidth = map.GetLength(0);
         mapHeight = map.GetLength(1);
-        occupiedFloorTiles.Clear();
+
+        // Decorator chỉ đặt vật trên ô Floor khô -> giới hạn tập đi-lại-được của hạt nhân về {Floor}
+        // để IsFree đúng nghĩa "ô sàn còn trống" như cũ (không lan ra nước/cổng/mặt đá).
+        BeginPlacement(new MapPlacement(map, visualizer, new[] { TileType.Floor }));
     }
 
     // ----- Hazard nước (1:1 trên ô SwampWater); không chiếm ô sàn -----
@@ -122,7 +120,7 @@ public class UndeadDecorator : DungeonDecoratorBase
             {
                 if (map[x, y] == TileType.SwampWater)
                 {
-                    Spawn(swampWaterHazardPrefab, visualizer, new Vector2Int(x, y));
+                    SpawnAt(swampWaterHazardPrefab, new Vector2Int(x, y));
                 }
             }
         }
@@ -301,10 +299,10 @@ public class UndeadDecorator : DungeonDecoratorBase
 
     // ----- Vị từ ngữ cảnh (spatial checks) -----
 
-    // Ô đặt được = là Floor và chưa có vật nào chiếm.
+    // Ô đặt được = là Floor và chưa có vật nào chiếm (hạt nhân đặt vật đã giới hạn về {Floor}).
     private bool IsPlaceableFloor(int x, int y)
     {
-        return IsTile(x, y, TileType.Floor) && !occupiedFloorTiles.Contains(new Vector2Int(x, y));
+        return Placement.IsFree(new Vector2Int(x, y));
     }
 
     // Đất khô = không có ô SwampWater nào trong bán kính trang trí.
@@ -370,18 +368,11 @@ public class UndeadDecorator : DungeonDecoratorBase
     // Spawn một vật trên ô sàn và đánh dấu ô đó đã bị chiếm (chống chồng vật).
     private void SpawnFloorProp(GameObject prefab, int x, int y)
     {
-        Spawn(prefab, visualizer, new Vector2Int(x, y));
-        occupiedFloorTiles.Add(new Vector2Int(x, y));
+        SpawnAndOccupy(prefab, new Vector2Int(x, y));
     }
 
     private int RandomRange(int minInclusive, int maxInclusive)
     {
         return Random.Range(minInclusive, maxInclusive + 1);
-    }
-
-    // Dọn thêm tập ô đã chiếm mỗi khi base dọn các vật đã spawn.
-    protected override void OnCleared()
-    {
-        occupiedFloorTiles.Clear();
     }
 }

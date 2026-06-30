@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 747351b3f30448cb8254f1be0a2f3fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UndeadDecorator
+  decorationParent: {fileID: 0}
   swampWaterHazardPrefab: {fileID: 0}
   centralAltarPrefab: {fileID: 6982043215715512938, guid: 462eca2e658727f499a3a18d2ca41496, type: 3}
   giantSkeletonPrefab: {fileID: 853153461577338444, guid: 1094d03c88e1e5e40ab2799a6855e665, type: 3}
@@ -51,15 +52,105 @@ MonoBehaviour:
   treeShorelineChance: 50
   thornVinePrefab: {fileID: 3326510012932389810, guid: 33285249b1e38814ead972725dd1ef65, type: 3}
   decorationPrefabs:
-  - {fileID: 6595051956342437008, guid: 3cdc7ae3fe43a6b49bbfb8a3e493166e, type: 3}
   - {fileID: 8741318381661748121, guid: 7130f41ed3939c0438562a80c07978ad, type: 3}
-  - {fileID: 7292638042390547560, guid: d3e675c5b96413f4bab3ac28a4ae36df, type: 3}
-  - {fileID: 6478866644293952256, guid: 41c0e11dd60439d458b35401e1b2cb5f, type: 3}
-  - {fileID: 9189733559691245735, guid: 04d4fea01fdfe4342bd19a56c6676d40, type: 3}
-  - {fileID: 4109635953512809333, guid: 391a4c75209556c4bb6ba42e7331a3ae, type: 3}
-  - {fileID: 6333303571540348583, guid: f394bcf4cafc2dc4ab8dff29f524a9ae, type: 3}
-  - {fileID: 501981325312200467, guid: 5909e5d7b94f8e3419aa4d9f74320ff3, type: 3}
-  decorationScatterChance: 8
+  - {fileID: 6595051956342437008, guid: 3cdc7ae3fe43a6b49bbfb8a3e493166e, type: 3}
+  - {fileID: 3096931808831712137, guid: 238022c33285f884c9b8d88327654993, type: 3}
+  - {fileID: 4697188909340501321, guid: d61d1025622bbc543b3bf9f4a54a7057, type: 3}
+  - {fileID: 4794062405911570586, guid: 476366fe64335644e952d8e5fed20900, type: 3}
+  - {fileID: 8775929585874125920, guid: 98510dfc823760d429e5d5b60db559ed, type: 3}
+  - {fileID: 3061379495655905974, guid: 0e8bfbcd5e65de448b18e75a0eaab728, type: 3}
+  - {fileID: 7579261711706476599, guid: 08df8e545aa87bc45a454a958ba6f193, type: 3}
+  - {fileID: 6892688394911398035, guid: a08cbf30d13b1b84ab9d88a30b070d6b, type: 3}
+  - {fileID: 4872342134793165415, guid: 74e5ae1deb07c6d4c9ddb59a6b0cbc88, type: 3}
+  - {fileID: 6281695008228164664, guid: f45083f28975dd248938542d08dc8124, type: 3}
+  - {fileID: 5769164451621033237, guid: 8829275fa6bf54e4781322a634411557, type: 3}
+  - {fileID: 7770189626939628069, guid: cf3d535afe60ff846b8c10a3a5f9f311, type: 3}
+  - {fileID: 8454559260823137945, guid: af01a9dbc2322e642a624e01fc44eb42, type: 3}
+  - {fileID: 415075683587741200, guid: 4618a0ad987e79945922d1759942e7d8, type: 3}
+  - {fileID: 415075683587741200, guid: 4618a0ad987e79945922d1759942e7d8, type: 3}
+  - {fileID: 7044911184718064602, guid: e0316153b3369eb4b93e9e95cbbadbb2, type: 3}
+  - {fileID: 3297043347206527856, guid: b413df09ab90b4b41b2d4501f06b46a7, type: 3}
+  - {fileID: 7620552587767255750, guid: cee986346989fd7448f3d40e13567dbf, type: 3}
+  - {fileID: 7620552587767255750, guid: cee986346989fd7448f3d40e13567dbf, type: 3}
+  - {fileID: 3798227998430195159, guid: 988578d815e395f4ab90dffde12df521, type: 3}
+  - {fileID: 7295731403835444713, guid: cdf118400eb2a26489d78e305b0f2f7d, type: 3}
+  - {fileID: 6346524451371445507, guid: a5560841642643342866d642f9b2a6b3, type: 3}
+  - {fileID: 3363683233883430940, guid: 650abfed5770be64cbd79cdbfd0fd3c8, type: 3}
+  - {fileID: 553618130407016942, guid: d29d3c81063cc0b449f9ab583ab4fadb, type: 3}
+  - {fileID: 6210106749433345993, guid: 9ed9b4696cded1c4986fe70d84f04793, type: 3}
+  - {fileID: 8325109254207409431, guid: 42fea9ad20f977a40a83013938daff82, type: 3}
+  - {fileID: 8027988026848258812, guid: af2f9173c1f4b9a4ba6823a2b2392f41, type: 3}
+  - {fileID: 4974683616282708575, guid: 3377949d43ec672449301aeb5cc1248e, type: 3}
+  - {fileID: 2761753896630988792, guid: 35db1a546e0497c4584470ca1b2f3783, type: 3}
+  - {fileID: 8210379660530679784, guid: dc0b479d339c6d04cbe0a4c3831facad, type: 3}
+  - {fileID: 5660263675224538449, guid: f9db2e22a9c17e944aa606876bba20bf, type: 3}
+  - {fileID: 1472359025404215421, guid: 8a80dca1a873ff8468931bbe8405683a, type: 3}
+  - {fileID: 8183149298541980130, guid: 371b344be07305149b00a00473ddcf45, type: 3}
+  - {fileID: 8875253320068559132, guid: e3f4d88632e6b494f97eead924ef1317, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  decorationScatterChance: 100
   spikeTrapPrefab: {fileID: 0}
   spikeTrapChance: 40
-  propParent: {fileID: 0}

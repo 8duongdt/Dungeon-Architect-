@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,12 @@ public class UnitController : MonoBehaviour
 
     private Vector3 startMousePosition;
     private List<Unit> selectedUnitList;
+
+    /// <summary>Các unit đang được chọn (chỉ đọc) - để HUD hiển thị thông tin đơn vị.</summary>
+    public IReadOnlyList<Unit> SelectedUnits => selectedUnitList;
+
+    /// <summary>Bắn mỗi khi tập hợp unit được chọn thay đổi (chọn mới hoặc bỏ chọn).</summary>
+    public event Action<IReadOnlyList<Unit>> SelectionChanged;
 
     private void Awake()
     {
@@ -103,6 +110,9 @@ public class UnitController : MonoBehaviour
                 unit.SetSelectedVisible(true);
             }
         }
+
+        // Chọn xong (kể cả khi danh sách rỗng) thì báo cho HUD cập nhật.
+        SelectionChanged?.Invoke(selectedUnitList);
     }
 
     private void UpdateSelectionBoxVisual(Vector3 startPos, Vector3 currentPos)

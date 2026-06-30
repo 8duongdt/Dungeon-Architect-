@@ -132,7 +132,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -194,7 +194,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_0
+      name: death_0
       rect:
         serializedVersion: 2
         x: 0
@@ -207,16 +207,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cecbe3703c1868f40800000000000000
-      internalID: 5730410250515692780
+      spriteID: 9f7727af149581549ba8a2806cdba44d
+      internalID: -441294705
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_1
+      name: death_1
       rect:
         serializedVersion: 2
         x: 64
@@ -229,16 +229,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2ebdd52279d323fc0800000000000000
-      internalID: -3516680639697003550
+      spriteID: 233da9b94068c7c459872ae6abb39a32
+      internalID: -259913347
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_2
+      name: death_2
       rect:
         serializedVersion: 2
         x: 128
@@ -251,16 +251,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cfa69316426f0a6e0800000000000000
-      internalID: -1828190812602012932
+      spriteID: dcd7f436ed024704483fca40698dd18b
+      internalID: -1053066859
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_3
+      name: death_3
       rect:
         serializedVersion: 2
         x: 192
@@ -273,16 +273,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 69aa7a08c46c13a70800000000000000
-      internalID: 8805036778364316310
+      spriteID: 728fd96ed5070564593719b90e98fc00
+      internalID: -873685409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_4
+      name: death_4
       rect:
         serializedVersion: 2
         x: 256
@@ -295,16 +295,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 638b463d6bb3acab0800000000000000
-      internalID: -4987107980942723018
+      spriteID: 75bb66412d77c0d469586ec15347a2c4
+      internalID: -275478558
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_5
+      name: death_5
       rect:
         serializedVersion: 2
         x: 320
@@ -317,16 +317,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8bab6f26f4b3870e0800000000000000
-      internalID: -2272000799859623240
+      spriteID: abc5fa3e6e10b1740ba42fd042f46d98
+      internalID: -1863562368
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_6
+      name: death_6
       rect:
         serializedVersion: 2
         x: 384
@@ -339,16 +339,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d07e6d6773be738b0800000000000000
-      internalID: -5172407023562201331
+      spriteID: 7069a987cb3104f4daebaf2dac909349
+      internalID: -1178678316
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_7
+      name: death_7
       rect:
         serializedVersion: 2
         x: 0
@@ -361,16 +361,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 80b51059debbdb5b0800000000000000
-      internalID: -5350914153164743928
+      spriteID: 75da7c90673759a4e8dcf55f40262b2f
+      internalID: -413078769
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_8
+      name: death_8
       rect:
         serializedVersion: 2
         x: 64
@@ -383,16 +383,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 08550f2f16fe87c80800000000000000
-      internalID: -8324640707227658880
+      spriteID: 3d445e9ef46fa084f866a8636a79d99b
+      internalID: 875789453
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_9
+      name: death_9
       rect:
         serializedVersion: 2
         x: 128
@@ -405,16 +405,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cf9ce17af07ae7bb0800000000000000
-      internalID: -4936324455881324036
+      spriteID: d4460bd2dc7b16440bafc0a60d74e56b
+      internalID: -535833020
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_10
+      name: death_10
       rect:
         serializedVersion: 2
         x: 192
@@ -427,16 +427,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7cb83ee7f845881a0800000000000000
-      internalID: -6807097861484606521
+      spriteID: 0bcd3287f85ac694799049097b5223bf
+      internalID: 1585561251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_11
+      name: death_11
       rect:
         serializedVersion: 2
         x: 256
@@ -449,16 +449,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6b0c88a937399d6e0800000000000000
-      internalID: -1812255250316738378
+      spriteID: 02db28750914baf45accdcbb7358cfda
+      internalID: 471653990
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_12
+      name: death_12
       rect:
         serializedVersion: 2
         x: 320
@@ -471,16 +471,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f831eb852f4b0e440800000000000000
-      internalID: 4963165742326223759
+      spriteID: 79b8b8e8017602444a3a3871f23d8c5c
+      internalID: 1902214832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_13
+      name: death_13
       rect:
         serializedVersion: 2
         x: 384
@@ -493,16 +493,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c2ad218c84c7d6c70800000000000000
-      internalID: 8965959085200693804
+      spriteID: 3541c4ef45a55f94cacc593350855982
+      internalID: 1373778730
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_14
+      name: death_14
       rect:
         serializedVersion: 2
         x: 0
@@ -515,16 +515,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 57cee89e81ff58ac0800000000000000
-      internalID: -3853393423682835339
+      spriteID: 7b643977e2dfac74881eac245ef4f9a8
+      internalID: -1560552464
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_15
+      name: death_15
       rect:
         serializedVersion: 2
         x: 64
@@ -537,16 +537,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3fcb9502ae3a9e7b0800000000000000
-      internalID: -5194440469234729741
+      spriteID: 1f37173e47c6c4e4493a989e91f5c881
+      internalID: -40187852
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_16
+      name: death_16
       rect:
         serializedVersion: 2
         x: 128
@@ -559,16 +559,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 802fb72ebd2d3bce0800000000000000
-      internalID: -1390536018087906808
+      spriteID: e6c98746a31c2f345a8eb3aea10f4c23
+      internalID: -238686241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_17
+      name: death_17
       rect:
         serializedVersion: 2
         x: 192
@@ -581,16 +581,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4b34cc19ff46330a0800000000000000
-      internalID: -6903062755003317324
+      spriteID: 829ecda4bd0948d4db1072d35f45de6a
+      internalID: -325505545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_18
+      name: death_18
       rect:
         serializedVersion: 2
         x: 256
@@ -603,16 +603,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 909e29b8431c78bd0800000000000000
-      internalID: -2627919426123273975
+      spriteID: 68a2c921d960376469801905116dac9a
+      internalID: -750416836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_19
+      name: death_19
       rect:
         serializedVersion: 2
         x: 320
@@ -625,16 +625,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: be07d705a9dfa9950800000000000000
-      internalID: 6456751855006216427
+      spriteID: 271dce43a1ffb654fa904fb2d0a23bec
+      internalID: 1351993534
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_20
+      name: death_20
       rect:
         serializedVersion: 2
         x: 384
@@ -647,16 +647,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f8817cda05f055890800000000000000
-      internalID: -7470047567736792945
+      spriteID: 11986fd7b861e414691ab4855a6ad07c
+      internalID: -1012610547
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_21
+      name: death_21
       rect:
         serializedVersion: 2
         x: 0
@@ -669,16 +669,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 946b12153c254d9c0800000000000000
-      internalID: -3903403978190113207
+      spriteID: ca791fe22478bb94890a5c9639ca6eda
+      internalID: -2107476235
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_22
+      name: death_22
       rect:
         serializedVersion: 2
         x: 64
@@ -691,16 +691,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7c0b13c3e647085f0800000000000000
-      internalID: -756476720593129273
+      spriteID: 6c64bc641c2f1784ab3c842382db2cf5
+      internalID: -345194291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_23
+      name: death_23
       rect:
         serializedVersion: 2
         x: 128
@@ -713,16 +713,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2ae99718e904ddb70800000000000000
-      internalID: 8925361086039432866
+      spriteID: 8ec7cf3508559064c9666e291f2bf7fb
+      internalID: -816988843
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_24
+      name: death_24
       rect:
         serializedVersion: 2
         x: 192
@@ -735,16 +735,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 12202aa2f11290ea0800000000000000
-      internalID: -5906153018576731615
+      spriteID: 47907388711237444af595cf301d8898
+      internalID: -379425452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_25
+      name: death_25
       rect:
         serializedVersion: 2
         x: 256
@@ -757,16 +757,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7963b5625da455a80800000000000000
-      internalID: -8478788444123089257
+      spriteID: c8907ab02f212124e9fccb9521912a3d
+      internalID: 492234234
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_26
+      name: death_26
       rect:
         serializedVersion: 2
         x: 320
@@ -779,16 +779,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: de29abcce1034a580800000000000000
-      internalID: -8816869261642657043
+      spriteID: 68e407e3bb6a1af41b2c23b315d7a97a
+      internalID: -1595837807
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Swordsman_lvl1_Death_without_shadow_27
+      name: death_27
       rect:
         serializedVersion: 2
         x: 384
@@ -801,10 +801,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5168a6aaab752dfc0800000000000000
-      internalID: -3471615903514589675
+      spriteID: bb4fade1652a710499ef39a30d802490
+      internalID: -1577859892
       vertices: []
       indices: 
       edges: []
@@ -825,34 +825,34 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Swordsman_lvl1_Death_without_shadow_0: 5730410250515692780
-      Swordsman_lvl1_Death_without_shadow_1: -3516680639697003550
-      Swordsman_lvl1_Death_without_shadow_10: -6807097861484606521
-      Swordsman_lvl1_Death_without_shadow_11: -1812255250316738378
-      Swordsman_lvl1_Death_without_shadow_12: 4963165742326223759
-      Swordsman_lvl1_Death_without_shadow_13: 8965959085200693804
-      Swordsman_lvl1_Death_without_shadow_14: -3853393423682835339
-      Swordsman_lvl1_Death_without_shadow_15: -5194440469234729741
-      Swordsman_lvl1_Death_without_shadow_16: -1390536018087906808
-      Swordsman_lvl1_Death_without_shadow_17: -6903062755003317324
-      Swordsman_lvl1_Death_without_shadow_18: -2627919426123273975
-      Swordsman_lvl1_Death_without_shadow_19: 6456751855006216427
-      Swordsman_lvl1_Death_without_shadow_2: -1828190812602012932
-      Swordsman_lvl1_Death_without_shadow_20: -7470047567736792945
-      Swordsman_lvl1_Death_without_shadow_21: -3903403978190113207
-      Swordsman_lvl1_Death_without_shadow_22: -756476720593129273
-      Swordsman_lvl1_Death_without_shadow_23: 8925361086039432866
-      Swordsman_lvl1_Death_without_shadow_24: -5906153018576731615
-      Swordsman_lvl1_Death_without_shadow_25: -8478788444123089257
-      Swordsman_lvl1_Death_without_shadow_26: -8816869261642657043
-      Swordsman_lvl1_Death_without_shadow_27: -3471615903514589675
-      Swordsman_lvl1_Death_without_shadow_3: 8805036778364316310
-      Swordsman_lvl1_Death_without_shadow_4: -4987107980942723018
-      Swordsman_lvl1_Death_without_shadow_5: -2272000799859623240
-      Swordsman_lvl1_Death_without_shadow_6: -5172407023562201331
-      Swordsman_lvl1_Death_without_shadow_7: -5350914153164743928
-      Swordsman_lvl1_Death_without_shadow_8: -8324640707227658880
-      Swordsman_lvl1_Death_without_shadow_9: -4936324455881324036
+      death_0: -441294705
+      death_1: -259913347
+      death_10: 1585561251
+      death_11: 471653990
+      death_12: 1902214832
+      death_13: 1373778730
+      death_14: -1560552464
+      death_15: -40187852
+      death_16: -238686241
+      death_17: -325505545
+      death_18: -750416836
+      death_19: 1351993534
+      death_2: -1053066859
+      death_20: -1012610547
+      death_21: -2107476235
+      death_22: -345194291
+      death_23: -816988843
+      death_24: -379425452
+      death_25: 492234234
+      death_26: -1595837807
+      death_27: -1577859892
+      death_3: -873685409
+      death_4: -275478558
+      death_5: -1863562368
+      death_6: -1178678316
+      death_7: -413078769
+      death_8: 875789453
+      death_9: -535833020
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

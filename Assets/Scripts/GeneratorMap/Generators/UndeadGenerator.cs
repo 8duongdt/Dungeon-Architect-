@@ -22,19 +22,14 @@ public class UndeadGenerator
     // Độ dày viền tường ngoài bao quanh khu vực kín.
     private const int OuterWallThickness = 1;
 
-    // Chừa 1 ô sàn quanh mép trong phòng để vũng nước không lan ra sát tường.
-    private const int SwampEdgeMargin = 1;
+    // Số lần thử tìm chỗ đặt một hồ nước trước khi bỏ qua.
+    private const int PoolPlacementTries = 20;
 
-    // Nước phủ trong dải này so với diện tích phòng: đủ làm hazard cục bộ nhưng vẫn chừa
-    // >= 70% sàn khô cho nhân vật tầm xa xoay xở và lấy góc bắn.
-    private const float SwampMinCoverage = 0.20f;
-    private const float SwampMaxCoverage = 0.30f;
+    // Chừa khoảng này quanh mép trong phòng để hồ nước (và vành bờ) không chạm tường ngoài.
+    private const int PoolEdgeMargin = 2;
 
-    // Tần số lấy mẫu Perlin: số nhỏ -> vũng nước to, mượt; số lớn -> vũng vụn, lốm đốm.
-    private const float SwampNoiseScale = 0.22f;
-
-    // Biên độ dịch gốc Perlin để mỗi phòng (và mỗi lần sinh) ra hình nước khác nhau.
-    private const float SwampNoiseOffsetRange = 1000f;
+    // Chừa trống quanh tâm khu vực (ô gate/điểm xuất phát) - không cho hồ nước lấp lối ra.
+    private const int PoolKeepClearRadius = 6;
 
     private readonly DungeonData data;
     private readonly System.Random random;
@@ -122,96 +117,128 @@ public class UndeadGenerator
         }
     }
 
-    // ----- Bước 2: carve vũng nước đầm lầy bằng nhiễu Perlin -----
+    // ----- Bước 2: đặt các HỒ NƯỚC CHỮ NHẬT (kiểu phòng dungeon) -----
 
+    // Mỗi phòng có swampRoomChance% được rải hồ nước. Hồ là các hình chữ nhật rời nhau (cách nhau
+    // swampPoolPadding ô) nên mỗi hồ tự được vành bờ 8 hướng bao quanh ở khâu vẽ - giống cấu trúc
+    // phòng-có-tường của RoomFirst, thay cho nhiễu Perlin lởm chởm trước đây.
     private void CarveSwampPools()
     {
         foreach (RectInt room in rooms)
         {
             if (RollPercent(data.swampRoomChance))
             {
-                CarveSwampInRoom(room);
+                CarveRectangularPools(room);
             }
         }
     }
 
-    // Phủ nước hữu cơ trong phòng bằng nhiễu Perlin: lấy mẫu mọi ô sàn trong vùng lõi rồi
-    // biến những ô có giá trị nhiễu CAO NHẤT thành nước cho tới khi đạt tỉ lệ phủ mục tiêu.
-    // Perlin liên tục nên các ô giá trị cao nằm liền nhau -> vũng nước liền mạch, bờ bất quy tắc.
-    private void CarveSwampInRoom(RectInt room)
+    // Thử rải swampPoolCount hồ chữ nhật không chồng nhau trong phòng, tránh tâm khu vực.
+    private void CarveRectangularPools(RectInt room)
     {
-        RectInt core = ShrinkToCore(room);
-        if (core.width < 1 || core.height < 1)
+        var placedPools = new List<RectInt>();
+        Vector2Int center = RoomCenter(room);
+
+        for (int i = 0; i < data.swampPoolCount; i++)
         {
-            return;
-        }
-
-        int targetWaterTiles = SwampTargetTileCount(room);
-        if (targetWaterTiles <= 0)
-        {
-            return;
-        }
-
-        List<NoiseSample> floorSamples = SampleFloorNoise(core);
-        FloodHighestSamples(floorSamples, targetWaterTiles);
-    }
-
-    // Thu phòng vào trong SwampEdgeMargin ô để nước không chạm sát tường (chừa lối men theo mép).
-    private RectInt ShrinkToCore(RectInt room)
-    {
-        return new RectInt(
-            room.xMin + SwampEdgeMargin,
-            room.yMin + SwampEdgeMargin,
-            room.width - SwampEdgeMargin * 2,
-            room.height - SwampEdgeMargin * 2);
-    }
-
-    // Số ô nước mục tiêu = (20-30% theo cấu hình) nhân diện tích sàn phòng.
-    private int SwampTargetTileCount(RectInt room)
-    {
-        float coverage = Mathf.Clamp(
-            data.swampWaterPercentage / 100f, SwampMinCoverage, SwampMaxCoverage);
-        int totalFloorArea = room.width * room.height;
-        return Mathf.RoundToInt(totalFloorArea * coverage);
-    }
-
-    // Lấy mẫu nhiễu Perlin cho từng ô sàn trong vùng lõi. Gốc lấy mẫu dịch ngẫu nhiên nên
-    // mỗi phòng/lần sinh cho ra hình nước khác nhau.
-    private List<NoiseSample> SampleFloorNoise(RectInt core)
-    {
-        float offsetX = (float)random.NextDouble() * SwampNoiseOffsetRange;
-        float offsetY = (float)random.NextDouble() * SwampNoiseOffsetRange;
-
-        var samples = new List<NoiseSample>(core.width * core.height);
-        for (int x = core.xMin; x < core.xMax; x++)
-        {
-            for (int y = core.yMin; y < core.yMax; y++)
+            if (TryFindPoolRect(room, center, placedPools, out RectInt pool))
             {
-                if (map[x, y] != TileType.Floor)
-                {
-                    continue;
-                }
+                FillPool(pool);
+                placedPools.Add(pool);
+            }
+        }
+    }
 
-                float noise = Mathf.PerlinNoise(
-                    (x + offsetX) * SwampNoiseScale, (y + offsetY) * SwampNoiseScale);
-                samples.Add(new NoiseSample(new Vector2Int(x, y), noise));
+    // Thử vài vị trí/kích thước ngẫu nhiên cho một hồ; trả về true ở lần đầu hợp lệ.
+    private bool TryFindPoolRect(
+        RectInt room, Vector2Int center, List<RectInt> placedPools, out RectInt pool)
+    {
+        for (int attempt = 0; attempt < PoolPlacementTries; attempt++)
+        {
+            int width = RandomRange(data.swampPoolMinSize, data.swampPoolMaxSize);
+            int height = RandomRange(data.swampPoolMinSize, data.swampPoolMaxSize);
+            RectInt candidate = RandomPoolPosition(room, width, height);
+
+            if (IsPoolPositionValid(candidate, center, placedPools))
+            {
+                pool = candidate;
+                return true;
             }
         }
 
-        return samples;
+        pool = default;
+        return false;
     }
 
-    // Sắp xếp ô sàn theo giá trị nhiễu giảm dần và ngập nước những ô cao nhất đến khi đủ chỉ tiêu.
-    private void FloodHighestSamples(List<NoiseSample> samples, int targetWaterTiles)
+    // Vị trí góc dưới-trái ngẫu nhiên sao cho cả hồ nằm trong phòng (đã chừa PoolEdgeMargin mép).
+    private RectInt RandomPoolPosition(RectInt room, int width, int height)
     {
-        samples.Sort((a, b) => b.Noise.CompareTo(a.Noise));
+        int minX = room.xMin + PoolEdgeMargin;
+        int maxX = room.xMax - PoolEdgeMargin - width;
+        int minY = room.yMin + PoolEdgeMargin;
+        int maxY = room.yMax - PoolEdgeMargin - height;
 
-        int waterTiles = Mathf.Min(targetWaterTiles, samples.Count);
-        for (int i = 0; i < waterTiles; i++)
+        if (maxX < minX || maxY < minY)
         {
-            Vector2Int cell = samples[i].Cell;
-            map[cell.x, cell.y] = TileType.SwampWater;
+            return new RectInt(minX, minY, width, height);
         }
+
+        return new RectInt(
+            random.Next(minX, maxX + 1), random.Next(minY, maxY + 1), width, height);
+    }
+
+    // Hợp lệ khi không lấn vùng chừa trống quanh tâm và cách mọi hồ đã đặt >= swampPoolPadding ô.
+    private bool IsPoolPositionValid(RectInt pool, Vector2Int center, List<RectInt> placedPools)
+    {
+        if (IsNearAreaCenter(pool, center))
+        {
+            return false;
+        }
+
+        foreach (RectInt other in placedPools)
+        {
+            if (Expand(other, data.swampPoolPadding).Overlaps(pool))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Hồ có lấn vào ô vuông chừa trống quanh tâm khu vực (giữ lối ra/điểm xuất phát thông thoáng) không.
+    private bool IsNearAreaCenter(RectInt pool, Vector2Int center)
+    {
+        var clearZone = new RectInt(
+            center.x - PoolKeepClearRadius, center.y - PoolKeepClearRadius,
+            PoolKeepClearRadius * 2, PoolKeepClearRadius * 2);
+        return clearZone.Overlaps(pool);
+    }
+
+    // Đổ nước vào toàn bộ ô sàn trong hình chữ nhật hồ (không đè cổng/tường).
+    private void FillPool(RectInt pool)
+    {
+        for (int x = pool.xMin; x < pool.xMax; x++)
+        {
+            for (int y = pool.yMin; y < pool.yMax; y++)
+            {
+                if (map[x, y] == TileType.Floor)
+                {
+                    map[x, y] = TileType.SwampWater;
+                }
+            }
+        }
+    }
+
+    // Nới một RectInt ra mọi phía 'by' ô (dùng để kiểm tra khoảng cách tối thiểu giữa các hồ).
+    private static RectInt Expand(RectInt rect, int by)
+    {
+        return new RectInt(rect.xMin - by, rect.yMin - by, rect.width + by * 2, rect.height + by * 2);
+    }
+
+    private int RandomRange(int minInclusive, int maxInclusive)
+    {
+        return random.Next(minInclusive, maxInclusive + 1);
     }
 
     // ----- Bước 3: đặt cổng ở tâm khu vực -----
@@ -249,18 +276,5 @@ public class UndeadGenerator
     private bool RollPercent(float percent)
     {
         return random.NextDouble() * 100.0 < percent;
-    }
-
-    // Cặp (ô sàn, giá trị nhiễu Perlin) - dùng để xếp hạng và chọn ô ngập nước.
-    private readonly struct NoiseSample
-    {
-        public readonly Vector2Int Cell;
-        public readonly float Noise;
-
-        public NoiseSample(Vector2Int cell, float noise)
-        {
-            Cell = cell;
-            Noise = noise;
-        }
     }
 }

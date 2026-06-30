@@ -15,17 +15,38 @@ public abstract class DungeonDecoratorBase : MonoBehaviour
     // Theo dõi vật đã spawn để dọn ở lần sinh map sau.
     private readonly List<GameObject> spawnedObjects = new List<GameObject>();
 
-    // Spawn prefab tại tâm ô và gom lại để dọn sau. Trả về instance (null nếu prefab trống).
-    protected GameObject Spawn(GameObject prefab, TilemapVisualizer visualizer, Vector2Int cell)
+    // Hạt nhân đặt vật của lần Decorate hiện tại (snap tâm ô + theo dõi ô đã chiếm).
+    protected MapPlacement Placement { get; private set; }
+
+    // Lớp con gọi đầu mỗi lần Decorate để gắn map vào hạt nhân đặt vật dùng chung.
+    protected void BeginPlacement(MapPlacement placement)
     {
-        if (prefab == null)
+        Placement = placement;
+    }
+
+    // Spawn tại tâm ô và gom lại để dọn sau (KHÔNG đánh dấu ô đã chiếm) - dùng cho vật trên
+    // tường (đuốc) hay hazard trên nước, vốn không tranh ô sàn với vật khác.
+    protected GameObject SpawnAt(GameObject prefab, Vector2Int cell)
+    {
+        if (prefab == null || Placement == null)
         {
             return null;
         }
 
-        Vector3 worldPosition = visualizer.CellToWorldCenter(cell);
+        Vector3 worldPosition = Placement.CellCenter(cell);
         GameObject instance = Instantiate(prefab, worldPosition, Quaternion.identity, decorationParent);
         spawnedObjects.Add(instance);
+        return instance;
+    }
+
+    // Spawn tại tâm ô RỒI đánh dấu ô đã chiếm để các luật đặt sau không chồng lên.
+    protected GameObject SpawnAndOccupy(GameObject prefab, Vector2Int cell)
+    {
+        GameObject instance = SpawnAt(prefab, cell);
+        if (instance != null)
+        {
+            Placement.Occupy(cell);
+        }
         return instance;
     }
 

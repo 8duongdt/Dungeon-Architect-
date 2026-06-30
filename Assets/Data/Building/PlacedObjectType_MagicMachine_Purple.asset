@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3534b94a785f57e40a657499b825dfaf, type: 3}
+  m_Name: PlacedObjectType_MagicMachine_Purple
+  m_EditorClassIdentifier: Assembly-CSharp::PlacedObjectTypeSO
+  nameString: Magic Forge
+  prefab: {fileID: 9093047791341306923, guid: 54ebe16b187d4db18aa2f7cb863c0f05, type: 3}
+  visual: {fileID: 9093047791341306923, guid: 54ebe16b187d4db18aa2f7cb863c0f05, type: 3}
+  icon: {fileID: -1808982527863717971, guid: 787b04827dd792f4d8daf037b9b094cf, type: 3}
+  goldCost: 100
+  manaCost: 0
+  hotkey: W
+  description: "Khai th\xE1c & tinh luy\u1EC7n Mana (Lv1: 10/gi\xE2y)."
+  width: 3
+  height: 3
+  placementCellOffset: {x: 0, y: 0}

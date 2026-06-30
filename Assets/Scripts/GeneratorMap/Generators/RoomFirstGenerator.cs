@@ -28,7 +28,7 @@ public class RoomFirstGenerator
         rooms.Clear();
 
         var bspBounds = new BoundsInt(Vector3Int.zero,
-            new Vector3Int(data.roomFirstMapWidth, data.roomFirstMapHeight, 0));
+            new Vector3Int(data.mapWidth, data.mapHeight, 0));
         List<BoundsInt> bspRooms = ProceduralGenerationAlgorithms.BinarySpacePartitioning(
             bspBounds, data.roomFirstMinRoomWidth, data.roomFirstMinRoomHeight);
 
@@ -40,9 +40,9 @@ public class RoomFirstGenerator
 
     private TileType[,] CreateWallGrid()
     {
-        var grid = new TileType[data.roomFirstMapWidth, data.roomFirstMapHeight];
-        for (int x = 0; x < data.roomFirstMapWidth; x++)
-            for (int y = 0; y < data.roomFirstMapHeight; y++)
+        var grid = new TileType[data.mapWidth, data.mapHeight];
+        for (int x = 0; x < data.mapWidth; x++)
+            for (int y = 0; y < data.mapHeight; y++)
                 grid[x, y] = TileType.Wall;
         return grid;
     }
@@ -123,10 +123,10 @@ public class RoomFirstGenerator
     private List<Vector2Int> WidenCorridor(List<Vector2Int> path)
     {
         var widened = new List<Vector2Int>();
-        for (int i = 1; i < path.Count - 1; i++)
+        for (int i = 0; i < path.Count; i++)
             for (int dx = -1; dx <= 1; dx++)
                 for (int dy = -1; dy <= 1; dy++)
-                    widened.Add(path[i - 1] + new Vector2Int(dx, dy));
+                    widened.Add(path[i] + new Vector2Int(dx, dy));
         return widened;
     }
 
@@ -153,7 +153,7 @@ public class RoomFirstGenerator
 
     private void SetFloor(int x, int y)
     {
-        bool isInsideMap = x >= 0 && x < data.roomFirstMapWidth && y >= 0 && y < data.roomFirstMapHeight;
+        bool isInsideMap = x >= 0 && x < data.mapWidth && y >= 0 && y < data.mapHeight;
         if (isInsideMap)
             map[x, y] = TileType.Floor;
     }

@@ -1,0 +1,41 @@
+{
+  "group_id": null,
+  "objects": [
+    {
+      "id": "79350b87-87da-4260-87e6-ad8107fe54d8",
+      "name": null,
+      "prompt": "Dark Zenith Altar\nBase Structure & Environment:\n\nThe Altar: A pristine, geometrically perfect obsidian platform that appears to levitate completely. The stone is pitch-black, highly reflective, and flawless, lacking the wear-and-tear of the previous tiers.\n\nThe Void: Instead of standard dungeon flooring, the ground immediately beneath and around the altar gives way to a parallax background of an endless, starry abyss, creating a sudden illusion of immense, terrifying depth.\n\nLighting & VFX: Three intricate, glowing purple runic circles surround the structure. These circles utilize additive blending to create a vivid, piercing neon glow that cuts through the darkness. Erratic, jagged arcs of dark magical lightning periodically strike the edges of the altar and vanish instantly.",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {
+        "Runic_Circles_The_image_features_two_distinct_pat": {
+          "directions": {
+            "unknown": {
+              "frames": [
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_000.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_001.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_002.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_003.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_004.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_005.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_006.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_007.png",
+                "animations/Runic_Circles_The_image_features_two_distinct_pat/unknown/frame_008.png"
+              ],
+              "frame_count": 9
+            }
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "1.0",
+  "export_date": "2026-06-30T08:25:27.635541"
+}

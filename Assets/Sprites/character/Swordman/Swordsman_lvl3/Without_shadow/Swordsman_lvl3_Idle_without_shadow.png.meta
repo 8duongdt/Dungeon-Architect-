@@ -154,7 +154,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -168,7 +168,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -192,7 +192,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -233,19 +233,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 209
-        width: 22
-        height: 28
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 089dffa3cdd5312b0800000000000000
+      spriteID: 93d00e6c8fa614142b8e7cca6067c100
       internalID: -5615041109936842368
       vertices: []
       indices: 
@@ -255,19 +255,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_1
       rect:
         serializedVersion: 2
-        x: 82
-        y: 209
-        width: 22
-        height: 28
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1780cb57f5d574680800000000000000
+      spriteID: c8c268cc04c71014badea5da64fe8b80
       internalID: -8770939084702218127
       vertices: []
       indices: 
@@ -277,19 +277,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_2
       rect:
         serializedVersion: 2
-        x: 146
-        y: 209
-        width: 22
-        height: 28
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e69d594b31de2bb70800000000000000
+      spriteID: 64417418050566e43b4fb803cad2ea33
       internalID: 8913447281409513838
       vertices: []
       indices: 
@@ -299,19 +299,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_3
       rect:
         serializedVersion: 2
-        x: 210
-        y: 209
-        width: 22
-        height: 28
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 847f1a5aa9d954540800000000000000
+      spriteID: e9cb9d2c61f631f4e83274df0aa55379
       internalID: 4991569049539442504
       vertices: []
       indices: 
@@ -321,19 +321,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_4
       rect:
         serializedVersion: 2
-        x: 274
-        y: 209
-        width: 22
-        height: 28
+        x: 256
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d4cdcc2c043e37e20800000000000000
+      spriteID: 3a38f46cd04987c47b409e5a24cd8be5
       internalID: 3347268815352028237
       vertices: []
       indices: 
@@ -343,19 +343,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_5
       rect:
         serializedVersion: 2
-        x: 339
-        y: 209
-        width: 20
-        height: 28
+        x: 320
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 60599cbab4aab90f0800000000000000
+      spriteID: 2f37cc65cc586e74db69e8a8174f350a
       internalID: -1109105641235311354
       vertices: []
       indices: 
@@ -365,19 +365,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_6
       rect:
         serializedVersion: 2
-        x: 403
-        y: 209
-        width: 21
-        height: 28
+        x: 384
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 73b1b3f57b0ce1e60800000000000000
+      spriteID: 93bd2fcc5283c11428d90c32b28e2beb
       internalID: 7934991487282649911
       vertices: []
       indices: 
@@ -387,19 +387,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_7
       rect:
         serializedVersion: 2
-        x: 467
-        y: 209
-        width: 21
-        height: 28
+        x: 448
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1e96b97384c622bd0800000000000000
+      spriteID: 786ecaeb39cb0ef4dbb4ffcda4ebea19
       internalID: -2656441772768794143
       vertices: []
       indices: 
@@ -409,19 +409,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_8
       rect:
         serializedVersion: 2
-        x: 531
-        y: 209
-        width: 21
-        height: 28
+        x: 512
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e77b7f4134fb17960800000000000000
+      spriteID: ac5f7be59563e6847b1551fb23ae41e9
       internalID: 7598064341186230142
       vertices: []
       indices: 
@@ -431,19 +431,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_9
       rect:
         serializedVersion: 2
-        x: 595
-        y: 209
-        width: 21
-        height: 28
+        x: 576
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cd974d993791810e0800000000000000
+      spriteID: 32c60c8b91c9ea14a80bc13d64240797
       internalID: -2299059625479865892
       vertices: []
       indices: 
@@ -453,19 +453,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_10
       rect:
         serializedVersion: 2
-        x: 659
-        y: 209
-        width: 21
-        height: 28
+        x: 640
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e3af558aa61f0d480800000000000000
+      spriteID: 16f7ed0d67586d84b9cd9a32a1efe459
       internalID: -8876329425154213314
       vertices: []
       indices: 
@@ -475,19 +475,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_11
       rect:
         serializedVersion: 2
-        x: 723
-        y: 209
-        width: 20
-        height: 28
+        x: 704
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3d6a4d502e16880f0800000000000000
+      spriteID: 865821c4d32e51043b7fc34ce861762d
       internalID: -1114533284385872173
       vertices: []
       indices: 
@@ -497,19 +497,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_12
       rect:
         serializedVersion: 2
-        x: 21
-        y: 147
-        width: 19
-        height: 27
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8db24b7f22a203c70800000000000000
+      spriteID: e5f2f2ab7de622d49bb42d0231ca2494
       internalID: 8948698789258210264
       vertices: []
       indices: 
@@ -519,19 +519,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_13
       rect:
         serializedVersion: 2
-        x: 85
-        y: 147
-        width: 19
-        height: 27
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 16b0c64eeec91dcf0800000000000000
+      spriteID: e83a0ab2d9a57724b82af0ca864634cf
       internalID: -229229556170749087
       vertices: []
       indices: 
@@ -541,19 +541,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_14
       rect:
         serializedVersion: 2
-        x: 149
-        y: 147
-        width: 19
-        height: 27
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6c8d8334cd6b76a60800000000000000
+      spriteID: e1e801fd8cd78b44db667a1b4f74d728
       internalID: 7667297947758418118
       vertices: []
       indices: 
@@ -563,19 +563,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_15
       rect:
         serializedVersion: 2
-        x: 213
-        y: 147
-        width: 19
-        height: 27
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: caeea409e51bcb390800000000000000
+      spriteID: 161332f2c98d2524e8a39632d42ba860
       internalID: -7801165434806669652
       vertices: []
       indices: 
@@ -585,19 +585,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_16
       rect:
         serializedVersion: 2
-        x: 277
-        y: 147
-        width: 19
-        height: 27
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4565cca449129d8e0800000000000000
+      spriteID: 1737f1b0af157c947a5f61805318a8db
       internalID: -1668265266170276268
       vertices: []
       indices: 
@@ -607,19 +607,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_17
       rect:
         serializedVersion: 2
-        x: 342
-        y: 147
-        width: 18
-        height: 27
+        x: 320
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ca7cfd07771485ac0800000000000000
+      spriteID: 51d7a001e5d1d454db7496320c400778
       internalID: -3866268298846943316
       vertices: []
       indices: 
@@ -629,19 +629,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_18
       rect:
         serializedVersion: 2
-        x: 406
-        y: 147
-        width: 18
-        height: 27
+        x: 384
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3396ca6bb9c69d820800000000000000
+      spriteID: d10d00a5d156f114db2f644d6157f11a
       internalID: 2943503247503812915
       vertices: []
       indices: 
@@ -651,19 +651,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_19
       rect:
         serializedVersion: 2
-        x: 470
-        y: 147
-        width: 18
-        height: 27
+        x: 448
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 10f24b241b8543880800000000000000
+      spriteID: e0c45569bedb1cd43946e795c742a76a
       internalID: -8632177067410837759
       vertices: []
       indices: 
@@ -673,19 +673,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_20
       rect:
         serializedVersion: 2
-        x: 534
-        y: 147
-        width: 18
-        height: 27
+        x: 512
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c805e83d62519f1c0800000000000000
+      spriteID: e3c536da5c9b63845a47d6ac37631810
       internalID: -4469517898686246772
       vertices: []
       indices: 
@@ -695,19 +695,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_21
       rect:
         serializedVersion: 2
-        x: 598
-        y: 147
-        width: 18
-        height: 27
+        x: 576
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f70394fbb890e6cb0800000000000000
+      spriteID: 6f20aa12256c59f4d89ec9c69e89d35a
       internalID: -4868943651326578561
       vertices: []
       indices: 
@@ -717,19 +717,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_22
       rect:
         serializedVersion: 2
-        x: 662
-        y: 147
-        width: 18
-        height: 27
+        x: 640
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a3c4c500f7dbb0a10800000000000000
+      spriteID: 4ceef5d137661f04c9ac4304636b393f
       internalID: 1876802022894488634
       vertices: []
       indices: 
@@ -739,19 +739,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_23
       rect:
         serializedVersion: 2
-        x: 726
-        y: 147
-        width: 18
-        height: 27
+        x: 704
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4283599700d6b98b0800000000000000
+      spriteID: 8d75222a49bf6ab47a48e159c92fce22
       internalID: -5144398300533409756
       vertices: []
       indices: 
@@ -761,19 +761,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_24
       rect:
         serializedVersion: 2
-        x: 24
-        y: 83
-        width: 18
-        height: 27
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ad238585e3f9870d0800000000000000
+      spriteID: d16f76a2a16e3ec4c97848cd15a6d253
       internalID: -3424812426496298278
       vertices: []
       indices: 
@@ -783,19 +783,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_25
       rect:
         serializedVersion: 2
-        x: 88
-        y: 83
-        width: 18
-        height: 27
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 086f4b81b91341080800000000000000
+      spriteID: a2afe4d96b13bc5448715396505d1047
       internalID: -9217687995116358016
       vertices: []
       indices: 
@@ -805,19 +805,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_26
       rect:
         serializedVersion: 2
-        x: 152
-        y: 83
-        width: 18
-        height: 27
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4d43abcb9811c1f50800000000000000
+      spriteID: ccb71b7fa3f52984291a5476958fc2c1
       internalID: 6853372016225563860
       vertices: []
       indices: 
@@ -827,19 +827,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_27
       rect:
         serializedVersion: 2
-        x: 216
-        y: 83
-        width: 18
-        height: 27
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ba96857a5088dd770800000000000000
+      spriteID: b5c297d285cafe64fb91cf32168fe497
       internalID: 8637209218230282667
       vertices: []
       indices: 
@@ -849,19 +849,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_28
       rect:
         serializedVersion: 2
-        x: 280
-        y: 83
-        width: 18
-        height: 27
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3ebacc0df9ecbb660800000000000000
+      spriteID: 5f718977f259faa46b5757832ec6bf4a
       internalID: 7402737598311738339
       vertices: []
       indices: 
@@ -871,19 +871,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_29
       rect:
         serializedVersion: 2
-        x: 344
-        y: 82
-        width: 17
-        height: 28
+        x: 320
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0a44c87cfe4fb3190800000000000000
+      spriteID: 286e4d9a3e479db45b62406b13034c41
       internalID: -7981516603901852512
       vertices: []
       indices: 
@@ -893,19 +893,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_30
       rect:
         serializedVersion: 2
-        x: 408
-        y: 82
-        width: 16
-        height: 28
+        x: 384
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 03e3f02e5641ffbb0800000000000000
+      spriteID: ae4f0b71368ddbc4188f6b7b2d00b9fe
       internalID: -4900175441738908112
       vertices: []
       indices: 
@@ -915,19 +915,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_31
       rect:
         serializedVersion: 2
-        x: 472
-        y: 82
-        width: 16
-        height: 28
+        x: 448
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e1a2f07b028d3520800000000000000
+      spriteID: ee0b04eafd392d348a87a60443905140
       internalID: 2683443938633884137
       vertices: []
       indices: 
@@ -937,19 +937,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_32
       rect:
         serializedVersion: 2
-        x: 536
-        y: 82
-        width: 16
-        height: 28
+        x: 512
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9c227307348ee7c00800000000000000
+      spriteID: 084121df588e5944eba31699b58233fb
       internalID: 900412351863792329
       vertices: []
       indices: 
@@ -959,19 +959,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_33
       rect:
         serializedVersion: 2
-        x: 600
-        y: 82
-        width: 16
-        height: 28
+        x: 576
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 691cccf81b4d9af00800000000000000
+      spriteID: f42a9ff7a5620d6429ad73c431669879
       internalID: 1128667040719880598
       vertices: []
       indices: 
@@ -981,19 +981,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_34
       rect:
         serializedVersion: 2
-        x: 664
-        y: 82
-        width: 16
-        height: 28
+        x: 640
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b2a0846de2ab61830800000000000000
+      spriteID: 09b56e0752ca76746b8940671a7ed5c7
       internalID: 4041622425937906219
       vertices: []
       indices: 
@@ -1003,19 +1003,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_35
       rect:
         serializedVersion: 2
-        x: 728
-        y: 82
-        width: 17
-        height: 28
+        x: 704
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ffe579d5b3faef660800000000000000
+      spriteID: c72d5c1bd2f0b53449998c6112958597
       internalID: 7421561905461288703
       vertices: []
       indices: 
@@ -1025,19 +1025,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_36
       rect:
         serializedVersion: 2
-        x: 23
-        y: 18
-        width: 22
-        height: 27
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ce63a4411ebe85040800000000000000
+      spriteID: 24a5aecff76bca744a09425c75c70a90
       internalID: 4636715168318502636
       vertices: []
       indices: 
@@ -1047,19 +1047,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_37
       rect:
         serializedVersion: 2
-        x: 88
-        y: 17
-        width: 21
-        height: 28
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56ab37e70a694f390800000000000000
+      spriteID: 75f8fac95d054e9439c2afb3e0f63294
       internalID: -7785432239756297627
       vertices: []
       indices: 
@@ -1069,19 +1069,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_38
       rect:
         serializedVersion: 2
-        x: 152
-        y: 17
-        width: 21
-        height: 28
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c8366988926516040800000000000000
+      spriteID: 89324842df3ef6e4abc33c197b1fd973
       internalID: 4639083827553526668
       vertices: []
       indices: 
@@ -1091,19 +1091,19 @@ TextureImporter:
       name: Swordsman_lvl3_Idle_without_shadow_39
       rect:
         serializedVersion: 2
-        x: 216
-        y: 17
-        width: 21
-        height: 28
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1304d66d4eadd2430800000000000000
+      spriteID: f534de546d1c65b49a4aa3ce93fc17ec
       internalID: 3759901940309114929
       vertices: []
       indices: 
@@ -1113,7 +1113,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d564f76cde4ebc74299bcc9a6845fa1f
     internalID: 0
     vertices: []
     indices: 

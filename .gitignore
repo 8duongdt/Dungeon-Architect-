@@ -75,6 +75,10 @@ crashlytics-build.properties
 # Local-only AI assistant notes (never commit)
 [Cc][Ll][Aa][Uu][Dd][Ee].md
 [Cc][Ll][Oo][Uu][Dd].md
+/memory/
+
+# Unity Editor-generated UI Toolkit schema (regenerated locally, not project content)
+/UIElementsSchema/
 
 # OS generated
 .DS_Store

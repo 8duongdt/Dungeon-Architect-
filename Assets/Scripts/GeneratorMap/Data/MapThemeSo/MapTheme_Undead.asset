@@ -25,5 +25,17 @@ MonoBehaviour:
   wallDiagonalCornerDownLeft: {fileID: 11400000, guid: 1748b55d0e41d964bb69324d31a7242b, type: 2}
   wallDiagonalCornerUpRight: {fileID: 11400000, guid: 629d105544f2d6a429d70ed82a37960a, type: 2}
   wallDiagonalCornerUpLeft: {fileID: 11400000, guid: 1b1d1cf7bd3e902479b7d76f27df3089, type: 2}
+  waterTile: {fileID: 11400000, guid: 7652851d3e237134b88fa5ff56afd0ab, type: 2}
+  shoreTile: {fileID: 0}
+  shoreN: {fileID: 11400000, guid: 256324598fe30c945b12c3ec80be946c, type: 2}
+  shoreS: {fileID: 11400000, guid: e50c0da10efb01544997ffcb9dd7f195, type: 2}
+  shoreW: {fileID: 11400000, guid: 358b7061ca148ef46aa20b1d3011b4c3, type: 2}
+  shoreE: {fileID: 11400000, guid: 05a07418e75c92c49836832a510b430a, type: 2}
+  shoreNW: {fileID: 11400000, guid: 32429b04ee6d13c439b191bcddc2b68c, type: 2}
+  shoreNE: {fileID: 11400000, guid: bf62d398d1864ed448dc10695ff3dfac, type: 2}
+  shoreSW: {fileID: 11400000, guid: 7def17133f0f4be47b0ccf5185eba1b2, type: 2}
+  shoreSE: {fileID: 11400000, guid: ab0eac6ca5b30724bbafd0d720acb847, type: 2}
   torchPrefab: {fileID: 0}
   chestPrefab: {fileID: 0}
+  portalPrefab: {fileID: 2757332645986801505, guid: de8e68926d76623428a0d774cb03d52a, type: 3}
+  portalCount: 4

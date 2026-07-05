@@ -4,15 +4,14 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
-/// Một ô lệnh xây dựng trên bảng điều khiển: nền ô đồ, icon công trình, phím tắt, tên và chi phí.
-/// Bấm ô (hoặc phím tắt) sẽ chọn loại công trình để xây. Có thể làm mờ khi không đủ tài nguyên hoặc
+/// Một ô lệnh xây dựng trên bảng điều khiển: nền ô đồ, icon công trình, tên và chi phí.
+/// Bấm ô sẽ chọn loại công trình để xây. Có thể làm mờ khi không đủ tài nguyên hoặc
 /// chưa có asset (placeholder).
 /// </summary>
 public class BuildActionSlotView : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text hotkeyText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Button button;
     [SerializeField] private CanvasGroup canvasGroup;
@@ -34,10 +33,6 @@ public class BuildActionSlotView : MonoBehaviour
         if (nameText != null)
         {
             nameText.text = string.IsNullOrEmpty(type.nameString) ? name : type.nameString.ToUpperInvariant();
-        }
-        if (hotkeyText != null)
-        {
-            hotkeyText.text = type.hotkey;
         }
         if (costText != null)
         {

@@ -1,14 +1,24 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class AttackState : MonoBehaviour
+public class AttackState : MonoBehaviour, IDamageOutputModifiable
 {
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private CharacterAnimationController animationController;
 
+    private float damageOutputMultiplier = 1f;
+
     /// <summary>Sát thương mỗi đòn đánh (chỉ đọc) - để HUD hiển thị chỉ số ATTACK.</summary>
     public float AttackDamage => attackDamage;
+
+    // Hệ số nhân sát thương gây ra (1 = gốc, 0.5 = còn một nửa) - đặt bởi UnitEffectModifier khi
+    // unit ra khỏi lãnh thổ pha lê đen.
+    public float DamageOutputMultiplier
+    {
+        get => damageOutputMultiplier;
+        set => damageOutputMultiplier = Mathf.Max(0f, value);
+    }
 
     private UnitAI ai;
     private UnitMovement movement;
@@ -105,8 +115,9 @@ public class AttackState : MonoBehaviour
         }
 
         hasDealtDamageThisSwing = true;
-        targetHealth.TakeDamage(attackDamage);
-        Debug.Log($"{gameObject.name} attacks {targetHealth.name} for {attackDamage} damage");
+        float dealtDamage = attackDamage * damageOutputMultiplier;
+        targetHealth.TakeDamage(dealtDamage);
+        Debug.Log($"{gameObject.name} attacks {targetHealth.name} for {dealtDamage} damage");
 
         if (targetHealth.IsDead)
         {

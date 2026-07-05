@@ -33,6 +33,10 @@ public class ConstructStatusPanelView : MonoBehaviour
     [SerializeField] private TMP_Text typeText;
     [SerializeField] private TMP_Text descriptionText;
 
+    [Header("Triệu hồi lính (chỉ hiện với trại huấn luyện)")]
+    [SerializeField] private GameObject trainingSection;
+    [SerializeField] private TrainingSlotView trainingSlotTemplate;
+
     [Header("Nâng cấp")]
     [SerializeField] private GameObject upgradeSection;
     [SerializeField] private TMP_Text upgradeBenefitText;
@@ -52,7 +56,9 @@ public class ConstructStatusPanelView : MonoBehaviour
     private PlacedObject currentObject;
     private BuildingDurability currentDurability;
     private BuildingUpgrade currentUpgrade;
+    private UnitTrainingBuilding currentTraining;
     private IConstructInfo[] currentInfos;
+    private readonly List<TrainingSlotView> trainingSlots = new List<TrainingSlotView>();
 
     private void OnEnable()
     {
@@ -97,9 +103,11 @@ public class ConstructStatusPanelView : MonoBehaviour
         currentObject = placedObject;
         currentDurability = placedObject.GetComponent<BuildingDurability>();
         currentUpgrade = placedObject.GetComponent<BuildingUpgrade>();
+        currentTraining = placedObject.GetComponent<UnitTrainingBuilding>();
         currentInfos = placedObject.GetComponents<IConstructInfo>();
 
         SetWindowActive(true);
+        RebuildTrainingSlots();
         RefreshStatic();
         RefreshDynamic();
     }
@@ -107,6 +115,7 @@ public class ConstructStatusPanelView : MonoBehaviour
     public void Hide()
     {
         currentObject = null;
+        currentTraining = null;
         SetWindowActive(false);
     }
 
@@ -128,6 +137,62 @@ public class ConstructStatusPanelView : MonoBehaviour
         SetText(levelText, $"Level {(currentUpgrade != null ? currentUpgrade.CurrentLevel : 1)}");
         RefreshDurability();
         RefreshUpgradeSection();
+        RefreshTrainingSlots();
+    }
+
+    // Dựng lại dãy ô triệu hồi cho trại đang xem: mỗi loại lính ĐÃ MỞ KHÓA một ô nhân bản từ mẫu.
+    // Nâng cấp trại có thể mở khóa thêm loại lính nên số ô được tính lại mỗi lần Show/nâng cấp.
+    private void RebuildTrainingSlots()
+    {
+        if (trainingSection == null || trainingSlotTemplate == null)
+        {
+            return;
+        }
+
+        foreach (TrainingSlotView slot in trainingSlots)
+        {
+            if (slot != null)
+            {
+                Destroy(slot.gameObject);
+            }
+        }
+        trainingSlots.Clear();
+
+        bool isTrainingBuilding = currentTraining != null;
+        trainingSection.SetActive(isTrainingBuilding);
+        if (!isTrainingBuilding)
+        {
+            return;
+        }
+
+        trainingSlotTemplate.gameObject.SetActive(false);
+        for (int index = 0; index < currentTraining.UnlockedUnitCount; index++)
+        {
+            TrainingSlotView slot = Instantiate(trainingSlotTemplate, trainingSlotTemplate.transform.parent);
+            slot.gameObject.SetActive(true);
+            slot.Bind(currentTraining, index);
+            trainingSlots.Add(slot);
+        }
+    }
+
+    private void RefreshTrainingSlots()
+    {
+        if (currentTraining == null)
+        {
+            return;
+        }
+
+        // Nâng cấp trong lúc cửa sổ đang mở có thể mở khóa thêm lính -> cần thêm ô mới.
+        if (trainingSlots.Count != currentTraining.UnlockedUnitCount)
+        {
+            RebuildTrainingSlots();
+            return;
+        }
+
+        foreach (TrainingSlotView slot in trainingSlots)
+        {
+            slot.Refresh();
+        }
     }
 
     private void RefreshDurability()

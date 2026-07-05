@@ -348,18 +348,77 @@ public static class GameplayHudSetup
         TMP_Text costText = CreateText("Cost", root, "COST: 0", 13, TextAlignmentOptions.Center,
             new Color(1f, 0.85f, 0.3f));
         SetAnchored((RectTransform)costText.transform, new Vector2(0.5f, 0f), new Vector2(0f, 14f), new Vector2(116f, 20f));
-        TMP_Text hotkeyText = CreateText("Hotkey", root, "Q", 18, TextAlignmentOptions.Center, Color.white);
-        SetAnchored((RectTransform)hotkeyText.transform, new Vector2(1f, 1f), new Vector2(-14f, -10f), new Vector2(26f, 26f));
 
         BuildActionSlotView slot = root.gameObject.AddComponent<BuildActionSlotView>();
         SetSerialized(slot, so =>
         {
             so.FindProperty("iconImage").objectReferenceValue = icon;
             so.FindProperty("nameText").objectReferenceValue = nameText;
-            so.FindProperty("hotkeyText").objectReferenceValue = hotkeyText;
             so.FindProperty("costText").objectReferenceValue = costText;
             so.FindProperty("button").objectReferenceValue = button;
             so.FindProperty("canvasGroup").objectReferenceValue = group;
+        });
+        return slot;
+    }
+
+    // Ô triệu hồi lính mẫu trong TrainingSection: avatar + giá + lớp phủ hồi chiêu quét tròn + badge
+    // đếm hàng chờ. Panel nhân bản ô này cho từng loại lính đã mở khóa của trại đang xem.
+    private static TrainingSlotView CreateTrainingSlotTemplate(RectTransform section)
+    {
+        TMP_Text label = CreateText("Label", section, "SUMMON UNITS", 16, TextAlignmentOptions.Center, Color.white);
+        SetAnchored((RectTransform)label.transform, new Vector2(0.5f, 1f), new Vector2(0f, -16f), new Vector2(320f, 22f));
+
+        RectTransform grid = CreateRect("Slots", section, Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
+            Vector2.zero, Vector2.zero);
+        SetStretch(grid, new Vector2(12f, 12f), new Vector2(-12f, -34f));
+        GridLayoutGroup layout = grid.gameObject.AddComponent<GridLayoutGroup>();
+        layout.cellSize = new Vector2(100f, 120f);
+        layout.spacing = new Vector2(8f, 8f);
+        layout.childAlignment = TextAnchor.UpperLeft;
+
+        RectTransform slotRoot = CreateRect("TrainingSlotTemplate", grid, new Vector2(0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(100f, 120f));
+        Image slotBg = AddImage(slotRoot, LoadSprite("Item Slots/itemSlot_cyan.png"), Color.white);
+        slotBg.raycastTarget = true; // nền ô nhận cả trái/phải chuột cho TrainingSlotView
+        CanvasGroup slotGroup = slotRoot.gameObject.AddComponent<CanvasGroup>();
+
+        RectTransform avatarRect = CreateRect("Avatar", slotRoot, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
+            new Vector2(0.5f, 1f), new Vector2(0f, -8f), new Vector2(76f, 76f));
+        Image avatar = AddImage(avatarRect, null, Color.white);
+        avatar.preserveAspect = true;
+        avatar.raycastTarget = false;
+
+        RectTransform overlayRect = CreateRect("Cooldown", slotRoot, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
+            new Vector2(0.5f, 1f), new Vector2(0f, -8f), new Vector2(76f, 76f));
+        Image cooldownOverlay = AddImage(overlayRect, LoadSprite("Panels/panel_black.png"), new Color(0f, 0f, 0f, 0.65f));
+        cooldownOverlay.type = Image.Type.Filled;
+        cooldownOverlay.fillMethod = Image.FillMethod.Radial360;
+        cooldownOverlay.fillOrigin = (int)Image.Origin360.Top;
+        cooldownOverlay.fillClockwise = true;
+        cooldownOverlay.fillAmount = 0f;
+        cooldownOverlay.raycastTarget = false;
+
+        TMP_Text costText = CreateText("Cost", slotRoot, "0G", 14, TextAlignmentOptions.Center, GoldColor);
+        SetAnchored((RectTransform)costText.transform, new Vector2(0.5f, 0f), new Vector2(0f, 16f), new Vector2(96f, 22f));
+        costText.raycastTarget = false;
+
+        RectTransform badgeRect = CreateRect("QueueBadge", slotRoot, new Vector2(1f, 1f), new Vector2(1f, 1f),
+            new Vector2(1f, 1f), new Vector2(2f, 2f), new Vector2(28f, 28f));
+        Image badgeBg = AddImage(badgeRect, LoadSprite("Buttons/buttonCircle_red.png"), Color.white);
+        badgeBg.raycastTarget = false;
+        TMP_Text badgeText = CreateText("Count", badgeRect, "0", 14, TextAlignmentOptions.Center, Color.white);
+        SetStretch((RectTransform)badgeText.transform, Vector2.zero, Vector2.zero);
+        badgeText.raycastTarget = false;
+
+        TrainingSlotView slot = slotRoot.gameObject.AddComponent<TrainingSlotView>();
+        SetSerialized(slot, so =>
+        {
+            so.FindProperty("avatarImage").objectReferenceValue = avatar;
+            so.FindProperty("costText").objectReferenceValue = costText;
+            so.FindProperty("cooldownOverlay").objectReferenceValue = cooldownOverlay;
+            so.FindProperty("queueBadgeText").objectReferenceValue = badgeText;
+            so.FindProperty("queueBadgeRoot").objectReferenceValue = badgeRect.gameObject;
+            so.FindProperty("canvasGroup").objectReferenceValue = slotGroup;
         });
         return slot;
     }
@@ -403,7 +462,7 @@ public static class GameplayHudSetup
 
         RectTransform window = CreateRect("Window", container,
             new Vector2(1f, 0.5f), new Vector2(1f, 0.5f), new Vector2(1f, 0.5f),
-            new Vector2(-20f, 0f), new Vector2(380f, 600f));
+            new Vector2(-20f, 0f), new Vector2(380f, 830f));
         AddImage(window, LoadSprite("Panels/panel_blue.png"), PanelTint).raycastTarget = true;
 
         TMP_Text nameText = CreateText("Name", window, "CONSTRUCT", 26, TextAlignmentOptions.Center, Color.white);
@@ -429,18 +488,23 @@ public static class GameplayHudSetup
 
         TMP_Text statsText = CreateText("Stats", window, string.Empty, 15, TextAlignmentOptions.TopLeft,
             new Color(0.85f, 0.95f, 1f));
-        SetAnchored((RectTransform)statsText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -202f), new Vector2(330f, 110f));
+        SetAnchored((RectTransform)statsText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -168f), new Vector2(330f, 60f));
         statsText.textWrappingMode = TextWrappingModes.Normal;
 
         TMP_Text typeText = CreateText("Type", window, "Type: --", 15, TextAlignmentOptions.Left, Color.white);
-        SetAnchored((RectTransform)typeText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -284f), new Vector2(330f, 22f));
+        SetAnchored((RectTransform)typeText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -234f), new Vector2(330f, 22f));
         TMP_Text descriptionText = CreateText("Description", window, string.Empty, 13, TextAlignmentOptions.TopLeft,
             new Color(0.8f, 0.8f, 0.8f));
-        SetAnchored((RectTransform)descriptionText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -340f), new Vector2(330f, 64f));
+        SetAnchored((RectTransform)descriptionText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -262f), new Vector2(330f, 44f));
         descriptionText.textWrappingMode = TextWrappingModes.Normal;
 
+        RectTransform trainingSection = CreateRect("TrainingSection", window, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
+            new Vector2(0.5f, 1f), new Vector2(0f, -314f), new Vector2(352f, 290f));
+        AddImage(trainingSection, LoadSprite("Panels/panel_black.png"), new Color(1f, 1f, 1f, 0.5f));
+        TrainingSlotView trainingSlotTemplate = CreateTrainingSlotTemplate(trainingSection);
+
         RectTransform upgradeSection = CreateRect("UpgradeSection", window, new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-            new Vector2(0.5f, 1f), new Vector2(0f, -412f), new Vector2(352f, 150f));
+            new Vector2(0.5f, 1f), new Vector2(0f, -612f), new Vector2(352f, 150f));
         AddImage(upgradeSection, LoadSprite("Panels/panel_black.png"), new Color(1f, 1f, 1f, 0.5f));
         TMP_Text upgradeBenefit = CreateText("Benefit", upgradeSection, string.Empty, 13, TextAlignmentOptions.Top,
             new Color(0.7f, 1f, 0.7f));
@@ -476,6 +540,8 @@ public static class GameplayHudSetup
             so.FindProperty("statsText").objectReferenceValue = statsText;
             so.FindProperty("typeText").objectReferenceValue = typeText;
             so.FindProperty("descriptionText").objectReferenceValue = descriptionText;
+            so.FindProperty("trainingSection").objectReferenceValue = trainingSection.gameObject;
+            so.FindProperty("trainingSlotTemplate").objectReferenceValue = trainingSlotTemplate;
             so.FindProperty("upgradeSection").objectReferenceValue = upgradeSection.gameObject;
             so.FindProperty("upgradeBenefitText").objectReferenceValue = upgradeBenefit;
             so.FindProperty("upgradeCostText").objectReferenceValue = upgradeCost;
@@ -507,15 +573,19 @@ public static class GameplayHudSetup
 
     private static PlacedObjectTypeSO[] LoadBuildTypes()
     {
-        PlacedObjectTypeSO drill = ConfigureType("PlacedObjectType_Drill_Yellow", "Drill", "Q",
-            100, 0, "Khai thác Vàng (Lv1: 10/giây).", "Icons/128px/coin_icon_128px.png");
-        PlacedObjectTypeSO forge = ConfigureType("PlacedObjectType_MagicMachine_Purple", "Magic Forge", "W",
-            100, 0, "Khai thác & tinh luyện Mana (Lv1: 10/giây).", "Icons/128px/gem_icon_128px.png");
-        PlacedObjectTypeSO barracks = EnsureBarracksPlaceholder();
-        return new[] { drill, forge, barracks };
+        PlacedObjectTypeSO drill = ConfigureType("PlacedObjectType_Drill_Blue", "Drill",
+            100, 0, "Khai thác Vàng - nâng cấp để đổi diện mạo và tăng sản lượng.", "Icons/128px/coin_icon_128px.png");
+        PlacedObjectTypeSO forge = ConfigureType("PlacedObjectType_MagicMachine_Green", "Magic Forge",
+            100, 0, "Khai thác & tinh luyện Mana - nâng cấp để đổi diện mạo và tăng sản lượng.", "Icons/128px/gem_icon_128px.png");
+        PlacedObjectTypeSO barracks = ConfigureType("PlacedObjectType_Crypt_of_Ruin", "Barracks",
+            100, 0, "Trại huấn luyện: bấm avatar lính trong Cửa sổ Trạng thái để triệu hồi.", "Icons/128px/sword_icon_128px.png");
+        PlacedObjectTypeSO obelisk = ConfigureType("PlacedObjectType_Void_Obsidian_Obelisk", "Void Obelisk",
+            500, 0, "Pha lê đen lãnh thổ: lính trong vùng không bị giảm chỉ số. Không đặt được gần cổng sinh quái.",
+            "Icons/128px/shield_icon_128px.png");
+        return new[] { drill, forge, barracks, obelisk };
     }
 
-    private static PlacedObjectTypeSO ConfigureType(string assetName, string display, string hotkey,
+    private static PlacedObjectTypeSO ConfigureType(string assetName, string display,
         int goldCost, int manaCost, string description, string iconPath)
     {
         string path = $"{BuildingDataFolder}/{assetName}.asset";
@@ -527,37 +597,12 @@ public static class GameplayHudSetup
         }
 
         type.nameString = display;
-        type.hotkey = hotkey;
         type.goldCost = goldCost;
         type.manaCost = manaCost;
         type.description = description;
         if (type.icon == null)
         {
             type.icon = LoadSprite(iconPath);
-        }
-        EditorUtility.SetDirty(type);
-        return type;
-    }
-
-    private static PlacedObjectTypeSO EnsureBarracksPlaceholder()
-    {
-        string path = $"{BuildingDataFolder}/PlacedObjectType_Barracks.asset";
-        var type = AssetDatabase.LoadAssetAtPath<PlacedObjectTypeSO>(path);
-        if (type == null)
-        {
-            type = ScriptableObject.CreateInstance<PlacedObjectTypeSO>();
-            AssetDatabase.CreateAsset(type, path);
-        }
-
-        type.nameString = "Barracks";
-        type.hotkey = "E";
-        type.goldCost = 100;
-        type.manaCost = 0;
-        type.description = "Huấn luyện lính (chưa thêm asset).";
-        type.prefab = null; // placeholder -> ô bị làm mờ trong lưới
-        if (type.icon == null)
-        {
-            type.icon = LoadSprite("Icons/128px/sword_icon_128px.png");
         }
         EditorUtility.SetDirty(type);
         return type;

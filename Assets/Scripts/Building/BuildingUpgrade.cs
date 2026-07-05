@@ -3,9 +3,10 @@ using UnityEngine;
 
 /// <summary>
 /// Hệ thống nâng cấp tại chỗ cho công trình. Giữ cấp hiện tại và bảng các cấp; mỗi lần nâng sẽ trừ
-/// Vàng/Mana rồi áp hiệu ứng (trần HP, hệ số sản xuất, tốc độ/giới hạn huấn luyện) lên các thành phần
-/// anh em trên cùng GameObject. Cấp 1 là cấp gốc (chi phí 0). Cửa sổ Trạng thái đọc thông tin cấp kế
-/// tiếp để hiển thị nút [NÂNG CẤP].
+/// Vàng/Mana rồi áp hiệu ứng (trần HP, hệ số sản xuất, tốc độ/giới hạn/mở khóa huấn luyện) lên các
+/// thành phần anh em trên cùng GameObject, đồng thời thay diện mạo (sprite + animator) sang art của
+/// cấp mới. Cấp 1 là cấp gốc (chi phí 0). Cửa sổ Trạng thái đọc thông tin cấp kế tiếp để hiển thị
+/// nút [NÂNG CẤP].
 /// </summary>
 public class BuildingUpgrade : MonoBehaviour
 {
@@ -24,11 +25,20 @@ public class BuildingUpgrade : MonoBehaviour
         [Tooltip("Hệ số nhân sản lượng cho ResourceProducer ở cấp này.")]
         [Min(0f)] public float productionMultiplier = 1f;
 
-        [Tooltip("Hệ số nhân chu kỳ huấn luyện (nhỏ hơn 1 = nhanh hơn).")]
+        [Tooltip("Hệ số nhân thời gian hồi triệu hồi (nhỏ hơn 1 = nhanh hơn).")]
         [Min(0.01f)] public float trainIntervalMultiplier = 1f;
 
         [Tooltip("Cộng thêm số lính tối đa cho trại huấn luyện ở cấp này.")]
         [Min(0)] public int maxUnitsBonus;
+
+        [Tooltip("Số loại lính mở khóa ở cấp này (đếm từ đầu danh sách trại; 0 = mở khóa tất cả).")]
+        [Min(0)] public int unlockedUnitCount;
+
+        [Tooltip("Sprite diện mạo của cấp này - bỏ trống thì giữ nguyên hình hiện tại.")]
+        public Sprite sprite;
+
+        [Tooltip("Animator controller diện mạo của cấp này - bỏ trống thì giữ nguyên animation hiện tại.")]
+        public RuntimeAnimatorController animatorController;
 
         [Tooltip("Mô tả lợi ích hiển thị khi xem trước cấp này.")]
         [TextArea] public string benefitDescription;
@@ -40,6 +50,8 @@ public class BuildingUpgrade : MonoBehaviour
     private BuildingDurability durability;
     private ResourceProducer producer;
     private UnitTrainingBuilding training;
+    private SpriteRenderer bodyRenderer;
+    private Animator bodyAnimator;
 
     public int CurrentLevel => currentLevel;
     public bool HasNextLevel => currentLevel < levels.Count;
@@ -52,6 +64,8 @@ public class BuildingUpgrade : MonoBehaviour
         durability = GetComponent<BuildingDurability>();
         producer = GetComponent<ResourceProducer>();
         training = GetComponent<UnitTrainingBuilding>();
+        bodyRenderer = GetComponent<SpriteRenderer>();
+        bodyAnimator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -115,7 +129,22 @@ public class BuildingUpgrade : MonoBehaviour
         }
         if (training != null)
         {
-            training.ApplyUpgrade(data.trainIntervalMultiplier, data.maxUnitsBonus);
+            training.ApplyUpgrade(data.trainIntervalMultiplier, data.maxUnitsBonus, data.unlockedUnitCount);
+        }
+        ApplyLevelVisual(data);
+    }
+
+    // Thay diện mạo sang art của cấp mới - đổi controller trước rồi mới đổi sprite để frame đầu
+    // của animation cấp mới không bị sprite cũ đè trong một khung hình.
+    private void ApplyLevelVisual(UpgradeLevel data)
+    {
+        if (bodyAnimator != null && data.animatorController != null)
+        {
+            bodyAnimator.runtimeAnimatorController = data.animatorController;
+        }
+        if (bodyRenderer != null && data.sprite != null)
+        {
+            bodyRenderer.sprite = data.sprite;
         }
     }
 }

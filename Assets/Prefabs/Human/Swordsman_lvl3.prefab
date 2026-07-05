@@ -220,6 +220,8 @@ GameObject:
   - component: {fileID: 3902361759671077073}
   - component: {fileID: 2091443357395399509}
   - component: {fileID: 1766507371256488729}
+  - component: {fileID: 6079619919508792465}
+  - component: {fileID: 8292968526782155978}
   m_Layer: 0
   m_Name: Swordsman_lvl3
   m_TagString: Untagged
@@ -302,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2935511b15c44f78ad1ce9b3240fdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
-  maxHealth: 100
+  baseMaxHealth: 100
   currentHealth: 100
   healthBar: {fileID: 4418504981626554006}
   destroyOnDeath: 1
@@ -371,6 +373,7 @@ MonoBehaviour:
   patrolWhenIdle: 0
   patrolPoints: []
   patrolPointTolerance: 0.15
+  seekCrystalsWhenIdle: 1
 --- !u!114 &5243701535538675110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +587,49 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.8274636}
   m_EdgeRadius: 0
+--- !u!114 &6079619919508792465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986122579456199077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.Seeker
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &8292968526782155978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986122579456199077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4e5ebb56ce59b43843d181159c4d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrystalCampaignAgent
+  repathSeconds: 2
+  waypointTolerance: 0.35
+  arriveRadiusFactor: 0.7
 --- !u!1 &1212264248111777597
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,9 +29,6 @@ public class PlacedObjectTypeSO : ScriptableObject
     [Min(0)]
     public int manaCost;
 
-    [Tooltip("Phím tắt hiển thị/kích hoạt ô lệnh (vd: Q, W, E, A, S, D).")]
-    public string hotkey;
-
     [Tooltip("Mô tả ngắn hiển thị trên bảng lệnh.")]
     [TextArea]
     public string description;

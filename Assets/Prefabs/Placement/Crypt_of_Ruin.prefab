@@ -131,14 +131,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitTrainingBuilding
   trainableUnits:
   - prefab: {fileID: 6821567458068680971, guid: b45350d33a722f349a00e80404a64248, type: 3}
+    portrait: {fileID: 0}
     goldCost: 20
     manaCost: 0
   - prefab: {fileID: 5912150807243907532, guid: 8ed986008c7cf07498dfeef72d015e99, type: 3}
+    portrait: {fileID: 0}
     goldCost: 25
     manaCost: 10
   - prefab: {fileID: 8209312928840587387, guid: 29c77722345579c4a98857cd5d33ad1c, type: 3}
+    portrait: {fileID: 0}
     goldCost: 15
     manaCost: 30
+  - prefab: {fileID: 7962868430708925345, guid: 7f68e8dde5b8d80429ab7e94a0a1b1fe, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 40
+    manaCost: 0
+  - prefab: {fileID: 3829517592481799677, guid: 31aa0f94cca510848b5647accd041fb2, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 50
+    manaCost: 20
+  - prefab: {fileID: 8787793029696314022, guid: 8b5cc1441c7a5a54294f2e19aea43211, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 30
+    manaCost: 60
+  - prefab: {fileID: 2323899874002517259, guid: 9a6f10da3d923e34ba0471be217c29e1, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 60
+    manaCost: 0
+  - prefab: {fileID: 4314425830968853428, guid: dde02e0f66b242149be749db99210cd0, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 75
+    manaCost: 30
+  - prefab: {fileID: 7616515538200667460, guid: b3ac03678e1848d4bbd70c0a504dd43b, type: 3}
+    portrait: {fileID: 0}
+    goldCost: 45
+    manaCost: 90
   spawnInterval: 5
   maxUnits: 6
   spawnRadius: 1
@@ -175,21 +202,30 @@ MonoBehaviour:
     productionMultiplier: 1
     trainIntervalMultiplier: 1
     maxUnitsBonus: 0
-    benefitDescription: "C\u1EA5p g\u1ED1c."
+    unlockedUnitCount: 3
+    sprite: {fileID: -10739765, guid: 2cef7f5081ca2e84ca902d973c00521d, type: 3}
+    animatorController: {fileID: 9100000, guid: 4fe8f08fa76032b498dbd5ccabed4b58, type: 2}
+    benefitDescription: "C\u1EA5p g\u1ED1c: 3 lo\u1EA1i l\xEDnh c\u01A1 b\u1EA3n."
   - goldCost: 200
     manaCost: 50
     maxDurability: 1500
     productionMultiplier: 1
     trainIntervalMultiplier: 0.7
     maxUnitsBonus: 2
-    benefitDescription: "Level 2: HP 1500, hu\u1EA5n luy\u1EC7n nhanh h\u01A1n, +2
-      l\xEDnh."
+    unlockedUnitCount: 6
+    sprite: {fileID: -433694581, guid: db0521fafb77d0d4881ee902f89eeb20, type: 3}
+    animatorController: {fileID: 9100000, guid: be97036f93b0edb409ace2d6a2d32b5b, type: 2}
+    benefitDescription: "Level 2: HP 1500, h\u1ED3i nhanh h\u01A1n, +2 l\xEDnh, m\u1EDF
+      kh\xF3a 3 l\xEDnh c\u1EA5p 2, di\u1EC7n m\u1EA1o m\u1EDBi."
   - goldCost: 400
     manaCost: 150
     maxDurability: 2000
     productionMultiplier: 1
     trainIntervalMultiplier: 0.5
     maxUnitsBonus: 4
-    benefitDescription: "Level 3: HP 2000, hu\u1EA5n luy\u1EC7n r\u1EA5t nhanh, +4
-      l\xEDnh."
+    unlockedUnitCount: 9
+    sprite: {fileID: -51476270, guid: afb8de204caca7147aa27a9a9d29ef31, type: 3}
+    animatorController: {fileID: 9100000, guid: 5f81317f4b827f644b374e49a971cbcd, type: 2}
+    benefitDescription: "Level 3: HP 2000, h\u1ED3i r\u1EA5t nhanh, +4 l\xEDnh, m\u1EDF
+      kh\xF3a 3 l\xEDnh c\u1EA5p 3, di\u1EC7n m\u1EA1o m\u1EDBi."
   currentLevel: 1

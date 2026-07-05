@@ -36,6 +36,10 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private WeightedScatterSpawner scatterSpawner;
 
+    // Rải tinh thể tài nguyên (Gold/Mana/Progress) theo số lượng cố định mỗi loại. Có thể bỏ trống.
+    [SerializeField]
+    private CrystalScatterSpawner crystalSpawner;
+
     [Header("Cổng sinh quái")]
     // Vật chứa các cổng đã sinh (để Hierarchy gọn). Bỏ trống sẽ tự tạo.
     [SerializeField]
@@ -81,7 +85,7 @@ public class DungeonManager : MonoBehaviour
                 GenerateRoomFirst(theme, data);
                 break;
             case DungeonGeneratorType.UndeadBigRoom:
-                GenerateUndead(data);
+                GenerateUndead(theme, data);
                 break;
         }
 
@@ -106,6 +110,10 @@ public class DungeonManager : MonoBehaviour
         {
             scatterSpawner.ClearSpawned();
         }
+        if (crystalSpawner != null)
+        {
+            crystalSpawner.ClearSpawned();
+        }
         ClearPortals();
     }
 
@@ -123,9 +131,10 @@ public class DungeonManager : MonoBehaviour
 
         Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
         ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
+        ScatterCrystalsAndActivateNearestGold(map, generator.Rooms, spawnCell, data);
     }
 
-    private void GenerateUndead(DungeonData data)
+    private void GenerateUndead(MapThemeSO theme, DungeonData data)
     {
         var generator = new UndeadGenerator(data);
         TileType[,] map = generator.Generate();
@@ -134,9 +143,11 @@ public class DungeonManager : MonoBehaviour
         PaintUndeadTerrain(map);
 
         undeadDecorator.Decorate(map, generator.Rooms, data, tilemapVisualizer);
+        SpawnPortals(theme, generator.Rooms);
 
         Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
         ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
+        ScatterCrystalsAndActivateNearestGold(map, generator.Rooms, spawnCell, data);
     }
 
     // Vẽ địa hình map Undead: sàn + tường, tile nước, và viền bờ bao quanh nước.
@@ -212,6 +223,23 @@ public class DungeonManager : MonoBehaviour
         }
 
         scatterSpawner.Scatter(map, rooms, spawnCell, tilemapVisualizer, data);
+    }
+
+    // Rải tinh thể tài nguyên rồi kích hoạt sẵn tinh thể Gold gần điểm xuất phát nhất, để người
+    // chơi có thể xây máy đào ngay mà không phải tự tìm/kích hoạt tinh thể đầu tiên.
+    private void ScatterCrystalsAndActivateNearestGold(
+        TileType[,] map, IReadOnlyList<RectInt> rooms, Vector2Int spawnCell, DungeonData data)
+    {
+        if (crystalSpawner == null)
+        {
+            return;
+        }
+
+        crystalSpawner.Scatter(map, rooms, spawnCell, tilemapVisualizer, data);
+
+        Vector3 spawnWorld = tilemapVisualizer.CellToWorldCenter(spawnCell);
+        CrystalNode nearestGold = CrystalNodeRegistry.FindNearestOfType(spawnWorld, CrystalType.Gold);
+        nearestGold?.Activate();
     }
 
     // Sau khi sinh map ngẫu nhiên, dời người chơi (và camera) về tâm phòng đầu tiên - ô luôn
@@ -301,7 +329,7 @@ public class DungeonManager : MonoBehaviour
         WallGeneration.CreateWalls(floorPositions, tilemapVisualizer);
     }
 
-    // ----- Cổng sinh quái (chỉ map Room-First) -----
+    // ----- Cổng sinh quái (mọi pipeline có phòng: Room-First + Undead) -----
 
     // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ theme.portalCount).
     private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms)

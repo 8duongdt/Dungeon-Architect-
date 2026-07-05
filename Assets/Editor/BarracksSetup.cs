@@ -45,7 +45,6 @@ public static class BarracksSetup
         public string DisplayName;   // tên hiển thị trên HUD
         public string TopFolder;     // thư mục cấp 1 trong Placement
         public string EnvFolder;     // thư mục "*_Environme" bên trong
-        public string Hotkey;
         public int BuildGold;
         public int BuildMana;
         public UnitSpec[] Units;     // 3 loại lính (Orc/Slime/Vampire) ở cấp tương ứng
@@ -86,7 +85,7 @@ public static class BarracksSetup
             {
                 Name = "Crypt_of_Ruin", DisplayName = "Crypt of Ruin (Lv1)",
                 TopFolder = "Crypt_of_Ruin_Base_Structure", EnvFolder = "Crypt_of_Ruin_Base_Structure_Environme",
-                Hotkey = "E", BuildGold = 100, BuildMana = 0,
+                BuildGold = 100, BuildMana = 0,
                 Units = new[]
                 {
                     new UnitSpec("Orc_1", 20, 0),
@@ -98,7 +97,7 @@ public static class BarracksSetup
             {
                 Name = "Hellforge_Barracks", DisplayName = "Hellforge Barracks (Lv2)",
                 TopFolder = "Hellforge_Barracks_Base_Struct", EnvFolder = "Hellforge_Barracks_Base_Structure_Envi",
-                Hotkey = "R", BuildGold = 200, BuildMana = 50,
+                BuildGold = 200, BuildMana = 50,
                 Units = new[]
                 {
                     new UnitSpec("Orc_2", 40, 0),
@@ -110,7 +109,7 @@ public static class BarracksSetup
             {
                 Name = "Dark_Zenith_Altar", DisplayName = "Dark Zenith Altar (Lv3)",
                 TopFolder = "Dark_Zenith_Altar_Base_Structu", EnvFolder = "Dark_Zenith_Altar_Base_Structure_Envir",
-                Hotkey = "T", BuildGold = 300, BuildMana = 150,
+                BuildGold = 300, BuildMana = 150,
                 Units = new[]
                 {
                     new UnitSpec("Orc_3", 60, 0),
@@ -341,7 +340,6 @@ public static class BarracksSetup
         type.icon = icon;
         type.goldCost = config.BuildGold;
         type.manaCost = config.BuildMana;
-        type.hotkey = config.Hotkey;
         type.description = "Trại huấn luyện lính: sinh Orc/Slime/Vampire theo chu kỳ.";
         type.width = FootprintCells;
         type.height = FootprintCells;

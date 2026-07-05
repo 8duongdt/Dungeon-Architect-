@@ -1,0 +1,52 @@
+{
+  "group_id": "5b989509-7aff-42f3-8990-4f6727299643",
+  "objects": [
+    {
+      "id": "63a13687-5529-4a1d-974f-c7f9ca56fc36",
+      "name": null,
+      "prompt": "A detailed, high-resolution still-life photograph of a large, deeply-colored amethyst crystal point. The crystal, a rich, fractured violet-purple with complex internal inclusions and sharply faceted edges. ",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "bb8b48bd-4b1d-4b80-bfed-be5c84d78f49",
+      "name": "changing from purple",
+      "prompt": "A detailed, high-resolution still-life photograph of a large, deeply-colored amethyst crystal point. The crystal, a rich, fractured violet-purple with complex internal inclusions and sharply faceted edges. ",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {}
+    },
+    {
+      "id": "544d023b-3153-4c05-9283-461abd25f6e1",
+      "name": "change from purple t",
+      "prompt": "A detailed, high-resolution still-life photograph of a large, deeply-colored amethyst crystal point. The crystal, a rich, fractured violet-purple with complex internal inclusions and sharply faceted edges. ",
+      "size": {
+        "width": 48,
+        "height": 48
+      },
+      "directions": 1,
+      "view": "low top-down",
+      "rotations": {
+        "unknown": "rotations/unknown.png"
+      },
+      "animations": {}
+    }
+  ],
+  "export_version": "1.0",
+  "export_date": "2026-07-04T08:53:52.056591"
+}

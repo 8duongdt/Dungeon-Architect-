@@ -18,6 +18,10 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
     private float outputMultiplier = 1f;
     private float cycleTimer;
 
+    // Tinh thể cùng loại mà công trình này đứng trong bán kính - null nếu không đứng gần tinh thể
+    // nào (không nên xảy ra qua luồng xây bình thường vì CrystalBuildRestriction đã chặn từ trước).
+    private CrystalNode ownerCrystal;
+
     public ResourceKind Kind => kind;
 
     /// <summary>Sản lượng quy đổi mỗi phút (đã tính hệ số nâng cấp) - dùng cho Cửa sổ Trạng thái.</summary>
@@ -31,9 +35,40 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
         yield return $"{resourceName} Generation: {ProductionPerMinute:0.#} / min";
     }
 
+    private void Awake()
+    {
+        ResolveOwnerCrystal();
+    }
+
+    // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng - chỉ
+    // cần tìm một lần khi spawn vì công trình không tự di chuyển sau khi đặt.
+    private void ResolveOwnerCrystal()
+    {
+        CrystalType matchingType = kind == ResourceKind.Gold ? CrystalType.Gold : CrystalType.Mana;
+        foreach (CrystalNode node in CrystalNodeRegistry.All)
+        {
+            if (node.Type != matchingType)
+            {
+                continue;
+            }
+
+            if (Vector2.Distance(node.transform.position, transform.position) <= node.InfluenceRadius)
+            {
+                ownerCrystal = node;
+                return;
+            }
+        }
+    }
+
     private void Update()
     {
         if (ResourceManager.Instance == null || cycleSeconds <= 0f)
+        {
+            return;
+        }
+
+        // Tinh thể chủ bị quái chiếm (Captured) hoặc chưa kích hoạt (Inactive) -> tạm ngừng sản xuất.
+        if (ownerCrystal != null && ownerCrystal.State != CrystalState.Active)
         {
             return;
         }

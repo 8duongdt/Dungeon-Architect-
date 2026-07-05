@@ -7,9 +7,13 @@ public class IdleState : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float patrolPointTolerance = 0.15f;
 
+    [Tooltip("Chỉ bật trên prefab quái - khi rảnh (không thấy mục tiêu, không có lệnh di chuyển tay) sẽ đi tìm tinh thể để chiếm thay vì patrol/đứng yên.")]
+    [SerializeField] private bool seekCrystalsWhenIdle;
+
     private UnitAI ai;
     private UnitMovement movement;
     private AttackAreaBase attackArea;
+    private ICrystalSeeker crystalSeeker;
     private int patrolIndex;
 
     public void Initialize(UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea)
@@ -17,6 +21,7 @@ public class IdleState : MonoBehaviour
         ai = unitAI;
         movement = unitMovement;
         attackArea = unitAttackArea;
+        crystalSeeker = GetComponent<ICrystalSeeker>();
     }
 
     public void Tick()
@@ -40,6 +45,14 @@ public class IdleState : MonoBehaviour
 
     private void PatrolOrStop()
     {
+        // Chạy TRƯỚC patrol vì combat (đã kiểm tra ở Tick) luôn được ưu tiên trước khi tới đây -
+        // tìm tinh thể chỉ lấp vào đúng vai trò "rảnh nhưng có việc để làm" của patrol trước đây,
+        // không phá bất biến ưu tiên lệnh di chuyển tay/combat.
+        if (seekCrystalsWhenIdle && crystalSeeker != null && crystalSeeker.TrySeekNearestCrystal())
+        {
+            return;
+        }
+
         if (!patrolWhenIdle || patrolPoints == null || patrolPoints.Length == 0)
         {
             movement.Stop();

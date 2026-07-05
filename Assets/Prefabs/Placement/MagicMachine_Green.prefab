@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceProducer
   kind: 1
-  amountPerCycle: 50
+  amountPerCycle: 1
   cycleSeconds: 1
 --- !u!114 &5606863085561754472
 MonoBehaviour:
@@ -165,19 +165,28 @@ MonoBehaviour:
     productionMultiplier: 1
     trainIntervalMultiplier: 1
     maxUnitsBonus: 0
-    benefitDescription: "C\u1EA5p g\u1ED1c."
+    unlockedUnitCount: 0
+    sprite: {fileID: -1808982527863717971, guid: 40846c487369c3d429c020f7f64723b8, type: 3}
+    animatorController: {fileID: 9100000, guid: 85f6d36664a8450a91d1c1af35ca81bc, type: 2}
+    benefitDescription: "C\u1EA5p g\u1ED1c: 1 mana/gi\xE2y."
   - goldCost: 200
     manaCost: 0
     maxDurability: 1500
-    productionMultiplier: 2
-    trainIntervalMultiplier: 1
-    maxUnitsBonus: 0
-    benefitDescription: "Level 2: HP 1500, s\u1EA3n l\u01B0\u1EE3ng x2."
-  - goldCost: 400
-    manaCost: 0
-    maxDurability: 2000
     productionMultiplier: 3
     trainIntervalMultiplier: 1
     maxUnitsBonus: 0
-    benefitDescription: "Level 3: HP 2000, s\u1EA3n l\u01B0\u1EE3ng x3."
+    unlockedUnitCount: 0
+    sprite: {fileID: -1808982527863717971, guid: 787b04827dd792f4d8daf037b9b094cf, type: 3}
+    animatorController: {fileID: 9100000, guid: 901935a970564e0894b409a4618c0059, type: 2}
+    benefitDescription: "Level 2: HP 1500, 3 mana/gi\xE2y, di\u1EC7n m\u1EA1o m\u1EDBi."
+  - goldCost: 400
+    manaCost: 0
+    maxDurability: 2000
+    productionMultiplier: 6
+    trainIntervalMultiplier: 1
+    maxUnitsBonus: 0
+    unlockedUnitCount: 0
+    sprite: {fileID: -1808982527863717971, guid: cee5ea0437841b143ac2a7fcccb713f2, type: 3}
+    animatorController: {fileID: 9100000, guid: e56519437a0247cdb018fe6a2139654a, type: 2}
+    benefitDescription: "Level 3: HP 2000, 6 mana/gi\xE2y, di\u1EC7n m\u1EA1o m\u1EDBi."
   currentLevel: 1

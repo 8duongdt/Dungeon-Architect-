@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private const string GameplaySceneName = "Phase 1";
+    private const string StoryIntroSceneName = "StoryIntro";
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(GameplaySceneName);
+        SceneManager.LoadScene(StoryIntroSceneName);
     }
 
     public void ExitGame()

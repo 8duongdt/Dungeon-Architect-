@@ -13,6 +13,10 @@ public class BuildingGhost : MonoBehaviour
     [SerializeField]
     private Color cannotBuildColor = new Color(1f, 0f, 0f, 0.5f);
 
+    [Tooltip("Tùy chọn - hiện vòng bán kính tinh thể cùng loại gần nhất khi đang cầm công trình khai thác.")]
+    [SerializeField]
+    private RadiusIndicatorDisplay crystalRadiusHint;
+
     private GridBuildingSystem buildingSystem;
     private PlacedObjectTypeSO shownType;
     private Transform visualInstance;
@@ -30,12 +34,37 @@ public class BuildingGhost : MonoBehaviour
 
         if (activeType == null)
         {
+            crystalRadiusHint?.Hide();
             return;
         }
 
         Vector2Int origin = buildingSystem.GetMouseCell();
         visualInstance.position = buildingSystem.GetPlacementWorldPosition(activeType, origin);
         ApplyTint(buildingSystem.CanBuildAt(activeType, origin));
+        UpdateCrystalRadiusHint(activeType, visualInstance.position);
+    }
+
+    // Đang cầm máy đào/lò ma thuật thì hiện luôn vòng bán kính của tinh thể cùng loại gần nhất,
+    // để người chơi biết đặt trong vùng nào mới hoạt động được (xem CrystalBuildRestriction).
+    private void UpdateCrystalRadiusHint(PlacedObjectTypeSO activeType, Vector3 placementWorldPosition)
+    {
+        if (crystalRadiusHint == null)
+        {
+            return;
+        }
+
+        CrystalType? requiredType = CrystalBuildRestriction.GetRequiredCrystalType(activeType);
+        CrystalNode nearestSameType = requiredType.HasValue
+            ? CrystalNodeRegistry.FindNearestOfType(placementWorldPosition, requiredType.Value)
+            : null;
+
+        if (nearestSameType == null)
+        {
+            crystalRadiusHint.Hide();
+            return;
+        }
+
+        crystalRadiusHint.Show(nearestSameType.transform.position, nearestSameType.InfluenceRadius, nearestSameType.RadiusColor);
     }
 
     // Đảm bảo instance ghost khớp với loại đang chọn (tạo mới khi đổi loại, hủy khi bỏ chọn).

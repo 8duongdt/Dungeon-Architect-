@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// Lưới ô lệnh xây dựng ở trung tâm bảng điều khiển. Nhân bản một ô mẫu cho mỗi loại công trình,
-/// nối click + phím tắt vào <see cref="GridBuildingSystem.SetActiveBuildingType"/>, và làm mờ ô khi
+/// nối click vào <see cref="GridBuildingSystem.SetActiveBuildingType"/>, và làm mờ ô khi
 /// không đủ tài nguyên hoặc công trình chưa có prefab (placeholder).
 /// </summary>
 public class BuildActionGrid : MonoBehaviour
@@ -20,8 +18,6 @@ public class BuildActionGrid : MonoBehaviour
     {
         public BuildActionSlotView Slot;
         public PlacedObjectTypeSO Type;
-        public Key Hotkey;
-        public bool HasHotkey;
         public bool IsPlaceholder; // chưa có prefab -> luôn vô hiệu
     }
 
@@ -45,7 +41,6 @@ public class BuildActionGrid : MonoBehaviour
     private void Update()
     {
         RefreshAffordability();
-        ReadHotkeys();
     }
 
     private void CreateSlot(PlacedObjectTypeSO type)
@@ -59,8 +54,6 @@ public class BuildActionGrid : MonoBehaviour
         {
             Slot = slot,
             Type = type,
-            Hotkey = ParseHotkey(type.hotkey, out bool parsed),
-            HasHotkey = parsed,
             IsPlaceholder = type.prefab == null,
         });
     }
@@ -83,33 +76,5 @@ public class BuildActionGrid : MonoBehaviour
             bool canUse = !binding.IsPlaceholder && buildingSystem.CanAfford(binding.Type);
             binding.Slot.SetInteractable(canUse);
         }
-    }
-
-    private void ReadHotkeys()
-    {
-        if (Keyboard.current == null)
-        {
-            return;
-        }
-
-        foreach (SlotBinding binding in bindings)
-        {
-            if (binding.HasHotkey && Keyboard.current[binding.Hotkey].wasPressedThisFrame)
-            {
-                Select(binding.Type);
-            }
-        }
-    }
-
-    private static Key ParseHotkey(string hotkey, out bool parsed)
-    {
-        if (!string.IsNullOrWhiteSpace(hotkey) && Enum.TryParse(hotkey.Trim(), true, out Key key) && key != Key.None)
-        {
-            parsed = true;
-            return key;
-        }
-
-        parsed = false;
-        return Key.None;
     }
 }

@@ -22,6 +22,10 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField]
     private List<PlacedObjectTypeSO> placedObjectTypeList = new List<PlacedObjectTypeSO>();
 
+    [Tooltip("Layer chứa collider nhận diện tinh thể (pick collider của CrystalNode) khi chuột phải.")]
+    [SerializeField]
+    private LayerMask crystalPickLayer = ~0;
+
     private GridXY<GridObject> grid;
     private PlacedObjectTypeSO activeType;
 
@@ -44,6 +48,9 @@ public class GridBuildingSystem : MonoBehaviour
 
     /// <summary>Bắn khi người chơi chuột phải vào một công trình (ngoài chế độ xây) - mở Cửa sổ Trạng thái.</summary>
     public event Action<PlacedObject> ConstructInspectRequested;
+
+    /// <summary>Bắn khi người chơi chuột phải vào một tinh thể (ngoài chế độ xây) - hiện vòng bán kính.</summary>
+    public event Action<CrystalNode> CrystalInspectRequested;
 
     public float RefundFraction => refundFraction;
 
@@ -99,6 +106,13 @@ public class GridBuildingSystem : MonoBehaviour
         if (placedObject != null)
         {
             ConstructInspectRequested?.Invoke(placedObject);
+            return;
+        }
+
+        CrystalNode crystal = GetCrystalAtMouse();
+        if (crystal != null)
+        {
+            CrystalInspectRequested?.Invoke(crystal);
         }
     }
 
@@ -106,6 +120,14 @@ public class GridBuildingSystem : MonoBehaviour
     {
         GridObject gridObject = grid != null ? grid.GetGridObject(GetMouseCell()) : null;
         return gridObject != null ? gridObject.GetPlacedObject() : null;
+    }
+
+    // Tinh thể không nằm trong lưới xây dựng (chỉ rải tự do trên map) nên dò bằng va chạm vật lý
+    // tại vị trí chuột, qua pick collider nhỏ của CrystalNode - riêng biệt với collider vùng chiếm đóng.
+    private CrystalNode GetCrystalAtMouse()
+    {
+        Collider2D hit = Physics2D.OverlapPoint(MouseUtils.GetMouseWorldPosition(), crystalPickLayer);
+        return hit != null ? hit.GetComponentInParent<CrystalNode>() : null;
     }
 
     public void SetActiveBuildingType(PlacedObjectTypeSO type)
@@ -135,6 +157,17 @@ public class GridBuildingSystem : MonoBehaviour
     public bool CanBuildAt(PlacedObjectTypeSO type, Vector2Int origin)
     {
         if (type == null || grid == null)
+        {
+            return false;
+        }
+
+        Vector3 placementWorldPosition = GetPlacementWorldPosition(type, origin);
+        if (!CrystalBuildRestriction.IsSatisfied(type, placementWorldPosition))
+        {
+            return false;
+        }
+
+        if (!PortalBuildRestriction.IsSatisfied(type, placementWorldPosition))
         {
             return false;
         }

@@ -25,7 +25,17 @@ MonoBehaviour:
   wallDiagonalCornerDownLeft: {fileID: 11400000, guid: c866bc4746b00e14dba3aa756c967bf4, type: 2}
   wallDiagonalCornerUpRight: {fileID: 11400000, guid: 0647dbe876f6d354bab12965eefb774c, type: 2}
   wallDiagonalCornerUpLeft: {fileID: 11400000, guid: f3f2c1e83387ab74282c685d073ad408, type: 2}
+  waterTile: {fileID: 0}
+  shoreTile: {fileID: 0}
+  shoreN: {fileID: 0}
+  shoreS: {fileID: 0}
+  shoreW: {fileID: 0}
+  shoreE: {fileID: 0}
+  shoreNW: {fileID: 0}
+  shoreNE: {fileID: 0}
+  shoreSW: {fileID: 0}
+  shoreSE: {fileID: 0}
   torchPrefab: {fileID: 0}
   chestPrefab: {fileID: 0}
-  portalPrefab: {fileID: 0}
+  portalPrefab: {fileID: 2757332645986801505, guid: de8e68926d76623428a0d774cb03d52a, type: 3}
   portalCount: 1

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1ea20ba76261f40b5065c240e68fc8, type: 3}
+  m_Name: CrystalTypeConfig_Mana
+  m_EditorClassIdentifier: Assembly-CSharp::CrystalTypeConfigSO
+  type: 1
+  inactiveSprite: {fileID: 1195458779362535816, guid: a763c64dbd25f9e4f98c37e2076bf82f, type: 3}
+  activeSprite: {fileID: 1195458779362535816, guid: df35310bb3fb6f14cbf6f239ad79622c, type: 3}
+  capturedSprite: {fileID: 1195458779362535816, guid: 42968f26b30b92f478d1606a567277ab, type: 3}
+  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  capturedColor: {r: 1, g: 0, b: 0, a: 1}
+  smallRadius: 4
+  largeRadius: 7

@@ -39,7 +39,14 @@ public class MinimapController : MonoBehaviour, IPointerDownHandler, IDragHandle
     [Tooltip("Sprite tròn cho chấm; bỏ trống sẽ dùng ô vuông mặc định của UI.")]
     [SerializeField] private Sprite blipSprite;
 
+    [Header("Icon cổng sinh quái")]
+    [SerializeField] private Vector2 portalIconSize = new Vector2(8f, 8f);
+    [Tooltip("Sprite icon cổng; bỏ trống sẽ dùng ô vuông mặc định của UI.")]
+    [SerializeField] private Sprite portalIconSprite;
+    [SerializeField] private Color portalIconColor = new Color(0.9f, 0.7f, 0.1f, 1f);
+
     private readonly List<Image> blipPool = new();
+    private readonly List<Image> portalIconPool = new();
     private Rect mapWorldRect;
     private Texture2D terrainTexture;
     private bool hasMap;
@@ -90,6 +97,10 @@ public class MinimapController : MonoBehaviour, IPointerDownHandler, IDragHandle
         RebuildTerrainTexture(map);
         mapWorldRect = tilemapVisualizer.GetWorldBounds(map.GetLength(0), map.GetLength(1));
         hasMap = true;
+
+        // Cổng không tự di chuyển sau khi sinh nên chỉ cần dựng icon một lần ở đây, không phải
+        // mỗi Update như chấm unit.
+        RefreshPortalIcons();
     }
 
     private void RebuildTerrainTexture(TileType[,] map)
@@ -157,6 +168,62 @@ public class MinimapController : MonoBehaviour, IPointerDownHandler, IDragHandle
         for (int i = activeCount; i < blipPool.Count; i++)
         {
             blipPool[i].enabled = false;
+        }
+    }
+
+    // ----- Icon cổng sinh quái (tĩnh - dựng một lần mỗi khi map sinh lại) -----
+
+    private void RefreshPortalIcons()
+    {
+        IReadOnlyList<Transform> portals = PortalMarkerRegistry.Portals;
+        EnsurePortalIconPool(portals.Count);
+
+        for (int i = 0; i < portals.Count; i++)
+        {
+            Transform portal = portals[i];
+            Image icon = portalIconPool[i];
+
+            if (portal == null)
+            {
+                icon.enabled = false;
+                continue;
+            }
+
+            icon.enabled = true;
+            icon.rectTransform.anchoredPosition = WorldToContainerLocal(portal.position);
+        }
+
+        HideUnusedPortalIcons(portals.Count);
+    }
+
+    private void EnsurePortalIconPool(int requiredCount)
+    {
+        while (portalIconPool.Count < requiredCount)
+        {
+            portalIconPool.Add(CreatePortalIcon());
+        }
+    }
+
+    private Image CreatePortalIcon()
+    {
+        var iconObject = new GameObject("PortalIcon", typeof(RectTransform), typeof(Image));
+        var rect = iconObject.GetComponent<RectTransform>();
+        rect.SetParent(blipContainer, false);
+        rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.sizeDelta = portalIconSize;
+
+        var image = iconObject.GetComponent<Image>();
+        image.sprite = portalIconSprite;
+        image.color = portalIconColor;
+        image.raycastTarget = false;
+        return image;
+    }
+
+    private void HideUnusedPortalIcons(int activeCount)
+    {
+        for (int i = activeCount; i < portalIconPool.Count; i++)
+        {
+            portalIconPool[i].enabled = false;
         }
     }
 

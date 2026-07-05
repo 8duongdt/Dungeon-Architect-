@@ -2,13 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Gắn lên công trình "trại huấn luyện lính". Cứ mỗi <see cref="spawnInterval"/> giây, trại lần lượt
-/// (xoay vòng) huấn luyện một loại lính trong <see cref="trainableUnits"/>, trừ Vàng/Mana tương ứng
-/// qua <see cref="ResourceManager"/>, rồi sinh prefab quanh trại. Giới hạn số lính sống cùng lúc
-/// bằng <see cref="maxUnits"/>; lính chết thì chỗ trống được trả lại để huấn luyện tiếp.
+/// Gắn lên công trình "trại huấn luyện lính". Người chơi triệu hồi THỦ CÔNG qua Cửa sổ Trạng thái:
+/// bấm avatar lính -> trừ Vàng/Mana NGAY và xếp vào hàng chờ (<see cref="TryEnqueue"/>); trại lần
+/// lượt sinh từng con theo thứ tự bấm, mỗi con xong phải chờ hết thời gian hồi
+/// (<see cref="spawnInterval"/>) mới sinh con kế. Bấm chuột phải avatar hủy một con trong hàng chờ
+/// và hoàn lại tài nguyên (<see cref="TryCancelOne"/>). Giới hạn tổng lính sống + đang chờ bằng
+/// <see cref="maxUnits"/>; lính chết thì chỗ trống được trả lại.
 ///
-/// Mỗi cấp trại (Crypt/Hellforge/Dark) cấu hình 3 loại lính (Orc/Slime/Vampire) ở cấp tương ứng,
-/// mỗi loại có chi phí Vàng/Mana riêng. Null-safe nếu scene chưa có ResourceManager (coi như miễn phí).
+/// Nâng cấp trại (BuildingUpgrade) rút ngắn thời gian hồi, cộng giới hạn lính và mở khóa thêm
+/// loại lính cao cấp trong <see cref="trainableUnits"/> (danh sách xếp theo thứ tự mở khóa).
+/// Null-safe nếu scene chưa có ResourceManager (coi như miễn phí).
 /// </summary>
 public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
 {
@@ -17,6 +20,9 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
     {
         [Tooltip("Prefab lính được huấn luyện.")]
         public GameObject prefab;
+
+        [Tooltip("Avatar hiển thị trên ô triệu hồi - bỏ trống sẽ lấy sprite của prefab.")]
+        public Sprite portrait;
 
         [Tooltip("Chi phí Vàng cho mỗi lần huấn luyện loại lính này.")]
         [Min(0)]
@@ -27,17 +33,17 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
         public int manaCost;
     }
 
-    [Header("Danh sách lính huấn luyện (xoay vòng)")]
+    [Header("Danh sách lính (xếp theo thứ tự mở khóa khi nâng cấp)")]
     [SerializeField]
     private List<TrainableUnit> trainableUnits = new List<TrainableUnit>();
 
-    [Header("Thiết lập huấn luyện")]
-    [Tooltip("Khoảng thời gian (giây) giữa hai lần huấn luyện.")]
+    [Header("Thiết lập triệu hồi")]
+    [Tooltip("Thời gian hồi (giây) giữa hai lần triệu hồi.")]
     [SerializeField]
     [Min(0.01f)]
     private float spawnInterval = 5f;
 
-    [Tooltip("Số lính sống tối đa mà trại này quản lý cùng lúc.")]
+    [Tooltip("Giới hạn tổng lính sống + đang trong hàng chờ của trại này.")]
     [SerializeField]
     [Min(0)]
     private int maxUnits = 6;
@@ -47,83 +53,124 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
     [Min(0f)]
     private float spawnRadius = 1f;
 
-    private float timer;
+    // Hàng chờ triệu hồi: index vào trainableUnits, theo đúng thứ tự bấm (đã trừ tiền trước).
+    private readonly List<int> pendingQueue = new List<int>();
+    private float cooldownRemaining;
     private int currentUnitCount;
-    private int roundRobinIndex;
 
-    // Hệ số nâng cấp: chu kỳ nhanh hơn và cộng giới hạn lính (do BuildingUpgrade đặt).
+    // Hệ số nâng cấp: hồi nhanh hơn, cộng giới hạn lính, mở khóa thêm loại lính (do BuildingUpgrade đặt).
     private float intervalMultiplier = 1f;
     private int maxUnitsBonus;
+    private int unlockedUnitCount = int.MaxValue;
 
     private float EffectiveInterval => Mathf.Max(0.01f, spawnInterval * intervalMultiplier);
     private int EffectiveMaxUnits => maxUnits + maxUnitsBonus;
+
+    /// <summary>Toàn bộ loại lính cấu hình trên trại (kể cả chưa mở khóa) - UI đọc để dựng ô avatar.</summary>
+    public IReadOnlyList<TrainableUnit> TrainableUnits => trainableUnits;
+
+    /// <summary>Số loại lính đã mở khóa ở cấp trại hiện tại (đếm từ đầu danh sách).</summary>
+    public int UnlockedUnitCount => Mathf.Min(trainableUnits.Count, unlockedUnitCount);
+
+    /// <summary>Phần thời gian hồi còn lại (1 = vừa triệu hồi, 0 = sẵn sàng) - UI vẽ vòng quét tối.</summary>
+    public float CooldownFraction => cooldownRemaining <= 0f ? 0f : cooldownRemaining / EffectiveInterval;
 
     public string TypeLabel => "Barracks";
 
     public IEnumerable<string> GetStatLines()
     {
-        yield return $"Train Interval: {EffectiveInterval:0.#}s  (max {EffectiveMaxUnits})";
-        foreach (TrainableUnit unit in trainableUnits)
-        {
-            if (unit.prefab != null)
-            {
-                yield return $"- {unit.prefab.name}: {unit.goldCost}G {unit.manaCost}M";
-            }
-        }
+        yield return $"Summon Cooldown: {EffectiveInterval:0.#}s";
+        yield return $"Units: {currentUnitCount} alive + {pendingQueue.Count} queued (max {EffectiveMaxUnits})";
     }
 
-    /// <summary>Áp hiệu ứng nâng cấp: nhân chu kỳ huấn luyện và cộng giới hạn lính.</summary>
-    public void ApplyUpgrade(float newIntervalMultiplier, int newMaxUnitsBonus)
+    /// <summary>Áp hiệu ứng nâng cấp: nhân thời gian hồi, cộng giới hạn lính và mở khóa loại lính.
+    /// <paramref name="newUnlockedUnitCount"/> &lt;= 0 nghĩa là mở khóa toàn bộ danh sách.</summary>
+    public void ApplyUpgrade(float newIntervalMultiplier, int newMaxUnitsBonus, int newUnlockedUnitCount)
     {
         intervalMultiplier = Mathf.Max(0.01f, newIntervalMultiplier);
         maxUnitsBonus = Mathf.Max(0, newMaxUnitsBonus);
+        unlockedUnitCount = newUnlockedUnitCount <= 0 ? int.MaxValue : newUnlockedUnitCount;
+    }
+
+    /// <summary>Số con của loại lính này đang nằm trong hàng chờ - UI hiện badge.</summary>
+    public int QueuedCount(int unitIndex)
+    {
+        int count = 0;
+        foreach (int queuedIndex in pendingQueue)
+        {
+            if (queuedIndex == unitIndex)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /// <summary>Có thể bấm triệu hồi loại lính này không (đã mở khóa, đủ tiền, chưa chạm giới hạn).</summary>
+    public bool CanEnqueue(int unitIndex)
+    {
+        bool isUnlockedValidUnit = unitIndex >= 0
+            && unitIndex < UnlockedUnitCount
+            && trainableUnits[unitIndex].prefab != null;
+        if (!isUnlockedValidUnit)
+        {
+            return false;
+        }
+
+        bool isBelowCap = currentUnitCount + pendingQueue.Count < EffectiveMaxUnits;
+        return isBelowCap && CanAfford(trainableUnits[unitIndex]);
+    }
+
+    /// <summary>Trừ tiền ngay và xếp một con vào hàng chờ triệu hồi.</summary>
+    public bool TryEnqueue(int unitIndex)
+    {
+        if (!CanEnqueue(unitIndex))
+        {
+            return false;
+        }
+
+        PayFor(trainableUnits[unitIndex]);
+        pendingQueue.Add(unitIndex);
+        return true;
+    }
+
+    /// <summary>Hủy con MỚI BẤM NHẤT của loại lính này khỏi hàng chờ và hoàn lại tài nguyên.</summary>
+    public bool TryCancelOne(int unitIndex)
+    {
+        int lastPosition = pendingQueue.LastIndexOf(unitIndex);
+        if (lastPosition < 0)
+        {
+            return false;
+        }
+
+        pendingQueue.RemoveAt(lastPosition);
+        Refund(trainableUnits[unitIndex]);
+        return true;
     }
 
     private void Update()
     {
-        if (currentUnitCount >= EffectiveMaxUnits || trainableUnits.Count == 0)
+        if (cooldownRemaining > 0f)
         {
+            cooldownRemaining -= Time.deltaTime;
             return;
         }
 
-        timer += Time.deltaTime;
-        if (timer < EffectiveInterval)
-        {
-            return;
-        }
-
-        timer -= EffectiveInterval;
-        TrainNextAffordableUnit();
+        TrySummonNextQueued();
     }
 
-    private void TrainNextAffordableUnit()
+    private void TrySummonNextQueued()
     {
-        int affordableIndex = FindNextAffordableIndex();
-        if (affordableIndex < 0)
+        // Lính chờ vẫn giữ chỗ trong giới hạn, nhưng chỉ sinh ra khi còn chỗ sống thực tế.
+        if (pendingQueue.Count == 0 || currentUnitCount >= EffectiveMaxUnits)
         {
             return;
         }
 
-        TrainableUnit unit = trainableUnits[affordableIndex];
-        roundRobinIndex = (affordableIndex + 1) % trainableUnits.Count;
-
-        PayFor(unit);
-        SpawnUnit(unit.prefab);
-    }
-
-    // Quét xoay vòng từ vị trí hiện tại, trả về loại lính đầu tiên đủ tài nguyên (và có prefab).
-    private int FindNextAffordableIndex()
-    {
-        for (int offset = 0; offset < trainableUnits.Count; offset++)
-        {
-            int index = (roundRobinIndex + offset) % trainableUnits.Count;
-            TrainableUnit unit = trainableUnits[index];
-            if (unit.prefab != null && CanAfford(unit))
-            {
-                return index;
-            }
-        }
-        return -1;
+        int unitIndex = pendingQueue[0];
+        pendingQueue.RemoveAt(0);
+        SpawnUnit(trainableUnits[unitIndex].prefab);
+        cooldownRemaining = EffectiveInterval;
     }
 
     private static bool CanAfford(TrainableUnit unit)
@@ -142,6 +189,18 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
 
         resources.TrySpendGold(unit.goldCost);
         resources.TrySpendMana(unit.manaCost);
+    }
+
+    private static void Refund(TrainableUnit unit)
+    {
+        ResourceManager resources = ResourceManager.Instance;
+        if (resources == null)
+        {
+            return;
+        }
+
+        resources.AddGold(unit.goldCost);
+        resources.AddMana(unit.manaCost);
     }
 
     private void SpawnUnit(GameObject prefab)

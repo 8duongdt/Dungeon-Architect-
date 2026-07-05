@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3534b94a785f57e40a657499b825dfaf, type: 3}
   m_Name: PlacedObjectType_Drill_Blue
   m_EditorClassIdentifier: Assembly-CSharp::PlacedObjectTypeSO
-  nameString: Drill_Blue
+  nameString: Drill
   prefab: {fileID: 9093047791341306923, guid: 4d96d14d86384d03a58e1ea2c1241ce7, type: 3}
   visual: {fileID: 9093047791341306923, guid: 4d96d14d86384d03a58e1ea2c1241ce7, type: 3}
   icon: {fileID: -1808982527863717971, guid: 0de22fb98c7a52b488820fb31e752752, type: 3}
+  goldCost: 0
+  manaCost: 0
+  description: "Khai th\xE1c V\xE0ng - n\xE2ng c\u1EA5p \u0111\u1EC3 \u0111\u1ED5i
+    di\u1EC7n m\u1EA1o v\xE0 t\u0103ng s\u1EA3n l\u01B0\u1EE3ng."
   width: 3
   height: 3

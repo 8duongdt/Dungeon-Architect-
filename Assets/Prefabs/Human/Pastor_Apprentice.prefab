@@ -461,7 +461,6 @@ GameObject:
   - component: {fileID: 8136769429279424133}
   - component: {fileID: 7720713917591062193}
   - component: {fileID: 5389946975630094077}
-  - component: {fileID: 6384406371421661672}
   - component: {fileID: 7148397184252069696}
   - component: {fileID: 1661730700043999012}
   - component: {fileID: 4226517935131746040}
@@ -469,6 +468,9 @@ GameObject:
   - component: {fileID: 729438309179350114}
   - component: {fileID: 2089985995500230399}
   - component: {fileID: 6460356501653430254}
+  - component: {fileID: 4075145257166094922}
+  - component: {fileID: 9164723978983793558}
+  - component: {fileID: 1677245953639792703}
   m_Layer: 0
   m_Name: Pastor_Apprentice
   m_TagString: Untagged
@@ -551,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2935511b15c44f78ad1ce9b3240fdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
-  maxHealth: 100
+  baseMaxHealth: 100
   currentHealth: 100
   healthBar: {fileID: 6062366471036476314}
   destroyOnDeath: 1
@@ -620,6 +622,7 @@ MonoBehaviour:
   patrolWhenIdle: 0
   patrolPoints: []
   patrolPointTolerance: 0.15
+  seekCrystalsWhenIdle: 1
 --- !u!114 &6100280727902531986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,26 +680,6 @@ MonoBehaviour:
   moveSpeed: 5
   stoppingDistance: 0.1
   collisionRecoveryDamping: 12
---- !u!114 &6384406371421661672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7287126120717978554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e3b29b1cb5f20645a3db701ce8ffde1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackArea
-  detectionRadius: 7
-  attackRange: 1.5
-  loseTargetRadiusMultiplier: 1.1
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  lineOfSight: {fileID: 0}
-  hitBox: {fileID: 8935542141333489915}
 --- !u!114 &7148397184252069696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,6 +816,68 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.6469264}
   m_EdgeRadius: 0
+--- !u!114 &4075145257166094922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7287126120717978554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 828ce60bb5c553543b5ab928010519da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangedAttackArea
+  detectionRadius: 7
+  attackRange: 5
+  loseTargetRadiusMultiplier: 1.25
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  lineOfSight: {fileID: 0}
+--- !u!114 &9164723978983793558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7287126120717978554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.Seeker
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
+--- !u!114 &1677245953639792703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7287126120717978554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c4e5ebb56ce59b43843d181159c4d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrystalCampaignAgent
+  repathSeconds: 2
+  waypointTolerance: 0.35
+  arriveRadiusFactor: 0.7
 --- !u!1 &7911928908423143203
 GameObject:
   m_ObjectHideFlags: 0

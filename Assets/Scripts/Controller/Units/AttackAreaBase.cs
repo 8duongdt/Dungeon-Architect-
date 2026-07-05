@@ -18,6 +18,7 @@ public abstract class AttackAreaBase : MonoBehaviour
         ResolveReferences();
 
         Collider2D[] targetsInRadius = Physics2D.OverlapCircleAll(transform.position, GetDetectionRadius(), GetSearchLayerMask());
+        Transform preferredAvatarTarget = null;
         Transform closestTarget = null;
         float closestDistance = float.MaxValue;
 
@@ -33,6 +34,14 @@ public abstract class AttackAreaBase : MonoBehaviour
                 continue;
             }
 
+            // Nhân vật chính do người chơi điều khiển luôn được ưu tiên hơn Unit RTS khác, bất kể
+            // khoảng cách - quái "ưu tiên đánh người chơi" khi cùng lúc thấy nhiều mục tiêu.
+            if (preferredAvatarTarget == null && targetTransform.GetComponentInParent<PlayerAvatarMarker>() != null)
+            {
+                preferredAvatarTarget = targetTransform;
+                continue;
+            }
+
             float distance = ((Vector2)targetTransform.position - (Vector2)transform.position).sqrMagnitude;
             if (distance < closestDistance)
             {
@@ -41,7 +50,7 @@ public abstract class AttackAreaBase : MonoBehaviour
             }
         }
 
-        return closestTarget;
+        return preferredAvatarTarget != null ? preferredAvatarTarget : closestTarget;
     }
 
     public bool IsInAttackRange(Transform target)

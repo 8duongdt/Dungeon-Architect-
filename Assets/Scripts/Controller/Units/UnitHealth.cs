@@ -1,28 +1,44 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
-public class UnitHealth : MonoBehaviour
+public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
 {
-    [SerializeField] private float maxHealth = 100f;
+    // Đổi tên từ "maxHealth" - FormerlySerializedAs giữ lại giá trị đã tinh chỉnh trên prefab cũ.
+    [FormerlySerializedAs("maxHealth")]
+    [SerializeField] private float baseMaxHealth = 100f;
     [SerializeField] private float currentHealth = 100f;
     [SerializeField] private Bar healthBar;
     [SerializeField] private bool destroyOnDeath = true;
     [SerializeField] private float deathDestroyDelay = 1f;
 
     private bool isDead;
+    private float maxHealthMultiplier = 1f;
 
     public event Action<UnitHealth, float> Damaged;
     public event Action<UnitHealth> Died;
 
-    public float MaxHealth => maxHealth;
+    // Máu tối đa hiệu lực = gốc x hệ số hiệu ứng (vd 50% khi ra khỏi lãnh thổ pha lê đen).
+    public float MaxHealth => baseMaxHealth * maxHealthMultiplier;
     public float CurrentHealth => currentHealth;
     public bool IsDead => isDead;
+
+    public float MaxHealthMultiplier
+    {
+        get => maxHealthMultiplier;
+        set
+        {
+            maxHealthMultiplier = Mathf.Max(0.01f, value);
+            currentHealth = Mathf.Min(currentHealth, MaxHealth);
+            RefreshHealthBar(true);
+        }
+    }
 
     private void Awake()
     {
         ResolveHealthBar();
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0f, MaxHealth);
         RefreshHealthBar(false);
     }
 
@@ -54,7 +70,7 @@ public class UnitHealth : MonoBehaviour
         }
 
         float previousHealth = currentHealth;
-        currentHealth = Mathf.Clamp(newHealth, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(newHealth, 0f, MaxHealth);
         RefreshHealthBar(true);
 
         if (previousHealth > 0f && currentHealth <= 0f)
@@ -103,20 +119,20 @@ public class UnitHealth : MonoBehaviour
         }
 
         int roundedCurrentHealth = Mathf.RoundToInt(currentHealth);
-        int roundedMaxHealth = Mathf.RoundToInt(maxHealth);
+        int roundedMaxHealth = Mathf.RoundToInt(MaxHealth);
         if (animate && healthBar.MaxValue == roundedMaxHealth)
         {
             healthBar.Change(roundedCurrentHealth - healthBar.Value);
             return;
         }
 
-        healthBar.UpdateHealth(currentHealth, maxHealth);
+        healthBar.UpdateHealth(currentHealth, MaxHealth);
     }
 
     private void OnValidate()
     {
-        maxHealth = Mathf.Max(1f, maxHealth);
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        baseMaxHealth = Mathf.Max(1f, baseMaxHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0f, MaxHealth);
         deathDestroyDelay = Mathf.Max(0f, deathDestroyDelay);
     }
 }

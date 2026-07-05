@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2350279301788932806}
   - component: {fileID: 2039046071088428014}
   - component: {fileID: 7333708808876160026}
+  - component: {fileID: 1032161751463189048}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -114,3 +115,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1032161751463189048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2757332645986801505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a3fbbc4f1565f46aaf828ce9666731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  budgetEntries:
+  - prefab: {fileID: 6459916382713945916, guid: e625c1294443c7e4da42cc80c8f73395, type: 3}
+    cost: 1
+  - prefab: {fileID: 545617725787841532, guid: a9e8076a5d98bd0499aba8940e18a471, type: 3}
+    cost: 2
+  - prefab: {fileID: 986122579456199077, guid: 9a661185044a8e44991a6a46dd21d83e, type: 3}
+    cost: 5
+  - prefab: {fileID: 5185853700990493794, guid: e6f60800e30a37d45a845c17a78c0662, type: 3}
+    cost: 2
+  - prefab: {fileID: 196072619999929052, guid: 73c31a965cf402b40bac6af3a1c913f4, type: 3}
+    cost: 5
+  - prefab: {fileID: 7287126120717978554, guid: 327027d88d011d643a0626a9c832fddd, type: 3}
+    cost: 2
+  - prefab: {fileID: 6800576660072495815, guid: 6b664826fbd5ebf4cbaa5743bd21349b, type: 3}
+    cost: 5
+  enemyPrefab: {fileID: 0}
+  waveBudget: 10
+  budgetGrowthPerMinute: 2
+  maxWaveBudget: 30
+  spawnInterval: 25
+  maxEnemies: 12
+  spawnRadius: 1.5

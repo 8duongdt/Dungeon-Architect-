@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1ea20ba76261f40b5065c240e68fc8, type: 3}
+  m_Name: CrystalTypeConfig_Gold
+  m_EditorClassIdentifier: Assembly-CSharp::CrystalTypeConfigSO
+  type: 0
+  inactiveSprite: {fileID: 1195458779362535816, guid: 1338cd3dd81b5214c95d53fd077a8a13, type: 3}
+  activeSprite: {fileID: 1195458779362535816, guid: 8bdc651634706ec459b30fa23c418486, type: 3}
+  capturedSprite: {fileID: 1195458779362535816, guid: 36dbf90a4a4a7824a8fe5dcd118bcefd, type: 3}
+  inactiveColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  capturedColor: {r: 1, g: 0, b: 0, a: 1}
+  smallRadius: 4
+  largeRadius: 7

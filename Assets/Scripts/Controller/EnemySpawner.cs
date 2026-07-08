@@ -10,6 +10,8 @@ using UnityEngine;
 /// elite đắt, độ khó tổng thể vẫn được kiểm soát. Ngân sách tăng dần theo thời gian màn chơi
 /// (<see cref="budgetGrowthPerMinute"/>, có trần <see cref="maxWaveBudget"/>) để game khó dần.
 /// Giới hạn tổng quái sống bằng <see cref="maxEnemies"/>; quái chết trả lại chỗ trống.
+/// Ngoài cap riêng của cổng, mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ
+/// (<see cref="EnemyPopulationLimiter"/>) - không có limiter trong scene thì bỏ qua.
 /// </summary>
 public class EnemySpawner : MonoBehaviour
 {
@@ -37,7 +39,7 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Ngân sách điểm gốc của mỗi đợt.")]
     [SerializeField]
     [Min(1)]
-    private int waveBudget = 10;
+    private int waveBudget = 8;
 
     [Tooltip("Điểm cộng thêm vào ngân sách sau mỗi phút chơi - để càng về sau đợt càng mạnh.")]
     [SerializeField]
@@ -47,9 +49,14 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Trần ngân sách - chặn đợt quái phình to vô hạn.")]
     [SerializeField]
     [Min(1)]
-    private int maxWaveBudget = 30;
+    private int maxWaveBudget = 20;
 
     [Header("Spawn Settings")]
+    [Tooltip("Thời gian chờ (giây) trước ĐỢT quái đầu tiên - cho người chơi kịp chuẩn bị. 0 = sinh ngay.")]
+    [SerializeField]
+    [Min(0f)]
+    private float initialSpawnDelay = 30f;
+
     [Tooltip("Khoảng thời gian (giây) giữa hai ĐỢT sinh quái liên tiếp.")]
     [SerializeField]
     [Min(0.01f)]
@@ -58,7 +65,7 @@ public class EnemySpawner : MonoBehaviour
     [Tooltip("Số lượng quái tối đa mà cổng này quản lý tại một thời điểm.")]
     [SerializeField]
     [Min(0)]
-    private int maxEnemies = 12;
+    private int maxEnemies = 8;
 
     [Header("Random Offset")]
     [Tooltip("Bán kính phân tán quái quanh cổng để tránh đè chồng lên nhau. Đặt 0 để sinh ngay tại cổng.")]
@@ -82,14 +89,15 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        // Khởi tạo timer bằng spawnInterval để đợt quái đầu tiên xuất hiện ngay lập tức.
-        timer = spawnInterval;
+        // Đợt đầu chờ initialSpawnDelay; các đợt sau theo spawnInterval như cũ.
+        // Đặt timer lệch trước một khoảng để cổng mất đúng initialSpawnDelay giây mới chạm ngưỡng spawnInterval.
+        timer = spawnInterval - initialSpawnDelay;
     }
 
     private void Update()
     {
-        // Kiểm tra điều kiện biên: đã đạt ngưỡng tối đa thì dừng logic spawn.
-        if (currentEnemyCount >= maxEnemies)
+        // Kiểm tra điều kiện biên: chạm cap riêng của cổng hoặc trần dân số chung thì dừng logic spawn.
+        if (currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
         {
             return;
         }
@@ -150,12 +158,12 @@ public class EnemySpawner : MonoBehaviour
         return affordable;
     }
 
-    // Sinh cả đợt, tôn trọng giới hạn quái sống - đợt bị cắt khi chạm ngưỡng.
+    // Sinh cả đợt, tôn trọng giới hạn quái sống - đợt bị cắt khi chạm ngưỡng riêng hoặc trần chung.
     private void SpawnWave(List<GameObject> wave)
     {
         foreach (GameObject prefab in wave)
         {
-            if (currentEnemyCount >= maxEnemies)
+            if (currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
             {
                 return;
             }
@@ -175,6 +183,7 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
         currentEnemyCount++;
+        EnemyPopulationLimiter.Instance?.Register(enemy);
 
         // Khi quái chết, giảm bộ đếm để cổng có thể tiếp tục sinh quái mới.
         TrackEnemyDeath(enemy);

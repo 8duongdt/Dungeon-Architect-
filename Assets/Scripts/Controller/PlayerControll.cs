@@ -17,6 +17,7 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
 
     private Rigidbody2D rb;
     private UnitHealth health;
+    private UnitStatusEffects statusEffects;
     private Vector2 moveInput;
     private Vector2 lastMove = new Vector2(0, -1);
 
@@ -93,6 +94,16 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
     private void FixedUpdate()
     {
         if (health != null && health.IsDead)
+        {
+            return;
+        }
+
+        // Bị giữ chân (choáng/trói bởi skill địch) thì không di chuyển.
+        if (statusEffects == null)
+        {
+            statusEffects = GetComponent<UnitStatusEffects>();
+        }
+        if (statusEffects != null && statusEffects.IsImmobilized)
         {
             return;
         }

@@ -29,6 +29,7 @@ public class UnitAI : MonoBehaviour
     private IdleState idleState;
     private ChaseState chaseState;
     private AttackState attackState;
+    private UnitStatusEffects statusEffects;
     private bool ignoringCombatForMoveCommand;
     private bool manualMoveCommandActive;
     private Vector3 lastMoveProgressPosition;
@@ -75,8 +76,20 @@ public class UnitAI : MonoBehaviour
             return;
         }
 
+        // Choáng: khóa toàn bộ AI (không di chuyển, không đánh) tới khi hết hiệu ứng.
+        // Component được hệ skill thêm lúc runtime nên phải dò lại khi chưa có.
+        if (statusEffects == null)
+        {
+            statusEffects = GetComponent<UnitStatusEffects>();
+        }
+        if (statusEffects != null && statusEffects.IsStunned)
+        {
+            movement.Stop(false);
+            return;
+        }
+
         UpdateManualMoveCommand();
-        if (ignoringCombatForMoveCommand)
+        if (ignoringCombatForMoveCommand && !TryEngageVisibleEnemyDuringMove())
         {
             return;
         }
@@ -128,6 +141,21 @@ public class UnitAI : MonoBehaviour
     {
         manualMoveCommandActive = false;
         ignoringCombatForMoveCommand = false;
+    }
+
+    // Lệnh di chuyển không còn "mù" combat: thấy địch trong tầm phát hiện (có LoS)
+    // thì bỏ dở lệnh và chuyển sang đuổi đánh kiểu attack-move. Lệnh chuột phải MỚI
+    // vẫn ghi đè combat như cũ (HandleMoveCommand -> ClearTarget).
+    private bool TryEngageVisibleEnemyDuringMove()
+    {
+        Transform visibleEnemy = attackArea.FindVisibleTarget(this);
+        if (visibleEnemy == null)
+        {
+            return false;
+        }
+
+        SetTarget(visibleEnemy, UnitState.Chase);
+        return true;
     }
 
     public bool HasValidTarget()
@@ -191,8 +219,8 @@ public class UnitAI : MonoBehaviour
         return component != null ? component : gameObject.AddComponent<T>();
     }
 
-    // Lệnh di chuyển của người chơi có ưu tiên cao nhất: bỏ qua hoàn toàn combat
-    // cho tới khi unit tới đích (Unit.MoveTowardsTarget gọi CompleteMoveCommand).
+    // Theo dõi tiến độ lệnh di chuyển của người chơi (lệnh vẫn bị bỏ dở nếu unit
+    // thấy địch trong tầm phát hiện - xem TryEngageVisibleEnemyDuringMove).
     // Chỉ dừng sớm nếu bị kẹt (không tiến được) để tránh treo vĩnh viễn khi gặp vật cản.
     private void UpdateManualMoveCommand()
     {

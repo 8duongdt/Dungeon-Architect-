@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc14cdaf19c5e44bb5ad1aa51b08e2d, type: 3}
+  m_Name: Skill_FireWall
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
+  skillName: FireWall
+  icon: {fileID: -810270311419893773, guid: 3df1475ce2f1e054d809e0c196ec6b36, type: 3}
+  vfxPrefab: {fileID: 2633087262802753593, guid: d4720f7009ccce64499903d9f939373c, type: 3}
+  baseDamage: 12
+  statScaling: 1
+  cooldown: 8
+  impactDelay: 0
+  manaCost: 20
+  mechanic: 4
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 6
+  projectileMaxRange: 12
+  maxChainTargets: 2
+  chainRadius: 3
+  chainDamageFactor: 0.5
+  areaRadius: 2.5
+  knockbackDistance: 1.5
+  zonePrefab: {fileID: 5799789692900268306, guid: c2553f2161e157b4289fce0fff45b1cd, type: 3}
+  zoneDuration: 6
+  zoneTickInterval: 0.5
+  zoneRadius: 1.5
+  zoneTickDamageFactor: 0.25
+  zoneStunDuration: 0
+  trapPrefab: {fileID: 0}
+  trapArmDelay: 0.5
+  trapRootDuration: 1.2
+  vortexPrefab: {fileID: 0}
+  pullRadius: 4
+  pullDuration: 2.5
+  pullSpeed: 4
+  shieldAmount: 50
+  shieldDuration: 6
+  executeHealthThreshold: 0.1
+  executeGoldReward: 25

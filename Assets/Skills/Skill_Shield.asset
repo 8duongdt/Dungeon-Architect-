@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc14cdaf19c5e44bb5ad1aa51b08e2d, type: 3}
+  m_Name: Skill_Shield
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
+  skillName: Shield
+  icon: {fileID: 3551633421455774666, guid: 41487997995b4fc4093ac4f6a3df772d, type: 3}
+  vfxPrefab: {fileID: 7671374125238857651, guid: 207e87f7e67c78e49ad5f78e6e020e15, type: 3}
+  baseDamage: 0
+  statScaling: 0
+  cooldown: 10
+  impactDelay: 0
+  manaCost: 25
+  mechanic: 7
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 6
+  projectileMaxRange: 12
+  maxChainTargets: 2
+  chainRadius: 3
+  chainDamageFactor: 0.5
+  areaRadius: 2.5
+  knockbackDistance: 1.5
+  zonePrefab: {fileID: 0}
+  zoneDuration: 3
+  zoneTickInterval: 0.5
+  zoneRadius: 1.8
+  zoneTickDamageFactor: 0.3
+  zoneStunDuration: 0
+  trapPrefab: {fileID: 0}
+  trapArmDelay: 0.5
+  trapRootDuration: 1.2
+  vortexPrefab: {fileID: 0}
+  pullRadius: 4
+  pullDuration: 2.5
+  pullSpeed: 4
+  shieldAmount: 50
+  shieldDuration: 6
+  executeHealthThreshold: 0.1
+  executeGoldReward: 25

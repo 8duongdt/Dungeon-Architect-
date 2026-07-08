@@ -471,6 +471,7 @@ GameObject:
   - component: {fileID: 4075145257166094922}
   - component: {fileID: 9164723978983793558}
   - component: {fileID: 1677245953639792703}
+  - component: {fileID: 7443669725066302092}
   m_Layer: 0
   m_Name: Pastor_Apprentice
   m_TagString: Untagged
@@ -555,6 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
   baseMaxHealth: 100
   currentHealth: 100
+  defense: 0
   healthBar: {fileID: 6062366471036476314}
   destroyOnDeath: 1
   deathDestroyDelay: 1
@@ -831,6 +833,7 @@ MonoBehaviour:
   detectionRadius: 7
   attackRange: 5
   loseTargetRadiusMultiplier: 1.25
+  attackApproachFactor: 0.9
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -878,6 +881,20 @@ MonoBehaviour:
   repathSeconds: 2
   waypointTolerance: 0.35
   arriveRadiusFactor: 0.7
+--- !u!114 &7443669725066302092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7287126120717978554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12930948232b994aa6255da38036c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSkillCaster
+  skill: {fileID: 11400000, guid: 4087cb9e8c919de479d223b5b2fbf020, type: 2}
+  magicPower: 10
 --- !u!1 &7911928908423143203
 GameObject:
   m_ObjectHideFlags: 0

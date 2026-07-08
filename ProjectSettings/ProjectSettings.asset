@@ -82,7 +82,7 @@ PlayerSettings:
   androidApplicationEntry: 2
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
+  runInBackground: 1
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
   Force IOS Speakers When Recording: 0
@@ -680,11 +680,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 5e3806d1-c882-4ca8-9a30-aa4a3da4b0fb
+  cloudProjectId: 542af329-ed5c-4b5d-92be-f7788688015a
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: Dungeon_Architect
-  organizationId: dinhtungduong89
+  organizationId: duongdtgch220467
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

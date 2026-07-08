@@ -7,6 +7,7 @@ using UnityEngine;
 /// Progress không sinh. Giới hạn <see cref="maxAlive"/> quân sống do cục này quản lý để không tràn
 /// màn (theo mẫu death-tracking của <see cref="EnemySpawner"/>). Quân sinh ra có sẵn
 /// <see cref="CrystalCampaignAgent"/> nên tự nhập đồn trú/chiến dịch qua IdleState.
+/// Mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ (<see cref="EnemyPopulationLimiter"/>).
 /// </summary>
 [RequireComponent(typeof(CrystalNode))]
 public class CrystalReinforcementSpawner : MonoBehaviour
@@ -43,9 +44,11 @@ public class CrystalReinforcementSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (crystalNode.State != CrystalState.Captured || aliveCount >= maxAlive)
+        if (crystalNode.State != CrystalState.Captured || aliveCount >= maxAlive
+            || !EnemyPopulationLimiter.HasGlobalCapacity())
         {
-            // Mất cục (hoặc đầy quân) thì timer về 0 - vừa chiếm lại phải chờ trọn một chu kỳ.
+            // Mất cục (hoặc đầy quân / chạm trần dân số chung) thì timer về 0
+            // - vừa chiếm lại phải chờ trọn một chu kỳ.
             timer = 0f;
             return;
         }
@@ -96,6 +99,7 @@ public class CrystalReinforcementSpawner : MonoBehaviour
 
         GameObject unit = Instantiate(prefab, spawnPosition, Quaternion.identity);
         aliveCount++;
+        EnemyPopulationLimiter.Instance?.Register(unit);
         TrackUnitDeath(unit);
     }
 

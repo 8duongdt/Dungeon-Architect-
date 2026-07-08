@@ -548,6 +548,7 @@ GameObject:
   - component: {fileID: 590777018657657216}
   - component: {fileID: 1436829693316499488}
   - component: {fileID: 5662573935476623741}
+  - component: {fileID: 8137476855393064358}
   m_Layer: 0
   m_Name: Vampires_2
   m_TagString: Untagged
@@ -892,8 +893,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2935511b15c44f78ad1ce9b3240fdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RTSUnitHealth
-  maxHealth: 100
+  baseMaxHealth: 100
   currentHealth: 100
+  defense: 0
   healthBar: {fileID: 8690407320575106822}
   destroyOnDeath: 1
   deathDestroyDelay: 1
@@ -945,6 +947,7 @@ MonoBehaviour:
   patrolWhenIdle: 0
   patrolPoints: []
   patrolPointTolerance: 0.15
+  seekCrystalsWhenIdle: 0
 --- !u!114 &4153333978003949870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,6 +1005,7 @@ MonoBehaviour:
   detectionRadius: 7
   attackRange: 5
   loseTargetRadiusMultiplier: 1.25
+  attackApproachFactor: 0.9
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1022,3 +1026,17 @@ MonoBehaviour:
   returnToIdleAfterHurt: 1
   hurtDuration: 0.25
   autoDetectHurtDuration: 1
+--- !u!114 &8137476855393064358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8787793029696314022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12930948232b994aa6255da38036c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSkillCaster
+  skill: {fileID: 11400000, guid: dce7cc21ce522eb45be0085d1c33e0ca, type: 2}
+  magicPower: 10

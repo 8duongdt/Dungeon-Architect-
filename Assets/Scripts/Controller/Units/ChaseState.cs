@@ -29,13 +29,15 @@ public class ChaseState : MonoBehaviour
             return;
         }
 
-        if (attackArea.IsInAttackRange(target))
+        // Áp sát tới AttackApproachRange (< AttackRange) rồi mới chuyển Attack: tạo dải đệm
+        // hysteresis vì AttackState chỉ nhả về Chase khi địch ra khỏi AttackRange đầy đủ.
+        if (attackArea.IsInAttackApproachRange(target))
         {
             movement.Stop();
             ai.SetState(UnitAI.UnitState.Attack);
             return;
         }
 
-        movement.MoveTowards(target.position, attackArea.AttackRange * 0.9f);
+        movement.MoveTowards(target.position, attackArea.AttackApproachRange);
     }
 }

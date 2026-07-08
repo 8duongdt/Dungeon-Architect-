@@ -463,6 +463,7 @@ GameObject:
   - component: {fileID: 9222672946414712189}
   - component: {fileID: 9098069300386924531}
   - component: {fileID: 4909766310440314915}
+  - component: {fileID: 3383571854554580262}
   m_Layer: 0
   m_Name: Pastor_Priestess
   m_TagString: Untagged
@@ -547,6 +548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
   baseMaxHealth: 100
   currentHealth: 100
+  defense: 0
   healthBar: {fileID: 6109659121056993091}
   destroyOnDeath: 1
   deathDestroyDelay: 1
@@ -823,6 +825,7 @@ MonoBehaviour:
   detectionRadius: 7
   attackRange: 5
   loseTargetRadiusMultiplier: 1.25
+  attackApproachFactor: 0.9
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -870,6 +873,20 @@ MonoBehaviour:
   repathSeconds: 2
   waypointTolerance: 0.35
   arriveRadiusFactor: 0.7
+--- !u!114 &3383571854554580262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6800576660072495815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12930948232b994aa6255da38036c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitSkillCaster
+  skill: {fileID: 11400000, guid: eadeb67e30aa22c45b35c0d4a69c0cc3, type: 2}
+  magicPower: 10
 --- !u!1 &7788241301473744066
 GameObject:
   m_ObjectHideFlags: 0

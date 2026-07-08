@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc14cdaf19c5e44bb5ad1aa51b08e2d, type: 3}
+  m_Name: Skill_SunStrike
+  m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
+  skillName: SunStrike
+  icon: {fileID: -2910468133434121427, guid: 5edced445ad6f9648b6af326a514c182, type: 3}
+  vfxPrefab: {fileID: 3549010372944540835, guid: 09f3715f13250634688718e8e380e157, type: 3}
+  baseDamage: 30
+  statScaling: 1
+  cooldown: 8
+  impactDelay: 1.5
+  manaCost: 30
+  mechanic: 3
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 6
+  projectileMaxRange: 12
+  maxChainTargets: 2
+  chainRadius: 3
+  chainDamageFactor: 0.5
+  areaRadius: 2
+  knockbackDistance: 0
+  zonePrefab: {fileID: 0}
+  zoneDuration: 3
+  zoneTickInterval: 0.5
+  zoneRadius: 1.8
+  zoneTickDamageFactor: 0.3
+  zoneStunDuration: 0
+  trapPrefab: {fileID: 0}
+  trapArmDelay: 0.5
+  trapRootDuration: 1.2
+  vortexPrefab: {fileID: 0}
+  pullRadius: 4
+  pullDuration: 2.5
+  pullSpeed: 4
+  shieldAmount: 50
+  shieldDuration: 6
+  executeHealthThreshold: 0.1
+  executeGoldReward: 25

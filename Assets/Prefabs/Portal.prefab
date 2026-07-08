@@ -143,9 +143,10 @@ MonoBehaviour:
   - prefab: {fileID: 6800576660072495815, guid: 6b664826fbd5ebf4cbaa5743bd21349b, type: 3}
     cost: 5
   enemyPrefab: {fileID: 0}
-  waveBudget: 10
+  waveBudget: 8
   budgetGrowthPerMinute: 2
-  maxWaveBudget: 30
+  maxWaveBudget: 20
+  initialSpawnDelay: 30
   spawnInterval: 25
-  maxEnemies: 12
+  maxEnemies: 8
   spawnRadius: 1.5

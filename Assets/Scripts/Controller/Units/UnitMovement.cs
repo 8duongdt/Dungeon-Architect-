@@ -10,6 +10,7 @@ public class UnitMovement : MonoBehaviour, ISpeedModifiable
     [SerializeField] private CharacterAnimationController animationController;
 
     private Rigidbody2D rb;
+    private UnitStatusEffects statusEffects;
 
     // Hệ số nhân tốc độ do hệ thống hiệu ứng đặt (1 = bình thường). Áp cho lúc AI đuổi đánh.
     private float speedMultiplier = 1f;
@@ -42,6 +43,17 @@ public class UnitMovement : MonoBehaviour, ISpeedModifiable
 
     public void MoveTowards(Vector3 targetPosition, float targetStopDistance)
     {
+        // Bị giữ chân (choáng/trói bởi skill): đứng im, không lái vận tốc.
+        if (statusEffects == null)
+        {
+            statusEffects = GetComponent<UnitStatusEffects>();
+        }
+        if (statusEffects != null && statusEffects.IsImmobilized)
+        {
+            Stop(false);
+            return;
+        }
+
         Vector2 currentPosition = rb != null ? rb.position : (Vector2)transform.position;
         Vector2 toTarget = (Vector2)targetPosition - currentPosition;
         float effectiveStoppingDistance = Mathf.Max(0f, targetStopDistance);
@@ -54,16 +66,23 @@ public class UnitMovement : MonoBehaviour, ISpeedModifiable
         Vector2 direction = toTarget.normalized;
         animationController?.PlayMove(direction);
 
+        // Ghim tốc độ ở bước cuối để không lố qua điểm dừng - unit dừng lại đúng
+        // tầm đánh thay vì lao tiếp vào mục tiêu trong một bước vật lý.
+        float remainingDistance = toTarget.magnitude - effectiveStoppingDistance;
+
         if (rb != null)
         {
+            float targetSpeed = Mathf.Min(moveSpeed * speedMultiplier, remainingDistance / Time.fixedDeltaTime);
+
             // Bù phần vận tốc bị linearDamping hãm bớt để tốc độ di chuyển chủ động
             // không bị chậm đi, trong khi quán tính do va chạm vẫn tắt nhanh.
             float dampingCompensation = 1f + rb.linearDamping * Time.fixedDeltaTime;
-            rb.linearVelocity = direction * moveSpeed * speedMultiplier * dampingCompensation;
+            rb.linearVelocity = direction * targetSpeed * dampingCompensation;
         }
         else
         {
-            transform.position += (Vector3)(direction * moveSpeed * speedMultiplier * Time.deltaTime);
+            float targetSpeed = Mathf.Min(moveSpeed * speedMultiplier, remainingDistance / Time.deltaTime);
+            transform.position += (Vector3)(direction * targetSpeed * Time.deltaTime);
         }
     }
 

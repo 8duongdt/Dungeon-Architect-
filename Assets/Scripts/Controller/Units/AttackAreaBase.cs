@@ -3,14 +3,21 @@ using UnityEngine;
 
 public abstract class AttackAreaBase : MonoBehaviour
 {
+    private const float MinAttackApproachFactor = 0.5f;
+    private const float MaxAttackApproachFactor = 1f;
+
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRange = 1.5f;
     [SerializeField] protected float loseTargetRadiusMultiplier = 1.2f;
+    [Tooltip("Tỉ lệ của tầm đánh mà unit áp sát tới trước khi chuyển sang Attack. Nhỏ hơn 1 tạo vùng đệm " +
+             "chống nhấp nháy Attack<->Chase và giữ unit dừng hẳn ở khoảng cách đánh thay vì thúc vào mục tiêu.")]
+    [SerializeField] [Range(MinAttackApproachFactor, MaxAttackApproachFactor)] protected float attackApproachFactor = 0.9f;
     [SerializeField] protected LayerMask enemyLayer = ~0;
     [SerializeField] protected UnitLineOfSight lineOfSight;
 
     public float DetectionRadius => GetDetectionRadius();
     public float AttackRange => attackRange;
+    public float AttackApproachRange => attackRange * attackApproachFactor;
     public float LoseTargetRadiusMultiplier => loseTargetRadiusMultiplier;
 
     public Transform FindVisibleTarget(UnitAI owner)
@@ -56,6 +63,11 @@ public abstract class AttackAreaBase : MonoBehaviour
     public bool IsInAttackRange(Transform target)
     {
         return IsInRange(target, attackRange);
+    }
+
+    public bool IsInAttackApproachRange(Transform target)
+    {
+        return IsInRange(target, AttackApproachRange);
     }
 
     public virtual bool TryGetDamageTarget(UnitAI owner, Transform target, out UnitHealth targetHealth)
@@ -114,6 +126,7 @@ public abstract class AttackAreaBase : MonoBehaviour
         detectionRadius = Mathf.Max(0f, detectionRadius);
         attackRange = Mathf.Max(0f, attackRange);
         loseTargetRadiusMultiplier = Mathf.Max(1f, loseTargetRadiusMultiplier);
+        attackApproachFactor = Mathf.Clamp(attackApproachFactor, MinAttackApproachFactor, MaxAttackApproachFactor);
     }
 
     protected bool TryGetTarget(UnitAI owner, Collider2D collider, out Transform targetTransform)

@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour, ISpeedModifiable
     private CharacterAnimationController animationController;
     private UnitAI unitAI;
     private UnitHealth health;
+    private UnitStatusEffects statusEffects;
     private Rigidbody2D rb;
     private Vector3 targetPosition;
     private Vector2 currentMoveDirection;
@@ -64,6 +65,13 @@ public class Unit : MonoBehaviour, ISpeedModifiable
             return;
         }
 
+        // Chỉ điều khiển animation khi đang thực hiện lệnh di chuyển tay - lúc rảnh
+        // IdleState/UnitMovement chịu trách nhiệm, tránh hai nơi cùng ghi đè animator.
+        if (unitAI != null && !unitAI.IsManualMoveCommandActive)
+        {
+            return;
+        }
+
         UpdateAnimation();
     }
 
@@ -94,6 +102,22 @@ public class Unit : MonoBehaviour, ISpeedModifiable
 
     private void MoveTowardsTarget()
     {
+        // Bị giữ chân (choáng/trói bởi skill): đứng im tại chỗ, lệnh di chuyển vẫn giữ
+        // (stuck-timeout của UnitAI sẽ tự nhả lệnh nếu bị trói quá lâu).
+        if (statusEffects == null)
+        {
+            statusEffects = GetComponent<UnitStatusEffects>();
+        }
+        if (statusEffects != null && statusEffects.IsImmobilized)
+        {
+            currentMoveDirection = Vector2.zero;
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+            }
+            return;
+        }
+
         if (unitAI != null && unitAI.HasActiveCombatTarget)
         {
             // Đang combat: nhường quyền điều khiển vận tốc cho AI (ChaseState/AttackState).
@@ -101,6 +125,13 @@ public class Unit : MonoBehaviour, ISpeedModifiable
             targetPosition = transform.position;
             currentMoveDirection = Vector2.zero;
             unitAI.CompleteMoveCommand();
+            return;
+        }
+
+        // Không có lệnh di chuyển tay: nhường rigidbody cho hành vi rảnh của AI
+        // (tuần tra, hành quân chiếm tinh thể) - Unit chỉ lái khi người chơi ra lệnh.
+        if (unitAI != null && !unitAI.IsManualMoveCommandActive)
+        {
             return;
         }
 

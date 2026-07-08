@@ -887,6 +887,7 @@ MonoBehaviour:
   detectionRadius: 7
   attackRange: 1.5
   loseTargetRadiusMultiplier: 1.1
+  attackApproachFactor: 0.9
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4294967295

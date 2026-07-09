@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Hệ kỹ năng của NGƯỜI CHƠI: nhấn phím 1-4 để thi triển skill ở ô tương ứng vào
-/// kẻ địch gần con trỏ chuột nhất. Tiêu tốn Mana toàn cục (ResourceManager);
-/// không mục tiêu / không đủ Mana / đang hồi chiêu thì không cast và KHÔNG mất Mana.
-/// Tái dùng SkillExecutor - mọi cơ chế (instant/projectile/chain) dùng chung với unit AI.
+/// Hệ kỹ năng của NGƯỜI CHƠI: nhấn phím 1-4 để thi triển skill ở ô tương ứng.
+/// Có kẻ địch gần con trỏ chuột thì ưu tiên khóa mục tiêu; không có thì các skill
+/// dạng điểm rơi (projectile/nổ/vùng/bẫy/xoáy) vẫn cast tại điểm chuột (kẹp vào tầm),
+/// chỉ các skill bắt buộc mục tiêu (chain/kết liễu/đánh thẳng) mới từ chối cast.
+/// Tiêu tốn Mana toàn cục (ResourceManager); không đủ Mana / đang hồi chiêu thì
+/// không cast và KHÔNG mất Mana. Tái dùng SkillExecutor chung với unit AI.
 /// </summary>
 [DisallowMultipleComponent]
 public class PlayerSkillCaster : MonoBehaviour
@@ -49,8 +51,8 @@ public class PlayerSkillCaster : MonoBehaviour
     }
 
     /// <summary>
-    /// Thi triển skill ở ô slotIndex vào kẻ địch gần chuột nhất.
-    /// Public để UI/hệ khác (nút bấm, tutorial) gọi thẳng không qua bàn phím.
+    /// Thi triển skill ở ô slotIndex: ưu tiên kẻ địch gần chuột, không có thì cast
+    /// tại điểm chuột (trừ skill bắt buộc mục tiêu). Public để UI/hệ khác gọi thẳng.
     /// </summary>
     public bool CastSlot(int slotIndex)
     {
@@ -61,18 +63,75 @@ public class PlayerSkillCaster : MonoBehaviour
             return false;
         }
 
-        // Khiên tự thân không cần mục tiêu địch; các skill khác nhắm kẻ địch gần chuột.
-        bool needsEnemyTarget = skill.Mechanic != SkillMechanic.SelfShield;
-        UnitHealth target = needsEnemyTarget ? FindTargetNearMouse() : health;
-        if ((needsEnemyTarget && target == null) || !TrySpendMana(skill.ManaCost))
+        if (!TryResolveAim(skill, out UnitHealth target, out Vector3 aimPoint) || !TrySpendMana(skill.ManaCost))
         {
             return false;
         }
 
-        var context = new SkillCastContext(transform, faction, skill.ComputeDamage(magicPower), target, this);
+        var context = new SkillCastContext(
+            transform, faction, skill.ComputeDamage(magicPower), target, aimPoint, this);
         SkillExecutor.Execute(skill, context);
         nextCastTimes[slotIndex] = Time.time + skill.Cooldown;
         return true;
+    }
+
+    /// <summary>Gán skill cho ô lúc runtime (loader trang bị / cây kỹ năng) - reset hồi chiêu ô đó.</summary>
+    public void SetSlotSkill(int slotIndex, SkillDefinitionSO skill)
+    {
+        bool isValidSlot = slotIndex >= 0 && slotIndex < skillSlots.Length;
+        if (!isValidSlot)
+        {
+            return;
+        }
+
+        skillSlots[slotIndex] = skill;
+        nextCastTimes[slotIndex] = 0f;
+    }
+
+    /// <summary>
+    /// Xác định mục tiêu + điểm rơi của skill. Trả false = không cast được
+    /// (skill bắt buộc mục tiêu mà không có địch gần chuột, hoặc không đọc được chuột/camera).
+    /// </summary>
+    private bool TryResolveAim(SkillDefinitionSO skill, out UnitHealth target, out Vector3 aimPoint)
+    {
+        if (skill.Mechanic == SkillMechanic.SelfShield)
+        {
+            target = health;
+            aimPoint = transform.position;
+            return true;
+        }
+
+        target = null;
+        aimPoint = default;
+        if (!TryGetMouseWorldPoint(out Vector3 mouseWorld))
+        {
+            return false;
+        }
+
+        target = FindTargetNearMouse(mouseWorld);
+        if (target == null && RequiresUnitTarget(skill.Mechanic))
+        {
+            return false;
+        }
+
+        aimPoint = target != null ? target.transform.position : ClampToCastRange(mouseWorld);
+        return true;
+    }
+
+    /// <summary>Các cơ chế vô nghĩa trên đất trống (nảy chuỗi/ngưỡng kết liễu/đánh thẳng mục tiêu).</summary>
+    private static bool RequiresUnitTarget(SkillMechanic mechanic)
+    {
+        return mechanic == SkillMechanic.InstantStrike
+            || mechanic == SkillMechanic.ChainStrike
+            || mechanic == SkillMechanic.ExecuteStrike;
+    }
+
+    /// <summary>Kẹp điểm chuột vào tầm thi triển thay vì từ chối - cast không bao giờ câm lặng.</summary>
+    private Vector3 ClampToCastRange(Vector3 mouseWorld)
+    {
+        Vector2 toMouse = mouseWorld - transform.position;
+        Vector2 clamped = Vector2.ClampMagnitude(toMouse, castRange);
+        return transform.position + (Vector3)clamped;
     }
 
     /// <summary>Skill đang gán ở ô - HUD đọc để hiển thị icon/mana (null = ô trống).</summary>
@@ -109,17 +168,23 @@ public class PlayerSkillCaster : MonoBehaviour
         return -1;
     }
 
-    /// <summary>Kẻ địch gần con trỏ chuột nhất, trong bán kính bắt mục tiêu và trong tầm thi triển.</summary>
-    private UnitHealth FindTargetNearMouse()
+    /// <summary>Điểm chuột trong tọa độ thế giới (z = 0). Trả false khi thiếu chuột/camera.</summary>
+    private static bool TryGetMouseWorldPoint(out Vector3 mouseWorld)
     {
+        mouseWorld = default;
         if (Mouse.current == null || Camera.main == null)
         {
-            return null;
+            return false;
         }
 
-        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         mouseWorld.z = 0f;
+        return true;
+    }
 
+    /// <summary>Kẻ địch gần con trỏ chuột nhất, trong bán kính bắt mục tiêu và trong tầm thi triển.</summary>
+    private UnitHealth FindTargetNearMouse(Vector3 mouseWorld)
+    {
         UnitHealth closestTarget = null;
         float closestSqrDistance = float.MaxValue;
         foreach (Collider2D collider in Physics2D.OverlapCircleAll(mouseWorld, targetSearchRadius))

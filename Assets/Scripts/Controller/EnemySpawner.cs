@@ -67,6 +67,11 @@ public class EnemySpawner : MonoBehaviour
     [Min(0)]
     private int maxEnemies = 8;
 
+    [Tooltip("Tổng số quái cổng này sinh ra trong cả màn - 0 = sinh vô hạn như cũ.")]
+    [SerializeField]
+    [Min(0)]
+    private int maxTotalSpawns = 0;
+
     [Header("Random Offset")]
     [Tooltip("Bán kính phân tán quái quanh cổng để tránh đè chồng lên nhau. Đặt 0 để sinh ngay tại cổng.")]
     [SerializeField]
@@ -76,6 +81,13 @@ public class EnemySpawner : MonoBehaviour
     // Bộ đếm thời gian thực và số lượng quái hiện tại do cổng này quản lý.
     private float timer;
     private int currentEnemyCount;
+    private int totalSpawnedCount;
+
+    /// <summary>Cổng đã sinh đủ hạn ngạch (chỉ có nghĩa khi maxTotalSpawns > 0) - director đọc để xét thắng.</summary>
+    public bool HasFinishedSpawning => maxTotalSpawns > 0 && totalSpawnedCount >= maxTotalSpawns;
+
+    /// <summary>Số quái của cổng này còn sống - director cộng dồn để xét điều kiện diệt sạch.</summary>
+    public int AliveEnemyCount => currentEnemyCount;
 
     private void OnEnable()
     {
@@ -96,8 +108,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        // Kiểm tra điều kiện biên: chạm cap riêng của cổng hoặc trần dân số chung thì dừng logic spawn.
-        if (currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
+        // Kiểm tra điều kiện biên: cạn hạn ngạch tổng, chạm cap riêng của cổng
+        // hoặc trần dân số chung thì dừng logic spawn.
+        if (HasFinishedSpawning || currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
         {
             return;
         }
@@ -163,7 +176,7 @@ public class EnemySpawner : MonoBehaviour
     {
         foreach (GameObject prefab in wave)
         {
-            if (currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
+            if (HasFinishedSpawning || currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
             {
                 return;
             }
@@ -183,6 +196,7 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
         currentEnemyCount++;
+        totalSpawnedCount++;
         EnemyPopulationLimiter.Instance?.Register(enemy);
 
         // Khi quái chết, giảm bộ đếm để cổng có thể tiếp tục sinh quái mới.

@@ -26,6 +26,9 @@ public static class PlayerHudSetup
     private const string UiPackFolder = "Assets/Sprites/Vector_UI_Pack_dobo_ui";
 
     private const float PlayerMaxHealth = 100f;
+    private const int PlayerStartMana = 50;
+    private const float PlayerManaRegenPerSecond = 8f;
+    private const float DisplayMaxMana = 100f;
 
     private const float SlotSize = 72f;
     private const float SlotSpacing = 8f;
@@ -38,6 +41,7 @@ public static class PlayerHudSetup
     private static readonly Vector2 StatusPanelOffset = new Vector2(16f, -16f);
     private static readonly Vector2 HealthBarSize = new Vector2(320f, 28f);
     private static readonly Vector2 ShieldBarSize = new Vector2(320f, 14f);
+    private static readonly Vector2 ManaBarSize = new Vector2(320f, 14f);
     private const float BarFillInset = 4f;
     private const float StatusBarGap = 6f;
 
@@ -61,14 +65,16 @@ public static class PlayerHudSetup
             }
 
             UnitHealth playerHealth = EnsureUnitHealth(avatar);
+            ResourceManager resourceManager = EnsureResourceManager(scene);
+            EnsurePlayerManaRegen(avatar);
             EnsureEventSystem(scene);
             RectTransform canvasRoot = EnsureHudCanvas(scene);
             BuildSkillBar(canvasRoot, avatar.GetComponent<PlayerSkillCaster>());
-            BuildPlayerStatus(canvasRoot, playerHealth);
+            BuildPlayerStatus(canvasRoot, playerHealth, resourceManager);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
-            Debug.Log("[PlayerHudSetup] Hoàn tất: HUD Phase 2 (thanh 4 skill + máu/khiên) đã dựng và lưu scene.");
+            Debug.Log("[PlayerHudSetup] Hoàn tất: HUD Phase 2 (thanh 4 skill + máu/khiên/mana) đã dựng và lưu scene.");
         }
         finally
         {
@@ -123,6 +129,44 @@ public static class PlayerHudSetup
             so.FindProperty("currentHealth").floatValue = PlayerMaxHealth;
         });
         return health;
+    }
+
+    /// <summary>
+    /// Phase 2 không có công trình khai thác Mana nào -> tạo ResourceManager riêng cho scene
+    /// với Mana khởi đầu đủ dùng ngay, hồi dần qua PlayerManaRegen.
+    /// </summary>
+    private static ResourceManager EnsureResourceManager(Scene scene)
+    {
+        ResourceManager existing = null;
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            existing = root.GetComponentInChildren<ResourceManager>(true);
+            if (existing != null)
+            {
+                break;
+            }
+        }
+
+        if (existing == null)
+        {
+            var go = new GameObject("ResourceManager");
+            SceneManager.MoveGameObjectToScene(go, scene);
+            existing = go.AddComponent<ResourceManager>();
+        }
+
+        SetSerialized(existing, so => so.FindProperty("startMana").intValue = PlayerStartMana);
+        return existing;
+    }
+
+    private static void EnsurePlayerManaRegen(GameObject avatar)
+    {
+        var regen = avatar.GetComponent<PlayerManaRegen>();
+        if (regen == null)
+        {
+            regen = avatar.AddComponent<PlayerManaRegen>();
+        }
+
+        SetSerialized(regen, so => so.FindProperty("regenPerSecond").floatValue = PlayerManaRegenPerSecond);
     }
 
     private static void EnsureEventSystem(Scene scene)
@@ -252,20 +296,25 @@ public static class PlayerHudSetup
 
     // ---------- Thanh máu + khiên ----------
 
-    private static void BuildPlayerStatus(RectTransform canvasRoot, UnitHealth playerHealth)
+    private static void BuildPlayerStatus(RectTransform canvasRoot, UnitHealth playerHealth, ResourceManager resourceManager)
     {
-        float panelHeight = HealthBarSize.y + StatusBarGap + ShieldBarSize.y;
+        float panelHeight = HealthBarSize.y + StatusBarGap + ShieldBarSize.y + StatusBarGap + ManaBarSize.y;
         RectTransform panel = CreateRect("PlayerStatus", canvasRoot,
             new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f),
             StatusPanelOffset, new Vector2(HealthBarSize.x, panelHeight));
 
         Image healthFill = BuildFilledBar(panel, "HealthBar", Vector2.zero, HealthBarSize, "ProgressBars/progressBar_red.png");
-        Image shieldFill = BuildFilledBar(panel, "ShieldBar",
-            new Vector2(0f, -(HealthBarSize.y + StatusBarGap)), ShieldBarSize, "ProgressBars/progressBar_cyan.png");
+        float shieldY = -(HealthBarSize.y + StatusBarGap);
+        Image shieldFill = BuildFilledBar(panel, "ShieldBar", new Vector2(0f, shieldY), ShieldBarSize, "ProgressBars/progressBar_cyan.png");
+        float manaY = shieldY - (ShieldBarSize.y + StatusBarGap);
+        Image manaFill = BuildFilledBar(panel, "ManaBar", new Vector2(0f, manaY), ManaBarSize, "ProgressBars/progressBar_purple.png");
 
         TMP_Text healthLabel = CreateText("HealthLabel", (RectTransform)healthFill.transform.parent,
             $"{PlayerMaxHealth:0}/{PlayerMaxHealth:0}", 16f, TextAlignmentOptions.Center,
             new Vector2(0.5f, 0.5f), Vector2.zero, HealthBarSize);
+        TMP_Text manaLabel = CreateText("ManaLabel", (RectTransform)manaFill.transform.parent,
+            PlayerStartMana.ToString(), 12f, TextAlignmentOptions.Center,
+            new Vector2(0.5f, 0.5f), Vector2.zero, ManaBarSize);
 
         var view = panel.gameObject.AddComponent<PlayerStatusHudView>();
         SetSerialized(view, so =>
@@ -274,6 +323,15 @@ public static class PlayerHudSetup
             so.FindProperty("healthFill").objectReferenceValue = healthFill;
             so.FindProperty("shieldFill").objectReferenceValue = shieldFill;
             so.FindProperty("healthLabel").objectReferenceValue = healthLabel;
+        });
+
+        var manaView = panel.gameObject.AddComponent<ManaBarView>();
+        SetSerialized(manaView, so =>
+        {
+            so.FindProperty("displayMaxMana").floatValue = DisplayMaxMana;
+            so.FindProperty("resourceManager").objectReferenceValue = resourceManager;
+            so.FindProperty("manaFill").objectReferenceValue = manaFill;
+            so.FindProperty("manaLabel").objectReferenceValue = manaLabel;
         });
     }
 

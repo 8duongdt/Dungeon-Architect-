@@ -22,7 +22,7 @@ public static class StoryIntroSetup
 {
     private const string ScenePath = "Assets/Scenes/StoryIntro.unity";
     private const string MainMenuScenePath = "Assets/Scenes/MainMenu.unity";
-    private const string GameplaySceneName = "Phase 1";
+    private const string GameplaySceneName = "Lobby";
 
     private static readonly string[] StorySpritePaths =
     {

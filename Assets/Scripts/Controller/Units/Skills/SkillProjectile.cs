@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Đạn kỹ năng bay theo đường thẳng: hướng chốt một lần lúc bắn (caster -> vị trí mục tiêu),
+/// Đạn kỹ năng bay theo đường thẳng: hướng chốt một lần lúc bắn (caster -> điểm rơi TargetPoint),
 /// phát nổ khi trúng kẻ địch ĐẦU TIÊN (qua cổng phe CanAttack - tự loại caster/đồng minh),
 /// xuyên qua vật thể không phải unit; tự hủy khi bay quá tầm hoặc quá thời gian sống.
 /// </summary>
@@ -34,7 +34,7 @@ public class SkillProjectile : MonoBehaviour
         maxRange = skill.ProjectileMaxRange;
         impactVfxPrefab = skill.VfxPrefab;
 
-        Vector2 toTarget = context.PrimaryTarget.transform.position - context.CasterTransform.position;
+        Vector2 toTarget = context.TargetPoint - context.CasterTransform.position;
         flightDirection = toTarget.sqrMagnitude > 0f ? toTarget.normalized : Vector2.right;
         transform.position += (Vector3)(flightDirection * SpawnForwardOffset);
         ApplyFlightRotation();

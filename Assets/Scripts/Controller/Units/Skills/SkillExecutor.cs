@@ -47,7 +47,14 @@ public static class SkillExecutor
     /// <summary>Đánh tức thời: VFX + sát thương ngay trên mục tiêu (hành vi gốc).</summary>
     private static void ExecuteInstantStrike(SkillDefinitionSO skill, in SkillCastContext context)
     {
-        SpawnVfx(skill.VfxPrefab, context.PrimaryTarget.transform.position);
+        SpawnVfx(skill.VfxPrefab, context.TargetPoint);
+
+        // Cast tự do không có mục tiêu (nhánh fallback prefab-null) -> chỉ có VFX, không sát thương.
+        if (context.PrimaryTarget == null)
+        {
+            return;
+        }
+
         ApplyDamage(context.PrimaryTarget, context.Damage, skill.ImpactDelay, context.CoroutineHost);
     }
 
@@ -91,7 +98,7 @@ public static class SkillExecutor
     /// </summary>
     private static void ExecuteAreaStrike(SkillDefinitionSO skill, in SkillCastContext context)
     {
-        Vector3 impactCenter = context.PrimaryTarget.transform.position;
+        Vector3 impactCenter = context.TargetPoint;
         bool canDelay = skill.ImpactDelay > 0f && CanHostCoroutine(context.CoroutineHost);
         if (canDelay)
         {
@@ -130,7 +137,7 @@ public static class SkillExecutor
             return;
         }
 
-        Vector3 position = context.PrimaryTarget.transform.position;
+        Vector3 position = context.TargetPoint;
         GameObject zoneObject = Object.Instantiate(prefab, position, Quaternion.identity);
         var zone = zoneObject.GetComponent<TComponent>();
         if (zone is SkillDamageZone damageZone) damageZone.Initialize(context, skill);

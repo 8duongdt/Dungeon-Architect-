@@ -47,7 +47,8 @@ public static class SkillExecutor
     /// <summary>Đánh tức thời: VFX + sát thương ngay trên mục tiêu (hành vi gốc).</summary>
     private static void ExecuteInstantStrike(SkillDefinitionSO skill, in SkillCastContext context)
     {
-        SpawnVfx(skill.VfxPrefab, context.TargetPoint);
+        Vector2 aimDirection = context.TargetPoint - context.CasterTransform.position;
+        SpawnVfx(skill.VfxPrefab, context.TargetPoint, aimDirection);
 
         // Cast tự do không có mục tiêu (nhánh fallback prefab-null) -> chỉ có VFX, không sát thương.
         if (context.PrimaryTarget == null)
@@ -86,7 +87,9 @@ public static class SkillExecutor
         foreach (UnitHealth bounceTarget in FindChainTargets(
             primaryPosition, context.PrimaryTarget, context.CasterFaction, skill.ChainRadius, skill.MaxChainTargets))
         {
-            SpawnVfx(skill.VfxPrefab, bounceTarget.transform.position);
+            // Tia nảy chuỗi hướng từ mục tiêu chính sang mục tiêu bị nảy cho tự nhiên.
+            Vector2 bounceDirection = bounceTarget.transform.position - primaryPosition;
+            SpawnVfx(skill.VfxPrefab, bounceTarget.transform.position, bounceDirection);
             ApplyDamage(bounceTarget, bounceDamage, skill.ImpactDelay, context.CoroutineHost);
         }
     }
@@ -139,6 +142,7 @@ public static class SkillExecutor
 
         Vector3 position = context.TargetPoint;
         GameObject zoneObject = Object.Instantiate(prefab, position, Quaternion.identity);
+        ApplyDirection(zoneObject, context.TargetPoint - context.CasterTransform.position);
         var zone = zoneObject.GetComponent<TComponent>();
         if (zone is SkillDamageZone damageZone) damageZone.Initialize(context, skill);
         else if (zone is SkillTrap trap) trap.Initialize(context, skill);
@@ -228,9 +232,30 @@ public static class SkillExecutor
 
     private static void SpawnVfx(GameObject vfxPrefab, Vector3 position)
     {
-        if (vfxPrefab != null)
+        SpawnVfx(vfxPrefab, position, Vector2.zero);
+    }
+
+    private static void SpawnVfx(GameObject vfxPrefab, Vector3 position, Vector2 aimDirection)
+    {
+        if (vfxPrefab == null)
         {
-            Object.Instantiate(vfxPrefab, position, Quaternion.identity);
+            return;
+        }
+
+        GameObject vfxObject = Object.Instantiate(vfxPrefab, position, Quaternion.identity);
+        ApplyDirection(vfxObject, aimDirection);
+    }
+
+    /// <summary>
+    /// Xoay object theo hướng thi triển nếu prefab có gắn <see cref="SkillDirection"/>;
+    /// prefab không gắn (phép nổ tròn, buff) thì giữ nguyên hướng mặc định.
+    /// </summary>
+    private static void ApplyDirection(GameObject spawnedObject, Vector2 aimDirection)
+    {
+        var skillDirection = spawnedObject.GetComponent<SkillDirection>();
+        if (skillDirection != null)
+        {
+            skillDirection.SetupDirection(aimDirection);
         }
     }
 }

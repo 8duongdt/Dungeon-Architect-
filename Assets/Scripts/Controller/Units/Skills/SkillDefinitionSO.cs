@@ -36,6 +36,13 @@ public class SkillDefinitionSO : ScriptableObject
     [Tooltip("Cách kỹ năng thi triển: đánh tức thời / đạn bay / nảy chuỗi.")]
     [SerializeField] private SkillMechanic mechanic = SkillMechanic.InstantStrike;
 
+    [Header("Hướng hiệu ứng")]
+    [Tooltip("Xoay hiệu ứng/vùng theo hướng ngắm của người thi triển (phép định hướng như tường lửa, hàng gai). Phép nổ tròn/buff để tắt.")]
+    [SerializeField] private bool orientToAim = false;
+
+    [Tooltip("Góc bù do sprite gốc vẽ theo một hướng cố định (giống spriteFacingOffsetDegrees của SkillProjectile; sprite vẽ hướng lên = -90).")]
+    [SerializeField] private float aimRotationOffsetDegrees = 0f;
+
     [Header("Projectile (chỉ dùng khi mechanic = Projectile)")]
     [Tooltip("Prefab đạn (SkillProjectile) bay từ người thi triển tới mục tiêu.")]
     [SerializeField] private GameObject projectilePrefab;
@@ -109,6 +116,8 @@ public class SkillDefinitionSO : ScriptableObject
     public float ImpactDelay => impactDelay;
     public int ManaCost => manaCost;
     public SkillMechanic Mechanic => mechanic;
+    public bool OrientToAim => orientToAim;
+    public float AimRotationOffsetDegrees => aimRotationOffsetDegrees;
     public GameObject ProjectilePrefab => projectilePrefab;
     public float ProjectileSpeed => projectileSpeed;
     public float ProjectileMaxRange => projectileMaxRange;

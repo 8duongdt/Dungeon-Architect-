@@ -47,7 +47,7 @@ public static class SkillExecutor
     /// <summary>Đánh tức thời: VFX + sát thương ngay trên mục tiêu (hành vi gốc).</summary>
     private static void ExecuteInstantStrike(SkillDefinitionSO skill, in SkillCastContext context)
     {
-        SpawnVfx(skill.VfxPrefab, context.TargetPoint);
+        SpawnVfx(skill.VfxPrefab, context.TargetPoint, ResolveSpawnRotation(skill, context));
 
         // Cast tự do không có mục tiêu (nhánh fallback prefab-null) -> chỉ có VFX, không sát thương.
         if (context.PrimaryTarget == null)
@@ -138,7 +138,7 @@ public static class SkillExecutor
         }
 
         Vector3 position = context.TargetPoint;
-        GameObject zoneObject = Object.Instantiate(prefab, position, Quaternion.identity);
+        GameObject zoneObject = Object.Instantiate(prefab, position, ResolveSpawnRotation(skill, context));
         var zone = zoneObject.GetComponent<TComponent>();
         if (zone is SkillDamageZone damageZone) damageZone.Initialize(context, skill);
         else if (zone is SkillTrap trap) trap.Initialize(context, skill);
@@ -228,9 +228,37 @@ public static class SkillExecutor
 
     private static void SpawnVfx(GameObject vfxPrefab, Vector3 position)
     {
+        SpawnVfx(vfxPrefab, position, Quaternion.identity);
+    }
+
+    private static void SpawnVfx(GameObject vfxPrefab, Vector3 position, Quaternion rotation)
+    {
         if (vfxPrefab != null)
         {
-            Object.Instantiate(vfxPrefab, position, Quaternion.identity);
+            Object.Instantiate(vfxPrefab, position, rotation);
         }
+    }
+
+    /// <summary>
+    /// Góc xoay lúc spawn theo hướng ngắm (điểm rơi - vị trí caster), cùng pattern
+    /// với <see cref="SkillProjectile"/>. Phép không định hướng hoặc self-cast
+    /// (hướng gần bằng 0) giữ nguyên hướng mặc định của prefab.
+    /// </summary>
+    private static Quaternion ResolveSpawnRotation(SkillDefinitionSO skill, in SkillCastContext context)
+    {
+        if (!skill.OrientToAim)
+        {
+            return Quaternion.identity;
+        }
+
+        Vector2 aimDirection = context.TargetPoint - context.CasterTransform.position;
+        bool hasUsableDirection = aimDirection.sqrMagnitude > 0.0001f;
+        if (!hasUsableDirection)
+        {
+            return Quaternion.identity;
+        }
+
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+        return Quaternion.Euler(0f, 0f, aimAngle + skill.AimRotationOffsetDegrees);
     }
 }

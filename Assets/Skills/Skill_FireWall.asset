@@ -21,6 +21,8 @@ MonoBehaviour:
   impactDelay: 0
   manaCost: 20
   mechanic: 4
+  orientToAim: 1
+  aimRotationOffsetDegrees: -90
   projectilePrefab: {fileID: 0}
   projectileSpeed: 6
   projectileMaxRange: 12

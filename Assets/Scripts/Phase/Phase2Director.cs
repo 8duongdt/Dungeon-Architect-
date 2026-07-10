@@ -65,6 +65,9 @@ public class Phase2Director : MonoBehaviour
         nextWinCheckTime = Time.time + WinCheckInterval;
         if (AllEnemiesDefeated())
         {
+            // Thắng phase cuối: reset checkpoint về Phase 1 cho lượt chơi mới. Thua thì giữ nguyên
+            // Phase 2 (OnPlayerDied) để lần Tiếp tục sau chơi lại đúng phase đang thua.
+            PlayerProgression.CurrentPhase = 1;
             EndBattle($"VICTORY!\n+{winSkillPointReward} skill points", winSkillPointReward);
         }
     }

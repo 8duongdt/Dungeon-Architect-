@@ -141,4 +141,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb705d2d9006004199925dbda151975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillDirection
-  spriteFacingOffsetDegrees: 0
+  spriteFacingOffsetDegrees: 180

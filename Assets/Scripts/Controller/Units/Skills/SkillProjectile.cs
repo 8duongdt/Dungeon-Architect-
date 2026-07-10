@@ -14,8 +14,8 @@ public class SkillProjectile : MonoBehaviour
     // Nhô đạn khỏi thân caster một chút cho đẹp mắt lúc xuất phát.
     private const float SpawnForwardOffset = 0.4f;
 
-    [Tooltip("Góc bù vì frame sprite vẽ theo hướng cố định: chĩa phải = 0, chĩa lên = -90, chĩa trái = 180 (Fire-ball vẽ đầu lửa bên trái => 180).")]
-    [SerializeField] private float spriteFacingOffsetDegrees = 180f;
+    [Tooltip("Góc bù vì frame sprite vẽ theo hướng cố định: chĩa phải = 0, chĩa lên = -90, chĩa trái = 180 (Fire-ball vẽ đầu lửa bên phải => 0).")]
+    [SerializeField] private float spriteFacingOffsetDegrees = 0f;
 
     private UnitFaction casterFaction;
     private float damage;

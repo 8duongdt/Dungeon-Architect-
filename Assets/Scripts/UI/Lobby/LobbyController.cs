@@ -118,7 +118,7 @@ public class LobbyController : MonoBehaviour
 
     private void RefreshAll()
     {
-        skillPointsLabel.text = $"Điểm kỹ năng: {PlayerProgression.SkillPoints}";
+        skillPointsLabel.text = $"Skill Points: {PlayerProgression.SkillPoints}";
         string[] equipped = PlayerProgression.GetEquippedSlots();
 
         for (int i = 0; i < nodeViews.Length; i++)

@@ -158,7 +158,10 @@ public static class SkillExecutor
             return;
         }
 
-        casterHealth.AddShield(skill.ShieldAmount, skill.ShieldDuration);
+        // Bậc nâng cấp nhân cả lượng khiên lẫn thời gian tồn tại của khiên.
+        casterHealth.AddShield(
+            skill.ShieldAmount * context.UpgradeMultiplier,
+            skill.ShieldDuration * context.UpgradeMultiplier);
         SpawnVfx(skill.VfxPrefab, context.CasterTransform.position);
     }
 

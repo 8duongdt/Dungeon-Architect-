@@ -25,6 +25,12 @@ public readonly struct SkillCastContext
     /// <summary>Nơi chạy coroutine impactDelay; null hoặc đã hủy thì gây sát thương ngay.</summary>
     public readonly MonoBehaviour CoroutineHost;
 
+    /// <summary>
+    /// Hệ số nhân theo bậc nâng cấp của skill (1 = không nâng). Sát thương đã được nhân sẵn vào
+    /// <see cref="Damage"/>; giá trị này để các cơ chế phi sát thương (vd Shield) nhân chỉ số riêng.
+    /// </summary>
+    public readonly float UpgradeMultiplier;
+
     public SkillCastContext(Transform casterTransform, UnitFaction casterFaction,
         float damage, UnitHealth primaryTarget, MonoBehaviour coroutineHost)
         : this(casterTransform, casterFaction, damage, primaryTarget,
@@ -33,7 +39,8 @@ public readonly struct SkillCastContext
     }
 
     public SkillCastContext(Transform casterTransform, UnitFaction casterFaction,
-        float damage, UnitHealth primaryTarget, Vector3 targetPoint, MonoBehaviour coroutineHost)
+        float damage, UnitHealth primaryTarget, Vector3 targetPoint, MonoBehaviour coroutineHost,
+        float upgradeMultiplier = 1f)
     {
         CasterTransform = casterTransform;
         CasterFaction = casterFaction;
@@ -41,6 +48,7 @@ public readonly struct SkillCastContext
         PrimaryTarget = primaryTarget;
         TargetPoint = targetPoint;
         CoroutineHost = coroutineHost;
+        UpgradeMultiplier = upgradeMultiplier;
     }
 
     private static Vector3 ResolveTargetPoint(Transform casterTransform, UnitHealth primaryTarget)

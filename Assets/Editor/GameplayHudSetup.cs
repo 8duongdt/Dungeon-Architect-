@@ -22,7 +22,6 @@ public static class GameplayHudSetup
 
     private const string HudRootName = "GameplayHUD";
     private const string ManagersName = "GameplayManagers";
-    private const string CommanderName = "CommanderPlaceholder";
 
     // Bảng màu nhẹ theo mockup.
     private static readonly Color GoldColor = new Color(1f, 0.85f, 0.3f);
@@ -40,17 +39,15 @@ public static class GameplayHudSetup
         }
 
         GridBuildingSystem buildingSystem = Object.FindFirstObjectByType<GridBuildingSystem>();
-        UnitController unitController = Object.FindFirstObjectByType<UnitController>();
 
         EnsureManagers(out ResourceManager resourceManager, out PhaseManager phaseManager);
-        HudDisplayInfo commander = EnsureCommanderPlaceholder();
 
         RectTransform hudRoot = ResetHudRoot(canvas);
 
         BuildResourceRegion(hudRoot, resourceManager, out ResourceCounterView goldView, out ResourceCounterView manaView);
         BindResourceHud(hudRoot, resourceManager, goldView, manaView);
         BuildAwakeningRegion(hudRoot, phaseManager);
-        BuildBottomPanel(hudRoot, buildingSystem, unitController, commander);
+        BuildBottomPanel(hudRoot, buildingSystem);
         BuildConstructStatusPanel(hudRoot, buildingSystem);
 
         DisableLegacyBuildingMenu();
@@ -125,33 +122,6 @@ public static class GameplayHudSetup
             so.FindProperty("startGold").intValue = 500;
             so.FindProperty("startMana").intValue = 0;
         });
-    }
-
-    private static HudDisplayInfo EnsureCommanderPlaceholder()
-    {
-        GameObject existing = GameObject.Find(CommanderName);
-        if (existing != null)
-        {
-            return existing.GetComponent<HudDisplayInfo>();
-        }
-
-        var go = new GameObject(CommanderName);
-        UnitHealth health = go.AddComponent<UnitHealth>();
-        SetSerialized(health, so =>
-        {
-            so.FindProperty("maxHealth").floatValue = 1000f;
-            so.FindProperty("currentHealth").floatValue = 1000f;
-            so.FindProperty("destroyOnDeath").boolValue = false;
-        });
-
-        HudDisplayInfo info = go.AddComponent<HudDisplayInfo>();
-        SetSerialized(info, so =>
-        {
-            so.FindProperty("displayName").stringValue = "COMMANDER";
-            so.FindProperty("attackOverride").floatValue = 75f;
-            so.FindProperty("portrait").objectReferenceValue = LoadSprite("Icons/128px/sword_icon_128px.png");
-        });
-        return info;
     }
 
     // ---------------------------------------------------------------- Resource region (top-left)
@@ -236,75 +206,28 @@ public static class GameplayHudSetup
 
     // ---------------------------------------------------------------- Bottom control panel
 
-    private static void BuildBottomPanel(RectTransform parent, GridBuildingSystem buildingSystem,
-        UnitController unitController, HudDisplayInfo commander)
+    private static void BuildBottomPanel(RectTransform parent, GridBuildingSystem buildingSystem)
     {
         RectTransform panel = CreateRect("ControlPanel", parent,
             new Vector2(0.5f, 0f), new Vector2(0.5f, 0f), new Vector2(0.5f, 0f),
-            new Vector2(-120f, 16f), new Vector2(900f, 240f));
+            new Vector2(0f, 16f), new Vector2(700f, 240f));
         // Nền bảng chặn raycast để click trong vùng bảng không lọt xuống bản đồ (vô tình xây).
         AddImage(panel, LoadSprite("Panels/panel_blue.png"), PanelTint).raycastTarget = true;
 
-        BuildUnitInfoPanel(panel, unitController, commander);
         BuildActionGridArea(panel, buildingSystem);
-    }
-
-    private static void BuildUnitInfoPanel(RectTransform parent, UnitController unitController,
-        HudDisplayInfo commander)
-    {
-        RectTransform root = CreateRect("UnitInfo", parent,
-            new Vector2(0f, 0f), new Vector2(0f, 1f), new Vector2(0f, 0.5f),
-            new Vector2(20f, 0f), new Vector2(210f, -40f));
-
-        RectTransform content = CreateRect("Content", root, Vector2.zero, Vector2.one, new Vector2(0.5f, 0.5f),
-            Vector2.zero, Vector2.zero);
-        SetStretch(content, Vector2.zero, Vector2.zero);
-
-        RectTransform portraitFrame = CreateRect("Portrait", content,
-            new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-            new Vector2(0f, -10f), new Vector2(120f, 120f));
-        AddImage(portraitFrame, LoadSprite("Item Slots/itemSlot_blue.png"), Color.white);
-        Image portrait = AddImage(CreateRect("PortraitImage", portraitFrame, Vector2.zero, Vector2.one,
-            new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero), commander.Portrait, Color.white);
-        SetStretch((RectTransform)portrait.transform, new Vector2(16f, 16f), new Vector2(-16f, -16f));
-
-        TMP_Text nameText = CreateText("Name", content, "COMMANDER", 22, TextAlignmentOptions.Center, Color.white);
-        SetAnchored((RectTransform)nameText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -140f), new Vector2(200f, 28f));
-        TMP_Text healthText = CreateText("Health", content, "HEALTH: 1000/1000", 18,
-            TextAlignmentOptions.Center, new Color(0.5f, 1f, 0.5f));
-        SetAnchored((RectTransform)healthText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -172f), new Vector2(220f, 24f));
-        TMP_Text attackText = CreateText("Attack", content, "ATTACK: 75", 18,
-            TextAlignmentOptions.Center, new Color(1f, 0.7f, 0.4f));
-        SetAnchored((RectTransform)attackText.transform, new Vector2(0.5f, 1f), new Vector2(0f, -198f), new Vector2(220f, 24f));
-
-        Button collapse = CreateButton("CollapseButton", parent, LoadSprite("Arrows/arrow_blue.png"));
-        SetAnchored((RectTransform)collapse.transform, new Vector2(0f, 0.5f), new Vector2(-16f, 0f), new Vector2(40f, 64f));
-
-        UnitInfoPanelView view = root.gameObject.AddComponent<UnitInfoPanelView>();
-        SetSerialized(view, so =>
-        {
-            so.FindProperty("unitController").objectReferenceValue = unitController;
-            so.FindProperty("commanderInfo").objectReferenceValue = commander;
-            so.FindProperty("portraitImage").objectReferenceValue = portrait;
-            so.FindProperty("nameText").objectReferenceValue = nameText;
-            so.FindProperty("healthText").objectReferenceValue = healthText;
-            so.FindProperty("attackText").objectReferenceValue = attackText;
-            so.FindProperty("collapsibleContent").objectReferenceValue = content.gameObject;
-            so.FindProperty("collapseButton").objectReferenceValue = collapse;
-        });
     }
 
     private static void BuildActionGridArea(RectTransform parent, GridBuildingSystem buildingSystem)
     {
         RectTransform header = CreateRect("PanelTitle", parent,
             new Vector2(0.5f, 1f), new Vector2(0.5f, 1f), new Vector2(0.5f, 1f),
-            new Vector2(60f, -6f), new Vector2(360f, 34f));
+            new Vector2(0f, -6f), new Vector2(360f, 34f));
         TMP_Text title = CreateText("Title", header, "UNIT / BUILD PANEL", 20, TextAlignmentOptions.Center, Color.white);
         SetStretch((RectTransform)title.transform, Vector2.zero, Vector2.zero);
 
         RectTransform gridContainer = CreateRect("BuildGrid", parent,
             new Vector2(0f, 0.5f), new Vector2(1f, 0.5f), new Vector2(0.5f, 0.5f),
-            new Vector2(120f, -10f), new Vector2(-260f, 150f));
+            new Vector2(0f, -10f), new Vector2(-80f, 150f));
         HorizontalLayoutGroup layout = gridContainer.gameObject.AddComponent<HorizontalLayoutGroup>();
         layout.spacing = 14f;
         layout.childAlignment = TextAnchor.MiddleCenter;

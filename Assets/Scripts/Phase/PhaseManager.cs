@@ -101,6 +101,8 @@ public class PhaseManager : MonoBehaviour
     {
         hasTriggeredPhaseTwo = true;
         PlayerProgression.AddSkillPoints(PhaseOneCompletionReward);
+        // Qua Phase 1 -> checkpoint sang Phase 2: thoát giữa chừng lần sau Tiếp tục vào lại Phase 2.
+        PlayerProgression.CurrentPhase = 2;
         PhaseTwoTriggered?.Invoke();
 
         if (!string.IsNullOrEmpty(phaseTwoSceneName))

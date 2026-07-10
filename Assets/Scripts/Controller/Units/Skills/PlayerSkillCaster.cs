@@ -68,8 +68,11 @@ public class PlayerSkillCaster : MonoBehaviour
             return false;
         }
 
+        // Bậc nâng cấp nhân sát thương; riêng Shield dùng hệ số này nhân lượng khiên + thời gian.
+        float upgradeMultiplier = PlayerProgression.GetSkillMultiplier(skill.SkillName);
+        float damage = skill.ComputeDamage(magicPower) * upgradeMultiplier;
         var context = new SkillCastContext(
-            transform, faction, skill.ComputeDamage(magicPower), target, aimPoint, this);
+            transform, faction, damage, target, aimPoint, this, upgradeMultiplier);
         SkillExecutor.Execute(skill, context);
         nextCastTimes[slotIndex] = Time.time + skill.Cooldown;
         return true;

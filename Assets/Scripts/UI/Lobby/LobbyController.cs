@@ -14,7 +14,9 @@ using UnityEngine.UI;
 /// </summary>
 public class LobbyController : MonoBehaviour
 {
-    private const string GameplaySceneName = "Phase 1";
+    private const string PhaseOneSceneName = "Phase 1";
+    private const string PhaseTwoSceneName = "Phase 2";
+    private const int UpgradeCost = 1;
 
     [Tooltip("Asset cây kỹ năng - nguồn node/giá/điều kiện.")]
     [SerializeField] private SkillTreeSO skillTree;
@@ -51,7 +53,7 @@ public class LobbyController : MonoBehaviour
                 continue;
             }
 
-            nodeViews[i].Bind(nodeSkillNames[i], node.skill.Icon, node.cost, OnNodeClicked);
+            nodeViews[i].Bind(nodeSkillNames[i], node.skill.Icon, node.cost, OnNodeClicked, OnUpgradeClicked);
         }
 
         for (int i = 0; i < equipSlots.Length; i++)
@@ -77,15 +79,30 @@ public class LobbyController : MonoBehaviour
         RefreshAll();
     }
 
+    private void OnUpgradeClicked(string skillName)
+    {
+        int level = PlayerProgression.GetSkillLevel(skillName);
+        bool canUpgrade = PlayerProgression.IsUnlocked(skillName) && level < PlayerProgression.MaxSkillLevel;
+        if (canUpgrade && PlayerProgression.TrySpendSkillPoints(UpgradeCost))
+        {
+            PlayerProgression.SetSkillLevel(skillName, level + 1);
+        }
+
+        RefreshAll();
+    }
+
     private void OnEquipSlotClicked(int slotIndex)
     {
         PlayerProgression.SetEquippedSlot(slotIndex, string.Empty);
         RefreshAll();
     }
 
+    // Bắt đầu tại phase đã lưu (checkpoint); chưa có run thì mặc định Phase 1.
     private void StartRun()
     {
-        SceneManager.LoadScene(GameplaySceneName);
+        int targetPhase = PlayerProgression.CurrentPhase >= 1 ? PlayerProgression.CurrentPhase : 1;
+        PlayerProgression.CurrentPhase = targetPhase;
+        SceneManager.LoadScene(targetPhase >= 2 ? PhaseTwoSceneName : PhaseOneSceneName);
     }
 
     private void TryUnlock(string skillName)
@@ -118,12 +135,16 @@ public class LobbyController : MonoBehaviour
 
     private void RefreshAll()
     {
-        skillPointsLabel.text = $"Điểm kỹ năng: {PlayerProgression.SkillPoints}";
+        skillPointsLabel.text = $"Skill Points: {PlayerProgression.SkillPoints}";
         string[] equipped = PlayerProgression.GetEquippedSlots();
 
+        bool canAffordUpgrade = PlayerProgression.SkillPoints >= UpgradeCost;
         for (int i = 0; i < nodeViews.Length; i++)
         {
-            nodeViews[i].SetState(ResolveNodeState(nodeSkillNames[i], equipped));
+            string name = nodeSkillNames[i];
+            nodeViews[i].SetState(ResolveNodeState(name, equipped));
+            nodeViews[i].SetProgress(
+                PlayerProgression.GetSkillLevel(name), PlayerProgression.MaxSkillLevel, canAffordUpgrade);
         }
 
         for (int i = 0; i < equipSlots.Length; i++)

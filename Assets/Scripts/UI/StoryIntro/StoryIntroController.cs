@@ -300,6 +300,8 @@ public class StoryIntroController : MonoBehaviour
 
     private void LoadGameplay()
     {
+        // Lần đầu chơi đi thẳng từ intro vào Phase 1 - ghi checkpoint để Tiếp tục hoạt động.
+        PlayerProgression.CurrentPhase = 1;
         SceneManager.LoadScene(gameplaySceneName);
     }
 }

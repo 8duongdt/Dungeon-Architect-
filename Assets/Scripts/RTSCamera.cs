@@ -15,9 +15,9 @@ public class RTSCamera : MonoBehaviour
     public Vector2 minMaxY = new Vector2(-1000f, 1000f);
 
     [Header("Zoom")]
-    public float zoomSpeed = 10f;
+    public float zoomSpeed = 50f;
     public float minHeight = 5f;
-    public float maxHeight = 40f;
+    public float maxHeight = 100f;
 
     Camera cameraComponent;
 

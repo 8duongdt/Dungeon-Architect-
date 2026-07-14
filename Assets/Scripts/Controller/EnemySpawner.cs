@@ -9,6 +9,9 @@ using UnityEngine;
 /// (mỗi loại một giá điểm) cho tới khi cạn - nên đợt có thể là nhiều quái rẻ hoặc vài quái
 /// elite đắt, độ khó tổng thể vẫn được kiểm soát. Ngân sách tăng dần theo thời gian màn chơi
 /// (<see cref="budgetGrowthPerMinute"/>, có trần <see cref="maxWaveBudget"/>) để game khó dần.
+/// Số CON mỗi đợt bị ghim thêm: đợt đầu đúng <see cref="firstWaveEnemyCount"/> con, các đợt sau
+/// rút ngẫu nhiên 1..<see cref="maxEnemiesPerWave"/> con - nhịp dồn quái do manager quyết qua
+/// <see cref="OverrideSchedule"/> (so le các cổng để toàn bản đồ mỗi chu kỳ chỉ một cổng ra đợt).
 /// Giới hạn tổng quái sống bằng <see cref="maxEnemies"/>; quái chết trả lại chỗ trống.
 /// Ngoài cap riêng của cổng, mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ
 /// (<see cref="EnemyPopulationLimiter"/>) - không có limiter trong scene thì bỏ qua.
@@ -51,6 +54,16 @@ public class EnemySpawner : MonoBehaviour
     [Min(1)]
     private int maxWaveBudget = 20;
 
+    [Tooltip("Trần SỐ CON mỗi đợt - mỗi đợt rút ngẫu nhiên 1..trần con; 0 = không giới hạn như cũ.")]
+    [SerializeField]
+    [Min(0)]
+    private int maxEnemiesPerWave = 3;
+
+    [Tooltip("Đợt ĐẦU TIÊN sinh đúng chừng này con để người chơi làm quen - 0 = như đợt thường.")]
+    [SerializeField]
+    [Min(0)]
+    private int firstWaveEnemyCount = 1;
+
     [Header("Spawn Settings")]
     [Tooltip("Thời gian chờ (giây) trước ĐỢT quái đầu tiên - cho người chơi kịp chuẩn bị. 0 = sinh ngay.")]
     [SerializeField]
@@ -82,12 +95,23 @@ public class EnemySpawner : MonoBehaviour
     private float timer;
     private int currentEnemyCount;
     private int totalSpawnedCount;
+    private bool hasSpawnedFirstWave;
 
     /// <summary>Cổng đã sinh đủ hạn ngạch (chỉ có nghĩa khi maxTotalSpawns > 0) - director đọc để xét thắng.</summary>
     public bool HasFinishedSpawning => maxTotalSpawns > 0 && totalSpawnedCount >= maxTotalSpawns;
 
     /// <summary>Số quái của cổng này còn sống - director cộng dồn để xét điều kiện diệt sạch.</summary>
     public int AliveEnemyCount => currentEnemyCount;
+
+    /// <summary>
+    /// Cho manager so le lịch giữa các cổng (round-robin toàn bản đồ).
+    /// Gọi ngay sau Instantiate - trước khi Start() dựng timer từ hai giá trị này.
+    /// </summary>
+    public void OverrideSchedule(float firstWaveDelay, float interval)
+    {
+        initialSpawnDelay = Mathf.Max(0f, firstWaveDelay);
+        spawnInterval = Mathf.Max(0.01f, interval);
+    }
 
     private void OnEnable()
     {
@@ -120,9 +144,23 @@ public class EnemySpawner : MonoBehaviour
 
         if (timer >= spawnInterval)
         {
-            SpawnWave(ComposeWave(CurrentBudget()));
+            SpawnWave(ComposeWave(CurrentBudget(), NextWaveEnemyLimit()));
+            hasSpawnedFirstWave = true;
             timer = 0f;
         }
+    }
+
+    // Đợt đầu ghim đúng firstWaveEnemyCount con cho người chơi làm quen;
+    // các đợt sau rút ngẫu nhiên 1..maxEnemiesPerWave con.
+    private int NextWaveEnemyLimit()
+    {
+        bool capFirstWave = !hasSpawnedFirstWave && firstWaveEnemyCount > 0;
+        if (capFirstWave)
+        {
+            return firstWaveEnemyCount;
+        }
+
+        return maxEnemiesPerWave > 0 ? Random.Range(1, maxEnemiesPerWave + 1) : int.MaxValue;
     }
 
     // Ngân sách hiện tại = gốc + tăng trưởng theo phút chơi, chặn trần.
@@ -132,8 +170,8 @@ public class EnemySpawner : MonoBehaviour
         return Mathf.Min(Mathf.FloorToInt(grown), maxWaveBudget);
     }
 
-    // Rút thăm ngẫu nhiên các loại quái tới khi ngân sách không mua nổi con nào nữa.
-    private List<GameObject> ComposeWave(int budget)
+    // Rút thăm ngẫu nhiên các loại quái tới khi cạn ngân sách hoặc chạm trần số con của đợt.
+    private List<GameObject> ComposeWave(int budget, int enemyLimit)
     {
         var wave = new List<GameObject>();
         if (budgetEntries.Count == 0)
@@ -148,7 +186,7 @@ public class EnemySpawner : MonoBehaviour
 
         int remaining = budget;
         List<BudgetSpawnEntry> affordable = AffordableEntries(remaining);
-        while (affordable.Count > 0)
+        while (affordable.Count > 0 && wave.Count < enemyLimit)
         {
             BudgetSpawnEntry pick = affordable[Random.Range(0, affordable.Count)];
             wave.Add(pick.prefab);

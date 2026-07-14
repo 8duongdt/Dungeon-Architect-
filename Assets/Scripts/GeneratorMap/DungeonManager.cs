@@ -331,6 +331,10 @@ public class DungeonManager : MonoBehaviour
 
     // ----- Cổng sinh quái (mọi pipeline có phòng: Room-First + Undead) -----
 
+    // Nhịp spawn TOÀN bản đồ: con đầu tiên xuất hiện sau 60s, sau đó cứ 25s một cổng ra đợt.
+    private const float FirstSpawnDelaySeconds = 60f;
+    private const float MapWideWaveIntervalSeconds = 25f;
+
     // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ theme.portalCount).
     private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms)
     {
@@ -347,8 +351,23 @@ public class DungeonManager : MonoBehaviour
         {
             Vector3 worldPosition = tilemapVisualizer.CellToWorldCenter(centers[i]);
             GameObject portal = Instantiate(theme.portalPrefab, worldPosition, Quaternion.identity, portalParent);
+            StaggerPortalSchedule(portal, portalIndex: i, portalTotal: portalsToSpawn);
             spawnedPortals.Add(portal);
         }
+    }
+
+    // So le lịch các cổng theo round-robin: cổng i chờ thêm i chu kỳ rồi lặp với chu kỳ
+    // (interval x số cổng) - nhờ vậy toàn bản đồ mỗi 25s chỉ đúng một cổng ra đợt.
+    private void StaggerPortalSchedule(GameObject portal, int portalIndex, int portalTotal)
+    {
+        var spawner = portal.GetComponentInChildren<EnemySpawner>();
+        if (spawner == null)
+        {
+            return;
+        }
+
+        float firstWaveDelay = FirstSpawnDelaySeconds + MapWideWaveIntervalSeconds * portalIndex;
+        spawner.OverrideSchedule(firstWaveDelay, MapWideWaveIntervalSeconds * portalTotal);
     }
 
     private void EnsurePortalParent()

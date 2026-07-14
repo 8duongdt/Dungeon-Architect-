@@ -18,21 +18,15 @@ public class MainMenu : MonoBehaviour
     }
 
     /// <summary>
-    /// Chơi mới: reset checkpoint về Phase 1 (skill/tiến trình vẫn giữ). Lần đầu chiếu cốt truyện;
-    /// các lần sau vào thẳng sảnh chờ.
+    /// New Game: xóa sạch toàn bộ tiến trình đã lưu (điểm/bậc skill, công trình, ô trang bị) rồi
+    /// bắt đầu lại từ đầu - luôn chiếu lại cốt truyện vì HasSeenIntro cũng bị reset.
     /// </summary>
     public void PlayGame()
     {
+        PlayerProgression.ResetAll();
         PlayerProgression.CurrentPhase = 1;
-
-        if (!PlayerProgression.HasSeenIntro)
-        {
-            PlayerProgression.HasSeenIntro = true;
-            SceneManager.LoadScene(StoryIntroSceneName);
-            return;
-        }
-
-        SceneManager.LoadScene(LobbySceneName);
+        PlayerProgression.HasSeenIntro = true;
+        SceneManager.LoadScene(StoryIntroSceneName);
     }
 
     /// <summary>Tiếp tục: giữ nguyên checkpoint, vào Lobby để chọn skill rồi Start vào phase đã lưu.</summary>

@@ -6,6 +6,7 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private CharacterAnimationController animationController;
+    [SerializeField] private UnitAudioPlayer audioPlayer;
 
     private float damageOutputMultiplier = 1f;
 
@@ -27,12 +28,20 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
     private bool hasDealtDamageThisSwing;
     private float attackAnimationLength;
 
+    /// <summary>Áp chỉ số chiến đấu GỐC từ bộ chỉ số trung tâm (<see cref="UnitStatsSO"/>).</summary>
+    public void ApplyCombatStats(float damage, float cooldown)
+    {
+        attackDamage = Mathf.Max(0f, damage);
+        attackCooldown = Mathf.Max(0f, cooldown);
+    }
+
     public void Initialize(UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea)
     {
         ai = unitAI;
         movement = unitMovement;
         attackArea = unitAttackArea;
         animationController = GetAnimationController();
+        audioPlayer = GetComponent<UnitAudioPlayer>();
         CacheAttackAnimationLength();
     }
 
@@ -105,6 +114,7 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
             animationController.SetFacingDirection(attackDirection);
             animationController.PlayAttack();
         }
+        audioPlayer?.PlaySwing();
     }
 
     private void TryDealDamage(Transform target)
@@ -117,6 +127,7 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
         hasDealtDamageThisSwing = true;
         float dealtDamage = attackDamage * damageOutputMultiplier;
         targetHealth.TakeDamage(dealtDamage);
+        audioPlayer?.PlayHit();
         Debug.Log($"{gameObject.name} attacks {targetHealth.name} for {dealtDamage} damage");
 
         if (targetHealth.IsDead)

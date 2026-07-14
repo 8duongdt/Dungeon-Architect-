@@ -6,6 +6,7 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
 {
     public float moveSpeed = 5f;
     [SerializeField] private CharacterAnimationController animationController;
+    [SerializeField] private UnitAudioPlayer audioPlayer;
 
     // Hệ số nhân tốc độ do hệ thống hiệu ứng đặt (1 = bình thường).
     private float speedMultiplier = 1f;
@@ -28,6 +29,7 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<UnitHealth>();
         animationController = GetAnimationController();
+        audioPlayer = GetComponent<UnitAudioPlayer>();
         SetupRigidbody();
 
         if (health != null)
@@ -186,6 +188,7 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
     private void StartAttack()
     {
         animationController?.PlayAttack();
+        audioPlayer?.PlaySwing();
     }
 
     private CharacterAnimationController GetAnimationController()

@@ -12,6 +12,8 @@ public static class SkillExecutor
 {
     public static void Execute(SkillDefinitionSO skill, in SkillCastContext context)
     {
+        AudioManager.Instance.PlayOneShot(skill.CastSfx);
+
         switch (skill.Mechanic)
         {
             case SkillMechanic.Projectile:
@@ -181,8 +183,8 @@ public static class SkillExecutor
             return;
         }
 
-        // Vượt qua mọi giáp/khiên để chắc chắn kết liễu.
-        target.TakeDamage(target.CurrentHealth + target.Defense + target.CurrentShield);
+        // Xuyên giáp để chắc chắn kết liễu; cộng khiên để bào hết lớp khiên ảo trước máu.
+        target.TakeTrueDamage(target.CurrentHealth + target.CurrentShield);
         RewardExecuteGold(skill, context.CasterFaction);
     }
 

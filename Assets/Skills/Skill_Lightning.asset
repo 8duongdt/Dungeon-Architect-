@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: Lightning
   icon: {fileID: -1370648026960124512, guid: f549c59fbc79aff46968babab1b1441b, type: 3}
   vfxPrefab: {fileID: 6635964709802612409, guid: 72e606199afd7e14e9e0e62ae16d436f, type: 3}
+  castSfx: {fileID: 8300000, guid: 4585817f076e208418eba52663706a5d, type: 3}
   baseDamage: 10
   statScaling: 1
   cooldown: 2.5

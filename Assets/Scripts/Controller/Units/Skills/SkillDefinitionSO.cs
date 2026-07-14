@@ -17,6 +17,9 @@ public class SkillDefinitionSO : ScriptableObject
     [Tooltip("Prefab hiệu ứng phép (SkillVfxOneShot) sinh ra ngay trên mục tiêu.")]
     [SerializeField] private GameObject vfxPrefab;
 
+    [Tooltip("Âm thanh phát khi kỹ năng thi triển (không phụ thuộc cơ chế).")]
+    [SerializeField] private AudioClip castSfx;
+
     [Tooltip("Sát thương gốc của kỹ năng.")]
     [SerializeField] private float baseDamage = 15f;
 
@@ -105,6 +108,7 @@ public class SkillDefinitionSO : ScriptableObject
     public string SkillName => skillName;
     public Sprite Icon => icon;
     public GameObject VfxPrefab => vfxPrefab;
+    public AudioClip CastSfx => castSfx;
     public float Cooldown => cooldown;
     public float ImpactDelay => impactDelay;
     public int ManaCost => manaCost;

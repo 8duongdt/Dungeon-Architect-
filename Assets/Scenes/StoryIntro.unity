@@ -1589,6 +1589,7 @@ MonoBehaviour:
   fadeOverlay: {fileID: 1149144872}
   beatFadeSeconds: 0.4
   typewriterCharsPerSecond: 45
+  voiceSource: {fileID: 0}
   quoteLine: Every monster was once someone's hero.
   quoteSubLine: "\u2014 from the sealed chronicles of the Dungeon Core"
   pages:
@@ -1596,15 +1597,18 @@ MonoBehaviour:
     narration: "A thousand years ago, you were no Demon Lord. You were Alaric \u2014
       the greatest Paladin who ever lived, leading six chosen heroes into the deepest
       abyss to destroy the old Demon Lord."
+    voiceClip: {fileID: 8300000, guid: 94829769b7fc3f24bae86fd695428981, type: 3}
   - image: {fileID: 6937817954938267909, guid: 49e9ba4e336276e47b1c4741fd766629, type: 3}
     narration: And the Demon Lord fell. The abyss went silent. The world was saved,
       and victory belonged to you and your companions.
+    voiceClip: {fileID: 8300000, guid: 5e31fac3c3ec34048acd0d3f238f9ca5, type: 3}
   - image: {fileID: -6470460504253458178, guid: 5298a44e9f4717d4ebc5bc3756291c5e, type: 3}
     narration: "But greed poisons even the bravest hearts. Fearing your power, your
       six companions struck you down at the heart of the Dungeon Core. They branded
       you 'the one who surrendered to darkness,' sealed your soul within the core,
       and offered your body as a sacrifice \u2014 fuel to sustain humankind's prosperity
       for a thousand years."
+    voiceClip: {fileID: 8300000, guid: d86bc09c60393f24ba8fb476cf4d929d, type: 3}
   gameplaySceneName: Lobby
 --- !u!114 &2037367794
 MonoBehaviour:

@@ -31,6 +31,13 @@ public static class StoryIntroSetup
         "Assets/Sprites/3.jpeg",
     };
 
+    private static readonly string[] StoryVoicePaths =
+    {
+        "Assets/Audio/Story/a_thousand_years_ago_you_were_no_demon_lord_you_1e246dad-1514-45ee-baa7-d7de276699d4.mp3",
+        "Assets/Audio/Story/and_the_demon_lord_fell_the_abyss_went_silent_23b0a0db-4b02-4b47-8623-cad7f8422739.mp3",
+        "Assets/Audio/Story/but_greed_poisons_even_the_bravest_hearts_e01a9857-3230-4af0-9bfa-50da6cb7db49.mp3",
+    };
+
     private static readonly string[] StoryNarration =
     {
         "A thousand years ago, you were no Demon Lord. You were Alaric — the greatest Paladin who " +
@@ -211,6 +218,7 @@ public static class StoryIntroSetup
                 SerializedProperty page = pages.GetArrayElementAtIndex(i);
                 page.FindPropertyRelative("image").objectReferenceValue = LoadStorySprite(i);
                 page.FindPropertyRelative("narration").stringValue = StoryNarration[i];
+                page.FindPropertyRelative("voiceClip").objectReferenceValue = LoadStoryVoice(i);
             }
         });
     }
@@ -251,6 +259,51 @@ public static class StoryIntroSetup
             scenes.Add(storyScene);
         }
         EditorBuildSettings.scenes = scenes.ToArray();
+    }
+
+    // ---------------------------------------------------------------- Voice wiring (không dựng lại scene)
+
+    /// <summary>
+    /// Gán 3 clip lồng tiếng vào scene StoryIntro ĐANG CÓ SẴN, không dựng lại từ đầu (khác
+    /// SetupStoryIntro ở trên) - dùng khi chỉ cần cập nhật voiceClip sau khi thêm audio mới.
+    /// </summary>
+    [MenuItem("Tools/Story/Wire Voice Clips (Current Scene)")]
+    public static void WireVoiceClipsOnCurrentScene()
+    {
+        var controller = Object.FindFirstObjectByType<StoryIntroController>();
+        if (controller == null)
+        {
+            Debug.LogWarning("[StoryIntroSetup] Không tìm thấy StoryIntroController trong scene đang mở.");
+            return;
+        }
+
+        var so = new SerializedObject(controller);
+        SerializedProperty pages = so.FindProperty("pages");
+        for (int i = 0; i < pages.arraySize; i++)
+        {
+            SerializedProperty page = pages.GetArrayElementAtIndex(i);
+            page.FindPropertyRelative("voiceClip").objectReferenceValue = LoadStoryVoice(i);
+        }
+        so.ApplyModifiedProperties();
+
+        EditorUtility.SetDirty(controller);
+        EditorSceneManager.MarkSceneDirty(controller.gameObject.scene);
+        Debug.Log("[StoryIntroSetup] Đã gán voiceClip cho scene StoryIntro đang mở.");
+    }
+
+    private static AudioClip LoadStoryVoice(int index)
+    {
+        if (index < 0 || index >= StoryVoicePaths.Length)
+        {
+            return null;
+        }
+
+        AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(StoryVoicePaths[index]);
+        if (clip == null)
+        {
+            Debug.LogWarning($"[StoryIntroSetup] Không tìm thấy voice clip tại {StoryVoicePaths[index]}");
+        }
+        return clip;
     }
 
     // ---------------------------------------------------------------- Sprite loading

@@ -18,14 +18,24 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
     private float outputMultiplier = 1f;
     private float cycleTimer;
 
+    // Hệ số từ cây công trình ở Lobby (bền vững) - stack với outputMultiplier (nâng trong trận).
+    // Cache một lần lúc spawn vì điểm chỉ tiêu được ở Lobby, không đổi giữa trận.
+    private float progressionOutputMultiplier = 1f;
+    private float progressionCycleMultiplier = 1f;
+
     // Tinh thể cùng loại mà công trình này đứng trong bán kính - null nếu không đứng gần tinh thể
     // nào (không nên xảy ra qua luồng xây bình thường vì CrystalBuildRestriction đã chặn từ trước).
     private CrystalNode ownerCrystal;
 
     public ResourceKind Kind => kind;
 
-    /// <summary>Sản lượng quy đổi mỗi phút (đã tính hệ số nâng cấp) - dùng cho Cửa sổ Trạng thái.</summary>
-    public float ProductionPerMinute => cycleSeconds > 0f ? amountPerCycle * outputMultiplier / cycleSeconds * 60f : 0f;
+    /// <summary>Sản lượng quy đổi mỗi phút (đã tính mọi hệ số nâng cấp) - dùng cho Cửa sổ Trạng thái.</summary>
+    public float ProductionPerMinute => EffectiveCycleSeconds > 0f
+        ? amountPerCycle * outputMultiplier * progressionOutputMultiplier / EffectiveCycleSeconds * 60f
+        : 0f;
+
+    // Chu kỳ thực tế sau khi áp hệ số tăng tốc từ cây công trình.
+    private float EffectiveCycleSeconds => cycleSeconds * progressionCycleMultiplier;
 
     public string TypeLabel => kind == ResourceKind.Gold ? "Gold Mine" : "Mana Well";
 
@@ -38,6 +48,8 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
     private void Awake()
     {
         ResolveOwnerCrystal();
+        progressionOutputMultiplier = BuildingProgressionEffects.GetProductionMultiplier(kind);
+        progressionCycleMultiplier = BuildingProgressionEffects.GetCycleTimeMultiplier();
     }
 
     // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng - chỉ
@@ -74,18 +86,18 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
         }
 
         cycleTimer += Time.deltaTime;
-        if (cycleTimer < cycleSeconds)
+        if (cycleTimer < EffectiveCycleSeconds)
         {
             return;
         }
 
-        cycleTimer -= cycleSeconds;
+        cycleTimer -= EffectiveCycleSeconds;
         ProduceOneCycle();
     }
 
     private void ProduceOneCycle()
     {
-        int produced = Mathf.RoundToInt(amountPerCycle * outputMultiplier);
+        int produced = Mathf.RoundToInt(amountPerCycle * outputMultiplier * progressionOutputMultiplier);
         if (produced <= 0)
         {
             return;

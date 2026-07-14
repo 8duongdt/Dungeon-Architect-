@@ -23,6 +23,12 @@ public class UnitMovement : MonoBehaviour, ISpeedModifiable
     // Tốc độ gốc theo cấu hình (không gồm hệ số hiệu ứng).
     public float MoveSpeed => moveSpeed;
 
+    /// <summary>Áp tốc độ GỐC từ bộ chỉ số trung tâm (<see cref="UnitStatsSO"/>).</summary>
+    public void ApplySpeed(float speed)
+    {
+        moveSpeed = Mathf.Max(0f, speed);
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

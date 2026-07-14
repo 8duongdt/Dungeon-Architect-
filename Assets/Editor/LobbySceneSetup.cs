@@ -13,18 +13,25 @@ using UnityEngine.UI;
 /// Dựng SCENE SẢNH CHỜ (Lobby) một thao tác:
 ///   Menu: Tools > Dungeon > Setup Lobby Scene
 ///
-/// Scene gồm: tiêu đề + nhãn điểm kỹ năng, cây kỹ năng 3 cột (layout đọc thẳng từ
-/// Assets/Skills/SkillTree.asset - nhánh -> cột, bậc -> hàng), thanh 4 ô trang bị,
-/// nút "Bắt đầu" vào Phase 1. Wire toàn bộ SerializeField của LobbyController qua
+/// Scene gồm: tiêu đề + nhãn hai loại điểm, hai TAB chuyển bằng nút:
+///   - Tab KỸ NĂNG: cây 3 cột (layout đọc thẳng từ Assets/Skills/SkillTree.asset) + 4 ô trang bị.
+///   - Tab CÔNG TRÌNH: cây 2 cột (Kinh tế / Hỗ trợ chiến đấu, đọc từ BuildingUpgradeTree.asset).
+/// Cùng nút "Bắt đầu" vào Phase 1. Wire toàn bộ SerializeField của LobbyController qua
 /// SerializedObject. Lưu Assets/Scenes/Lobby.unity + thêm vào Build Settings sau MainMenu.
-/// Chạy lại được nhiều lần (dựng lại từ đầu). Yêu cầu chạy Setup Skill Tree Asset trước.
+/// Chạy lại được nhiều lần (dựng lại từ đầu). Yêu cầu chạy Setup Skill Tree Asset
+/// và Setup Building Tree Asset trước.
 /// </summary>
 public static class LobbySceneSetup
 {
     private const string ScenePath = "Assets/Scenes/Lobby.unity";
     private const string MainMenuScenePath = "Assets/Scenes/MainMenu.unity";
     private const string TreeAssetPath = "Assets/Skills/SkillTree.asset";
-    private const string UiPackFolder = "Assets/Sprites/Vector_UI_Pack_dobo_ui";
+    private const string BuildingTreeAssetPath = "Assets/Resources/BuildingUpgradeTree.asset";
+
+    // Pixel-art pack (theo bản Lobby dựng tay trước đây) - Main_tiles là sheet Multiple sprite nên
+    // phải LoadAllAssetsAtPath rồi so tên, LoadAssetAtPath<Sprite> không trả đúng sub-sprite.
+    private const string PixelUiSheetPath = "Assets/Sprites/Free-Basic-Pixel-Art-UI-for-RPG/Main_tiles.png";
+    private const string PixelPanelSpriteName = "Main_tiles_42";
 
     private const float ColumnSpacing = 480f;
     private const float TierRowHeight = 165f;
@@ -35,18 +42,32 @@ public static class LobbySceneSetup
     private const float EquipSlotSize = 88f;
     private const float EquipSlotSpacing = 14f;
 
+    private const float BuildingColumnSpacing = 560f;
+    private const float BuildingRowHeight = 170f;
+    private const float BuildingFirstRowY = 180f;
+    private const float BuildingCardWidth = 420f;
+    private const float BuildingCardHeight = 140f;
+    private const float TabButtonWidth = 200f;
+    private const float TabButtonHeight = 54f;
+
     private static readonly Color BackgroundColor = new Color(0.06f, 0.05f, 0.09f, 1f);
     private static readonly Color PanelTint = new Color(1f, 1f, 1f, 0.9f);
     private static readonly Color TitleColor = new Color(0.96f, 0.9f, 0.72f);
     private static readonly Color BranchLabelColor = new Color(0.85f, 0.82f, 0.75f);
     private static readonly Color ConnectorColor = new Color(0.6f, 0.55f, 0.5f, 0.8f);
-    private static readonly Color StartButtonTint = new Color(0.16f, 0.32f, 0.16f, 0.95f);
 
     private static readonly Dictionary<SkillBranch, string> BranchTitles = new Dictionary<SkillBranch, string>
     {
-        { SkillBranch.Fire, "Hỏa - Hủy Diệt" },
-        { SkillBranch.Lightning, "Lôi - Tốc Độ" },
-        { SkillBranch.Control, "Khống Chế - Sinh Tồn" },
+        { SkillBranch.Fire, "Fire - Destruction" },
+        { SkillBranch.Lightning, "Lightning - Speed" },
+        { SkillBranch.Control, "Control - Survival" },
+    };
+
+    private static readonly Dictionary<BuildingBranch, string> BuildingBranchTitles =
+        new Dictionary<BuildingBranch, string>
+    {
+        { BuildingBranch.Economy, "ECONOMY" },
+        { BuildingBranch.CombatSupport, "COMBAT SUPPORT" },
     };
 
     [MenuItem("Tools/Dungeon/Setup Lobby Scene")]
@@ -62,22 +83,55 @@ public static class LobbySceneSetup
             Debug.LogError($"[LobbySceneSetup] Thiếu {TreeAssetPath} - chạy Tools > Dungeon > Setup Skill Tree Asset trước.");
             return;
         }
+
+        var buildingTree = AssetDatabase.LoadAssetAtPath<BuildingUpgradeTreeSO>(BuildingTreeAssetPath);
+        if (buildingTree == null || buildingTree.Nodes.Count == 0)
+        {
+            Debug.LogError($"[LobbySceneSetup] Thiếu {BuildingTreeAssetPath} - chạy Tools > Dungeon > Setup Building Tree Asset trước.");
+            return;
+        }
+
         EnsureCamera();
         EnsureEventSystem();
         Canvas canvas = CreateCanvas();
         RectTransform root = (RectTransform)canvas.transform;
 
         BuildBackground(root);
-        TMP_Text skillPointsLabel = BuildHeader(root);
-        (SkillNodeView[] nodeViews, string[] nodeSkillNames) = BuildSkillTreeColumns(root, tree);
-        EquipSlotView[] equipSlots = BuildEquipBar(root);
+        TMP_Text pointsLabel = BuildHeader(root);
+
+        RectTransform skillTreePanel = CreatePanel("SkillTreePanel", root);
+        (SkillNodeView[] nodeViews, string[] nodeSkillNames) = BuildSkillTreeColumns(skillTreePanel, tree);
+        EquipSlotView[] equipSlots = BuildEquipBar(skillTreePanel);
+
+        RectTransform buildingTreePanel = CreatePanel("BuildingTreePanel", root);
+        (BuildingNodeView[] buildingNodeViews, string[] buildingNodeIds) =
+            BuildBuildingTreeColumns(buildingTreePanel, buildingTree);
+        buildingTreePanel.gameObject.SetActive(false);
+
+        (Button skillTabButton, Button buildingTabButton) = BuildTabButtons(root);
         Button startButton = BuildStartButton(root);
 
         var controller = canvas.gameObject.AddComponent<LobbyController>();
-        WireController(controller, tree, nodeViews, nodeSkillNames, equipSlots, skillPointsLabel, startButton);
+        WireController(controller, new LobbyWiring
+        {
+            tree = tree,
+            nodeViews = nodeViews,
+            nodeSkillNames = nodeSkillNames,
+            buildingTree = buildingTree,
+            buildingNodeViews = buildingNodeViews,
+            buildingNodeIds = buildingNodeIds,
+            skillTreePanel = skillTreePanel.gameObject,
+            buildingTreePanel = buildingTreePanel.gameObject,
+            skillTabButton = skillTabButton,
+            buildingTabButton = buildingTabButton,
+            equipSlots = equipSlots,
+            pointsLabel = pointsLabel,
+            startButton = startButton,
+        });
 
         SaveSceneAndRegister(scene);
-        Debug.Log($"[LobbySceneSetup] Đã dựng scene Lobby ({nodeViews.Length} node) và thêm vào Build Settings.");
+        Debug.Log($"[LobbySceneSetup] Đã dựng scene Lobby ({nodeViews.Length} node kỹ năng, "
+            + $"{buildingNodeViews.Length} node công trình) và thêm vào Build Settings.");
     }
 
     // ---------------------------------------------------------------- Scene scaffolding
@@ -123,12 +177,41 @@ public static class LobbySceneSetup
 
     private static TMP_Text BuildHeader(RectTransform root)
     {
-        TMP_Text title = CreateText("Title", root, "SẢNH CHỜ - CÂY KỸ NĂNG", 44, TitleColor);
+        TMP_Text title = CreateText("Title", root, "LOBBY", 44, TitleColor);
         SetAnchored((RectTransform)title.transform, new Vector2(0.5f, 1f), new Vector2(0f, -52f), new Vector2(900f, 70f));
 
-        TMP_Text points = CreateText("SkillPointsLabel", root, "Điểm kỹ năng: 0", 32, Color.white);
-        SetAnchored((RectTransform)points.transform, new Vector2(0.5f, 1f), new Vector2(0f, -110f), new Vector2(600f, 50f));
+        TMP_Text points = CreateText("PointsLabel", root, "Skill Points: 0   |   Building Points: 0", 32, Color.white);
+        SetAnchored((RectTransform)points.transform, new Vector2(0.5f, 1f), new Vector2(0f, -110f), new Vector2(900f, 50f));
         return points;
+    }
+
+    // Panel gốc của một tab - RectTransform trống phủ kín canvas, LobbyController bật/tắt cả cụm.
+    private static RectTransform CreatePanel(string name, RectTransform root)
+    {
+        RectTransform panel = CreateRect(name, root, new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero);
+        SetStretch(panel);
+        return panel;
+    }
+
+    private static (Button, Button) BuildTabButtons(RectTransform root)
+    {
+        Button skillTab = BuildTabButton(root, "SkillTabButton", "SKILLS", -780f);
+        Button buildingTab = BuildTabButton(root, "BuildingTabButton", "BUILDINGS", -560f);
+        return (skillTab, buildingTab);
+    }
+
+    private static Button BuildTabButton(RectTransform root, string name, string label, float offsetX)
+    {
+        RectTransform rect = CreateRect(name, root, new Vector2(0.5f, 1f),
+            new Vector2(offsetX, -52f), new Vector2(TabButtonWidth, TabButtonHeight));
+        Image image = AddImage(rect, LoadUiSprite(PixelPanelSpriteName), PanelTint);
+        image.raycastTarget = true;
+        Button button = rect.gameObject.AddComponent<Button>();
+        button.targetGraphic = image;
+
+        TMP_Text text = CreateText("Label", rect, label, 24, Color.white);
+        SetStretch((RectTransform)text.transform);
+        return button;
     }
 
     /// <summary>
@@ -195,7 +278,7 @@ public static class LobbySceneSetup
         string skillName = node.skill.SkillName;
         RectTransform frame = CreateRect($"Node_{skillName}", root, new Vector2(0.5f, 0.5f),
             position, new Vector2(NodeSize, NodeSize));
-        Image frameImage = AddImage(frame, LoadUiSprite("Item Slots/itemSlot_cyan.png"), Color.white);
+        Image frameImage = AddImage(frame, LoadUiSprite(PixelPanelSpriteName), Color.white);
         frameImage.raycastTarget = true;
         Button button = frame.gameObject.AddComponent<Button>();
         button.targetGraphic = frameImage;
@@ -207,6 +290,11 @@ public static class LobbySceneSetup
         TMP_Text costLabel = CreateText("Cost", frame, node.cost.ToString(), 22, new Color(0.95f, 0.78f, 0.25f));
         SetAnchored((RectTransform)costLabel.transform, new Vector2(1f, 0f), new Vector2(-14f, 14f), new Vector2(40f, 30f));
 
+        TMP_Text levelLabel = CreateText("Level", frame, string.Empty, 18, Color.white);
+        SetAnchored((RectTransform)levelLabel.transform, new Vector2(0.5f, 0f), new Vector2(0f, -18f), new Vector2(170f, 26f));
+
+        Button upgradeButton = BuildNodeUpgradeButton(frame);
+
         var view = frame.gameObject.AddComponent<SkillNodeView>();
         SetSerialized(view, so =>
         {
@@ -214,8 +302,25 @@ public static class LobbySceneSetup
             so.FindProperty("icon").objectReferenceValue = iconImage;
             so.FindProperty("costLabel").objectReferenceValue = costLabel;
             so.FindProperty("button").objectReferenceValue = button;
+            so.FindProperty("levelLabel").objectReferenceValue = levelLabel;
+            so.FindProperty("upgradeButton").objectReferenceValue = upgradeButton;
         });
         return view;
+    }
+
+    // Nút "+" nâng bậc góc trên-phải của node (dùng chung cho node kỹ năng lẫn công trình).
+    private static Button BuildNodeUpgradeButton(RectTransform frame)
+    {
+        RectTransform rect = CreateRect("UpgradeButton", frame, new Vector2(1f, 1f),
+            new Vector2(4f, 4f), new Vector2(34f, 34f));
+        Image image = AddImage(rect, LoadUiSprite(PixelPanelSpriteName), Color.white);
+        image.raycastTarget = true;
+        Button button = rect.gameObject.AddComponent<Button>();
+        button.targetGraphic = image;
+
+        TMP_Text plus = CreateText("Plus", rect, "+", 24, new Color(0.95f, 0.78f, 0.25f));
+        SetStretch((RectTransform)plus.transform);
+        return button;
     }
 
     private static EquipSlotView[] BuildEquipBar(RectTransform root)
@@ -224,9 +329,9 @@ public static class LobbySceneSetup
         float barWidth = slotCount * EquipSlotSize + (slotCount + 1) * EquipSlotSpacing;
         RectTransform bar = CreateRect("EquipBar", root, new Vector2(0.5f, 0f),
             new Vector2(0f, 96f), new Vector2(barWidth, EquipSlotSize + 2f * EquipSlotSpacing));
-        AddImage(bar, LoadUiSprite("Panels/panel_black.png"), PanelTint);
+        AddImage(bar, LoadUiSprite(PixelPanelSpriteName), PanelTint);
 
-        TMP_Text hint = CreateText("Hint", bar, "Ô kỹ năng (phím 1-4) - click node đã mở để trang bị, click ô để gỡ", 20,
+        TMP_Text hint = CreateText("Hint", bar, "Skill slots (keys 1-4) - click an unlocked node to equip, click a slot to unequip", 20,
             BranchLabelColor);
         SetAnchored((RectTransform)hint.transform, new Vector2(0.5f, 1f), new Vector2(0f, 26f), new Vector2(900f, 32f));
 
@@ -243,7 +348,7 @@ public static class LobbySceneSetup
         float slotX = EquipSlotSpacing + slotIndex * (EquipSlotSize + EquipSlotSpacing) + EquipSlotSize * 0.5f;
         RectTransform slot = CreateRect($"EquipSlot{slotIndex + 1}", bar, new Vector2(0f, 0.5f),
             new Vector2(slotX, 0f), new Vector2(EquipSlotSize, EquipSlotSize));
-        Image slotImage = AddImage(slot, LoadUiSprite("Item Slots/itemSlot_cyan.png"), Color.white);
+        Image slotImage = AddImage(slot, LoadUiSprite(PixelPanelSpriteName), Color.white);
         slotImage.raycastTarget = true;
         Button button = slot.gameObject.AddComponent<Button>();
         button.targetGraphic = slotImage;
@@ -266,47 +371,151 @@ public static class LobbySceneSetup
         return view;
     }
 
+    /// <summary>
+    /// Dựng 2 cột nhánh cây công trình: node xếp dọc theo bậc hiển thị (tier),
+    /// mỗi node là một card văn bản (tên + hiệu ứng + bậc + giá + nút "+").
+    /// </summary>
+    private static (BuildingNodeView[], string[]) BuildBuildingTreeColumns(
+        RectTransform panel, BuildingUpgradeTreeSO tree)
+    {
+        var nodeViews = new List<BuildingNodeView>();
+        var nodeIds = new List<string>();
+
+        foreach (BuildingBranch branch in System.Enum.GetValues(typeof(BuildingBranch)))
+        {
+            var branchNodes = tree.Nodes.Where(n => n.branch == branch).OrderBy(n => n.tier).ToList();
+            if (branchNodes.Count == 0)
+            {
+                continue;
+            }
+
+            float columnX = ((int)branch - 0.5f) * BuildingColumnSpacing;
+            TMP_Text title = CreateText($"BuildingBranchTitle_{branch}", panel,
+                BuildingBranchTitles[branch], 28, BranchLabelColor);
+            SetAnchored((RectTransform)title.transform, new Vector2(0.5f, 0.5f),
+                new Vector2(columnX, BuildingFirstRowY + 110f), new Vector2(460f, 44f));
+
+            for (int row = 0; row < branchNodes.Count; row++)
+            {
+                float rowY = BuildingFirstRowY - row * BuildingRowHeight;
+                BuildingNodeView view = BuildBuildingNode(panel, branchNodes[row], new Vector2(columnX, rowY));
+                nodeViews.Add(view);
+                nodeIds.Add(branchNodes[row].id);
+            }
+        }
+
+        return (nodeViews.ToArray(), nodeIds.ToArray());
+    }
+
+    private static BuildingNodeView BuildBuildingNode(RectTransform panel,
+        BuildingUpgradeTreeSO.BuildingUpgradeNode node, Vector2 position)
+    {
+        RectTransform frame = CreateRect($"BuildingNode_{node.id}", panel, new Vector2(0.5f, 0.5f),
+            position, new Vector2(BuildingCardWidth, BuildingCardHeight));
+        Image frameImage = AddImage(frame, LoadUiSprite(PixelPanelSpriteName), Color.white);
+
+        TMP_Text nameLabel = CreateText("Name", frame, node.displayName, 26, TitleColor);
+        SetAnchored((RectTransform)nameLabel.transform, new Vector2(0.5f, 1f), new Vector2(-20f, -28f),
+            new Vector2(BuildingCardWidth - 90f, 34f));
+
+        TMP_Text effectLabel = CreateText("Effect", frame, string.Empty, 20, Color.white);
+        SetAnchored((RectTransform)effectLabel.transform, new Vector2(0.5f, 0.5f), new Vector2(-20f, -2f),
+            new Vector2(BuildingCardWidth - 90f, 30f));
+
+        TMP_Text levelLabel = CreateText("Level", frame, string.Empty, 20, BranchLabelColor);
+        SetAnchored((RectTransform)levelLabel.transform, new Vector2(0f, 0f), new Vector2(80f, 26f),
+            new Vector2(130f, 28f));
+
+        TMP_Text costLabel = CreateText("Cost", frame, string.Empty, 20, new Color(0.95f, 0.78f, 0.25f));
+        SetAnchored((RectTransform)costLabel.transform, new Vector2(1f, 0f), new Vector2(-130f, 26f),
+            new Vector2(190f, 28f));
+
+        Button upgradeButton = BuildNodeUpgradeButton(frame);
+        ((RectTransform)upgradeButton.transform).anchoredPosition = new Vector2(-26f, -26f);
+
+        var view = frame.gameObject.AddComponent<BuildingNodeView>();
+        SetSerialized(view, so =>
+        {
+            so.FindProperty("frame").objectReferenceValue = frameImage;
+            so.FindProperty("nameLabel").objectReferenceValue = nameLabel;
+            so.FindProperty("effectLabel").objectReferenceValue = effectLabel;
+            so.FindProperty("levelLabel").objectReferenceValue = levelLabel;
+            so.FindProperty("costLabel").objectReferenceValue = costLabel;
+            so.FindProperty("upgradeButton").objectReferenceValue = upgradeButton;
+        });
+        return view;
+    }
+
     private static Button BuildStartButton(RectTransform root)
     {
         RectTransform rect = CreateRect("StartButton", root, new Vector2(1f, 0f),
             new Vector2(-170f, 110f), new Vector2(240f, 78f));
-        Image image = AddImage(rect, LoadUiSprite("Panels/panel_black.png"), StartButtonTint);
+        Image image = AddImage(rect, LoadUiSprite(PixelPanelSpriteName), Color.white);
         image.raycastTarget = true;
         Button button = rect.gameObject.AddComponent<Button>();
         button.targetGraphic = image;
 
-        TMP_Text label = CreateText("Label", rect, "BẮT ĐẦU", 30, Color.white);
+        TMP_Text label = CreateText("Label", rect, "START", 30, Color.white);
         SetStretch((RectTransform)label.transform);
         return button;
     }
 
-    private static void WireController(LobbyController controller, SkillTreeSO tree,
-        SkillNodeView[] nodeViews, string[] nodeSkillNames, EquipSlotView[] equipSlots,
-        TMP_Text skillPointsLabel, Button startButton)
+    // Gom mọi tham chiếu cần wire vào LobbyController - tránh chữ ký hàm 13 tham số.
+    private class LobbyWiring
+    {
+        public SkillTreeSO tree;
+        public SkillNodeView[] nodeViews;
+        public string[] nodeSkillNames;
+        public BuildingUpgradeTreeSO buildingTree;
+        public BuildingNodeView[] buildingNodeViews;
+        public string[] buildingNodeIds;
+        public GameObject skillTreePanel;
+        public GameObject buildingTreePanel;
+        public Button skillTabButton;
+        public Button buildingTabButton;
+        public EquipSlotView[] equipSlots;
+        public TMP_Text pointsLabel;
+        public Button startButton;
+    }
+
+    private static void WireController(LobbyController controller, LobbyWiring wiring)
     {
         SetSerialized(controller, so =>
         {
-            so.FindProperty("skillTree").objectReferenceValue = tree;
-            so.FindProperty("skillPointsLabel").objectReferenceValue = skillPointsLabel;
-            so.FindProperty("startButton").objectReferenceValue = startButton;
+            so.FindProperty("skillTree").objectReferenceValue = wiring.tree;
+            so.FindProperty("buildingTree").objectReferenceValue = wiring.buildingTree;
+            so.FindProperty("skillTreePanel").objectReferenceValue = wiring.skillTreePanel;
+            so.FindProperty("buildingTreePanel").objectReferenceValue = wiring.buildingTreePanel;
+            so.FindProperty("skillTabButton").objectReferenceValue = wiring.skillTabButton;
+            so.FindProperty("buildingTabButton").objectReferenceValue = wiring.buildingTabButton;
+            so.FindProperty("pointsLabel").objectReferenceValue = wiring.pointsLabel;
+            so.FindProperty("startButton").objectReferenceValue = wiring.startButton;
 
-            SerializedProperty views = so.FindProperty("nodeViews");
-            SerializedProperty names = so.FindProperty("nodeSkillNames");
-            views.arraySize = nodeViews.Length;
-            names.arraySize = nodeSkillNames.Length;
-            for (int i = 0; i < nodeViews.Length; i++)
-            {
-                views.GetArrayElementAtIndex(i).objectReferenceValue = nodeViews[i];
-                names.GetArrayElementAtIndex(i).stringValue = nodeSkillNames[i];
-            }
+            WriteViewArray(so, "nodeViews", "nodeSkillNames", wiring.nodeViews, wiring.nodeSkillNames);
+            WriteViewArray(so, "buildingNodeViews", "buildingNodeIds", wiring.buildingNodeViews, wiring.buildingNodeIds);
 
             SerializedProperty slots = so.FindProperty("equipSlots");
-            slots.arraySize = equipSlots.Length;
-            for (int i = 0; i < equipSlots.Length; i++)
+            slots.arraySize = wiring.equipSlots.Length;
+            for (int i = 0; i < wiring.equipSlots.Length; i++)
             {
-                slots.GetArrayElementAtIndex(i).objectReferenceValue = equipSlots[i];
+                slots.GetArrayElementAtIndex(i).objectReferenceValue = wiring.equipSlots[i];
             }
         });
+    }
+
+    // Ghi cặp mảng song song (view + khóa chuỗi) vào SerializedObject.
+    private static void WriteViewArray(SerializedObject so, string viewsProperty, string keysProperty,
+        Object[] views, string[] keys)
+    {
+        SerializedProperty viewsProp = so.FindProperty(viewsProperty);
+        SerializedProperty keysProp = so.FindProperty(keysProperty);
+        viewsProp.arraySize = views.Length;
+        keysProp.arraySize = keys.Length;
+        for (int i = 0; i < views.Length; i++)
+        {
+            viewsProp.GetArrayElementAtIndex(i).objectReferenceValue = views[i];
+            keysProp.GetArrayElementAtIndex(i).stringValue = keys[i];
+        }
     }
 
     // ---------------------------------------------------------------- Save & Build Settings
@@ -392,13 +601,28 @@ public static class LobbySceneSetup
         so.ApplyModifiedPropertiesWithoutUndo();
     }
 
-    private static Sprite LoadUiSprite(string relativePath)
+    private static Dictionary<string, Sprite> pixelUiSpriteCache;
+
+    // Sheet Multiple sprite - nạp hết rồi so tên một lần, cache lại vì hàm này gọi nhiều lần trong 1 lượt dựng scene.
+    private static Sprite LoadUiSprite(string spriteName)
     {
-        var sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{UiPackFolder}/{relativePath}");
-        if (sprite == null)
+        if (pixelUiSpriteCache == null)
         {
-            Debug.LogWarning($"[LobbySceneSetup] Không tìm thấy sprite UI: {relativePath}");
+            pixelUiSpriteCache = new Dictionary<string, Sprite>();
+            foreach (Object asset in AssetDatabase.LoadAllAssetsAtPath(PixelUiSheetPath))
+            {
+                if (asset is Sprite sprite)
+                {
+                    pixelUiSpriteCache[sprite.name] = sprite;
+                }
+            }
         }
-        return sprite;
+
+        if (!pixelUiSpriteCache.TryGetValue(spriteName, out Sprite found))
+        {
+            Debug.LogWarning($"[LobbySceneSetup] Không tìm thấy sprite UI: {spriteName} trong {PixelUiSheetPath}");
+        }
+
+        return found;
     }
 }

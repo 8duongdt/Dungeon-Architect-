@@ -5,9 +5,6 @@ using UnityEngine.Serialization;
 [DisallowMultipleComponent]
 public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
 {
-    // Đòn đánh luôn gây tối thiểu 1 sát thương dù giáp cao hơn - tránh unit bất tử trước đòn yếu.
-    private const float MinimumDamageAfterDefense = 1f;
-
     // Đổi tên từ "maxHealth" - FormerlySerializedAs giữ lại giá trị đã tinh chỉnh trên prefab cũ.
     [FormerlySerializedAs("maxHealth")]
     [SerializeField] private float baseMaxHealth = 100f;
@@ -53,6 +50,18 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
         RefreshHealthBar(false);
     }
 
+    /// <summary>
+    /// Áp chỉ số GỐC từ bộ chỉ số trung tâm (<see cref="UnitStatsSO"/>) - sinh ra với máu đầy.
+    /// Hệ số nhân runtime (hiệu ứng) vẫn chồng lên qua <see cref="MaxHealthMultiplier"/> như cũ.
+    /// </summary>
+    public void ApplyBaseStats(float newMaxHealth, float newDefense)
+    {
+        baseMaxHealth = Mathf.Max(1f, newMaxHealth);
+        defense = Mathf.Max(0f, newDefense);
+        currentHealth = MaxHealth;
+        RefreshHealthBar(false);
+    }
+
     public void TakeDamage(float damageAmount)
     {
         if (isDead || damageAmount <= 0f)
@@ -62,8 +71,27 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
 
         // Giáp giảm trừ tập trung tại đây để mọi nguồn sát thương (đòn thường, kỹ năng,
         // bẫy...) đều được tính như nhau; khiên máu ảo hấp thụ phần còn lại trước máu thật.
-        float mitigatedDamage = Mathf.Max(MinimumDamageAfterDefense, damageAmount - defense);
-        float remainingDamage = AbsorbWithShield(mitigatedDamage);
+        float mitigatedDamage = CombatFormulas.MitigateByDefense(damageAmount, defense);
+        ApplyDamageThroughShield(mitigatedDamage);
+    }
+
+    /// <summary>
+    /// Sát thương xuyên giáp (bỏ qua DEF), vẫn qua khiên rồi tới máu. Dùng cho đòn kết liễu
+    /// muốn chắc chắn hạ gục bất kể chỉ số phòng thủ của mục tiêu.
+    /// </summary>
+    public void TakeTrueDamage(float damageAmount)
+    {
+        if (isDead || damageAmount <= 0f)
+        {
+            return;
+        }
+
+        ApplyDamageThroughShield(damageAmount);
+    }
+
+    private void ApplyDamageThroughShield(float damageAfterDefense)
+    {
+        float remainingDamage = AbsorbWithShield(damageAfterDefense);
         if (remainingDamage > 0f)
         {
             SetHealth(currentHealth - remainingDamage);

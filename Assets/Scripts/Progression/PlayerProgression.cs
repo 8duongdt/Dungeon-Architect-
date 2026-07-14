@@ -17,6 +17,8 @@ public static class PlayerProgression
 {
     private const string SkillPointsKey = "Progression.SkillPoints";
     private const string SkillLevelsKey = "Progression.SkillLevels";
+    private const string BuildingPointsKey = "Progression.BuildingPoints";
+    private const string BuildingLevelsKey = "Progression.BuildingLevels";
     private const string LegacyUnlockedSkillsKey = "Progression.UnlockedSkills";
     private const string EquippedSlotsKey = "Progression.EquippedSlots";
     private const string HasSeenIntroKey = "Progression.HasSeenIntro";
@@ -36,6 +38,9 @@ public static class PlayerProgression
 
     /// <summary>Điểm kỹ năng đang có để mở/nâng node trong cây.</summary>
     public static int SkillPoints => PlayerPrefs.GetInt(SkillPointsKey, 0);
+
+    /// <summary>Điểm công trình đang có để nâng node trong cây công trình.</summary>
+    public static int BuildingPoints => PlayerPrefs.GetInt(BuildingPointsKey, 0);
 
     /// <summary>Đã xem StoryIntro chưa - MainMenu dùng để chỉ chiếu intro lần đầu.</summary>
     public static bool HasSeenIntro
@@ -79,6 +84,58 @@ public static class PlayerProgression
         return true;
     }
 
+    public static void AddBuildingPoints(int amount)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        SaveInt(BuildingPointsKey, BuildingPoints + amount);
+    }
+
+    /// <summary>Trừ điểm công trình nếu đủ; không đủ thì giữ nguyên và trả false.</summary>
+    public static bool TrySpendBuildingPoints(int cost)
+    {
+        if (cost < 0 || BuildingPoints < cost)
+        {
+            return false;
+        }
+
+        SaveInt(BuildingPointsKey, BuildingPoints - cost);
+        return true;
+    }
+
+    /// <summary>Bậc hiện tại của node công trình (0 = chưa nâng lần nào).</summary>
+    public static int GetBuildingLevel(string upgradeId)
+    {
+        return ReadLevelMap(BuildingLevelsKey).TryGetValue(upgradeId, out int level) ? level : 0;
+    }
+
+    /// <summary>
+    /// Gán bậc cho node công trình rồi lưu lại. Bậc tối đa do caller kiểm theo
+    /// maxLevel của node trong BuildingUpgradeTreeSO (mỗi node một trần riêng).
+    /// </summary>
+    public static void SetBuildingLevel(string upgradeId, int level)
+    {
+        if (string.IsNullOrEmpty(upgradeId))
+        {
+            return;
+        }
+
+        Dictionary<string, int> levels = ReadLevelMap(BuildingLevelsKey);
+        if (level <= 0)
+        {
+            levels.Remove(upgradeId);
+        }
+        else
+        {
+            levels[upgradeId] = level;
+        }
+
+        WriteLevelMap(BuildingLevelsKey, levels);
+    }
+
     /// <summary>Bậc hiện tại của skill (0 = chưa mở).</summary>
     public static int GetSkillLevel(string skillName)
     {
@@ -110,8 +167,13 @@ public static class PlayerProgression
     /// <summary>Hệ số nhân sát thương theo bậc (chưa mở = 1).</summary>
     public static float GetSkillMultiplier(string skillName)
     {
-        int level = GetSkillLevel(skillName);
-        return level >= 1 ? LevelMultipliers[level - 1] : 1f;
+        return GetMultiplierForLevel(GetSkillLevel(skillName));
+    }
+
+    /// <summary>Hệ số nhân ứng với một bậc skill - UI dùng chung để nhãn không lệch với gameplay.</summary>
+    public static float GetMultiplierForLevel(int level)
+    {
+        return level >= 1 ? LevelMultipliers[Mathf.Clamp(level - 1, 0, LevelMultipliers.Length - 1)] : 1f;
     }
 
     public static bool IsUnlocked(string skillName)
@@ -180,23 +242,31 @@ public static class PlayerProgression
         }
     }
 
+    /// <summary>
+    /// Xóa sạch toàn bộ tiến trình đã lưu (điểm skill/công trình, bậc đã mở/nâng, ô trang bị,
+    /// cờ đã xem intro, checkpoint phase) - dùng cho "New Game" thật sự, khác với chỉ đổi
+    /// <see cref="CurrentPhase"/> (vốn giữ nguyên điểm/bậc để chơi tiếp kiểu roguelite).
+    /// </summary>
+    public static void ResetAll()
+    {
+        PlayerPrefs.DeleteKey(SkillPointsKey);
+        PlayerPrefs.DeleteKey(SkillLevelsKey);
+        PlayerPrefs.DeleteKey(BuildingPointsKey);
+        PlayerPrefs.DeleteKey(BuildingLevelsKey);
+        PlayerPrefs.DeleteKey(LegacyUnlockedSkillsKey);
+        PlayerPrefs.DeleteKey(EquippedSlotsKey);
+        PlayerPrefs.DeleteKey(HasSeenIntroKey);
+        PlayerPrefs.DeleteKey(StarterPointGrantedKey);
+        PlayerPrefs.DeleteKey(CurrentPhaseKey);
+        PlayerPrefs.Save();
+    }
+
     private static Dictionary<string, int> ReadSkillLevels()
     {
-        var levels = new Dictionary<string, int>();
-        string saved = PlayerPrefs.GetString(SkillLevelsKey, string.Empty);
-        foreach (string entry in saved.Split(new[] { ListSeparator }, StringSplitOptions.RemoveEmptyEntries))
+        Dictionary<string, int> levels = ReadLevelMap(SkillLevelsKey);
+        foreach (string name in levels.Keys.ToArray())
         {
-            int split = entry.IndexOf(LevelSeparator);
-            if (split <= 0)
-            {
-                continue;
-            }
-
-            string name = entry.Substring(0, split);
-            if (int.TryParse(entry.Substring(split + 1), NumberStyles.Integer, CultureInfo.InvariantCulture, out int level))
-            {
-                levels[name] = Mathf.Clamp(level, 0, MaxSkillLevel);
-            }
+            levels[name] = Mathf.Clamp(levels[name], 0, MaxSkillLevel);
         }
 
         // Migration: bản cũ lưu unlock nhị phân -> coi mỗi skill đã mở là bậc 1.
@@ -214,9 +284,37 @@ public static class PlayerProgression
 
     private static void WriteSkillLevels(Dictionary<string, int> levels)
     {
+        WriteLevelMap(SkillLevelsKey, levels);
+    }
+
+    // Codec "Tên:Bậc;Tên:Bậc" dùng chung cho bậc skill lẫn bậc công trình.
+    private static Dictionary<string, int> ReadLevelMap(string prefKey)
+    {
+        var levels = new Dictionary<string, int>();
+        string saved = PlayerPrefs.GetString(prefKey, string.Empty);
+        foreach (string entry in saved.Split(new[] { ListSeparator }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            int split = entry.IndexOf(LevelSeparator);
+            if (split <= 0)
+            {
+                continue;
+            }
+
+            string name = entry.Substring(0, split);
+            if (int.TryParse(entry.Substring(split + 1), NumberStyles.Integer, CultureInfo.InvariantCulture, out int level))
+            {
+                levels[name] = Mathf.Max(0, level);
+            }
+        }
+
+        return levels;
+    }
+
+    private static void WriteLevelMap(string prefKey, Dictionary<string, int> levels)
+    {
         string joined = string.Join(ListSeparator.ToString(),
             levels.Select(pair => $"{pair.Key}{LevelSeparator}{pair.Value}"));
-        SaveString(SkillLevelsKey, joined);
+        SaveString(prefKey, joined);
     }
 
     private static void SaveInt(string key, int value)

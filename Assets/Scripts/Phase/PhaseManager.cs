@@ -23,8 +23,9 @@ public class PhaseManager : MonoBehaviour
     [SerializeField] private bool enableDebugKey = true;
     [SerializeField] private float debugStepPerPress = 0.1f;
 
-    // Hoàn thành Phase 1 (thức tỉnh 100%) thưởng 1 điểm kỹ năng cho cây ở sảnh chờ.
+    // Hoàn thành Phase 1 (thức tỉnh 100%) thưởng điểm cho hai cây ở sảnh chờ.
     private const int PhaseOneCompletionReward = 1;
+    private const int PhaseOneBuildingPointReward = 1;
 
     private bool hasTriggeredPhaseTwo;
 
@@ -101,6 +102,7 @@ public class PhaseManager : MonoBehaviour
     {
         hasTriggeredPhaseTwo = true;
         PlayerProgression.AddSkillPoints(PhaseOneCompletionReward);
+        PlayerProgression.AddBuildingPoints(PhaseOneBuildingPointReward);
         // Qua Phase 1 -> checkpoint sang Phase 2: thoát giữa chừng lần sau Tiếp tục vào lại Phase 2.
         PlayerProgression.CurrentPhase = 2;
         PhaseTwoTriggered?.Invoke();

@@ -15,6 +15,12 @@ public class Unit : MonoBehaviour, ISpeedModifiable
         set => speedMultiplier = Mathf.Max(0f, value);
     }
 
+    /// <summary>Áp tốc độ GỐC từ bộ chỉ số trung tâm (<see cref="UnitStatsSO"/>).</summary>
+    public void ApplySpeed(float speed)
+    {
+        moveSpeed = Mathf.Max(0f, speed);
+    }
+
     private GameObject selectedVisual;
     private CharacterAnimationController animationController;
     private UnitAI unitAI;

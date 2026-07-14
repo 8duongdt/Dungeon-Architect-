@@ -30,6 +30,9 @@ public class PlayerSkillCaster : MonoBehaviour
     private UnitHealth health;
     private readonly float[] nextCastTimes = new float[SlotCount];
 
+    /// <summary>Hệ số buff sát thương từ bên ngoài (vd cây công trình trong Phase 2) - mặc định 1.</summary>
+    public float ExternalDamageMultiplier { get; set; } = 1f;
+
     private void Awake()
     {
         faction = GetComponent<UnitFaction>();
@@ -70,7 +73,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
         // Bậc nâng cấp nhân sát thương; riêng Shield dùng hệ số này nhân lượng khiên + thời gian.
         float upgradeMultiplier = PlayerProgression.GetSkillMultiplier(skill.SkillName);
-        float damage = skill.ComputeDamage(magicPower) * upgradeMultiplier;
+        float damage = skill.ComputeDamage(magicPower) * upgradeMultiplier * ExternalDamageMultiplier;
         var context = new SkillCastContext(
             transform, faction, damage, target, aimPoint, this, upgradeMultiplier);
         SkillExecutor.Execute(skill, context);

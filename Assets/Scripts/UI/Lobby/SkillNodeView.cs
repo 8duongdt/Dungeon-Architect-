@@ -29,9 +29,6 @@ public class SkillNodeView : MonoBehaviour
     private static readonly Color LockedIcon = new Color(0.4f, 0.4f, 0.4f, 0.9f);
     private static readonly Color NormalIcon = Color.white;
 
-    // Hệ số nhân theo bậc, khớp với PlayerProgression (chỉ để hiển thị nhãn).
-    private static readonly float[] LevelMultipliers = { 1f, 1.5f, 2f };
-
     [Tooltip("Khung nền của node - đổi màu theo trạng thái.")]
     [SerializeField] private Image frame;
 
@@ -81,25 +78,30 @@ public class SkillNodeView : MonoBehaviour
         costLabel.gameObject.SetActive(showCost);
     }
 
-    /// <summary>Cập nhật nhãn bậc + nút "+"; canUpgrade = đã mở, chưa max, đủ điểm.</summary>
-    public void SetProgress(int level, int maxLevel, bool canUpgrade)
+    /// <summary>
+    /// Cập nhật nhãn bậc + nút "+". nextUpgradeCost là giá bậc kế tiếp (hiển thị chung với
+    /// hệ số nhân); canAffordUpgrade = đủ điểm trả đúng giá đó - cùng nguồn với logic trừ điểm.
+    /// </summary>
+    public void SetProgress(int level, int maxLevel, int nextUpgradeCost, bool canAffordUpgrade)
     {
         bool isUnlocked = level >= 1;
+        bool isMaxed = level >= maxLevel;
         if (levelLabel != null)
         {
             levelLabel.gameObject.SetActive(isUnlocked);
             if (isUnlocked)
             {
-                float multiplier = LevelMultipliers[Mathf.Clamp(level - 1, 0, LevelMultipliers.Length - 1)];
-                levelLabel.text = $"Lv{level} x{multiplier.ToString("0.#")}";
+                float multiplier = PlayerProgression.GetMultiplierForLevel(level);
+                string upgradeHint = isMaxed ? string.Empty : $"  (+{nextUpgradeCost}p)";
+                levelLabel.text = $"Lv{level} x{multiplier.ToString("0.#")}{upgradeHint}";
             }
         }
 
         if (upgradeButton != null)
         {
-            bool showUpgrade = isUnlocked && level < maxLevel;
+            bool showUpgrade = isUnlocked && !isMaxed;
             upgradeButton.gameObject.SetActive(showUpgrade);
-            upgradeButton.interactable = showUpgrade && canUpgrade;
+            upgradeButton.interactable = showUpgrade && canAffordUpgrade;
         }
     }
 

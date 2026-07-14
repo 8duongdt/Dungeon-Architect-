@@ -31,6 +31,10 @@ public static class Phase2BattleSetup
     private const int MaxAliveEnemiesPerGate = 6;
     private const int WaveBudget = 6;
 
+    // Thắng Phase 2 = kết thúc một run: thưởng +1 điểm cho mỗi cây (kỹ năng + công trình).
+    private const int WinSkillPointReward = 1;
+    private const int WinBuildingPointReward = 1;
+
     // (prefab, giá điểm ngân sách) - quái phe Human (faction Enemy) làm mục tiêu cho người chơi.
     private static readonly (string prefabPath, int cost)[] EnemyBudgetEntries =
     {
@@ -75,6 +79,7 @@ public static class Phase2BattleSetup
             (GameObject resultPanel, TMP_Text resultLabel) = BuildResultPanel(scene);
             BuildDirector(scene, avatar, resultPanel, resultLabel);
             AttachEquippedSkillLoader(avatar, tree);
+            AttachPhase2BuffApplier(avatar);
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
@@ -186,6 +191,24 @@ public static class Phase2BattleSetup
         serialized.FindProperty("playerHealth").objectReferenceValue = avatar.GetComponent<UnitHealth>();
         serialized.FindProperty("resultPanel").objectReferenceValue = resultPanel;
         serialized.FindProperty("resultLabel").objectReferenceValue = resultLabel;
+        // Ghi đè giá trị bake sẵn trong scene cũ (trước đây +2 điểm kỹ năng).
+        serialized.FindProperty("winSkillPointReward").intValue = WinSkillPointReward;
+        serialized.FindProperty("winBuildingPointReward").intValue = WinBuildingPointReward;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    // Buff nhánh Hỗ trợ chiến đấu của cây công trình (khiên/hồi máu/sát thương) áp lúc vào trận.
+    private static void AttachPhase2BuffApplier(GameObject avatar)
+    {
+        var applier = avatar.GetComponent<Phase2BuffApplier>();
+        if (applier == null)
+        {
+            applier = avatar.AddComponent<Phase2BuffApplier>();
+        }
+
+        var serialized = new SerializedObject(applier);
+        serialized.FindProperty("playerHealth").objectReferenceValue = avatar.GetComponent<UnitHealth>();
+        serialized.FindProperty("caster").objectReferenceValue = avatar.GetComponent<PlayerSkillCaster>();
         serialized.ApplyModifiedPropertiesWithoutUndo();
     }
 

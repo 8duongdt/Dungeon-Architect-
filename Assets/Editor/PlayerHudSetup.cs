@@ -11,7 +11,10 @@ using UnityEngine.UI;
 /// <summary>
 /// Dựng HUD cho scene Phase 2:
 ///   - Thanh kỹ năng 4 ô (icon phép, phím 1-4, lớp phủ hồi chiêu quét tròn, mana) giữa-dưới.
-///   - Thanh máu + khiên người chơi góc trên-trái (tự thêm UnitHealth cho Player_1).
+///   - Bảng trạng thái người chơi góc trên-trái: khung chân dung (character_panel) với 3 vạch
+///     máu/mana/khiên vẽ đè lên đúng rãnh của sprite; máu tụt/đầy chậm qua Bar (như thanh máu
+///     trên đầu unit prefab, UnitHealth đẩy thẳng vào), số nằm giữa thanh, khiên để trống tới
+///     khi có phép (tự thêm UnitHealth cho Player_1).
 ///   - Canvas + EventSystem (InputSystemUIInputModule - project dùng new Input System).
 ///
 ///   Menu: Tools > Dungeon > Setup Phase 2 HUD
@@ -39,11 +42,26 @@ public static class PlayerHudSetup
 
     private static readonly Vector2 ReferenceResolution = new Vector2(1920f, 1080f);
     private static readonly Vector2 StatusPanelOffset = new Vector2(16f, -16f);
-    private static readonly Vector2 HealthBarSize = new Vector2(320f, 28f);
-    private static readonly Vector2 ShieldBarSize = new Vector2(320f, 14f);
-    private static readonly Vector2 ManaBarSize = new Vector2(320f, 14f);
-    private const float BarFillInset = 4f;
-    private const float StatusBarGap = 6f;
+
+    // Khung chân dung TRỐNG character_panel_2 (84x30 px gốc, không có vạch vẽ sẵn) phóng to;
+    // fill là các strip sprite cùng sheet, đặt theo Rect PIXEL SPRITE GỐC quy ra anchor cho
+    // đúng rãnh trống trên khung. Không dùng khung có vạch vẽ sẵn - vạch tĩnh nằm sau fill
+    // sẽ làm thanh trông như không bao giờ tụt.
+    private const string CharacterPanelPath = "Assets/Sprites/Free-Basic-Pixel-Art-UI-for-RPG/character_panel.png";
+    private const string CharacterPanelFrameSprite = "character_panel_2";
+    private const string HealthStripSprite = "character_panel_10";
+    private const string ManaStripSprite = "character_panel_11";
+    private const string ShieldStripSprite = "character_panel_12";
+    private const float FrameScale = 4f;
+    private static readonly Vector2 FrameNativeSize = new Vector2(84f, 30f);
+    private static readonly Rect HealthStripPixels = new Rect(28f, 20f, 52f, 2f);
+    private static readonly Rect ManaStripPixels = new Rect(30f, 15f, 42f, 2f);
+    private static readonly Rect ShieldStripPixels = new Rect(29f, 10f, 38f, 2f);
+    // Ghost = chính strip đỏ tint xám tối -> vệt đỏ sẫm "máu vừa mất" tụt chậm sau fill.
+    private static readonly Color HealthGhostTint = new Color(0.45f, 0.45f, 0.45f);
+    private const float HealthLabelFontSize = 15f;
+    private const float ManaLabelFontSize = 12f;
+    private const float HealthBarAnimationSpeed = 5f;
 
     [MenuItem("Tools/Dungeon/Setup Phase 2 HUD")]
     public static void SetupPhaseTwoHud()
@@ -294,38 +312,49 @@ public static class PlayerHudSetup
         return image;
     }
 
-    // ---------- Thanh máu + khiên ----------
+    // ---------- Bảng trạng thái: khung chân dung + máu/mana/khiên ----------
 
     private static void BuildPlayerStatus(RectTransform canvasRoot, UnitHealth playerHealth, ResourceManager resourceManager)
     {
-        float panelHeight = HealthBarSize.y + StatusBarGap + ShieldBarSize.y + StatusBarGap + ManaBarSize.y;
-        RectTransform panel = CreateRect("PlayerStatus", canvasRoot,
+        RectTransform frame = CreateRect("PlayerStatus", canvasRoot,
             new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f),
-            StatusPanelOffset, new Vector2(HealthBarSize.x, panelHeight));
+            StatusPanelOffset, FrameNativeSize * FrameScale);
+        AddImage(frame, LoadCharacterPanelSprite(CharacterPanelFrameSprite), Color.white);
 
-        Image healthFill = BuildFilledBar(panel, "HealthBar", Vector2.zero, HealthBarSize, "ProgressBars/progressBar_red.png");
-        float shieldY = -(HealthBarSize.y + StatusBarGap);
-        Image shieldFill = BuildFilledBar(panel, "ShieldBar", new Vector2(0f, shieldY), ShieldBarSize, "ProgressBars/progressBar_cyan.png");
-        float manaY = shieldY - (ShieldBarSize.y + StatusBarGap);
-        Image manaFill = BuildFilledBar(panel, "ManaBar", new Vector2(0f, manaY), ManaBarSize, "ProgressBars/progressBar_purple.png");
+        // Ghost nằm dưới fill đỏ: khi mất máu fill tụt ngay còn ghost tụt chậm (idiom Bar).
+        Image healthGhostFill = BuildStripFill(frame, "HealthFillDelayed", HealthStripPixels, HealthStripSprite, HealthGhostTint);
+        Image healthFill = BuildStripFill(frame, "HealthFill", HealthStripPixels, HealthStripSprite, Color.white);
+        Image manaFill = BuildStripFill(frame, "ManaFill", ManaStripPixels, ManaStripSprite, Color.white);
+        Image shieldFill = BuildStripFill(frame, "ShieldFill", ShieldStripPixels, ShieldStripSprite, Color.white);
+        shieldFill.fillAmount = 0f; // khiên để trống, chỉ đầy lên khi có phép
 
-        TMP_Text healthLabel = CreateText("HealthLabel", (RectTransform)healthFill.transform.parent,
-            $"{PlayerMaxHealth:0}/{PlayerMaxHealth:0}", 16f, TextAlignmentOptions.Center,
-            new Vector2(0.5f, 0.5f), Vector2.zero, HealthBarSize);
-        TMP_Text manaLabel = CreateText("ManaLabel", (RectTransform)manaFill.transform.parent,
-            PlayerStartMana.ToString(), 12f, TextAlignmentOptions.Center,
-            new Vector2(0.5f, 0.5f), Vector2.zero, ManaBarSize);
+        TMP_Text healthLabel = CreateStripLabel(frame, "HealthLabel",
+            $"{PlayerMaxHealth:0}/{PlayerMaxHealth:0}", HealthLabelFontSize, HealthStripPixels);
+        TMP_Text manaLabel = CreateStripLabel(frame, "ManaLabel",
+            PlayerStartMana.ToString(), ManaLabelFontSize, ManaStripPixels);
 
-        var view = panel.gameObject.AddComponent<PlayerStatusHudView>();
+        Bar healthBar = frame.gameObject.AddComponent<Bar>();
+        SetSerialized(healthBar, so =>
+        {
+            so.FindProperty("<MaxValue>k__BackingField").intValue = Mathf.RoundToInt(PlayerMaxHealth);
+            so.FindProperty("<Value>k__BackingField").intValue = Mathf.RoundToInt(PlayerMaxHealth);
+            so.FindProperty("_topBarImage").objectReferenceValue = healthFill;
+            so.FindProperty("_middleBarImage").objectReferenceValue = healthGhostFill;
+            so.FindProperty("_animationspeed").floatValue = HealthBarAnimationSpeed;
+        });
+
+        // UnitHealth đẩy máu thẳng vào Bar y như thanh máu trên đầu unit prefab.
+        SetSerialized(playerHealth, so => so.FindProperty("healthBar").objectReferenceValue = healthBar);
+
+        var view = frame.gameObject.AddComponent<PlayerStatusHudView>();
         SetSerialized(view, so =>
         {
             so.FindProperty("playerHealth").objectReferenceValue = playerHealth;
-            so.FindProperty("healthFill").objectReferenceValue = healthFill;
             so.FindProperty("shieldFill").objectReferenceValue = shieldFill;
             so.FindProperty("healthLabel").objectReferenceValue = healthLabel;
         });
 
-        var manaView = panel.gameObject.AddComponent<ManaBarView>();
+        var manaView = frame.gameObject.AddComponent<ManaBarView>();
         SetSerialized(manaView, so =>
         {
             so.FindProperty("displayMaxMana").floatValue = DisplayMaxMana;
@@ -335,24 +364,51 @@ public static class PlayerHudSetup
         });
     }
 
-    private static Image BuildFilledBar(RectTransform parent, string name, Vector2 position, Vector2 size, string fillSpriteFile)
+    private static Image BuildStripFill(RectTransform frame, string name, Rect stripPixels,
+        string stripSpriteName, Color tint)
     {
-        RectTransform background = CreateRect(name, parent,
-            new Vector2(0f, 1f), new Vector2(0f, 1f), new Vector2(0f, 1f), position, size);
-        AddImage(background, LoadUiSprite("ProgressBars/progressBarBase_black.png"), Color.white);
-
-        RectTransform fill = CreateRect("Fill", background,
-            new Vector2(0f, 0f), new Vector2(1f, 1f), new Vector2(0.5f, 0.5f),
-            Vector2.zero, new Vector2(-2f * BarFillInset, -2f * BarFillInset));
-        Image fillImage = AddImage(fill, LoadUiSprite(fillSpriteFile), Color.white);
-
-        // Filled trên sprite 9-slice render như Simple bị crop ngang - đủ tốt cho HUD,
-        // đổi lại chỉ cần 1 tham chiếu Image đúng idiom fillAmount của repo.
+        RectTransform rect = CreateStripRect(name, frame, stripPixels);
+        var fillImage = rect.gameObject.AddComponent<Image>();
+        fillImage.sprite = LoadCharacterPanelSprite(stripSpriteName);
+        fillImage.color = tint;
         fillImage.type = Image.Type.Filled;
         fillImage.fillMethod = Image.FillMethod.Horizontal;
         fillImage.fillOrigin = (int)Image.OriginHorizontal.Left;
         fillImage.fillAmount = 1f;
         return fillImage;
+    }
+
+    private static TMP_Text CreateStripLabel(RectTransform frame, string name, string content,
+        float fontSize, Rect stripPixels)
+    {
+        RectTransform rect = CreateStripRect(name, frame, stripPixels);
+        var text = rect.gameObject.AddComponent<TextMeshProUGUI>();
+        text.text = content;
+        text.fontSize = fontSize;
+        text.alignment = TextAlignmentOptions.Center;
+        text.raycastTarget = false;
+        return text;
+    }
+
+    private static RectTransform CreateStripRect(string name, RectTransform frame, Rect stripPixels)
+    {
+        var anchorMin = new Vector2(stripPixels.xMin / FrameNativeSize.x, stripPixels.yMin / FrameNativeSize.y);
+        var anchorMax = new Vector2(stripPixels.xMax / FrameNativeSize.x, stripPixels.yMax / FrameNativeSize.y);
+        return CreateRect(name, frame, anchorMin, anchorMax, new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero);
+    }
+
+    private static Sprite LoadCharacterPanelSprite(string spriteName)
+    {
+        foreach (UnityEngine.Object asset in AssetDatabase.LoadAllAssetsAtPath(CharacterPanelPath))
+        {
+            if (asset is Sprite sprite && sprite.name == spriteName)
+            {
+                return sprite;
+            }
+        }
+
+        Debug.LogWarning($"[PlayerHudSetup] Không tìm thấy sprite {spriteName} trong {CharacterPanelPath}");
+        return null;
     }
 
     // ---------- Helpers (theo shape của GameplayHudSetup, chép riêng để không sửa file gốc) ----------

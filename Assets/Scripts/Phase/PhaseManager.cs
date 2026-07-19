@@ -61,6 +61,8 @@ public class PhaseManager : MonoBehaviour
         }
     }
 
+    // Phím tắt debug chỉ tồn tại trong Editor - build phát hành không cho người chơi tự thắng bằng phím P.
+#if UNITY_EDITOR
     private void Update()
     {
         if (!enableDebugKey || Keyboard.current == null)
@@ -73,6 +75,7 @@ public class PhaseManager : MonoBehaviour
             AddProgress(debugStepPerPress);
         }
     }
+#endif
 
     /// <summary>Cộng tiến độ thức tỉnh (giá trị 0..1). Tới 1 thì kích hoạt Phase 2.</summary>
     public void AddProgress(float amount01)

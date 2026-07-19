@@ -60,7 +60,9 @@ public class MeleeAttackArea : AttackAreaBase
     private void Reset()
     {
         detectionRadius = 7f;
-        attackRange = 1.5f;
+        // attackRange giờ là KHE HỞ mép giữa hai thân (xem AttackAreaBase.IsInRange), không phải
+        // khoảng cách tâm. Đặt nhỏ để melee chỉ vung khi gần chạm - khớp tầm với hitbox gây sát thương.
+        attackRange = 0.35f;
         loseTargetRadiusMultiplier = 1.1f;
         ResolveHitBox();
     }

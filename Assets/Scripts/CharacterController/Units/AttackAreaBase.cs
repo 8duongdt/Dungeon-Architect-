@@ -15,6 +15,14 @@ public abstract class AttackAreaBase : MonoBehaviour
     [SerializeField] protected LayerMask enemyLayer = ~0;
     [SerializeField] protected UnitLineOfSight lineOfSight;
 
+    // Collider thân của unit sở hữu area này - dùng đo khoảng cách MÉP (không phải tâm) tới mục tiêu,
+    // nhờ vậy tầm đánh không lệch khi hai unit khác kích cỡ. Cache sau lần đầu tìm.
+    private Collider2D ownerBodyCollider;
+
+    // Cache 1 phần tử collider thân của mục tiêu hiện tại, tránh GetComponentsInChildren mỗi tick.
+    private Transform cachedTargetTransform;
+    private Collider2D cachedTargetBodyCollider;
+
     public float DetectionRadius => GetDetectionRadius();
     public float AttackRange => attackRange;
     public float AttackApproachRange => attackRange * attackApproachFactor;
@@ -152,6 +160,9 @@ public abstract class AttackAreaBase : MonoBehaviour
         return enemyLayer.value == 0 ? ~0 : enemyLayer.value;
     }
 
+    // So tầm theo khoảng cách MÉP giữa hai collider thân (không phải tâm-tới-tâm): 'range' là khe hở
+    // cho phép giữa hai thân. Nhờ vậy unit to/nhỏ đều "vào tầm" đúng lúc chạm nhau - animation vung
+    // đánh và va chạm hitbox gây sát thương khớp nhau, hết cảnh đánh khi mục tiêu chưa tới tầm.
     protected bool IsInRange(Transform target, float range)
     {
         if (target == null)
@@ -159,7 +170,70 @@ public abstract class AttackAreaBase : MonoBehaviour
             return false;
         }
 
+        Collider2D targetBody = GetTargetBodyCollider(target);
+        if (ownerBodyCollider == null)
+        {
+            ownerBodyCollider = FindBodyCollider(transform);
+        }
+
+        if (ownerBodyCollider != null && targetBody != null)
+        {
+            ColliderDistance2D separation = ownerBodyCollider.Distance(targetBody);
+            if (separation.isValid)
+            {
+                // distance < 0 khi hai thân chồng nhau -> luôn trong tầm.
+                return separation.distance <= range;
+            }
+        }
+
+        // Dự phòng khi thiếu collider: quay về đo tâm-tới-tâm như cũ.
         return Vector2.Distance(transform.position, target.position) <= range;
+    }
+
+    private Collider2D GetTargetBodyCollider(Transform target)
+    {
+        if (target == cachedTargetTransform && cachedTargetBodyCollider != null)
+        {
+            return cachedTargetBodyCollider;
+        }
+
+        cachedTargetTransform = target;
+        cachedTargetBodyCollider = FindBodyCollider(target);
+        return cachedTargetBodyCollider;
+    }
+
+    // Tìm collider thân của một unit: ưu tiên collider ĐẶC (không trigger, dùng chặn va chạm) trên
+    // gốc unit; nếu unit chỉ có trigger (vd công trình) thì lấy collider đầu tiên tìm được.
+    private static Collider2D FindBodyCollider(Transform unitPart)
+    {
+        if (unitPart == null)
+        {
+            return null;
+        }
+
+        UnitHealth health = unitPart.GetComponentInParent<UnitHealth>();
+        Transform root = health != null ? health.transform : unitPart;
+
+        Collider2D fallback = null;
+        foreach (Collider2D collider in root.GetComponentsInChildren<Collider2D>())
+        {
+            if (collider == null)
+            {
+                continue;
+            }
+
+            if (fallback == null)
+            {
+                fallback = collider;
+            }
+
+            if (!collider.isTrigger)
+            {
+                return collider;
+            }
+        }
+
+        return fallback;
     }
 
     protected void ResolveReferences()

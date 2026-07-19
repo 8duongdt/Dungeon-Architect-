@@ -10,7 +10,7 @@ using UnityEngine.UI;
 ///   - Tab Kỹ năng: click node khóa để mua, node đã mở để gắn/gỡ ô trang bị, nút "+" để nâng bậc.
 ///   - Tab Công trình: nút "+" nâng bậc node (2 nhánh Kinh tế / Hỗ trợ chiến đấu, không cần mở khóa).
 ///   - Giá nâng bậc CẢ HAI cây theo UpgradeCostFormula (lũy tiến), trả bằng hai loại điểm riêng.
-/// Trạng thái lưu trong PlayerProgression (PlayerPrefs) - sống qua mọi scene/lần chơi.
+/// Trạng thái lưu trong PlayerProgression (file JSON) - sống qua mọi scene/lần chơi.
 /// </summary>
 public class LobbyController : MonoBehaviour
 {

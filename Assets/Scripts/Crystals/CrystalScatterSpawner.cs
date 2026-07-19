@@ -21,6 +21,10 @@ public class CrystalScatterSpawner : DungeonDecoratorBase
     [Min(0)] [SerializeField] private int manaNodeCount = 2;
     [Min(0)] [SerializeField] private int progressNodeCount = 1;
 
+    // Tinh thể chỉ rải trên ĐẤT LIỀN (Floor): loại nước (SwampWater) và cổng (Gate). Trên map đảo,
+    // luật này giữ tinh thể ở giữa đảo, không rơi xuống vành nước bao quanh.
+    private static readonly TileType[] LandOnlyWalkable = { TileType.Floor };
+
     public void Scatter(
         TileType[,] map,
         IReadOnlyList<RectInt> rooms,
@@ -34,7 +38,7 @@ public class CrystalScatterSpawner : DungeonDecoratorBase
             return;
         }
 
-        BeginPlacement(new MapPlacement(map, visualizer));
+        BeginPlacement(new MapPlacement(map, visualizer, LandOnlyWalkable));
 
         List<Vector2Int> candidates = CollectCandidates(map, playerSpawnCell, data);
         Shuffle(candidates);

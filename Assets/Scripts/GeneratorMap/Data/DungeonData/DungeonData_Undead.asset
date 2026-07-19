@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DungeonData_Undead
   m_EditorClassIdentifier: Assembly-CSharp::DungeonData
   generatorType: 1
-  mapWidth: 80
-  mapHeight: 50
+  mapWidth: 100
+  mapHeight: 100
   floorGenerationChance: 45
   simulationSteps: 5
   torchSpawnRate: 0
@@ -24,14 +24,17 @@ MonoBehaviour:
   roomFirstMinRoomWidth: 8
   roomFirstMinRoomHeight: 8
   roomFirstOffset: 1
-  squareMapSize: 100
-  minRoomSize: 12
-  maxRoomSize: 20
-  maxRooms: 8
-  roomPadding: 3
-  hallwayWidth: 4
-  swampRoomChance: 20
-  swampWaterPercentage: 25
-  giantSkeletonSpawnChance: 35
-  thornyVineDensity: 4
-  undeadSpawnRate: 10
+  squareMapSize: 120
+  islandCount: 10
+  islandMinRadius: 6
+  islandMaxRadius: 11
+  islandSpacing: 4
+  islandEdgeJitter: 2
+  giantSkeletonSpawnChance: 16
+  thornyVineDensity: 1
+  undeadSpawnRate: 5
+  spawnSafeRadius: 8
+  spawnPerlinScale: 0.15
+  spawnPerlinThreshold: 0.6
+  spawnPerRoomCap: 5
+  spawnGlobalCap: 40

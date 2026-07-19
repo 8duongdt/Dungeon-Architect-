@@ -79,25 +79,26 @@ public class DungeonData : ScriptableObject
     [Min(MinRoomDimension)]
     public int squareMapSize = 100;
 
-    [Header("Undead Swamp - Hồ nước chữ nhật (kiểu phòng dungeon)")]
-    // Tỉ lệ % mỗi phòng được rải hồ nước.
-    [Range(0f, 100f)]
-    public float swampRoomChance = 65f;
-
-    // Số hồ nước chữ nhật thử rải trong phòng (mỗi hồ là một hình chữ nhật rời, có vành bờ bao quanh).
-    [Min(0)]
-    public int swampPoolCount = 8;
-
-    // Kích thước mỗi cạnh hồ (số ô) - chọn ngẫu nhiên trong [min, max].
-    [Min(2)]
-    public int swampPoolMinSize = 5;
-
-    [Min(2)]
-    public int swampPoolMaxSize = 12;
-
-    // Khoảng cách tối thiểu giữa hai hồ (số ô) - để mỗi hồ có vành bờ riêng, không dính nhau.
+    [Header("Undead Swamp - Quần đảo (nhiều đảo nhỏ trong biển)")]
+    // Số đảo đất mong muốn rải trong biển. "Ít đảo vừa" ~ 8-12. Pha lê/cổng chỉ sinh trên đất; máy
+    // không xây được trên nước (GridBuildingSystem chỉ cho xây trên Floor).
     [Min(1)]
-    public int swampPoolPadding = 3;
+    public int islandCount = 10;
+
+    // Bán kính (số ô) mỗi đảo - chọn ngẫu nhiên trong [min, max]. Đảo to hơn = nhiều đất hơn.
+    [Min(1)]
+    public int islandMinRadius = 6;
+
+    [Min(1)]
+    public int islandMaxRadius = 11;
+
+    // Khoảng cách biển tối thiểu giữa mép hai đảo (số ô) - giữ các đảo tách rời, không dính thành mảng.
+    [Min(0)]
+    public int islandSpacing = 4;
+
+    // Biên độ gợn sóng của mép đảo (số ô): làm bờ cong tự nhiên thay vì tròn trịa/vuông vức.
+    [Range(0, 10)]
+    public int islandEdgeJitter = 2;
 
     [Header("Undead Swamp - Vật trang trí theo ngữ cảnh (%)")]
     // Tỉ lệ % mỗi góc trên của phòng lớn dựng một Vua bộ xương khổng lồ tựa vào tường.

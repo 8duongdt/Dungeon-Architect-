@@ -133,6 +133,14 @@ public class MinimapController : MonoBehaviour, IPointerDownHandler, IDragHandle
             }
 
             bool isAlly = unit.Faction == FactionType.Player;
+
+            // Fog of war: blip địch chỉ hiện ở vùng đã được soi (unit/công trình mình ở gần); phe mình luôn hiện.
+            if (!isAlly && FogOfWarController.Instance != null && !FogOfWarController.Instance.IsRevealed(unit.transform.position))
+            {
+                blip.enabled = false;
+                continue;
+            }
+
             blip.enabled = true;
             blip.color = isAlly ? allyBlipColor : enemyBlipColor;
             blip.rectTransform.anchoredPosition = WorldToContainerLocal(unit.transform.position);

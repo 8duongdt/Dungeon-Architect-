@@ -21,6 +21,10 @@ public class UnitFaction : MonoBehaviour
     private static readonly List<UnitFaction> activeUnits = new List<UnitFaction>();
     private Collider2D[] bodyColliders;
 
+    /// <summary>Toàn bộ unit đang hoạt động (chỉ đọc) - để hệ thống khác đếm quân theo phe mà không
+    /// phải quét FindObjectsByType. Theo mẫu <see cref="MinimapRegistry"/>.</summary>
+    public static IReadOnlyList<UnitFaction> ActiveUnits => activeUnits;
+
     public FactionType Faction => faction;
     public bool CanBeTargeted => canBeTargeted;
 

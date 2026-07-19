@@ -103,6 +103,9 @@ public class EnemySpawner : MonoBehaviour
     /// <summary>Số quái của cổng này còn sống - director cộng dồn để xét điều kiện diệt sạch.</summary>
     public int AliveEnemyCount => currentEnemyCount;
 
+    // Nhịp thực tế sau khi áp áp lực thích ứng: người chơi càng đông quân, đợt càng dồn dập.
+    private float EffectiveSpawnInterval => spawnInterval * EnemyPopulationLimiter.SpawnIntervalMultiplier();
+
     /// <summary>
     /// Cho manager so le lịch giữa các cổng (round-robin toàn bản đồ).
     /// Gọi ngay sau Instantiate - trước khi Start() dựng timer từ hai giá trị này.
@@ -142,7 +145,7 @@ public class EnemySpawner : MonoBehaviour
         // Tích lũy thời gian độc lập với FPS.
         timer += Time.deltaTime;
 
-        if (timer >= spawnInterval)
+        if (timer >= EffectiveSpawnInterval)
         {
             SpawnWave(ComposeWave(CurrentBudget(), NextWaveEnemyLimit()));
             hasSpawnedFirstWave = true;
@@ -224,13 +227,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy(GameObject prefab)
     {
-        // Định vị ngẫu nhiên trong bán kính spawnRadius để tránh các quái đè chồng nhau.
-        Vector3 spawnPosition = transform.position;
-        if (spawnRadius > 0f)
-        {
-            Vector2 offset = Random.insideUnitCircle * spawnRadius;
-            spawnPosition += new Vector3(offset.x, offset.y, 0f);
-        }
+        // Định vị ngẫu nhiên trong bán kính spawnRadius để tránh các quái đè chồng nhau -
+        // chỉ nhận ô đi lại được (không rơi vào tường quanh cổng trên map quần đảo).
+        Vector3 spawnPosition = SpawnPlacement.RollSpawnPosition(transform.position, spawnRadius);
 
         GameObject enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
         currentEnemyCount++;

@@ -10,7 +10,7 @@ using UnityEngine;
 /// thủ công (HasActiveCombatTarget đã loại trường hợp ignoringCombatForMoveCommand).
 /// </summary>
 [DisallowMultipleComponent]
-public class UnitSkillCaster : MonoBehaviour, IDamageOutputModifiable
+public class UnitSkillCaster : MonoBehaviour
 {
     [Tooltip("Kỹ năng của unit này (asset trong Assets/Skills).")]
     [SerializeField] private SkillDefinitionSO skill;
@@ -21,16 +21,8 @@ public class UnitSkillCaster : MonoBehaviour, IDamageOutputModifiable
     private UnitAI ai;
     private AttackAreaBase attackArea;
     private float nextCastTime;
-    private float damageOutputMultiplier = 1f;
 
     public float MagicPower => magicPower;
-
-    // Hệ số nhân sát thương (1 = gốc) - đặt bởi UnitEffectModifier, dùng chung với đòn thường.
-    public float DamageOutputMultiplier
-    {
-        get => damageOutputMultiplier;
-        set => damageOutputMultiplier = Mathf.Max(0f, value);
-    }
 
     private void Awake()
     {
@@ -66,8 +58,8 @@ public class UnitSkillCaster : MonoBehaviour, IDamageOutputModifiable
             return;
         }
 
-        float premultipliedDamage = skill.ComputeDamage(magicPower) * damageOutputMultiplier;
-        var context = new SkillCastContext(transform, ai.Faction, premultipliedDamage, targetHealth, this);
+        float damage = skill.ComputeDamage(magicPower);
+        var context = new SkillCastContext(transform, ai.Faction, damage, targetHealth, this);
         SkillExecutor.Execute(skill, context);
         nextCastTime = Time.time + skill.Cooldown;
     }

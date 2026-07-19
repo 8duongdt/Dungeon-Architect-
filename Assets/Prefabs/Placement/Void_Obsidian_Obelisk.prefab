@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 408902336098388106}
   - component: {fileID: 3355090968015165569}
   - component: {fileID: 8742319828275224232}
-  - component: {fileID: 8540280089569397631}
   - component: {fileID: 5994439808158844014}
   m_Layer: 0
   m_Name: Void_Obsidian_Obelisk
@@ -170,19 +169,6 @@ MonoBehaviour:
   radiusColor: {r: 0, g: 1, b: 0, a: 1}
   bodyRenderer: {fileID: 5489621338710628935}
   territoryCollider: {fileID: 3355090968015165569}
---- !u!114 &8540280089569397631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8405850495915307151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8365ba618516626459790fb41656bbdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TerritoryZone
-  debuffMultiplier: 0.5
 --- !u!114 &5994439808158844014
 MonoBehaviour:
   m_ObjectHideFlags: 0

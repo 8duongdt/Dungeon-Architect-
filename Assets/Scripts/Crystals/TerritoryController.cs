@@ -2,9 +2,10 @@ using UnityEngine;
 
 /// <summary>
 /// Pha lê đen - công trình lãnh thổ của người chơi (đặt qua GridBuildingSystem như mọi công
-/// trình khác). Unit phe người chơi ra khỏi bán kính này bị <see cref="TerritoryZone"/> áp penalty
-/// toàn bộ chỉ số. Placeholder hình ảnh giống <see cref="CrystalNode"/>: SpriteRenderer sprite
-/// tròn mặc định, tô màu tối - đổi sang asset thật sau chỉ cần đổi field <see cref="bodyRenderer"/>.
+/// trình khác). Xác định bán kính lãnh thổ (dùng cho vòng hiển thị chuột phải và
+/// <see cref="IHasInfluenceRadius"/>). Placeholder hình ảnh giống <see cref="CrystalNode"/>:
+/// SpriteRenderer sprite tròn mặc định, tô màu tối - đổi sang asset thật sau chỉ cần đổi field
+/// <see cref="bodyRenderer"/>.
 /// </summary>
 [DisallowMultipleComponent]
 public class TerritoryController : MonoBehaviour, IHasInfluenceRadius
@@ -18,7 +19,7 @@ public class TerritoryController : MonoBehaviour, IHasInfluenceRadius
     [Tooltip("Placeholder hình ảnh - SpriteRenderer dùng sprite tròn mặc định, tô màu tối.")]
     [SerializeField] private SpriteRenderer bodyRenderer;
 
-    [Tooltip("Collider trigger LỚN phủ hết territoryRadius - TerritoryZone lắng nghe enter/exit trên đây.")]
+    [Tooltip("Collider trigger LỚN phủ hết territoryRadius (giữ để đồng bộ bán kính vùng lãnh thổ).")]
     [SerializeField] private CircleCollider2D territoryCollider;
 
     public float Radius => territoryRadius;

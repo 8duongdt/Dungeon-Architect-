@@ -2,13 +2,12 @@ using UnityEngine;
 
 /// <summary>
 /// Hệ thống hiệu ứng module hóa, gắn lên MỘT unit/nhân vật bất kỳ trong Phase 1 (RTS).
-/// Khi Awake nó tự gom mọi component có cài <see cref="ISpeedModifiable"/> (tốc độ),
-/// <see cref="IMaxHealthModifiable"/> (máu tối đa) hoặc <see cref="IDamageOutputModifiable"/>
-/// (sát thương gây ra) trên cùng GameObject rồi scale đồng loạt. Nhờ vậy một hiệu ứng áp dụng cho
-/// CẢ di chuyển thủ công lẫn lúc combat, và dùng được cho mọi loại unit (kể cả Player) mà không
-/// cần hardcode. <see cref="ApplySpeedPenalty"/>/<see cref="ClearSpeedPenalty"/> chỉ chạm tốc độ
-/// (dùng cho hazard nước); <see cref="ApplyStatPenalty"/>/<see cref="ClearStatPenalty"/> chạm cả
-/// ba (dùng cho vùng lãnh thổ pha lê đen).
+/// Khi Awake nó tự gom mọi component có cài <see cref="ISpeedModifiable"/> (tốc độ) trên cùng
+/// GameObject rồi scale đồng loạt. Nhờ vậy một hiệu ứng áp dụng cho CẢ di chuyển thủ công lẫn lúc
+/// combat, và dùng được cho mọi loại unit (kể cả Player) mà không cần hardcode.
+/// <see cref="ApplySpeedPenalty"/>/<see cref="ClearSpeedPenalty"/> chỉ chạm tốc độ (dùng cho hazard nước);
+/// <see cref="ApplyBuff"/>/<see cref="ClearBuff"/> tăng sát thương/máu/tốc-đánh (buff aura portal), có
+/// REF-COUNT nên đứng trong tầm nhiều cổng cùng lúc không xung đột khi rời từng cổng.
 /// </summary>
 public class UnitEffectModifier : MonoBehaviour
 {
@@ -18,21 +17,59 @@ public class UnitEffectModifier : MonoBehaviour
     // Mọi nguồn tốc độ của unit này (di chuyển tay + AI). Có thể rỗng nếu unit chưa có component di chuyển.
     private ISpeedModifiable[] movementComponents;
 
-    // Nguồn máu tối đa (UnitHealth) và sát thương gây ra (AttackState) - có thể rỗng, vd nhân vật
-    // người chơi hiện chưa có component gây sát thương nào cài IDamageOutputModifiable.
-    private IMaxHealthModifiable[] healthComponents;
-    private IDamageOutputModifiable[] damageComponents;
+    // Kênh nhân chỉ số combat cho buff (có thể null nếu unit không đánh nhau).
+    private AttackState attackState;
+    private UnitHealth unitHealth;
+
+    // Số nguồn buff (aura) đang phủ lên unit - chỉ áp khi 0->1, chỉ gỡ khi về 0.
+    private int buffSourceCount;
 
     private void Awake()
     {
         movementComponents = GetComponents<ISpeedModifiable>();
-        healthComponents = GetComponents<IMaxHealthModifiable>();
-        damageComponents = GetComponents<IDamageOutputModifiable>();
+        attackState = GetComponent<AttackState>();
+        unitHealth = GetComponent<UnitHealth>();
 
         if (movementComponents.Length == 0)
         {
             Debug.LogWarning($"[UnitEffectModifier] '{name}' không có component di chuyển nào cài ISpeedModifiable.");
         }
+    }
+
+    /// <summary>
+    /// Bật buff (một nguồn aura vào tầm): tăng sát thương/máu tối đa/tốc độ đánh. Ref-count nên nhiều
+    /// aura chồng nhau chỉ áp một lần; mọi hệ số tính TỪ gốc nên không cộng dồn.
+    /// </summary>
+    public void ApplyBuff(float damageMultiplier, float maxHealthMultiplier, float attackCooldownMultiplier)
+    {
+        buffSourceCount++;
+        if (buffSourceCount != 1)
+        {
+            return;
+        }
+
+        attackState?.SetDamageMultiplier(damageMultiplier);
+        attackState?.SetAttackCooldownMultiplier(attackCooldownMultiplier);
+        unitHealth?.SetMaxHealthMultiplier(maxHealthMultiplier);
+    }
+
+    /// <summary>Tắt buff của MỘT nguồn aura; chỉ thực sự gỡ về gốc khi không còn aura nào phủ.</summary>
+    public void ClearBuff()
+    {
+        if (buffSourceCount == 0)
+        {
+            return;
+        }
+
+        buffSourceCount--;
+        if (buffSourceCount > 0)
+        {
+            return;
+        }
+
+        attackState?.SetDamageMultiplier(NoPenaltyMultiplier);
+        attackState?.SetAttackCooldownMultiplier(NoPenaltyMultiplier);
+        unitHealth?.SetMaxHealthMultiplier(NoPenaltyMultiplier);
     }
 
     /// <summary>
@@ -58,42 +95,6 @@ public class UnitEffectModifier : MonoBehaviour
         foreach (ISpeedModifiable movement in movementComponents)
         {
             movement.SpeedMultiplier = multiplier;
-        }
-    }
-
-    /// <summary>
-    /// Áp một penalty lên TOÀN BỘ chỉ số (tốc độ + máu tối đa + sát thương gây ra) cùng lúc - dùng
-    /// cho vùng lãnh thổ pha lê đen (<see cref="TerritoryZone"/>). Cũng luôn tính từ gốc như
-    /// <see cref="ApplySpeedPenalty"/> nên không cộng dồn.
-    /// </summary>
-    public void ApplyStatPenalty(float multiplier)
-    {
-        SetSpeedMultiplier(multiplier);
-        SetMaxHealthMultiplier(multiplier);
-        SetDamageOutputMultiplier(multiplier);
-    }
-
-    /// <summary>Gỡ penalty toàn bộ chỉ số, đưa mọi thứ về gốc.</summary>
-    public void ClearStatPenalty()
-    {
-        SetSpeedMultiplier(NoPenaltyMultiplier);
-        SetMaxHealthMultiplier(NoPenaltyMultiplier);
-        SetDamageOutputMultiplier(NoPenaltyMultiplier);
-    }
-
-    private void SetMaxHealthMultiplier(float multiplier)
-    {
-        foreach (IMaxHealthModifiable health in healthComponents)
-        {
-            health.MaxHealthMultiplier = multiplier;
-        }
-    }
-
-    private void SetDamageOutputMultiplier(float multiplier)
-    {
-        foreach (IDamageOutputModifiable damage in damageComponents)
-        {
-            damage.DamageOutputMultiplier = multiplier;
         }
     }
 }

@@ -1,25 +1,20 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class AttackState : MonoBehaviour, IDamageOutputModifiable
+public class AttackState : MonoBehaviour
 {
     [SerializeField] private float attackCooldown = 1f;
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private CharacterAnimationController animationController;
     [SerializeField] private UnitAudioPlayer audioPlayer;
 
-    private float damageOutputMultiplier = 1f;
-
-    /// <summary>Sát thương mỗi đòn đánh (chỉ đọc) - để HUD hiển thị chỉ số ATTACK.</summary>
+    /// <summary>Sát thương mỗi đòn đánh GỐC (chỉ đọc) - để HUD hiển thị chỉ số ATTACK.</summary>
     public float AttackDamage => attackDamage;
 
-    // Hệ số nhân sát thương gây ra (1 = gốc, 0.5 = còn một nửa) - đặt bởi UnitEffectModifier khi
-    // unit ra khỏi lãnh thổ pha lê đen.
-    public float DamageOutputMultiplier
-    {
-        get => damageOutputMultiplier;
-        set => damageOutputMultiplier = Mathf.Max(0f, value);
-    }
+    // Hệ số nhân runtime (buff aura portal...). 1 = gốc. Sát thương và nhịp đánh đều tính TỪ giá trị
+    // gốc nhân hệ số nên đặt lại nhiều lần không cộng dồn. cooldownMultiplier < 1 = đánh nhanh hơn.
+    private float damageMultiplier = 1f;
+    private float attackCooldownMultiplier = 1f;
 
     private UnitAI ai;
     private UnitMovement movement;
@@ -33,6 +28,18 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
     {
         attackDamage = Mathf.Max(0f, damage);
         attackCooldown = Mathf.Max(0f, cooldown);
+    }
+
+    /// <summary>Hệ số nhân sát thương (buff aura portal). 1 = gốc.</summary>
+    public void SetDamageMultiplier(float multiplier)
+    {
+        damageMultiplier = Mathf.Max(0f, multiplier);
+    }
+
+    /// <summary>Hệ số nhân thời gian hồi đòn (nhỏ hơn 1 = đánh nhanh hơn). 1 = gốc.</summary>
+    public void SetAttackCooldownMultiplier(float multiplier)
+    {
+        attackCooldownMultiplier = Mathf.Max(0.01f, multiplier);
     }
 
     public void Initialize(UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea)
@@ -93,7 +100,7 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
                 CacheAttackAnimationLength();
             }
 
-            nextAttackTime = Time.time + Mathf.Max(attackCooldown, attackAnimationLength);
+            nextAttackTime = Time.time + Mathf.Max(attackCooldown * attackCooldownMultiplier, attackAnimationLength);
         }
     }
 
@@ -125,7 +132,7 @@ public class AttackState : MonoBehaviour, IDamageOutputModifiable
         }
 
         hasDealtDamageThisSwing = true;
-        float dealtDamage = attackDamage * damageOutputMultiplier;
+        float dealtDamage = attackDamage * damageMultiplier;
         targetHealth.TakeDamage(dealtDamage);
         audioPlayer?.PlayHit();
         Debug.Log($"{gameObject.name} attacks {targetHealth.name} for {dealtDamage} damage");

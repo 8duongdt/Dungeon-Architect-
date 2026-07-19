@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
-public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
+public class UnitHealth : MonoBehaviour
 {
     // Đổi tên từ "maxHealth" - FormerlySerializedAs giữ lại giá trị đã tinh chỉnh trên prefab cũ.
     [FormerlySerializedAs("maxHealth")]
@@ -16,14 +16,15 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
     [SerializeField] private float deathDestroyDelay = 1f;
 
     private bool isDead;
-    private float maxHealthMultiplier = 1f;
     private float shieldAmount;
     private float shieldExpireTime;
+
+    // Hệ số nhân máu tối đa runtime (buff aura portal). 1 = gốc; luôn tính từ baseMaxHealth nên không cộng dồn.
+    private float maxHealthMultiplier = 1f;
 
     public event Action<UnitHealth, float> Damaged;
     public event Action<UnitHealth> Died;
 
-    // Máu tối đa hiệu lực = gốc x hệ số hiệu ứng (vd 50% khi ra khỏi lãnh thổ pha lê đen).
     public float MaxHealth => baseMaxHealth * maxHealthMultiplier;
     public float CurrentHealth => currentHealth;
     public float Defense => defense;
@@ -31,17 +32,6 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
 
     // Khiên máu ảo còn lại (0 nếu hết hạn) - hấp thụ sát thương trước khi trừ vào máu.
     public float CurrentShield => Time.time < shieldExpireTime ? shieldAmount : 0f;
-
-    public float MaxHealthMultiplier
-    {
-        get => maxHealthMultiplier;
-        set
-        {
-            maxHealthMultiplier = Mathf.Max(0.01f, value);
-            currentHealth = Mathf.Min(currentHealth, MaxHealth);
-            RefreshHealthBar(true);
-        }
-    }
 
     private void Awake()
     {
@@ -52,7 +42,6 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
 
     /// <summary>
     /// Áp chỉ số GỐC từ bộ chỉ số trung tâm (<see cref="UnitStatsSO"/>) - sinh ra với máu đầy.
-    /// Hệ số nhân runtime (hiệu ứng) vẫn chồng lên qua <see cref="MaxHealthMultiplier"/> như cũ.
     /// </summary>
     public void ApplyBaseStats(float newMaxHealth, float newDefense)
     {
@@ -60,6 +49,14 @@ public class UnitHealth : MonoBehaviour, IMaxHealthModifiable
         defense = Mathf.Max(0f, newDefense);
         currentHealth = MaxHealth;
         RefreshHealthBar(false);
+    }
+
+    /// <summary>Hệ số nhân máu tối đa (buff aura portal). Rời buff về 1 thì kẹp máu hiện tại về trần mới.</summary>
+    public void SetMaxHealthMultiplier(float multiplier)
+    {
+        maxHealthMultiplier = Mathf.Max(0.01f, multiplier);
+        currentHealth = Mathf.Min(currentHealth, MaxHealth);
+        RefreshHealthBar(true);
     }
 
     public void TakeDamage(float damageAmount)

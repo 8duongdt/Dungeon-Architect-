@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2039046071088428014}
   - component: {fileID: 7333708808876160026}
   - component: {fileID: 1032161751463189048}
+  - component: {fileID: 4294458914778348828}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -153,3 +154,20 @@ MonoBehaviour:
   maxEnemies: 8
   maxTotalSpawns: 0
   spawnRadius: 1.5
+--- !u!114 &4294458914778348828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2757332645986801505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 031cff5c41a442a990b8eacb8468712a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortalAuraBuff
+  auraRadius: 6
+  damageMultiplier: 1.5
+  maxHealthMultiplier: 1.4
+  attackCooldownMultiplier: 0.75
+  refreshInterval: 0.2

@@ -85,6 +85,13 @@ public class UnitAI : MonoBehaviour
         if (statusEffects != null && statusEffects.IsStunned)
         {
             movement.Stop(false);
+            // Đang bị giữ chân thì đóng băng đồng hồ "kẹt": unit không nhúc nhích được là do choáng,
+            // không phải do đâm vào vật cản - nếu không sẽ vô cớ hủy lệnh di chuyển tay khi hết choáng.
+            if (ignoringCombatForMoveCommand)
+            {
+                lastMoveProgressPosition = transform.position;
+                lastMoveProgressTime = Time.time;
+            }
             return;
         }
 

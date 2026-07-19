@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: BlackHole
   icon: {fileID: -2444177217275189379, guid: 1a84d44b79db53344a0ed7120e04d99f, type: 3}
   vfxPrefab: {fileID: 7408961044307817514, guid: f04b4143f56df8147b28a4077fa256b1, type: 3}
+  castSfx: {fileID: 8300000, guid: dec3f194c53b1234a9992a25d89f522f, type: 3}
   baseDamage: 15
   statScaling: 1
   cooldown: 15

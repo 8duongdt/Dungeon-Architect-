@@ -23,8 +23,9 @@ public class PhaseManager : MonoBehaviour
     [SerializeField] private bool enableDebugKey = true;
     [SerializeField] private float debugStepPerPress = 0.1f;
 
-    // Hoàn thành Phase 1 (thức tỉnh 100%) thưởng 1 điểm kỹ năng cho cây ở sảnh chờ.
+    // Hoàn thành Phase 1 (thức tỉnh 100%) thưởng điểm cho hai cây ở sảnh chờ.
     private const int PhaseOneCompletionReward = 1;
+    private const int PhaseOneBuildingPointReward = 1;
 
     private bool hasTriggeredPhaseTwo;
 
@@ -60,6 +61,8 @@ public class PhaseManager : MonoBehaviour
         }
     }
 
+    // Phím tắt debug chỉ tồn tại trong Editor - build phát hành không cho người chơi tự thắng bằng phím P.
+#if UNITY_EDITOR
     private void Update()
     {
         if (!enableDebugKey || Keyboard.current == null)
@@ -72,6 +75,7 @@ public class PhaseManager : MonoBehaviour
             AddProgress(debugStepPerPress);
         }
     }
+#endif
 
     /// <summary>Cộng tiến độ thức tỉnh (giá trị 0..1). Tới 1 thì kích hoạt Phase 2.</summary>
     public void AddProgress(float amount01)
@@ -101,6 +105,7 @@ public class PhaseManager : MonoBehaviour
     {
         hasTriggeredPhaseTwo = true;
         PlayerProgression.AddSkillPoints(PhaseOneCompletionReward);
+        PlayerProgression.AddBuildingPoints(PhaseOneBuildingPointReward);
         // Qua Phase 1 -> checkpoint sang Phase 2: thoát giữa chừng lần sau Tiếp tục vào lại Phase 2.
         PlayerProgression.CurrentPhase = 2;
         PhaseTwoTriggered?.Invoke();

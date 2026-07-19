@@ -55,4 +55,16 @@ public class BuildingDurability : MonoBehaviour
         currentDurability = refillToFull ? maxDurability : Mathf.Min(currentDurability, maxDurability);
         DurabilityChanged?.Invoke();
     }
+
+    /// <summary>
+    /// Đồng bộ TUYỆT ĐỐI theo nguồn máu thật (<see cref="UnitHealth"/> của công trình chiến đấu) -
+    /// <see cref="BuildingCombatDeath"/> gọi mỗi khi máu thật đổi để thanh độ bền ở cửa sổ Trạng thái
+    /// không bao giờ lệch với sự sống còn thật (kể cả đòn kết liễu về 0).
+    /// </summary>
+    public void SyncTo(float current, float max)
+    {
+        maxDurability = Mathf.Max(1f, max);
+        currentDurability = Mathf.Clamp(current, 0f, maxDurability);
+        DurabilityChanged?.Invoke();
+    }
 }

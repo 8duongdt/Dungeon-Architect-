@@ -30,6 +30,11 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
     private bool waitingForPath;
     private bool isGarrisoned;
 
+    // Mục tiêu "đi phá công trình người chơi" - ưu tiên hơn chiến dịch tinh thể khi được Director giao.
+    // Tới gần công trình thì IdleState.FindVisibleTarget tự bắt mục tiêu -> Chase -> Attack phá hủy.
+    private Transform raidTarget;
+    private bool isRaiding;
+
     private void Awake()
     {
         seeker = GetComponent<Seeker>();
@@ -47,11 +52,41 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
         HumanCampaignDirector.Instance?.RemoveAgent(this);
         objective = crystal;
         isGarrisoned = false;
+        StopRaiding();
+        ClearPath();
+    }
+
+    /// <summary>Director điều unit này đi PHÁ một công trình người chơi (sau khi chiếm được tinh thể).</summary>
+    public void AssignRaid(Transform building)
+    {
+        if (building == null)
+        {
+            return;
+        }
+
+        HumanCampaignDirector.Instance?.RemoveAgent(this);
+        raidTarget = building;
+        isRaiding = true;
+        objective = null;
+        isGarrisoned = false;
         ClearPath();
     }
 
     public bool TrySeekNearestCrystal()
     {
+        if (isRaiding)
+        {
+            // Công trình còn sống -> hành quân tới đó; combat tự tiếp quản khi vào tầm.
+            if (raidTarget != null)
+            {
+                SeekPosition(raidTarget.position);
+                return true;
+            }
+
+            // Công trình đã bị phá -> kết thúc raid, quay lại chiến dịch tinh thể ngay tick này.
+            StopRaiding();
+        }
+
         if (isGarrisoned)
         {
             return false;
@@ -75,9 +110,21 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
             return false;
         }
 
-        TickRepath();
-        FollowPath();
+        SeekPosition(objective.transform.position);
         return true;
+    }
+
+    private void StopRaiding()
+    {
+        isRaiding = false;
+        raidTarget = null;
+    }
+
+    // Bám đường A* tới một vị trí thế giới bất kỳ (dùng chung cho cả đi chiếm tinh thể lẫn đi phá công trình).
+    private void SeekPosition(Vector3 destination)
+    {
+        TickRepath(destination);
+        FollowPath(destination);
     }
 
     // Mục tiêu mất hiệu lực khi chưa có, đã bị hủy, hoặc mũi khác đã chiếm xong trước khi tới.
@@ -100,7 +147,7 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
         HumanCampaignDirector.Instance?.EnterGarrison(objective, this);
     }
 
-    private void TickRepath()
+    private void TickRepath(Vector3 destination)
     {
         repathTimer -= Time.deltaTime;
         if (repathTimer > 0f || waitingForPath)
@@ -110,7 +157,7 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
 
         repathTimer = repathSeconds;
         waitingForPath = true;
-        seeker.StartPath(transform.position, objective.transform.position, OnPathComplete);
+        seeker.StartPath(transform.position, destination, OnPathComplete);
     }
 
     private void OnPathComplete(Path path)
@@ -125,7 +172,7 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
         waypointIndex = 0;
     }
 
-    private void FollowPath()
+    private void FollowPath(Vector3 destination)
     {
         if (currentPath == null)
         {
@@ -143,7 +190,7 @@ public class CrystalCampaignAgent : MonoBehaviour, ICrystalSeeker
 
         Vector3 moveTarget = waypointIndex < waypoints.Count
             ? waypoints[waypointIndex]
-            : objective.transform.position;
+            : destination;
         movement.MoveTowards(moveTarget, 0f);
     }
 

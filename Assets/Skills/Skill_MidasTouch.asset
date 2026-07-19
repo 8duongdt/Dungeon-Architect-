@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: MidasTouch
   icon: {fileID: 3174781391968654859, guid: f75e0f4f1f6730749b57ff358baaaeb0, type: 3}
   vfxPrefab: {fileID: 590429809028534470, guid: 19acd02013e62c945a8c7dc4228b1ee5, type: 3}
+  castSfx: {fileID: 8300000, guid: 6047029282f134448834d949acb07dbc, type: 3}
   baseDamage: 5
   statScaling: 1
   cooldown: 4

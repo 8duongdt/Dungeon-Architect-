@@ -25,6 +25,9 @@ public class StoryIntroController : MonoBehaviour
         [TextArea(2, 6)]
         [Tooltip("Lời kể (tiếng Anh) hiện dần bằng hiệu ứng đánh máy.")]
         public string narration;
+
+        [Tooltip("Giọng lồng tiếng cho phân cảnh này (để trống = không có, dùng tốc độ đánh máy mặc định).")]
+        public AudioClip voiceClip;
     }
 
     [Header("Artwork")]
@@ -48,7 +51,12 @@ public class StoryIntroController : MonoBehaviour
     [SerializeField] private float beatFadeSeconds = 0.4f;
 
     [Header("Typewriter")]
+    [Tooltip("Tốc độ đánh máy dùng khi phân cảnh KHÔNG có voiceClip - có voiceClip thì tốc độ tự tính theo độ dài audio.")]
     [SerializeField] private float typewriterCharsPerSecond = 45f;
+
+    [Header("Voice")]
+    [Tooltip("Nguồn phát giọng lồng tiếng - để trống thì tự thêm AudioSource lúc Awake.")]
+    [SerializeField] private AudioSource voiceSource;
 
     [Header("Content")]
     [TextArea(1, 3)]
@@ -66,10 +74,27 @@ public class StoryIntroController : MonoBehaviour
     private Coroutine typewriterRoutine;
     private string currentFullNarration = string.Empty;
 
+    private void Awake()
+    {
+        ResolveVoiceSource();
+    }
+
     private void Start()
     {
         BindButtons();
         ShowQuoteScreen();
+    }
+
+    private void ResolveVoiceSource()
+    {
+        if (voiceSource != null)
+        {
+            return;
+        }
+
+        voiceSource = gameObject.AddComponent<AudioSource>();
+        voiceSource.playOnAwake = false;
+        voiceSource.spatialBlend = 0f;
     }
 
     private void OnDisable()
@@ -222,8 +247,29 @@ public class StoryIntroController : MonoBehaviour
             backgroundArt.sprite = page.image;
         }
 
-        StartTypewriter(page.narration);
+        PlayVoiceLine(page.voiceClip);
+        StartTypewriter(page.narration, page.voiceClip);
         PlayBeatFadeIn();
+    }
+
+    private void PlayVoiceLine(AudioClip clip)
+    {
+        if (voiceSource == null || clip == null)
+        {
+            return;
+        }
+
+        // Play() tự dừng clip đang phát trước đó trên cùng AudioSource - không cần gọi Stop() riêng.
+        voiceSource.clip = clip;
+        voiceSource.Play();
+    }
+
+    private void StopVoice()
+    {
+        if (voiceSource != null)
+        {
+            voiceSource.Stop();
+        }
     }
 
     private void PlayBeatFadeIn()
@@ -252,23 +298,33 @@ public class StoryIntroController : MonoBehaviour
 
     // ---------------------------------------------------------------- Typewriter
 
-    private void StartTypewriter(string fullText)
+    private void StartTypewriter(string fullText, AudioClip voiceClip)
     {
         currentFullNarration = fullText ?? string.Empty;
         if (typewriterRoutine != null)
         {
             StopCoroutine(typewriterRoutine);
         }
-        typewriterRoutine = StartCoroutine(RevealNarration());
+
+        float charsPerSecond = ComputeTypewriterSpeed(currentFullNarration, voiceClip);
+        typewriterRoutine = StartCoroutine(RevealNarration(charsPerSecond));
     }
 
-    private IEnumerator RevealNarration()
+    // Có voiceClip thì chia đều tốc độ đánh máy theo đúng độ dài audio để chữ chạy xong đúng
+    // lúc giọng đọc kết thúc; không có thì dùng tốc độ cố định (typewriterCharsPerSecond).
+    private float ComputeTypewriterSpeed(string text, AudioClip voiceClip)
+    {
+        bool canSyncToVoice = voiceClip != null && voiceClip.length > 0f && text.Length > 0;
+        return canSyncToVoice ? text.Length / voiceClip.length : typewriterCharsPerSecond;
+    }
+
+    private IEnumerator RevealNarration(float charsPerSecond)
     {
         isTyping = true;
         narrationText.text = string.Empty;
 
         var builder = new StringBuilder(currentFullNarration.Length);
-        float secondsPerChar = 1f / Mathf.Max(1f, typewriterCharsPerSecond);
+        float secondsPerChar = 1f / Mathf.Max(1f, charsPerSecond);
         foreach (char character in currentFullNarration)
         {
             builder.Append(character);
@@ -300,6 +356,9 @@ public class StoryIntroController : MonoBehaviour
 
     private void LoadGameplay()
     {
+        // Bấm Skip giữa chừng vẫn phải cắt tiếng ngay - không để giọng đọc kéo dài sang scene sau.
+        StopVoice();
+
         // Lần đầu chơi đi thẳng từ intro vào Phase 1 - ghi checkpoint để Tiếp tục hoạt động.
         PlayerProgression.CurrentPhase = 1;
         SceneManager.LoadScene(gameplaySceneName);

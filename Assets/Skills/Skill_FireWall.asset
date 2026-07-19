@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: FireWall
   icon: {fileID: -810270311419893773, guid: 3df1475ce2f1e054d809e0c196ec6b36, type: 3}
   vfxPrefab: {fileID: 2633087262802753593, guid: d4720f7009ccce64499903d9f939373c, type: 3}
+  castSfx: {fileID: 8300000, guid: 2e748b2a1221f6a47bd876e0e1e59a88, type: 3}
   baseDamage: 12
   statScaling: 1
   cooldown: 8

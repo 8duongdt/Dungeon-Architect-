@@ -3,44 +3,48 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Thanh máu + khiên của người chơi trên HUD. Poll mỗi frame vì UnitHealth
-/// không có event cho khiên (khiên tự hết hạn theo thời gian).
+/// Trạng thái người chơi trên HUD. Thanh máu do UnitHealth đẩy thẳng vào Bar
+/// (hiệu ứng tụt/đầy chậm như thanh máu trên đầu unit prefab) nên view không
+/// đụng vào fill máu; chỉ poll mỗi frame cho nhãn số và lớp khiên vì khiên
+/// tự hết hạn theo thời gian, không có event.
 /// Khiên hiển thị theo tỉ lệ máu tối đa để hai thanh so sánh được với nhau.
 /// </summary>
 public class PlayerStatusHudView : MonoBehaviour
 {
     [SerializeField] private UnitHealth playerHealth;
-    [SerializeField] private Image healthFill;
     [SerializeField] private Image shieldFill;
     [SerializeField] private TMP_Text healthLabel;
 
     private void Update()
     {
-        RefreshBars();
+        // Player có thể đã bị hủy sau khi chết (destroyOnDeath) -> đưa hiển thị về 0.
+        bool hasLivePlayer = playerHealth != null && !playerHealth.IsDead && playerHealth.MaxHealth > 0f;
+        RefreshShieldFill(hasLivePlayer);
+        RefreshHealthLabel(hasLivePlayer);
     }
 
-    private void RefreshBars()
+    private void RefreshShieldFill(bool hasLivePlayer)
     {
-        // Player có thể đã bị hủy sau khi chết (destroyOnDeath) -> đưa thanh về 0.
-        bool hasLivePlayer = playerHealth != null && !playerHealth.IsDead && playerHealth.MaxHealth > 0f;
-        float healthFraction = hasLivePlayer ? playerHealth.CurrentHealth / playerHealth.MaxHealth : 0f;
-        float shieldFraction = hasLivePlayer ? Mathf.Clamp01(playerHealth.CurrentShield / playerHealth.MaxHealth) : 0f;
-
-        if (healthFill != null)
+        if (shieldFill == null)
         {
-            healthFill.fillAmount = healthFraction;
+            return;
         }
 
-        if (shieldFill != null)
+        // Không có phép khiên thì CurrentShield = 0 -> lớp khiên để trống.
+        shieldFill.fillAmount = hasLivePlayer
+            ? Mathf.Clamp01(playerHealth.CurrentShield / playerHealth.MaxHealth)
+            : 0f;
+    }
+
+    private void RefreshHealthLabel(bool hasLivePlayer)
+    {
+        if (healthLabel == null)
         {
-            shieldFill.fillAmount = shieldFraction;
+            return;
         }
 
-        if (healthLabel != null)
-        {
-            healthLabel.text = hasLivePlayer
-                ? $"{Mathf.CeilToInt(playerHealth.CurrentHealth)}/{Mathf.CeilToInt(playerHealth.MaxHealth)}"
-                : "0";
-        }
+        healthLabel.text = hasLivePlayer
+            ? $"{Mathf.CeilToInt(playerHealth.CurrentHealth)}/{Mathf.CeilToInt(playerHealth.MaxHealth)}"
+            : "0";
     }
 }

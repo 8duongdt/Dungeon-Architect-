@@ -52,6 +52,21 @@ public class GridBuildingSystem : MonoBehaviour
     /// <summary>Bắn khi người chơi chuột phải vào một tinh thể (ngoài chế độ xây) - hiện vòng bán kính.</summary>
     public event Action<CrystalNode> CrystalInspectRequested;
 
+    /// <summary>Bắn khi đặt công trình thành công.</summary>
+    public event Action<PlacedObject> Placed;
+
+    /// <summary>Bắn khi đặt thất bại do vị trí không hợp lệ.</summary>
+    public event Action PlacementFailed;
+
+    /// <summary>Bắn khi đặt thất bại do không đủ tài nguyên.</summary>
+    public event Action InsufficientFunds;
+
+    /// <summary>Bắn khi người chơi tự phá công trình (có hoàn trả).</summary>
+    public event Action Demolished;
+
+    /// <summary>Bắn khi công trình bị phá hủy trong chiến đấu (không hoàn trả).</summary>
+    public event Action DestroyedInCombat;
+
     public float RefundFraction => refundFraction;
 
     private void OnEnable()
@@ -209,12 +224,14 @@ public class GridBuildingSystem : MonoBehaviour
         if (!CanBuildAt(activeType, origin))
         {
             Debug.Log("Cannot build here!");
+            PlacementFailed?.Invoke();
             return;
         }
 
         if (!TrySpendBuildCost(activeType))
         {
             Debug.Log("Not enough resources to build!");
+            InsufficientFunds?.Invoke();
             return;
         }
 
@@ -225,6 +242,8 @@ public class GridBuildingSystem : MonoBehaviour
         {
             grid.GetGridObject(cell).SetPlacedObject(placedObject);
         }
+
+        Placed?.Invoke(placedObject);
 
         // Đặt xong một công trình thì thoát chế độ xây - muốn xây tiếp phải chọn lại nút UI.
         // (ClearActiveBuildingType bắn BuildStateChanged -> ghost ẩn, overlay tắt.)
@@ -277,8 +296,30 @@ public class GridBuildingSystem : MonoBehaviour
 
         RefundBuildCost(placedObject.Type);
         placedObject.DestroySelf();
+        Demolished?.Invoke();
 
         // Ô vừa giải phóng cần đổi lại màu overlay nếu đang ở chế độ xây.
+        BuildStateChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Giải phóng ô lưới do công trình bị PHÁ HỦY TRONG CHIẾN ĐẤU (quái đánh sập) - không hoàn trả
+    /// tài nguyên, khác với <see cref="DemolishPlaced"/> (người chơi tự phá, hoàn 70%). Không tự hủy
+    /// GameObject vì UnitHealth đã lo việc đó (destroyOnDeath).
+    /// </summary>
+    public void FreeCellsWithoutRefund(PlacedObject placedObject)
+    {
+        if (placedObject == null || grid == null)
+        {
+            return;
+        }
+
+        foreach (Vector2Int cell in placedObject.GetGridPositionList())
+        {
+            grid.GetGridObject(cell)?.ClearPlacedObject();
+        }
+
+        DestroyedInCombat?.Invoke();
         BuildStateChanged?.Invoke();
     }
 

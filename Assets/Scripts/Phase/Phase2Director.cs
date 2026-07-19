@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Trọng tài của TRẬN ĐÁNH PHASE 2 - định nghĩa thắng/thua của phase:
 ///   THẮNG: mọi cổng sinh quái đã cạn hạn ngạch VÀ không còn quái sống
-///          -> thưởng điểm kỹ năng rồi về sảnh chờ.
+///          -> thưởng điểm kỹ năng + điểm công trình rồi về sảnh chờ.
 ///   THUA:  người chơi chết -> về sảnh chờ tay trắng.
 /// Kiểm tra thắng theo nhịp thưa (không cần mỗi frame); kết quả hiện trên panel HUD
 /// một khoảng ngắn trước khi chuyển scene. Scene-local, không singleton.
@@ -25,7 +26,10 @@ public class Phase2Director : MonoBehaviour
     [SerializeField] private TMP_Text resultLabel;
 
     [Tooltip("Điểm kỹ năng thưởng khi thắng Phase 2.")]
-    [SerializeField, Min(0)] private int winSkillPointReward = 2;
+    [SerializeField, Min(0)] private int winSkillPointReward = 1;
+
+    [Tooltip("Điểm công trình thưởng khi thắng Phase 2.")]
+    [SerializeField, Min(0)] private int winBuildingPointReward = 1;
 
     [Tooltip("Thời gian hiện kết quả trước khi về sảnh chờ (giây).")]
     [SerializeField, Min(0f)] private float returnDelaySeconds = 3f;
@@ -36,6 +40,9 @@ public class Phase2Director : MonoBehaviour
     private EnemySpawner[] spawners;
     private float nextWinCheckTime;
     private bool hasEnded;
+
+    /// <summary>Bắn đúng một lần khi trận Phase 2 kết thúc - true = thắng, false = thua.</summary>
+    public event Action<bool> BattleEnded;
 
     private void Start()
     {
@@ -68,7 +75,9 @@ public class Phase2Director : MonoBehaviour
             // Thắng phase cuối: reset checkpoint về Phase 1 cho lượt chơi mới. Thua thì giữ nguyên
             // Phase 2 (OnPlayerDied) để lần Tiếp tục sau chơi lại đúng phase đang thua.
             PlayerProgression.CurrentPhase = 1;
-            EndBattle($"VICTORY!\n+{winSkillPointReward} skill points", winSkillPointReward);
+            EndBattle(
+                $"VICTORY!\n+{winSkillPointReward} skill points, +{winBuildingPointReward} building points",
+                winSkillPointReward, winBuildingPointReward, isVictory: true);
         }
     }
 
@@ -94,10 +103,10 @@ public class Phase2Director : MonoBehaviour
 
     private void OnPlayerDied(UnitHealth health)
     {
-        EndBattle("DEFEAT...", 0);
+        EndBattle("DEFEAT...", 0, 0, isVictory: false);
     }
 
-    private void EndBattle(string resultMessage, int skillPointReward)
+    private void EndBattle(string resultMessage, int skillPointReward, int buildingPointReward, bool isVictory)
     {
         if (hasEnded)
         {
@@ -106,7 +115,9 @@ public class Phase2Director : MonoBehaviour
 
         hasEnded = true;
         PlayerProgression.AddSkillPoints(skillPointReward);
+        PlayerProgression.AddBuildingPoints(buildingPointReward);
         ShowResult(resultMessage);
+        BattleEnded?.Invoke(isVictory);
         StartCoroutine(ReturnToLobbyAfterDelay());
     }
 

@@ -40,6 +40,19 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private CrystalScatterSpawner crystalSpawner;
 
+    [Header("Cỡ map theo tiến độ kỹ năng")]
+    // Cây kỹ năng - dùng suy ra cỡ map (càng gần full càng to). Bỏ trống -> luôn cỡ 1 (nhỏ).
+    [SerializeField]
+    private SkillTreeSO skillTree;
+
+    // Hệ số nhân cạnh map theo cỡ (index = cỡ-1): cỡ 1 = gốc, cỡ 2/3 to dần.
+    [SerializeField]
+    private float[] mapSizeFactorByLevel = { 1f, 1.3f, 1.7f };
+
+    // Hệ số nhân số đảo theo cỡ (giữ mật độ đảo khi map to ra ~ theo diện tích).
+    [SerializeField]
+    private float[] islandCountFactorByLevel = { 1f, 1.7f, 2.9f };
+
     [Header("Cổng sinh quái")]
     // Vật chứa các cổng đã sinh (để Hierarchy gọn). Bỏ trống sẽ tự tạo.
     [SerializeField]
@@ -70,8 +83,8 @@ public class DungeonManager : MonoBehaviour
             return;
         }
 
-        DungeonData data = theme.dungeonData;
-        if (data == null)
+        DungeonData baseData = theme.dungeonData;
+        if (baseData == null)
         {
             Debug.LogError("[DungeonManager] Theme chưa gán DungeonData.");
             return;
@@ -79,17 +92,50 @@ public class DungeonManager : MonoBehaviour
 
         PrepareForGeneration(theme);
 
+        // Cỡ map + số cổng suy ra từ tiến độ cây kỹ năng. Làm việc trên BẢN SAO DungeonData (không
+        // mutate asset gốc - sửa runtime sẽ ghi đè asset trong editor); hủy bản sao sau khi sinh xong.
+        int sizeLevel = MapSizeProgression.LevelFor(skillTree);
+        DungeonData data = CreateSizedData(baseData, sizeLevel);
+        int portalCount = sizeLevel;
+
         switch (data.generatorType)
         {
             case DungeonGeneratorType.RoomFirst:
-                GenerateRoomFirst(theme, data);
+                GenerateRoomFirst(theme, data, portalCount);
                 break;
             case DungeonGeneratorType.UndeadBigRoom:
-                GenerateUndead(theme, data);
+                GenerateUndead(theme, data, portalCount);
                 break;
         }
 
+        Destroy(data);
         DungeonGenerated?.Invoke();
+    }
+
+    // Bản sao DungeonData đã scale cạnh map + số đảo theo cỡ (1..3). Bản sao là instance runtime nên
+    // sửa thoải mái không đụng asset gốc.
+    private DungeonData CreateSizedData(DungeonData baseData, int sizeLevel)
+    {
+        DungeonData sized = Instantiate(baseData);
+        int index = Mathf.Clamp(sizeLevel - 1, 0, MapSizeProgression.MaxLevel - 1);
+        float sizeFactor = FactorAt(mapSizeFactorByLevel, index);
+        float islandFactor = FactorAt(islandCountFactorByLevel, index);
+
+        sized.squareMapSize = Mathf.Max(DungeonData.MinRoomDimension, Mathf.RoundToInt(baseData.squareMapSize * sizeFactor));
+        sized.islandCount = Mathf.Max(1, Mathf.RoundToInt(baseData.islandCount * islandFactor));
+        sized.mapWidth = Mathf.Max(DungeonData.MinRoomDimension, Mathf.RoundToInt(baseData.mapWidth * sizeFactor));
+        sized.mapHeight = Mathf.Max(DungeonData.MinRoomDimension, Mathf.RoundToInt(baseData.mapHeight * sizeFactor));
+        return sized;
+    }
+
+    // Đọc hệ số tại cỡ; mảng thiếu phần tử thì coi như 1 (không scale) để không văng.
+    private static float FactorAt(float[] factors, int index)
+    {
+        if (factors == null || index < 0 || index >= factors.Length)
+        {
+            return 1f;
+        }
+        return factors[index];
     }
 
     // Giữ tên ContextMenu quen thuộc; trỏ về luồng sinh thống nhất.
@@ -117,7 +163,7 @@ public class DungeonManager : MonoBehaviour
         ClearPortals();
     }
 
-    private void GenerateRoomFirst(MapThemeSO theme, DungeonData data)
+    private void GenerateRoomFirst(MapThemeSO theme, DungeonData data, int portalCount)
     {
         var generator = new RoomFirstGenerator(data);
         TileType[,] map = generator.Generate();
@@ -127,14 +173,14 @@ public class DungeonManager : MonoBehaviour
         PaintFloorAndWalls(floorPositions);
 
         dungeonDecorator.Decorate(map, data, tilemapVisualizer);
-        SpawnPortals(theme, generator.Rooms);
+        SpawnPortals(theme, generator.Rooms, portalCount);
 
         Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
         ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
         ScatterCrystalsAndActivateNearestGold(map, generator.Rooms, spawnCell, data);
     }
 
-    private void GenerateUndead(MapThemeSO theme, DungeonData data)
+    private void GenerateUndead(MapThemeSO theme, DungeonData data, int portalCount)
     {
         var generator = new UndeadGenerator(data);
         TileType[,] map = generator.Generate();
@@ -143,7 +189,7 @@ public class DungeonManager : MonoBehaviour
         PaintUndeadTerrain(map);
 
         undeadDecorator.Decorate(map, generator.Rooms, data, tilemapVisualizer);
-        SpawnPortals(theme, generator.Rooms);
+        SpawnPortals(theme, generator.Rooms, portalCount);
 
         Vector2Int spawnCell = PlacePlayerAndCameraAtSpawn(generator.Rooms);
         ScatterGameplayObjects(map, generator.Rooms, spawnCell, data);
@@ -331,10 +377,14 @@ public class DungeonManager : MonoBehaviour
 
     // ----- Cổng sinh quái (mọi pipeline có phòng: Room-First + Undead) -----
 
+    // Nhịp spawn TOÀN bản đồ: con đầu tiên xuất hiện sau 60s, sau đó cứ 25s một cổng ra đợt.
+    private const float FirstSpawnDelaySeconds = 60f;
+    private const float MapWideWaveIntervalSeconds = 25f;
+
     // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ theme.portalCount).
-    private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms)
+    private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms, int portalCount)
     {
-        if (theme.portalPrefab == null || theme.portalCount <= 0 || rooms == null || rooms.Count == 0)
+        if (theme.portalPrefab == null || portalCount <= 0 || rooms == null || rooms.Count == 0)
         {
             return;
         }
@@ -342,13 +392,28 @@ public class DungeonManager : MonoBehaviour
         EnsurePortalParent();
 
         List<Vector2Int> centers = ShuffledRoomCenters(rooms);
-        int portalsToSpawn = Mathf.Min(theme.portalCount, centers.Count);
+        int portalsToSpawn = Mathf.Min(portalCount, centers.Count);
         for (int i = 0; i < portalsToSpawn; i++)
         {
             Vector3 worldPosition = tilemapVisualizer.CellToWorldCenter(centers[i]);
             GameObject portal = Instantiate(theme.portalPrefab, worldPosition, Quaternion.identity, portalParent);
+            StaggerPortalSchedule(portal, portalIndex: i, portalTotal: portalsToSpawn);
             spawnedPortals.Add(portal);
         }
+    }
+
+    // So le lịch các cổng theo round-robin: cổng i chờ thêm i chu kỳ rồi lặp với chu kỳ
+    // (interval x số cổng) - nhờ vậy toàn bản đồ mỗi 25s chỉ đúng một cổng ra đợt.
+    private void StaggerPortalSchedule(GameObject portal, int portalIndex, int portalTotal)
+    {
+        var spawner = portal.GetComponentInChildren<EnemySpawner>();
+        if (spawner == null)
+        {
+            return;
+        }
+
+        float firstWaveDelay = FirstSpawnDelaySeconds + MapWideWaveIntervalSeconds * portalIndex;
+        spawner.OverrideSchedule(firstWaveDelay, MapWideWaveIntervalSeconds * portalTotal);
     }
 
     private void EnsurePortalParent()

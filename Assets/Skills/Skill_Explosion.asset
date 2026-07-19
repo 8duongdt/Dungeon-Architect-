@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: Explosion
   icon: {fileID: -8986364707691698430, guid: f4437a07b1580de428fbb1a42abf0457, type: 3}
   vfxPrefab: {fileID: 5961272739489602358, guid: 5edb709155bb21b45bb4dc37d659304e, type: 3}
+  castSfx: {fileID: 8300000, guid: 816344a1c12707145bd2c379511f5793, type: 3}
   baseDamage: 25
   statScaling: 1
   cooldown: 6

@@ -1,44 +1,20 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    private const string StoryIntroSceneName = "StoryIntro";
-    private const string LobbySceneName = "Lobby";
-
-    [Tooltip("Nút 'Tiếp tục' - chỉ hiện khi có save (đã bắt đầu ít nhất một phase).")]
-    [SerializeField] private GameObject continueButton;
-
-    private void Start()
-    {
-        if (continueButton != null)
-        {
-            continueButton.SetActive(PlayerProgression.HasSave);
-        }
-    }
+    [Tooltip("Bảng chọn slot save - nút 'Play' mở bảng này.")]
+    [SerializeField] private SaveSlotPanel saveSlotPanel;
 
     /// <summary>
-    /// Chơi mới: reset checkpoint về Phase 1 (skill/tiến trình vẫn giữ). Lần đầu chiếu cốt truyện;
-    /// các lần sau vào thẳng sảnh chờ.
+    /// Play: mở bảng chọn slot. Trong bảng: ô đã có save = Tiếp tục, ô trống = New Game.
+    /// Toàn bộ luồng New Game/Continue giờ nằm trong <see cref="SaveSlotPanel"/>.
     /// </summary>
-    public void PlayGame()
+    public void OpenSlotPanel()
     {
-        PlayerProgression.CurrentPhase = 1;
-
-        if (!PlayerProgression.HasSeenIntro)
+        if (saveSlotPanel != null)
         {
-            PlayerProgression.HasSeenIntro = true;
-            SceneManager.LoadScene(StoryIntroSceneName);
-            return;
+            saveSlotPanel.Show();
         }
-
-        SceneManager.LoadScene(LobbySceneName);
-    }
-
-    /// <summary>Tiếp tục: giữ nguyên checkpoint, vào Lobby để chọn skill rồi Start vào phase đã lưu.</summary>
-    public void ContinueGame()
-    {
-        SceneManager.LoadScene(LobbySceneName);
     }
 
     public void ExitGame()

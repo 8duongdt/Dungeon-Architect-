@@ -9,7 +9,9 @@ using UnityEngine;
 /// </summary>
 public abstract class DungeonDecoratorBase : MonoBehaviour
 {
-    // Gốc gom các vật đã spawn (để Hierarchy gọn và dễ dọn). Có thể bỏ trống.
+    // Gốc gom các vật đã spawn (để Hierarchy gọn và dễ dọn). Bỏ trống thì TỰ TẠO một vật chứa con
+    // (xem EnsureDecorationParent) - tuyệt đối không spawn thẳng ra gốc scene, vì vật ở gốc scene
+    // không được ClearSpawned quét: lỡ lưu scene khi đang Play là rác tích tụ vĩnh viễn qua từng phiên.
     [SerializeField] protected Transform decorationParent;
 
     // Theo dõi vật đã spawn để dọn ở lần sinh map sau.
@@ -34,9 +36,23 @@ public abstract class DungeonDecoratorBase : MonoBehaviour
         }
 
         Vector3 worldPosition = Placement.CellCenter(cell);
-        GameObject instance = Instantiate(prefab, worldPosition, Quaternion.identity, decorationParent);
+        GameObject instance = Instantiate(prefab, worldPosition, Quaternion.identity, EnsureDecorationParent());
         spawnedObjects.Add(instance);
         return instance;
+    }
+
+    // Vật chứa để gom đồ đã spawn - chưa gán thì tự tạo một GameObject con. Nhờ vậy MỌI vật spawn
+    // đều nằm dưới một gốc mà ClearSpawned quét được, không bao giờ rơi ra gốc scene.
+    private Transform EnsureDecorationParent()
+    {
+        if (decorationParent == null)
+        {
+            var container = new GameObject($"{name}_Spawned");
+            container.transform.SetParent(transform, false);
+            decorationParent = container.transform;
+        }
+
+        return decorationParent;
     }
 
     // Spawn tại tâm ô RỒI đánh dấu ô đã chiếm để các luật đặt sau không chồng lên.
@@ -81,7 +97,9 @@ public abstract class DungeonDecoratorBase : MonoBehaviour
         }
     }
 
-    private static void DestroyObject(GameObject target)
+    // protected để lớp con dọn thêm rác riêng của nó (vd tinh thể mồ côi ở gốc scene) đúng cách
+    // cho cả Edit mode lẫn Play mode.
+    protected static void DestroyObject(GameObject target)
     {
         if (target == null)
         {

@@ -6,8 +6,9 @@ using UnityEngine;
 /// dùng chung của <see cref="CrystalNode"/>). Đứng liên tục đủ <see cref="captureThresholdSeconds"/>
 /// giây (không bị đuổi hết ra) thì tinh thể chuyển Captured - áp dụng cho CẢ tinh thể xám (Inactive)
 /// lẫn tinh thể người chơi đang giữ (Active), vì chiến dịch Human chiếm mọi cục chưa thuộc về chúng.
-/// Giết sạch quái trong vùng thì tự động tái chiếm (chuyển lại Active) - không cần bộ đếm số lần
-/// giết riêng, chỉ cần soi tập <see cref="enemiesInside"/> đang rỗng hay không.
+/// Giết sạch quái trong vùng thì tự động giải phóng - tinh thể trả về đúng trạng thái trước khi bị
+/// chiếm (Active nếu từng kích hoạt, Inactive nếu chưa - xem <see cref="CrystalNode.Reactivate"/>).
+/// Không cần bộ đếm số lần giết riêng, chỉ cần soi tập <see cref="enemiesInside"/> đang rỗng hay không.
 /// Theo mẫu theo dõi cái chết của <see cref="EnemySpawner.TrackEnemyDeath"/>.
 /// </summary>
 [RequireComponent(typeof(CrystalNode))]

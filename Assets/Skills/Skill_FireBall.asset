@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: FireBall
   icon: {fileID: 7769301420550876013, guid: 33ae93abe5d945a4ab3cb5af6fd3f181, type: 3}
   vfxPrefab: {fileID: 5776197707444446589, guid: 87f1695f1d5a00a4e961f8ed5f5bbd2c, type: 3}
+  castSfx: {fileID: 8300000, guid: b4539b0d33328614b861353cda2ef780, type: 3}
   baseDamage: 12
   statScaling: 1
   cooldown: 2

@@ -3,33 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Lớp C# thuần sinh bố cục dungeon "một khu vực vuông to và kín" cho map Undead.
-/// CHỈ tính toán layout lưới (TileType[,]) - KHÔNG chứa MonoBehaviour, không vẽ tile,
-/// không spawn prefab. Lớp vẽ/đặt vật ở nơi khác đọc kết quả này.
+/// Lớp C# thuần sinh bố cục "QUẦN ĐẢO" cho map Undead: một vùng BIỂN (SwampWater) kín bởi viền tường
+/// ngoài 1 ô, rải rác NHIỀU ĐẢO nhỏ bằng sàn (Floor) trong biển. CHỈ tính toán layout lưới
+/// (TileType[,]) - KHÔNG chứa MonoBehaviour, không vẽ tile, không spawn prefab.
 ///
-/// Khác với RoomFirstGenerator (chia nhiều phòng nhỏ nối hành lang), Undead chỉ đục MỘT
-/// vùng sàn vuông duy nhất, bao kín bởi viền tường ngoài 1 ô - một đấu trường mở:
-///   - Toàn bộ khu vực thoáng, không vật cản chia cắt -> tầm nhìn thẳng, góc bắn rộng cho
-///     nhân vật tầm xa.
-///   - Bên trong carve các vũng SwampWater làm địa hình.
-///   - Tâm khu vực được đánh dấu một ô Gate (cổng/portal).
+/// Đặc điểm quần đảo:
+///   - Biển đi lại được (nước không có collider, chỉ làm chậm qua hazard) -> unit lội từ đảo sang đảo.
+///   - Pha lê/cổng chỉ đặt trên đất (bên đặt vật lọc Floor); máy không xây được trên nước.
+///   - Mỗi đảo được phơi thành một <see cref="Rooms"/> với ô TÂM luôn là đất, nên mọi hệ đọc
+///     RoomCenter (spawn người chơi, đặt cổng, gate) tự rơi lên đảo mà không cần sửa gì thêm.
 /// </summary>
 public class UndeadGenerator
 {
     // Cạnh nhỏ nhất tuyệt đối của khu vực, bất kể cấu hình (bảo đảm 12x12).
     private const int MinRoomDimension = DungeonData.MinRoomDimension;
 
-    // Độ dày viền tường ngoài bao quanh khu vực kín.
+    // Độ dày viền tường ngoài bao quanh vùng biển kín.
     private const int OuterWallThickness = 1;
 
-    // Số lần thử tìm chỗ đặt một hồ nước trước khi bỏ qua.
-    private const int PoolPlacementTries = 20;
+    // Tần số lấy mẫu Perlin cho mép đảo: nhỏ -> bờ uốn lượn thoải; lớn -> gợn vụn.
+    private const float ShorelineNoiseScale = 0.18f;
 
-    // Chừa khoảng này quanh mép trong phòng để hồ nước (và vành bờ) không chạm tường ngoài.
-    private const int PoolEdgeMargin = 2;
+    // Bán kính lõi đặc quanh tâm mỗi đảo (luôn là đất) - bảo đảm đảo liền khối và ô tâm là Floor.
+    private const int IslandCoreRadius = 2;
 
-    // Chừa trống quanh tâm khu vực (ô gate/điểm xuất phát) - không cho hồ nước lấp lối ra.
-    private const int PoolKeepClearRadius = 6;
+    // Số lần thử đặt tâm đảo cho mỗi đảo mong muốn trước khi bỏ qua.
+    private const int PlacementTriesPerIsland = 12;
 
     private readonly DungeonData data;
     private readonly System.Random random;
@@ -39,10 +38,10 @@ public class UndeadGenerator
     private TileType[,] map;
     private int size;
 
-    /// <summary>Khu vực kín duy nhất đã đặt - 1 phần tử (dùng cho hệ thống spawn quái đọc lại).</summary>
+    /// <summary>Danh sách các đảo đã đặt (mỗi đảo 1 phần tử) - hệ spawn quái/cổng đọc lại.</summary>
     public IReadOnlyList<RectInt> Rooms => rooms;
 
-    /// <summary>Vị trí ô Gate ở tâm khu vực; (-1,-1) nếu chưa sinh map.</summary>
+    /// <summary>Vị trí ô Gate trên một đảo; (-1,-1) nếu chưa sinh map.</summary>
     public Vector2Int GatePosition { get; private set; } = new Vector2Int(-1, -1);
 
     public UndeadGenerator(DungeonData data)
@@ -59,7 +58,7 @@ public class UndeadGenerator
     }
 
     /// <summary>
-    /// Sinh và trả về lưới bản đồ hoàn chỉnh: tường viền -> một khu vực sàn vuông kín -> vũng nước -> cổng.
+    /// Sinh và trả về lưới bản đồ hoàn chỉnh: tường viền -> biển kín -> rải các đảo đất -> cổng trên đảo.
     /// </summary>
     public TileType[,] Generate()
     {
@@ -68,16 +67,14 @@ public class UndeadGenerator
         rooms.Clear();
         GatePosition = new Vector2Int(-1, -1);
 
-        RectInt mainArea = CarveMainArea();
-        rooms.Add(mainArea);
-
-        CarveSwampPools();
+        CarveSea();
+        CarveIslands();
         PlaceGate();
 
         return map;
     }
 
-    // Khởi tạo lưới vuông toàn tường - khu vực sàn sẽ được đục ra từ khối đặc này.
+    // Khởi tạo lưới vuông toàn tường - biển và đảo sẽ được đục ra từ khối đặc này.
     private TileType[,] CreateSolidGrid()
     {
         var grid = new TileType[size, size];
@@ -91,157 +88,121 @@ public class UndeadGenerator
         return grid;
     }
 
-    // ----- Bước 1: đục MỘT khu vực sàn vuông to, kín bởi viền tường ngoài 1 ô -----
+    // ----- Bước 1: đổ BIỂN cho toàn bộ nội vùng (trong viền tường ngoài) -----
 
-    // Không chia phòng/hành lang như RoomFirst - toàn bộ phần trong viền tường là sàn đi lại được.
-    private RectInt CarveMainArea()
+    private void CarveSea()
     {
-        var area = new RectInt(
-            OuterWallThickness,
-            OuterWallThickness,
-            size - OuterWallThickness * 2,
-            size - OuterWallThickness * 2);
-
-        CarveRoom(area);
-        return area;
-    }
-
-    private void CarveRoom(RectInt room)
-    {
-        for (int x = room.xMin; x < room.xMax; x++)
+        int innerMin = OuterWallThickness;
+        int innerMax = size - 1 - OuterWallThickness;
+        for (int x = innerMin; x <= innerMax; x++)
         {
-            for (int y = room.yMin; y < room.yMax; y++)
+            for (int y = innerMin; y <= innerMax; y++)
             {
-                SetFloor(x, y);
+                map[x, y] = TileType.SwampWater;
             }
         }
     }
 
-    // ----- Bước 2: đặt các HỒ NƯỚC CHỮ NHẬT (kiểu phòng dungeon) -----
+    // ----- Bước 2: rải các ĐẢO ĐẤT rời rạc trong biển -----
 
-    // Mỗi phòng có swampRoomChance% được rải hồ nước. Hồ là các hình chữ nhật rời nhau (cách nhau
-    // swampPoolPadding ô) nên mỗi hồ tự được vành bờ 8 hướng bao quanh ở khâu vẽ - giống cấu trúc
-    // phòng-có-tường của RoomFirst, thay cho nhiễu Perlin lởm chởm trước đây.
-    private void CarveSwampPools()
+    private void CarveIslands()
     {
-        foreach (RectInt room in rooms)
+        int islandCount = Mathf.Max(1, data.islandCount);
+        int maxRadius = Mathf.Max(1, data.islandMaxRadius);
+        int minRadius = Mathf.Clamp(data.islandMinRadius, 1, maxRadius);
+        int spacing = Mathf.Max(0, data.islandSpacing);
+
+        // Chừa maxRadius quanh viền để cả đảo (và RectInt vuông của nó) nằm trọn trong biển kín.
+        int centerMin = OuterWallThickness + maxRadius;
+        int centerMax = size - 1 - OuterWallThickness - maxRadius;
+        if (centerMax < centerMin)
         {
-            if (RollPercent(data.swampRoomChance))
+            centerMin = centerMax = size / 2;
+        }
+
+        var placedCenters = new List<Vector2Int>();
+        var placedRadii = new List<int>();
+        int totalTries = islandCount * PlacementTriesPerIsland;
+
+        for (int attempt = 0; attempt < totalTries && placedCenters.Count < islandCount; attempt++)
+        {
+            int baseRadius = random.Next(minRadius, maxRadius + 1);
+            var center = new Vector2Int(
+                random.Next(centerMin, centerMax + 1),
+                random.Next(centerMin, centerMax + 1));
+
+            if (!IsFarEnough(center, baseRadius, spacing, placedCenters, placedRadii))
             {
-                CarveRectangularPools(room);
+                continue;
             }
+
+            CarveIsland(center, baseRadius);
+            placedCenters.Add(center);
+            placedRadii.Add(baseRadius);
+            rooms.Add(IslandRect(center, maxRadius));
+        }
+
+        // Bảo hiểm: nếu không đặt được đảo nào (map quá nhỏ) thì đục một đảo ở giữa để game vẫn chạy.
+        if (rooms.Count == 0)
+        {
+            var center = new Vector2Int(size / 2, size / 2);
+            CarveIsland(center, Mathf.Min(maxRadius, (size - 2 * OuterWallThickness) / 2 - 1));
+            rooms.Add(IslandRect(center, maxRadius));
         }
     }
 
-    // Thử rải swampPoolCount hồ chữ nhật không chồng nhau trong phòng, tránh tâm khu vực.
-    private void CarveRectangularPools(RectInt room)
+    // Đảo mới đủ tách biệt khi tâm cách MỌI đảo đã đặt >= tổng hai bán kính + spacing (chừa biển ở giữa).
+    private bool IsFarEnough(
+        Vector2Int center, int baseRadius, int spacing, List<Vector2Int> centers, List<int> radii)
     {
-        var placedPools = new List<RectInt>();
-        Vector2Int center = RoomCenter(room);
-
-        for (int i = 0; i < data.swampPoolCount; i++)
+        for (int i = 0; i < centers.Count; i++)
         {
-            if (TryFindPoolRect(room, center, placedPools, out RectInt pool))
-            {
-                FillPool(pool);
-                placedPools.Add(pool);
-            }
-        }
-    }
-
-    // Thử vài vị trí/kích thước ngẫu nhiên cho một hồ; trả về true ở lần đầu hợp lệ.
-    private bool TryFindPoolRect(
-        RectInt room, Vector2Int center, List<RectInt> placedPools, out RectInt pool)
-    {
-        for (int attempt = 0; attempt < PoolPlacementTries; attempt++)
-        {
-            int width = RandomRange(data.swampPoolMinSize, data.swampPoolMaxSize);
-            int height = RandomRange(data.swampPoolMinSize, data.swampPoolMaxSize);
-            RectInt candidate = RandomPoolPosition(room, width, height);
-
-            if (IsPoolPositionValid(candidate, center, placedPools))
-            {
-                pool = candidate;
-                return true;
-            }
-        }
-
-        pool = default;
-        return false;
-    }
-
-    // Vị trí góc dưới-trái ngẫu nhiên sao cho cả hồ nằm trong phòng (đã chừa PoolEdgeMargin mép).
-    private RectInt RandomPoolPosition(RectInt room, int width, int height)
-    {
-        int minX = room.xMin + PoolEdgeMargin;
-        int maxX = room.xMax - PoolEdgeMargin - width;
-        int minY = room.yMin + PoolEdgeMargin;
-        int maxY = room.yMax - PoolEdgeMargin - height;
-
-        if (maxX < minX || maxY < minY)
-        {
-            return new RectInt(minX, minY, width, height);
-        }
-
-        return new RectInt(
-            random.Next(minX, maxX + 1), random.Next(minY, maxY + 1), width, height);
-    }
-
-    // Hợp lệ khi không lấn vùng chừa trống quanh tâm và cách mọi hồ đã đặt >= swampPoolPadding ô.
-    private bool IsPoolPositionValid(RectInt pool, Vector2Int center, List<RectInt> placedPools)
-    {
-        if (IsNearAreaCenter(pool, center))
-        {
-            return false;
-        }
-
-        foreach (RectInt other in placedPools)
-        {
-            if (Expand(other, data.swampPoolPadding).Overlaps(pool))
+            int minDistance = baseRadius + radii[i] + spacing;
+            if ((center - centers[i]).sqrMagnitude < minDistance * minDistance)
             {
                 return false;
             }
         }
-
         return true;
     }
 
-    // Hồ có lấn vào ô vuông chừa trống quanh tâm khu vực (giữ lối ra/điểm xuất phát thông thoáng) không.
-    private bool IsNearAreaCenter(RectInt pool, Vector2Int center)
+    // Đục một đảo: ô trong bán kính (đã cộng gợn sóng Perlin) thành Floor; lõi quanh tâm luôn là đất
+    // để đảo liền khối và ô tâm chắc chắn là Floor (RoomCenter sẽ rơi đúng lên đất).
+    private void CarveIsland(Vector2Int center, int baseRadius)
     {
-        var clearZone = new RectInt(
-            center.x - PoolKeepClearRadius, center.y - PoolKeepClearRadius,
-            PoolKeepClearRadius * 2, PoolKeepClearRadius * 2);
-        return clearZone.Overlaps(pool);
-    }
+        float noiseOffset = (float)(random.NextDouble() * 1000.0);
+        int reach = baseRadius + data.islandEdgeJitter + 1;
 
-    // Đổ nước vào toàn bộ ô sàn trong hình chữ nhật hồ (không đè cổng/tường).
-    private void FillPool(RectInt pool)
-    {
-        for (int x = pool.xMin; x < pool.xMax; x++)
+        for (int dx = -reach; dx <= reach; dx++)
         {
-            for (int y = pool.yMin; y < pool.yMax; y++)
+            for (int dy = -reach; dy <= reach; dy++)
             {
-                if (map[x, y] == TileType.Floor)
+                int x = center.x + dx;
+                int y = center.y + dy;
+                float distance = Mathf.Sqrt(dx * dx + dy * dy);
+
+                if (distance <= IslandCoreRadius || distance <= EffectiveRadius(x, y, baseRadius, noiseOffset))
                 {
-                    map[x, y] = TileType.SwampWater;
+                    SetFloor(x, y);
                 }
             }
         }
     }
 
-    // Nới một RectInt ra mọi phía 'by' ô (dùng để kiểm tra khoảng cách tối thiểu giữa các hồ).
-    private static RectInt Expand(RectInt rect, int by)
+    // Bán kính hiệu dụng tại một ô = bán kính đảo + gợn Perlin trong [-jitter, +jitter] -> mép cong tự nhiên.
+    private float EffectiveRadius(int x, int y, int baseRadius, float noiseOffset)
     {
-        return new RectInt(rect.xMin - by, rect.yMin - by, rect.width + by * 2, rect.height + by * 2);
+        float noise = Mathf.PerlinNoise((x + noiseOffset) * ShorelineNoiseScale, (y + noiseOffset) * ShorelineNoiseScale);
+        return baseRadius + (noise - 0.5f) * 2f * data.islandEdgeJitter;
     }
 
-    private int RandomRange(int minInclusive, int maxInclusive)
+    // RectInt VUÔNG tâm-tại-tâm-đảo, cạnh lẻ (2*maxRadius+1) để RoomCenter (chia nguyên) trả về ĐÚNG tâm.
+    private static RectInt IslandRect(Vector2Int center, int maxRadius)
     {
-        return random.Next(minInclusive, maxInclusive + 1);
+        return new RectInt(center.x - maxRadius, center.y - maxRadius, maxRadius * 2 + 1, maxRadius * 2 + 1);
     }
 
-    // ----- Bước 3: đặt cổng ở tâm khu vực -----
+    // ----- Bước 3: đặt cổng trên một đảo -----
 
     private void PlaceGate()
     {
@@ -270,11 +231,5 @@ public class UndeadGenerator
             return;
         }
         map[x, y] = TileType.Floor;
-    }
-
-    // true nếu trúng theo tỉ lệ phần trăm (0-100).
-    private bool RollPercent(float percent)
-    {
-        return random.NextDouble() * 100.0 < percent;
     }
 }

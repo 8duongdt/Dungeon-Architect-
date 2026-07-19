@@ -33,6 +33,10 @@ public class CrystalNode : MonoBehaviour, IHasInfluenceRadius
 
     private CrystalState state = CrystalState.Inactive;
 
+    // Trạng thái TRƯỚC khi bị chiếm - để giải phóng trả về đúng trạng thái cũ: tinh thể chưa từng
+    // kích hoạt (Inactive) không được "tặng không" thành Active chỉ vì địch chiếm rồi bị dọn sạch.
+    private bool wasActiveBeforeCapture;
+
     public CrystalState State => state;
     public CrystalType Type => config.type;
     public float InfluenceRadius => sizeTier == SizeTier.Large ? config.largeRadius : config.smallRadius;
@@ -84,12 +88,15 @@ public class CrystalNode : MonoBehaviour, IHasInfluenceRadius
 
     public void Capture()
     {
+        wasActiveBeforeCapture = state == CrystalState.Active;
         SetState(CrystalState.Captured);
     }
 
+    /// <summary>Giải phóng sau khi dọn sạch địch: trả về đúng trạng thái trước khi bị chiếm
+    /// (Active nếu người chơi từng kích hoạt, ngược lại về Inactive chờ kích hoạt lại).</summary>
     public void Reactivate()
     {
-        SetState(CrystalState.Active);
+        SetState(wasActiveBeforeCapture ? CrystalState.Active : CrystalState.Inactive);
     }
 
     private void SetState(CrystalState newState)

@@ -18,14 +18,24 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
     private float outputMultiplier = 1f;
     private float cycleTimer;
 
+    // Hệ số từ cây công trình ở Lobby (bền vững) - stack với outputMultiplier (nâng trong trận).
+    // Cache một lần lúc spawn vì điểm chỉ tiêu được ở Lobby, không đổi giữa trận.
+    private float progressionOutputMultiplier = 1f;
+    private float progressionCycleMultiplier = 1f;
+
     // Tinh thể cùng loại mà công trình này đứng trong bán kính - null nếu không đứng gần tinh thể
     // nào (không nên xảy ra qua luồng xây bình thường vì CrystalBuildRestriction đã chặn từ trước).
     private CrystalNode ownerCrystal;
 
     public ResourceKind Kind => kind;
 
-    /// <summary>Sản lượng quy đổi mỗi phút (đã tính hệ số nâng cấp) - dùng cho Cửa sổ Trạng thái.</summary>
-    public float ProductionPerMinute => cycleSeconds > 0f ? amountPerCycle * outputMultiplier / cycleSeconds * 60f : 0f;
+    /// <summary>Sản lượng quy đổi mỗi phút (đã tính mọi hệ số nâng cấp) - dùng cho Cửa sổ Trạng thái.</summary>
+    public float ProductionPerMinute => EffectiveCycleSeconds > 0f
+        ? amountPerCycle * outputMultiplier * progressionOutputMultiplier / EffectiveCycleSeconds * 60f
+        : 0f;
+
+    // Chu kỳ thực tế sau khi áp hệ số tăng tốc từ cây công trình.
+    private float EffectiveCycleSeconds => cycleSeconds * progressionCycleMultiplier;
 
     public string TypeLabel => kind == ResourceKind.Gold ? "Gold Mine" : "Mana Well";
 
@@ -38,26 +48,41 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
     private void Awake()
     {
         ResolveOwnerCrystal();
+        progressionOutputMultiplier = BuildingProgressionEffects.GetProductionMultiplier(kind);
+        progressionCycleMultiplier = BuildingProgressionEffects.GetCycleTimeMultiplier();
     }
 
-    // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng - chỉ
-    // cần tìm một lần khi spawn vì công trình không tự di chuyển sau khi đặt.
+    // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng.
+    // ƯU TIÊN tinh thể đang Active: khi hai tinh thể cùng loại chồng vùng, phải bind vào đúng cục
+    // đã thỏa CrystalBuildRestriction lúc xây chứ không phải cục Inactive/Captured tình cờ gần hơn.
     private void ResolveOwnerCrystal()
     {
         CrystalType matchingType = kind == ResourceKind.Gold ? CrystalType.Gold : CrystalType.Mana;
+        CrystalNode fallback = null;
+
         foreach (CrystalNode node in CrystalNodeRegistry.All)
         {
-            if (node.Type != matchingType)
+            bool isInRange = node != null
+                && node.Type == matchingType
+                && Vector2.Distance(node.transform.position, transform.position) <= node.InfluenceRadius;
+            if (!isInRange)
             {
                 continue;
             }
 
-            if (Vector2.Distance(node.transform.position, transform.position) <= node.InfluenceRadius)
+            if (node.State == CrystalState.Active)
             {
                 ownerCrystal = node;
                 return;
             }
+
+            if (fallback == null)
+            {
+                fallback = node;
+            }
         }
+
+        ownerCrystal = fallback;
     }
 
     private void Update()
@@ -67,25 +92,32 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
             return;
         }
 
-        // Tinh thể chủ bị quái chiếm (Captured) hoặc chưa kích hoạt (Inactive) -> tạm ngừng sản xuất.
-        if (ownerCrystal != null && ownerCrystal.State != CrystalState.Active)
+        // Owner mất (bị destroy) hoặc không còn Active -> thử bind lại (tinh thể có thể vừa được
+        // tái kích hoạt hoặc một cục Active khác chồng vùng). KHÔNG có owner Active thì ngừng sản
+        // xuất - mỏ không được phép chạy "chui" ngoài vùng tinh thể sống.
+        if (ownerCrystal == null || ownerCrystal.State != CrystalState.Active)
+        {
+            ResolveOwnerCrystal();
+        }
+
+        if (ownerCrystal == null || ownerCrystal.State != CrystalState.Active)
         {
             return;
         }
 
         cycleTimer += Time.deltaTime;
-        if (cycleTimer < cycleSeconds)
+        if (cycleTimer < EffectiveCycleSeconds)
         {
             return;
         }
 
-        cycleTimer -= cycleSeconds;
+        cycleTimer -= EffectiveCycleSeconds;
         ProduceOneCycle();
     }
 
     private void ProduceOneCycle()
     {
-        int produced = Mathf.RoundToInt(amountPerCycle * outputMultiplier);
+        int produced = Mathf.RoundToInt(amountPerCycle * outputMultiplier * progressionOutputMultiplier);
         if (produced <= 0)
         {
             return;

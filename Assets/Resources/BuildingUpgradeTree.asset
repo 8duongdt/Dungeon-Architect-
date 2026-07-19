@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2733e46c66406a14e9306eaafe67508f, type: 3}
+  m_Name: BuildingUpgradeTree
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingUpgradeTreeSO
+  nodes:
+  - id: GoldOutput
+    displayName: Efficient Gold Mine
+    description: Each level increases Gold output of all mines by 20%.
+    branch: 0
+    tier: 1
+    maxLevel: 5
+    effect: 0
+    valuePerLevel: 0.2
+  - id: ManaOutput
+    displayName: Bountiful Mana Well
+    description: Each level increases Mana output of all wells by 20%.
+    branch: 0
+    tier: 1
+    maxLevel: 5
+    effect: 1
+    valuePerLevel: 0.2
+  - id: CycleTime
+    displayName: Accelerated Production
+    description: Each level reduces production cycle time by 10% (never exceeds 50%).
+    branch: 0
+    tier: 2
+    maxLevel: 3
+    effect: 2
+    valuePerLevel: 0.1
+  - id: Phase2Damage
+    displayName: Empowered Arsenal
+    description: Each level increases the main character's skill damage by 10% in
+      Phase 2.
+    branch: 1
+    tier: 1
+    maxLevel: 5
+    effect: 3
+    valuePerLevel: 0.1
+  - id: Phase2Shield
+    displayName: Fortress Shield
+    description: Each level grants the main character 25 shield HP at the start of
+      Phase 2.
+    branch: 1
+    tier: 1
+    maxLevel: 4
+    effect: 4
+    valuePerLevel: 25
+  - id: Phase2Regen
+    displayName: Blessing of Recovery
+    description: Each level regenerates 1 HP per second for the main character in
+      Phase 2.
+    branch: 1
+    tier: 2
+    maxLevel: 3
+    effect: 5
+    valuePerLevel: 1

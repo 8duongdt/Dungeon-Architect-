@@ -184,6 +184,8 @@ GameObject:
   - component: {fileID: 6837768196825181468}
   - component: {fileID: 6996486439440857259}
   - component: {fileID: 8765520269353198235}
+  - component: {fileID: 1877243825973537996}
+  - component: {fileID: 6329520602006337065}
   m_Layer: 0
   m_Name: Orc_1
   m_TagString: Untagged
@@ -201,7 +203,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.14, y: 24.23, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2186005435650766199}
@@ -515,8 +517,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2935511b15c44f78ad1ce9b3240fdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RTSUnitHealth
-  maxHealth: 100
+  baseMaxHealth: 100
   currentHealth: 100
+  defense: 0
   healthBar: {fileID: 4875080700507223420}
   destroyOnDeath: 1
   deathDestroyDelay: 1
@@ -568,6 +571,7 @@ MonoBehaviour:
   patrolWhenIdle: 0
   patrolPoints: []
   patrolPointTolerance: 0.15
+  seekCrystalsWhenIdle: 0
 --- !u!114 &99114832345756553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +599,7 @@ MonoBehaviour:
   attackCooldown: 1
   attackDamage: 10
   animationController: {fileID: 0}
+  audioPlayer: {fileID: 0}
 --- !u!114 &6837768196825181468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,8 +628,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackArea
   detectionRadius: 2
-  attackRange: 1.5
+  attackRange: 0.35
   loseTargetRadiusMultiplier: 1.1
+  attackApproachFactor: 0.9
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -646,6 +652,58 @@ MonoBehaviour:
   returnToIdleAfterHurt: 1
   hurtDuration: 0.25
   autoDetectHurtDuration: 1
+--- !u!114 &1877243825973537996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821567458068680971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00cda5c7d09e1e246921de276956b9b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  stats: {fileID: 11400000, guid: a32908f3f8eb1c442852ac04891a44ef, type: 2}
+--- !u!114 &6329520602006337065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821567458068680971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38dd6c588a023ff4ea3d4e93f85044ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitAudioPlayer
+  swingClips:
+  - {fileID: 8300000, guid: 2b51256a1ecefc84984771d106c9dfeb, type: 3}
+  - {fileID: 8300000, guid: c2229b649f526fb499f19a8b86b6c132, type: 3}
+  - {fileID: 8300000, guid: 0f609e71c7f62b04caeeb44dd631ddbc, type: 3}
+  - {fileID: 8300000, guid: 4585817f076e208418eba52663706a5d, type: 3}
+  hitClips:
+  - {fileID: 8300000, guid: 65421d88ef21f014285cc9111e01bd59, type: 3}
+  - {fileID: 8300000, guid: ed067ed9542ba8d41ba4c47f02b34f2c, type: 3}
+  - {fileID: 8300000, guid: 151b6cc53f3ba4b4295fde3ba4dc5950, type: 3}
+  - {fileID: 8300000, guid: db22b2bc6a776664a8e6915ad17048d0, type: 3}
+  - {fileID: 8300000, guid: 8ebd7a40beafe744081f86eb3931101c, type: 3}
+  hurtClips:
+  - {fileID: 8300000, guid: 943791bf1d0750242965f66310e410e0, type: 3}
+  - {fileID: 8300000, guid: ba92ebddc53088a4ba413df36f3f5bee, type: 3}
+  - {fileID: 8300000, guid: 6faf3c2a7216a5746a7107f815473d48, type: 3}
+  - {fileID: 8300000, guid: 1e153b026015063499913b21366a3c54, type: 3}
+  - {fileID: 8300000, guid: 053416390c95e2e47a5d2fedbd65a208, type: 3}
+  deathClips:
+  - {fileID: 8300000, guid: c84b8d23cd84cf34e83861fdde772a83, type: 3}
+  - {fileID: 8300000, guid: 31689dff808721343acb883adcfe5b47, type: 3}
+  - {fileID: 8300000, guid: 105769f771571cb44b8465b70e57c0bd, type: 3}
+  footstepClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  footstepInterval: 0.35
 --- !u!1 &6873910406772945336
 GameObject:
   m_ObjectHideFlags: 0

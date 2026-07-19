@@ -37,6 +37,9 @@ public class CrystalReinforcementSpawner : MonoBehaviour
     private float timer;
     private int aliveCount;
 
+    // Nhịp thực tế sau khi áp áp lực thích ứng: người chơi càng đông quân, tiếp viện về càng dày.
+    private float EffectiveSpawnInterval => spawnInterval * EnemyPopulationLimiter.SpawnIntervalMultiplier();
+
     private void Awake()
     {
         crystalNode = GetComponent<CrystalNode>();
@@ -60,7 +63,7 @@ public class CrystalReinforcementSpawner : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (timer >= spawnInterval)
+        if (timer >= EffectiveSpawnInterval)
         {
             timer = 0f;
             SpawnReinforcement(pool[Random.Range(0, pool.Count)]);
@@ -90,12 +93,8 @@ public class CrystalReinforcementSpawner : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPosition = transform.position;
-        if (spawnRadius > 0f)
-        {
-            Vector2 offset = Random.insideUnitCircle * spawnRadius;
-            spawnPosition += new Vector3(offset.x, offset.y, 0f);
-        }
+        // Chỉ nhận ô đi lại được quanh tinh thể - không rơi vào tường/ngoài map trên map quần đảo.
+        Vector3 spawnPosition = SpawnPlacement.RollSpawnPosition(transform.position, spawnRadius);
 
         GameObject unit = Instantiate(prefab, spawnPosition, Quaternion.identity);
         aliveCount++;

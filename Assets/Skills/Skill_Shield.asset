@@ -15,6 +15,7 @@ MonoBehaviour:
   skillName: Shield
   icon: {fileID: 3551633421455774666, guid: 41487997995b4fc4093ac4f6a3df772d, type: 3}
   vfxPrefab: {fileID: 7671374125238857651, guid: 207e87f7e67c78e49ad5f78e6e020e15, type: 3}
+  castSfx: {fileID: 8300000, guid: ec4961f6e4abb714294309b0bd097d30, type: 3}
   baseDamage: 0
   statScaling: 0
   cooldown: 10

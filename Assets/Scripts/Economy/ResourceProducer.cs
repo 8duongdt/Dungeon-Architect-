@@ -52,24 +52,37 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
         progressionCycleMultiplier = BuildingProgressionEffects.GetCycleTimeMultiplier();
     }
 
-    // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng - chỉ
-    // cần tìm một lần khi spawn vì công trình không tự di chuyển sau khi đặt.
+    // Tìm tinh thể cùng loại (Gold/Mana) mà vị trí công trình nằm trong bán kính ảnh hưởng.
+    // ƯU TIÊN tinh thể đang Active: khi hai tinh thể cùng loại chồng vùng, phải bind vào đúng cục
+    // đã thỏa CrystalBuildRestriction lúc xây chứ không phải cục Inactive/Captured tình cờ gần hơn.
     private void ResolveOwnerCrystal()
     {
         CrystalType matchingType = kind == ResourceKind.Gold ? CrystalType.Gold : CrystalType.Mana;
+        CrystalNode fallback = null;
+
         foreach (CrystalNode node in CrystalNodeRegistry.All)
         {
-            if (node.Type != matchingType)
+            bool isInRange = node != null
+                && node.Type == matchingType
+                && Vector2.Distance(node.transform.position, transform.position) <= node.InfluenceRadius;
+            if (!isInRange)
             {
                 continue;
             }
 
-            if (Vector2.Distance(node.transform.position, transform.position) <= node.InfluenceRadius)
+            if (node.State == CrystalState.Active)
             {
                 ownerCrystal = node;
                 return;
             }
+
+            if (fallback == null)
+            {
+                fallback = node;
+            }
         }
+
+        ownerCrystal = fallback;
     }
 
     private void Update()
@@ -79,8 +92,15 @@ public class ResourceProducer : MonoBehaviour, IConstructInfo
             return;
         }
 
-        // Tinh thể chủ bị quái chiếm (Captured) hoặc chưa kích hoạt (Inactive) -> tạm ngừng sản xuất.
-        if (ownerCrystal != null && ownerCrystal.State != CrystalState.Active)
+        // Owner mất (bị destroy) hoặc không còn Active -> thử bind lại (tinh thể có thể vừa được
+        // tái kích hoạt hoặc một cục Active khác chồng vùng). KHÔNG có owner Active thì ngừng sản
+        // xuất - mỏ không được phép chạy "chui" ngoài vùng tinh thể sống.
+        if (ownerCrystal == null || ownerCrystal.State != CrystalState.Active)
+        {
+            ResolveOwnerCrystal();
+        }
+
+        if (ownerCrystal == null || ownerCrystal.State != CrystalState.Active)
         {
             return;
         }

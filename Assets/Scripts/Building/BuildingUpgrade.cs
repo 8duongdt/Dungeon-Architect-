@@ -48,6 +48,7 @@ public class BuildingUpgrade : MonoBehaviour
     [SerializeField] [Min(1)] private int currentLevel = 1;
 
     private BuildingDurability durability;
+    private UnitHealth combatHealth;
     private ResourceProducer producer;
     private UnitTrainingBuilding training;
     private SpriteRenderer bodyRenderer;
@@ -62,6 +63,7 @@ public class BuildingUpgrade : MonoBehaviour
     private void Awake()
     {
         durability = GetComponent<BuildingDurability>();
+        combatHealth = GetComponent<UnitHealth>();
         producer = GetComponent<ResourceProducer>();
         training = GetComponent<UnitTrainingBuilding>();
         bodyRenderer = GetComponent<SpriteRenderer>();
@@ -119,6 +121,12 @@ public class BuildingUpgrade : MonoBehaviour
         }
 
         UpgradeLevel data = levels[index];
+        // Máu THẬT (UnitHealth - thứ quyết định sống chết trong chiến đấu) phải lên trần mới và hồi
+        // đầy cùng lúc với thanh độ bền - nâng cấp đồng thời là sửa chữa, hai pool không được lệch.
+        if (combatHealth != null)
+        {
+            combatHealth.ApplyBaseStats(data.maxDurability, combatHealth.Defense);
+        }
         if (durability != null)
         {
             durability.SetMax(data.maxDurability, refillToFull: true);

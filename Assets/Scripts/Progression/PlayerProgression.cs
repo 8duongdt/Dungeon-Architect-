@@ -270,6 +270,24 @@ public static class PlayerProgression
         }
     }
 
+    /// <summary>Người chơi đã xem hết tutorial của scene này (theo slot đang chọn) hay chưa.</summary>
+    public static bool HasSeenTutorial(string tutorialId)
+    {
+        return !string.IsNullOrEmpty(tutorialId) && Data.tutorialsSeen.Contains(tutorialId);
+    }
+
+    /// <summary>Đánh dấu đã xem xong tutorial của scene (hoàn thành hoặc bấm Skip) rồi lưu ngay.</summary>
+    public static void MarkTutorialSeen(string tutorialId)
+    {
+        if (string.IsNullOrEmpty(tutorialId) || Data.tutorialsSeen.Contains(tutorialId))
+        {
+            return;
+        }
+
+        Data.tutorialsSeen.Add(tutorialId);
+        Persist();
+    }
+
     /// <summary>
     /// Xóa sạch toàn bộ tiến trình đã lưu (điểm skill/công trình, bậc đã mở/nâng, ô trang bị,
     /// checkpoint phase) - dùng cho "New Game" thật sự, khác với chỉ đổi

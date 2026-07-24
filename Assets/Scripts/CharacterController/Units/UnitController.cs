@@ -18,6 +18,9 @@ public class UnitController : MonoBehaviour
     /// <summary>Bắn mỗi khi tập hợp unit được chọn thay đổi (chọn mới hoặc bỏ chọn).</summary>
     public event Action<IReadOnlyList<Unit>> SelectionChanged;
 
+    /// <summary>Bắn khi người chơi ra lệnh di chuyển (chuột phải) cho các unit đang chọn.</summary>
+    public event Action MoveOrderIssued;
+
     private void Awake()
     {
         selectedUnitList = new List<Unit>();
@@ -75,6 +78,7 @@ public class UnitController : MonoBehaviour
             Vector3 targetPosition = MouseUtils.GetMouseWorldPosition();
             List<Vector3> formationPositions = CalculateFormationPositions(targetPosition, selectedUnitList.Count);
             AssignNearestFormationSlots(formationPositions);
+            MoveOrderIssued?.Invoke();
         }
     }
 

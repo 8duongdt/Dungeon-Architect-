@@ -106,6 +106,9 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
         return count;
     }
 
+    /// <summary>Bắn khi người chơi xếp thành công một lính vào hàng chờ (đã trừ tiền).</summary>
+    public event System.Action UnitEnqueued;
+
     /// <summary>Có thể bấm triệu hồi loại lính này không (đã mở khóa, đủ tiền, chưa chạm giới hạn).</summary>
     public bool CanEnqueue(int unitIndex)
     {
@@ -131,6 +134,7 @@ public class UnitTrainingBuilding : MonoBehaviour, IConstructInfo
 
         PayFor(trainableUnits[unitIndex]);
         pendingQueue.Add(unitIndex);
+        UnitEnqueued?.Invoke();
         return true;
     }
 

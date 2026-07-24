@@ -39,8 +39,18 @@ public class PathfindingGraphBuilder : MonoBehaviour
 
     private void RebuildGraph()
     {
-        TileType[,] map = dungeonManager.CurrentMap;
-        bool hasDependencies = map != null && tilemapVisualizer != null && AstarPath.active != null;
+        RebuildFor(dungeonManager.CurrentMap, tilemapVisualizer, obstacleMask, collisionDiameter);
+    }
+
+    /// <summary>
+    /// Dựng lại GridGraph khớp một map vừa sinh - dùng chung cho Phase 1 (qua sự kiện
+    /// DungeonGenerated) lẫn Phase 2 (Phase2MapGenerator gọi thẳng sau khi sinh map riêng).
+    /// Null-safe: thiếu map/visualizer/AstarPath thì bỏ qua.
+    /// </summary>
+    public static void RebuildFor(
+        TileType[,] map, TilemapVisualizer visualizer, LayerMask obstacleMask, float collisionDiameter)
+    {
+        bool hasDependencies = map != null && visualizer != null && AstarPath.active != null;
         if (!hasDependencies)
         {
             return;
@@ -51,8 +61,8 @@ public class PathfindingGraphBuilder : MonoBehaviour
 
         GridGraph graph = GetOrCreateGridGraph();
         graph.is2D = true;
-        graph.SetDimensions(width, height, tilemapVisualizer.CellSize);
-        graph.center = MapCenterWorld(width, height);
+        graph.SetDimensions(width, height, visualizer.CellSize);
+        graph.center = MapCenterWorld(visualizer, width, height);
         graph.collision.use2D = true;
         // A* 4.2 không có ColliderType.Circle - Sphere ở chế độ use2D chính là vòng tròn 2D.
         graph.collision.type = ColliderType.Sphere;
@@ -62,17 +72,17 @@ public class PathfindingGraphBuilder : MonoBehaviour
         AstarPath.active.Scan(graph);
     }
 
-    private GridGraph GetOrCreateGridGraph()
+    private static GridGraph GetOrCreateGridGraph()
     {
         GridGraph existing = AstarPath.active.data.gridGraph;
         return existing != null ? existing : AstarPath.active.data.AddGraph(typeof(GridGraph)) as GridGraph;
     }
 
     // Tâm graph = trung điểm giữa tâm ô (0,0) và tâm ô (w-1,h-1) - khớp chính xác lưới tile.
-    private Vector3 MapCenterWorld(int width, int height)
+    private static Vector3 MapCenterWorld(TilemapVisualizer visualizer, int width, int height)
     {
-        Vector3 min = tilemapVisualizer.CellToWorldCenter(Vector2Int.zero);
-        Vector3 max = tilemapVisualizer.CellToWorldCenter(new Vector2Int(width - 1, height - 1));
+        Vector3 min = visualizer.CellToWorldCenter(Vector2Int.zero);
+        Vector3 max = visualizer.CellToWorldCenter(new Vector2Int(width - 1, height - 1));
         return (min + max) * 0.5f;
     }
 }

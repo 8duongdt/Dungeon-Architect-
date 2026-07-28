@@ -99,6 +99,16 @@ public class SkillDefinitionSO : ScriptableObject
     [Tooltip("Thời gian khiên tồn tại (giây).")]
     [SerializeField] private float shieldDuration = 6f;
 
+    [Header("Charge (chỉ dùng khi mechanic = ChargeDash)")]
+    [Tooltip("Tốc độ lao tới (world unit/giây).")]
+    [SerializeField] private float chargeSpeed = 12f;
+    [Tooltip("Quãng đường lao tối đa (world unit).")]
+    [SerializeField] private float chargeMaxDistance = 5f;
+    [Tooltip("Bán kính gây sát thương quanh điểm dừng lao.")]
+    [SerializeField] private float chargeImpactRadius = 1.5f;
+    [Tooltip("Quãng đường đẩy lùi kẻ địch trúng cú lao (0 = không đẩy).")]
+    [SerializeField] private float chargeKnockbackDistance = 1.5f;
+
     [Header("Execute (chỉ dùng khi mechanic = ExecuteStrike)")]
     [Tooltip("Ngưỡng máu (theo tỉ lệ) để kết liễu ngay: 0.1 = dưới 10% máu tối đa.")]
     [SerializeField] private float executeHealthThreshold = 0.1f;
@@ -136,6 +146,10 @@ public class SkillDefinitionSO : ScriptableObject
     public float PullSpeed => pullSpeed;
     public float ShieldAmount => shieldAmount;
     public float ShieldDuration => shieldDuration;
+    public float ChargeSpeed => chargeSpeed;
+    public float ChargeMaxDistance => chargeMaxDistance;
+    public float ChargeImpactRadius => chargeImpactRadius;
+    public float ChargeKnockbackDistance => chargeKnockbackDistance;
     public float ExecuteHealthThreshold => executeHealthThreshold;
     public int ExecuteGoldReward => executeGoldReward;
 
@@ -171,6 +185,10 @@ public class SkillDefinitionSO : ScriptableObject
         pullSpeed = Mathf.Max(0f, pullSpeed);
         shieldAmount = Mathf.Max(0f, shieldAmount);
         shieldDuration = Mathf.Max(0f, shieldDuration);
+        chargeSpeed = Mathf.Max(0.1f, chargeSpeed);
+        chargeMaxDistance = Mathf.Max(0f, chargeMaxDistance);
+        chargeImpactRadius = Mathf.Max(0f, chargeImpactRadius);
+        chargeKnockbackDistance = Mathf.Max(0f, chargeKnockbackDistance);
         executeHealthThreshold = Mathf.Clamp01(executeHealthThreshold);
         executeGoldReward = Mathf.Max(0, executeGoldReward);
     }

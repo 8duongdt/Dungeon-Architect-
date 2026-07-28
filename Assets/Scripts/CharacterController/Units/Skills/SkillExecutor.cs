@@ -40,6 +40,9 @@ public static class SkillExecutor
             case SkillMechanic.ExecuteStrike:
                 ExecuteExecuteStrike(skill, context);
                 break;
+            case SkillMechanic.ChargeDash:
+                ExecuteChargeDash(skill, context);
+                break;
             default:
                 ExecuteInstantStrike(skill, context);
                 break;
@@ -161,10 +164,110 @@ public static class SkillExecutor
         }
 
         // Bậc nâng cấp nhân cả lượng khiên lẫn thời gian tồn tại của khiên.
-        casterHealth.AddShield(
-            skill.ShieldAmount * context.UpgradeMultiplier,
-            skill.ShieldDuration * context.UpgradeMultiplier);
-        SpawnVfx(skill.VfxPrefab, context.CasterTransform.position);
+        float shieldDuration = skill.ShieldDuration * context.UpgradeMultiplier;
+        casterHealth.AddShield(skill.ShieldAmount * context.UpgradeMultiplier, shieldDuration);
+        SpawnAttachedVfx(skill.VfxPrefab, context.CasterTransform, shieldDuration);
+    }
+
+    /// <summary>
+    /// VFX bám theo người thi triển suốt duration (con của caster) - dùng cho khiên/buff bản thân.
+    /// SetParent giữ nguyên world scale nên VFX không bị phóng to theo localScale chuẩn hóa của unit.
+    /// </summary>
+    private static void SpawnAttachedVfx(GameObject vfxPrefab, Transform caster, float duration)
+    {
+        if (vfxPrefab == null)
+        {
+            return;
+        }
+
+        GameObject vfxObject = Object.Instantiate(vfxPrefab, caster.position, Quaternion.identity);
+        vfxObject.transform.SetParent(caster, worldPositionStays: true);
+
+        var oneShot = vfxObject.GetComponent<SkillVfxOneShot>();
+        if (oneShot != null)
+        {
+            oneShot.OverrideLifetime(duration);
+        }
+        else
+        {
+            Object.Destroy(vfxObject, duration);
+        }
+    }
+
+    /// <summary>
+    /// Lao thẳng tới điểm mục tiêu (chốt lúc cast): dời caster bằng Rigidbody2D theo nhịp
+    /// FixedUpdate cho tới khi hết quãng lao hoặc chạm gần điểm rơi, rồi nổ sát thương +
+    /// đẩy lùi quanh điểm dừng. Không có host chạy coroutine thì rơi về đánh tức thời.
+    /// </summary>
+    private static void ExecuteChargeDash(SkillDefinitionSO skill, in SkillCastContext context)
+    {
+        if (!CanHostCoroutine(context.CoroutineHost))
+        {
+            ExecuteInstantStrike(skill, context);
+            return;
+        }
+
+        context.CoroutineHost.StartCoroutine(ChargeRoutine(
+            skill, context.CasterTransform, context.TargetPoint, context.Damage, context.CasterFaction));
+    }
+
+    private static IEnumerator ChargeRoutine(
+        SkillDefinitionSO skill, Transform caster, Vector3 targetPoint, float damage, UnitFaction casterFaction)
+    {
+        Vector2 chargeDirection = targetPoint - caster.position;
+        if (chargeDirection.sqrMagnitude < 0.0001f)
+        {
+            yield break;
+        }
+
+        chargeDirection.Normalize();
+        var casterBody = caster.GetComponent<Rigidbody2D>();
+        var casterHealth = caster.GetComponent<UnitHealth>();
+        float traveledDistance = 0f;
+        float impactRadiusSqr = skill.ChargeImpactRadius * skill.ChargeImpactRadius;
+
+        while (traveledDistance < skill.ChargeMaxDistance)
+        {
+            yield return new WaitForFixedUpdate();
+
+            bool casterGone = caster == null || (casterHealth != null && casterHealth.IsDead);
+            if (casterGone)
+            {
+                yield break;
+            }
+
+            float stepDistance = skill.ChargeSpeed * Time.fixedDeltaTime;
+            Vector2 nextPosition = (Vector2)caster.position + chargeDirection * stepDistance;
+            if (casterBody != null)
+            {
+                casterBody.MovePosition(nextPosition);
+            }
+            else
+            {
+                caster.position = nextPosition;
+            }
+
+            traveledDistance += stepDistance;
+            bool reachedTargetPoint = ((Vector2)targetPoint - nextPosition).sqrMagnitude <= impactRadiusSqr;
+            if (reachedTargetPoint)
+            {
+                break;
+            }
+        }
+
+        if (caster == null)
+        {
+            yield break;
+        }
+
+        SpawnVfx(skill.VfxPrefab, caster.position);
+        foreach (UnitHealth victim in SkillTargeting.FindAttackableInRadius(
+            caster.position, skill.ChargeImpactRadius, casterFaction))
+        {
+            victim.TakeDamage(damage);
+            Vector2 awayFromCaster = victim.transform.position - caster.position;
+            UnitKnockback.Push(victim.gameObject, awayFromCaster, skill.ChargeKnockbackDistance);
+        }
     }
 
     /// <summary>

@@ -13,4 +13,5 @@ public enum SkillMechanic
     PullVortex = 6,    // hút mọi kẻ địch trong phạm vi về tâm và trói chân (ultimate)
     SelfShield = 7,    // khiên máu ảo bao bọc CHÍNH người thi triển
     ExecuteStrike = 8, // đòn kết liễu: kết liễu ngay mục tiêu dưới ngưỡng máu + thưởng vàng
+    ChargeDash = 9,    // lao thẳng tới mục tiêu, gây sát thương + đẩy lùi quanh điểm chạm
 }

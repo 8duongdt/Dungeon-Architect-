@@ -12,6 +12,7 @@ public class CharacterAnimatorParameters : MonoBehaviour
     [SerializeField] private string attackParameter = "Attack";
     [SerializeField] private string hurtTriggerParameter = "takeDamage";
     [SerializeField] private string deathTriggerParameter = "die";
+    [SerializeField] private string skillTriggerParameter = "Skill";
 
     [Header("Animator States")]
     [SerializeField] private string idleStateName = "idle";
@@ -25,6 +26,7 @@ public class CharacterAnimatorParameters : MonoBehaviour
     private int attackHash;
     private int hurtTriggerHash;
     private int deathTriggerHash;
+    private int skillTriggerHash;
 
     private bool hasHorizontalParameter;
     private bool hasVerticalParameter;
@@ -32,6 +34,7 @@ public class CharacterAnimatorParameters : MonoBehaviour
     private bool hasAttackParameter;
     private bool hasHurtTriggerParameter;
     private bool hasDeathTriggerParameter;
+    private bool hasSkillTriggerParameter;
     private RuntimeAnimatorController cachedAnimatorController;
 
     public bool HasAttackParameter => hasAttackParameter;
@@ -124,6 +127,16 @@ public class CharacterAnimatorParameters : MonoBehaviour
         return PlayStateIfExists(idleStateName, "idle", "Idle");
     }
 
+    public bool PlaySkill()
+    {
+        if (SetTriggerIfAvailable(hasSkillTriggerParameter, skillTriggerHash))
+        {
+            return true;
+        }
+
+        return PlayStateIfExists("skill", "Skill");
+    }
+
     public float GetClipLengthContaining(string clipNamePart)
     {
         if (!IsReady() || animator.runtimeAnimatorController == null)
@@ -192,6 +205,7 @@ public class CharacterAnimatorParameters : MonoBehaviour
         hasAttackParameter = false;
         hasHurtTriggerParameter = false;
         hasDeathTriggerParameter = false;
+        hasSkillTriggerParameter = false;
 
         if (animator == null || animator.runtimeAnimatorController == null)
         {
@@ -224,6 +238,10 @@ public class CharacterAnimatorParameters : MonoBehaviour
             {
                 hasDeathTriggerParameter = true;
             }
+            else if (parameter.nameHash == skillTriggerHash && parameter.type == AnimatorControllerParameterType.Trigger)
+            {
+                hasSkillTriggerParameter = true;
+            }
         }
     }
 
@@ -235,6 +253,7 @@ public class CharacterAnimatorParameters : MonoBehaviour
         attackHash = Animator.StringToHash(attackParameter ?? string.Empty);
         hurtTriggerHash = Animator.StringToHash(hurtTriggerParameter ?? string.Empty);
         deathTriggerHash = Animator.StringToHash(deathTriggerParameter ?? string.Empty);
+        skillTriggerHash = Animator.StringToHash(skillTriggerParameter ?? string.Empty);
     }
 
     private bool SetTriggerIfAvailable(bool hasParameter, int parameterHash)

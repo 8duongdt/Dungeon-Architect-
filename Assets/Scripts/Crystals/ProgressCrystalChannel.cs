@@ -20,8 +20,8 @@ public class ProgressCrystalChannel : MonoBehaviour
     private const float PercentToFraction = 0.01f;
 
     [Tooltip("Phần trăm tiến trình thức tỉnh cộng mỗi giây khi có ít nhất một unit phe người chơi " +
-        "đứng trong vùng (1 = giữ đủ 100 giây thì đầy thanh).")]
-    [SerializeField] private float progressPerSecond = 1f;
+        "đứng trong vùng (2 = giữ đủ 50 giây thì đầy thanh - nhắm Phase 1 gói trong 4-5 phút).")]
+    [SerializeField] private float progressPerSecond = 2f;
 
     private CrystalNode crystalNode;
     private readonly HashSet<UnitHealth> occupants = new HashSet<UnitHealth>();

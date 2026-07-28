@@ -17,9 +17,9 @@ public class CrystalScatterSpawner : DungeonDecoratorBase
     [SerializeField] private GameObject progressCrystalPrefab;
 
     [Header("Số lượng rải mỗi loại")]
-    [Min(0)] [SerializeField] private int goldNodeCount = 3;
-    [Min(0)] [SerializeField] private int manaNodeCount = 2;
-    [Min(0)] [SerializeField] private int progressNodeCount = 1;
+    [Min(0)] [SerializeField] private int goldNodeCount = 4;
+    [Min(0)] [SerializeField] private int manaNodeCount = 3;
+    [Min(0)] [SerializeField] private int progressNodeCount = 2;
 
     [Header("Chỗ trống để XÂY quanh tinh thể")]
     [Tooltip("Bán kính (ô) quanh tinh thể được xét xem có đủ đất để đặt công trình hay không.")]

@@ -21,6 +21,10 @@ public class SaveData
     public List<LevelEntry> buildingLevels = new List<LevelEntry>();
     public string[] equippedSlots = new string[0];
 
+    // Các scene mà người chơi đã xem hết hướng dẫn (tutorialId: "lobby"/"phase1"/"phase2").
+    // Tutorial mỗi scene chỉ hiện lần đầu tiên vào scene đó trên slot này.
+    public List<string> tutorialsSeen = new List<string>();
+
     // Thời điểm thực (giờ hệ thống) của lần ghi gần nhất - dùng hiển thị trên bảng chọn slot.
     // Rỗng = slot chưa từng được ghi.
     public string lastSaved = string.Empty;

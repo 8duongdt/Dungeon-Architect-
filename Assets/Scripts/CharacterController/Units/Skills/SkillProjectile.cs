@@ -28,14 +28,25 @@ public class SkillProjectile : MonoBehaviour
 
     public void Initialize(in SkillCastContext context, SkillDefinitionSO skill)
     {
-        casterFaction = context.CasterFaction;
-        damage = context.Damage;
-        speed = skill.ProjectileSpeed;
-        maxRange = skill.ProjectileMaxRange;
-        impactVfxPrefab = skill.VfxPrefab;
-
         Vector2 toTarget = context.TargetPoint - context.CasterTransform.position;
-        flightDirection = toTarget.sqrMagnitude > 0f ? toTarget.normalized : Vector2.right;
+        Initialize(context.CasterFaction, context.Damage, toTarget,
+            skill.ProjectileSpeed, skill.ProjectileMaxRange, skill.VfxPrefab);
+    }
+
+    /// <summary>
+    /// Khởi tạo trực tiếp không qua skill - dùng cho đòn đánh thường bắn đạn của người chơi
+    /// (<see cref="PlayerRangedAttack"/>). impactVfx null = không nổ hiệu ứng khi trúng.
+    /// </summary>
+    public void Initialize(UnitFaction faction, float damageAmount, Vector2 direction,
+        float flightSpeed, float flightMaxRange, GameObject impactVfx)
+    {
+        casterFaction = faction;
+        damage = damageAmount;
+        speed = flightSpeed;
+        maxRange = flightMaxRange;
+        impactVfxPrefab = impactVfx;
+
+        flightDirection = direction.sqrMagnitude > 0f ? direction.normalized : Vector2.right;
         transform.position += (Vector3)(flightDirection * SpawnForwardOffset);
         ApplyFlightRotation();
 

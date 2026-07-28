@@ -18,8 +18,15 @@ public class UnitSkillCaster : MonoBehaviour
     [Tooltip("Sức mạnh phép - chỉ số nhân với statScaling của kỹ năng.")]
     [SerializeField] private float magicPower = 10f;
 
+    [Tooltip("Cho phép cast cả khi đang ĐUỔI mục tiêu (skill lao tới) thay vì chỉ khi đứng đánh.")]
+    [SerializeField] private bool castWhileChasing = false;
+
+    [Tooltip("Tầm cast tối đa khi đang đuổi (chỉ dùng khi bật cast lúc đuổi).")]
+    [SerializeField] private float chaseCastRange = 5f;
+
     private UnitAI ai;
     private AttackAreaBase attackArea;
+    private CharacterAnimationController animationController;
     private float nextCastTime;
 
     public float MagicPower => magicPower;
@@ -28,6 +35,7 @@ public class UnitSkillCaster : MonoBehaviour
     {
         ai = GetComponent<UnitAI>();
         attackArea = GetComponent<AttackAreaBase>();
+        animationController = GetComponent<CharacterAnimationController>();
     }
 
     private void Update()
@@ -41,19 +49,21 @@ public class UnitSkillCaster : MonoBehaviour
 
     private bool CanCastNow()
     {
+        bool isInCastableState = ai != null
+            && (ai.currentState == UnitAI.UnitState.Attack
+                || (castWhileChasing && ai.currentState == UnitAI.UnitState.Chase));
+
         return skill != null
-            && ai != null
             && attackArea != null
+            && isInCastableState
             && !ai.IsDead
-            && ai.currentState == UnitAI.UnitState.Attack
             && ai.HasActiveCombatTarget;
     }
 
     private void TryCast()
     {
-        // Cổng kiểm tra dùng chung với đòn thường: phe địch, tầm nhìn, tầm đánh.
         // Thất bại thì KHÔNG đốt cooldown - thử lại frame sau.
-        if (!attackArea.TryGetDamageTarget(ai, ai.TargetEnemy, out UnitHealth targetHealth))
+        if (!TryResolveTarget(out UnitHealth targetHealth))
         {
             return;
         }
@@ -61,11 +71,31 @@ public class UnitSkillCaster : MonoBehaviour
         float damage = skill.ComputeDamage(magicPower);
         var context = new SkillCastContext(transform, ai.Faction, damage, targetHealth, this);
         SkillExecutor.Execute(skill, context);
+        animationController?.PlaySkill();
         nextCastTime = Time.time + skill.Cooldown;
+    }
+
+    // Đứng đánh: cổng kiểm tra dùng chung với đòn thường (phe địch, tầm nhìn, tầm đánh).
+    // Đang đuổi (skill lao tới): chỉ cần thấy mục tiêu trong tầm cast lúc đuổi.
+    private bool TryResolveTarget(out UnitHealth targetHealth)
+    {
+        if (ai.currentState == UnitAI.UnitState.Attack)
+        {
+            return attackArea.TryGetDamageTarget(ai, ai.TargetEnemy, out targetHealth);
+        }
+
+        Transform target = ai.TargetEnemy;
+        targetHealth = target != null ? target.GetComponentInParent<UnitHealth>() : null;
+        bool isCastableWhileChasing = targetHealth != null
+            && !targetHealth.IsDead
+            && attackArea.CanSee(target)
+            && Vector2.Distance(transform.position, target.position) <= chaseCastRange;
+        return isCastableWhileChasing;
     }
 
     private void OnValidate()
     {
         magicPower = Mathf.Max(0f, magicPower);
+        chaseCastRange = Mathf.Max(0f, chaseCastRange);
     }
 }

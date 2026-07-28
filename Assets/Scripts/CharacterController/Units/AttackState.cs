@@ -19,6 +19,7 @@ public class AttackState : MonoBehaviour
     private UnitAI ai;
     private UnitMovement movement;
     private AttackAreaBase attackArea;
+    private UnitProjectileLauncher projectileLauncher;
     private float nextAttackTime;
     private bool hasDealtDamageThisSwing;
     private float attackAnimationLength;
@@ -47,6 +48,7 @@ public class AttackState : MonoBehaviour
         ai = unitAI;
         movement = unitMovement;
         attackArea = unitAttackArea;
+        projectileLauncher = GetComponent<UnitProjectileLauncher>();
         animationController = GetAnimationController();
         audioPlayer = GetComponent<UnitAudioPlayer>();
         CacheAttackAnimationLength();
@@ -133,6 +135,13 @@ public class AttackState : MonoBehaviour
 
         hasDealtDamageThisSwing = true;
         float dealtDamage = attackDamage * damageMultiplier;
+
+        // Unit tầm xa có bệ phóng: đạn bay tới nơi mới gây sát thương, không trừ máu tức thời.
+        if (projectileLauncher != null && projectileLauncher.TryLaunch(targetHealth, dealtDamage))
+        {
+            return;
+        }
+
         targetHealth.TakeDamage(dealtDamage);
         audioPlayer?.PlayHit();
         Debug.Log($"{gameObject.name} attacks {targetHealth.name} for {dealtDamage} damage");

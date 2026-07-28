@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -91,11 +92,16 @@ public class EnemySpawner : MonoBehaviour
     [Min(0f)]
     private float spawnRadius = 1.5f;
 
+    // Giãn cách giữa hai con trong cùng một đợt - tránh khựng hình vì Instantiate dồn
+    // một frame và tránh cả đợt đè chồng lên nhau tại cổng.
+    private const float SpawnStaggerSeconds = 0.15f;
+
     // Bộ đếm thời gian thực và số lượng quái hiện tại do cổng này quản lý.
     private float timer;
     private int currentEnemyCount;
     private int totalSpawnedCount;
     private bool hasSpawnedFirstWave;
+    private Coroutine waveRoutine;
 
     /// <summary>Cổng đã sinh đủ hạn ngạch (chỉ có nghĩa khi maxTotalSpawns > 0) - director đọc để xét thắng.</summary>
     public bool HasFinishedSpawning => maxTotalSpawns > 0 && totalSpawnedCount >= maxTotalSpawns;
@@ -124,6 +130,8 @@ public class EnemySpawner : MonoBehaviour
     private void OnDisable()
     {
         PortalMarkerRegistry.Unregister(transform);
+        // Coroutine tự dừng khi object tắt - bỏ handle để lần bật lại không kẹt chờ đợt cũ.
+        waveRoutine = null;
     }
 
     private void Start()
@@ -145,9 +153,10 @@ public class EnemySpawner : MonoBehaviour
         // Tích lũy thời gian độc lập với FPS.
         timer += Time.deltaTime;
 
-        if (timer >= EffectiveSpawnInterval)
+        bool isWaveInProgress = waveRoutine != null;
+        if (timer >= EffectiveSpawnInterval && !isWaveInProgress)
         {
-            SpawnWave(ComposeWave(CurrentBudget(), NextWaveEnemyLimit()));
+            waveRoutine = StartCoroutine(SpawnWaveStaggered(ComposeWave(CurrentBudget(), NextWaveEnemyLimit())));
             hasSpawnedFirstWave = true;
             timer = 0f;
         }
@@ -212,17 +221,23 @@ public class EnemySpawner : MonoBehaviour
         return affordable;
     }
 
-    // Sinh cả đợt, tôn trọng giới hạn quái sống - đợt bị cắt khi chạm ngưỡng riêng hoặc trần chung.
-    private void SpawnWave(List<GameObject> wave)
+    // Sinh cả đợt nhưng giãn từng con một nhịp nhỏ - tôn trọng giới hạn quái sống,
+    // đợt bị cắt khi chạm ngưỡng riêng hoặc trần chung.
+    private IEnumerator SpawnWaveStaggered(List<GameObject> wave)
     {
+        var stagger = new WaitForSeconds(SpawnStaggerSeconds);
         foreach (GameObject prefab in wave)
         {
             if (HasFinishedSpawning || currentEnemyCount >= maxEnemies || !EnemyPopulationLimiter.HasGlobalCapacity())
             {
-                return;
+                break;
             }
+
             SpawnEnemy(prefab);
+            yield return stagger;
         }
+
+        waveRoutine = null;
     }
 
     private void SpawnEnemy(GameObject prefab)

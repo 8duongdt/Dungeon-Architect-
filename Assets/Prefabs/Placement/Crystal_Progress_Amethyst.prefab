@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5e55ec686dc664d9286199bbc5b88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressCrystalChannel
-  progressPerSecond: 1
+  progressPerSecond: 2
 --- !u!114 &2821062876524207730
 MonoBehaviour:
   m_ObjectHideFlags: 0

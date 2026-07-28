@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// Hệ kỹ năng của NGƯỜI CHƠI: nhấn phím 1-4 để thi triển skill ở ô tương ứng.
-/// Có kẻ địch gần con trỏ chuột thì ưu tiên khóa mục tiêu; không có thì các skill
-/// dạng điểm rơi (projectile/nổ/vùng/bẫy/xoáy) vẫn cast tại điểm chuột (kẹp vào tầm),
-/// chỉ các skill bắt buộc mục tiêu (chain/kết liễu/đánh thẳng) mới từ chối cast.
+/// Skill bắn ra theo HƯỚNG NHÌN của nhân vật (chuột lái hướng nhìn qua PlayerControll):
+/// tự bắt kẻ địch gần nhất trong hình quạt trước mặt; không có địch thì các skill dạng
+/// điểm rơi (projectile/nổ/vùng/bẫy/xoáy) rơi dọc hướng nhìn (xa gần theo chuột, kẹp vào
+/// tầm), chỉ các skill bắt buộc mục tiêu (chain/kết liễu/đánh thẳng) mới từ chối cast.
 /// Tiêu tốn Mana toàn cục (ResourceManager); không đủ Mana / đang hồi chiêu thì
 /// không cast và KHÔNG mất Mana. Tái dùng SkillExecutor chung với unit AI.
 /// </summary>
@@ -23,9 +25,14 @@ public class PlayerSkillCaster : MonoBehaviour
     [Tooltip("Tầm thi triển tối đa tính từ nhân vật.")]
     [SerializeField] private float castRange = 8f;
 
-    [Tooltip("Bán kính quanh con trỏ chuột để bắt mục tiêu.")]
-    [SerializeField] private float targetSearchRadius = 1.5f;
+    [Tooltip("Nửa góc hình quạt trước mặt nhân vật để tự bắt mục tiêu (độ).")]
+    [SerializeField] private float aimConeHalfAngle = 40f;
 
+    // Bộ đệm quét vật lý dùng lại giữa các lần cast - không cấp phát rác mỗi lần bấm skill.
+    private static readonly List<Collider2D> overlapResults = new List<Collider2D>(64);
+    private static readonly ContactFilter2D anyColliderFilter = CreateAnyColliderFilter();
+
+    private PlayerControll playerControll;
     private UnitFaction faction;
     private UnitHealth health;
     private readonly float[] nextCastTimes = new float[SlotCount];
@@ -35,6 +42,7 @@ public class PlayerSkillCaster : MonoBehaviour
 
     private void Awake()
     {
+        playerControll = GetComponent<PlayerControll>();
         faction = GetComponent<UnitFaction>();
         health = GetComponent<UnitHealth>();
     }
@@ -54,8 +62,9 @@ public class PlayerSkillCaster : MonoBehaviour
     }
 
     /// <summary>
-    /// Thi triển skill ở ô slotIndex: ưu tiên kẻ địch gần chuột, không có thì cast
-    /// tại điểm chuột (trừ skill bắt buộc mục tiêu). Public để UI/hệ khác gọi thẳng.
+    /// Thi triển skill ở ô slotIndex theo hướng nhìn nhân vật: ưu tiên kẻ địch trong quạt
+    /// trước mặt, không có thì cast dọc hướng nhìn (trừ skill bắt buộc mục tiêu).
+    /// Public để UI/hệ khác gọi thẳng.
     /// </summary>
     public bool CastSlot(int slotIndex)
     {
@@ -95,8 +104,8 @@ public class PlayerSkillCaster : MonoBehaviour
     }
 
     /// <summary>
-    /// Xác định mục tiêu + điểm rơi của skill. Trả false = không cast được
-    /// (skill bắt buộc mục tiêu mà không có địch gần chuột, hoặc không đọc được chuột/camera).
+    /// Xác định mục tiêu + điểm rơi của skill theo hướng nhìn nhân vật.
+    /// Trả false = không cast được (skill bắt buộc mục tiêu mà không có địch trước mặt).
     /// </summary>
     private bool TryResolveAim(SkillDefinitionSO skill, out UnitHealth target, out Vector3 aimPoint)
     {
@@ -107,20 +116,15 @@ public class PlayerSkillCaster : MonoBehaviour
             return true;
         }
 
-        target = null;
-        aimPoint = default;
-        if (!TryGetMouseWorldPoint(out Vector3 mouseWorld))
-        {
-            return false;
-        }
-
-        target = FindTargetNearMouse(mouseWorld);
+        Vector2 facing = ResolveFacingDirection();
+        target = FindTargetInFacingCone(facing);
         if (target == null && RequiresUnitTarget(skill.Mechanic))
         {
+            aimPoint = default;
             return false;
         }
 
-        aimPoint = target != null ? target.transform.position : ClampToCastRange(mouseWorld);
+        aimPoint = target != null ? target.transform.position : ResolvePointDrop(facing);
         return true;
     }
 
@@ -132,12 +136,39 @@ public class PlayerSkillCaster : MonoBehaviour
             || mechanic == SkillMechanic.ExecuteStrike;
     }
 
-    /// <summary>Kẹp điểm chuột vào tầm thi triển thay vì từ chối - cast không bao giờ câm lặng.</summary>
-    private Vector3 ClampToCastRange(Vector3 mouseWorld)
+    /// <summary>Hướng nhìn của nhân vật; thiếu PlayerControll thì suy từ nhân vật tới chuột.</summary>
+    private Vector2 ResolveFacingDirection()
     {
-        Vector2 toMouse = mouseWorld - transform.position;
-        Vector2 clamped = Vector2.ClampMagnitude(toMouse, castRange);
-        return transform.position + (Vector3)clamped;
+        if (playerControll != null)
+        {
+            return playerControll.FacingDirection;
+        }
+
+        if (TryGetMouseWorldPoint(out Vector3 mouseWorld))
+        {
+            Vector2 toMouse = mouseWorld - transform.position;
+            if (toMouse.sqrMagnitude > 0.0001f)
+            {
+                return toMouse.normalized;
+            }
+        }
+
+        return Vector2.down;
+    }
+
+    /// <summary>
+    /// Điểm rơi cho skill đặt xuống đất: luôn dọc hướng nhìn, khoảng cách lấy theo chuột
+    /// (kẹp vào tầm) để người chơi vẫn chỉnh được đặt gần hay xa - cast không bao giờ câm lặng.
+    /// </summary>
+    private Vector3 ResolvePointDrop(Vector2 facing)
+    {
+        float dropDistance = castRange;
+        if (TryGetMouseWorldPoint(out Vector3 mouseWorld))
+        {
+            dropDistance = Mathf.Min(Vector2.Distance(transform.position, mouseWorld), castRange);
+        }
+
+        return transform.position + (Vector3)(facing * dropDistance);
     }
 
     /// <summary>Skill đang gán ở ô - HUD đọc để hiển thị icon/mana (null = ô trống).</summary>
@@ -188,23 +219,26 @@ public class PlayerSkillCaster : MonoBehaviour
         return true;
     }
 
-    /// <summary>Kẻ địch gần con trỏ chuột nhất, trong bán kính bắt mục tiêu và trong tầm thi triển.</summary>
-    private UnitHealth FindTargetNearMouse(Vector3 mouseWorld)
+    /// <summary>Kẻ địch gần nhất nằm trong hình quạt trước mặt nhân vật (tâm quạt = hướng nhìn).</summary>
+    private UnitHealth FindTargetInFacingCone(Vector2 facing)
     {
         UnitHealth closestTarget = null;
         float closestSqrDistance = float.MaxValue;
-        foreach (Collider2D collider in Physics2D.OverlapCircleAll(mouseWorld, targetSearchRadius))
+        int hitCount = Physics2D.OverlapCircle(transform.position, castRange, anyColliderFilter, overlapResults);
+        for (int i = 0; i < hitCount; i++)
         {
-            UnitHealth candidate = collider.GetComponentInParent<UnitHealth>();
-            if (!IsCastableTarget(candidate))
+            UnitHealth candidate = overlapResults[i].GetComponentInParent<UnitHealth>();
+            if (candidate == closestTarget || !IsCastableTarget(candidate))
             {
                 continue;
             }
 
-            float sqrDistance = ((Vector2)candidate.transform.position - (Vector2)mouseWorld).sqrMagnitude;
-            if (sqrDistance < closestSqrDistance)
+            Vector2 toCandidate = candidate.transform.position - transform.position;
+            bool isInsideAimCone = Vector2.Angle(facing, toCandidate) <= aimConeHalfAngle;
+            bool isCloser = toCandidate.sqrMagnitude < closestSqrDistance;
+            if (isInsideAimCone && isCloser)
             {
-                closestSqrDistance = sqrDistance;
+                closestSqrDistance = toCandidate.sqrMagnitude;
                 closestTarget = candidate;
             }
         }
@@ -237,10 +271,17 @@ public class PlayerSkillCaster : MonoBehaviour
         return resources == null || resources.TrySpendMana(manaCost);
     }
 
+    private static ContactFilter2D CreateAnyColliderFilter()
+    {
+        var filter = new ContactFilter2D();
+        filter.NoFilter();
+        return filter;
+    }
+
     private void OnValidate()
     {
         magicPower = Mathf.Max(0f, magicPower);
         castRange = Mathf.Max(0f, castRange);
-        targetSearchRadius = Mathf.Max(0.1f, targetSearchRadius);
+        aimConeHalfAngle = Mathf.Clamp(aimConeHalfAngle, 1f, 180f);
     }
 }

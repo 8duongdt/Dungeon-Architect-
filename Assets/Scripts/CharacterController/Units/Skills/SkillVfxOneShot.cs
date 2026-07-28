@@ -13,9 +13,21 @@ public class SkillVfxOneShot : MonoBehaviour
     [Tooltip("Thời gian nán lại thêm sau khi animation kết thúc, tránh cắt frame cuối.")]
     [SerializeField] private float extraLifetime = 0.1f;
 
+    private float? lifetimeOverride;
+
+    /// <summary>
+    /// Ghi đè thời gian sống thay vì tự hủy theo độ dài clip - dùng cho hiệu ứng kéo dài
+    /// theo thông số skill (vd khiên sống đúng ShieldDuration). Gọi ngay sau Instantiate.
+    /// </summary>
+    public void OverrideLifetime(float seconds)
+    {
+        lifetimeOverride = Mathf.Max(0f, seconds);
+    }
+
     private void Start()
     {
-        Destroy(gameObject, ResolveAnimationLength() + extraLifetime);
+        float lifetime = lifetimeOverride ?? ResolveAnimationLength() + extraLifetime;
+        Destroy(gameObject, lifetime);
     }
 
     private float ResolveAnimationLength()

@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 6485944102768308069}
   - component: {fileID: 8404090706031049579}
   - component: {fileID: 2771747115120630460}
+  - component: {fileID: 9007573141183591595}
   m_Layer: 0
   m_Name: Demon_King
   m_TagString: Untagged
@@ -331,7 +332,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eadeb67e30aa22c45b35c0d4a69c0cc3, type: 2}
   magicPower: 10
   castRange: 8
-  targetSearchRadius: 1.5
+  aimConeHalfAngle: 40
 --- !u!114 &99546247067036251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,3 +405,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Phase2BuffApplier
   playerHealth: {fileID: 99546247067036251}
   caster: {fileID: 6729971905053426862}
+--- !u!114 &9007573141183591595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6503102268105159619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d022db8b5282d574a97c2447b1d6a541, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRangedAttack
+  projectilePrefab: {fileID: 412610260080906570, guid: 36b65a81ce6986d488c6bf22c5e3d987, type: 3}
+  projectileSpeed: 14
+  maxRange: 8
+  fallbackDamage: 10
+  fallbackCooldown: 0.5
+  muzzleOffset: {x: 0, y: 0.5}

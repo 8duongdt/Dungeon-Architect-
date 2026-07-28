@@ -76,6 +76,11 @@ public class CharacterAnimationController : MonoBehaviour
         return animatorParameters != null && animatorParameters.PlayIdleState();
     }
 
+    public bool PlaySkill()
+    {
+        return animatorParameters != null && animatorParameters.PlaySkill();
+    }
+
     public float GetClipLengthContaining(string clipNamePart)
     {
         return animatorParameters != null ? animatorParameters.GetClipLengthContaining(clipNamePart) : 0f;

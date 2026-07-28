@@ -19,10 +19,14 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
     private Rigidbody2D rb;
     private UnitHealth health;
     private UnitStatusEffects statusEffects;
+    private PlayerRangedAttack rangedAttack;
     private Vector2 moveInput;
     private Vector2 lastMove = new Vector2(0, -1);
 
     public bool HasMovementInput => moveInput.sqrMagnitude > 0.0001f;
+
+    /// <summary>Hướng nhìn hiện tại của nhân vật (chuột lái) - hệ skill dùng làm hướng thi triển.</summary>
+    public Vector2 FacingDirection => lastMove;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
         health = GetComponent<UnitHealth>();
         animationController = GetAnimationController();
         audioPlayer = GetComponent<UnitAudioPlayer>();
+        rangedAttack = GetComponent<PlayerRangedAttack>();
         SetupRigidbody();
 
         if (health != null)
@@ -187,6 +192,14 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
 
     private void StartAttack()
     {
+        // Có PlayerRangedAttack -> đòn thường phóng đạn thật; đang hồi thì bỏ luôn animation
+        // để nhịp vung tay khớp nhịp bắn. Không gắn -> giữ hành vi vung tay suông cũ.
+        bool fired = rangedAttack == null || rangedAttack.TryFire();
+        if (!fired)
+        {
+            return;
+        }
+
         animationController?.PlayAttack();
         audioPlayer?.PlaySwing();
     }

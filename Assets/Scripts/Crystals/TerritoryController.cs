@@ -1,16 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// Pha lê đen - công trình lãnh thổ của người chơi (đặt qua GridBuildingSystem như mọi công
-/// trình khác). Xác định bán kính lãnh thổ (dùng cho vòng hiển thị chuột phải và
-/// <see cref="IHasInfluenceRadius"/>). Placeholder hình ảnh giống <see cref="CrystalNode"/>:
-/// SpriteRenderer sprite tròn mặc định, tô màu tối - đổi sang asset thật sau chỉ cần đổi field
+/// Pha lê đen (Obelisk) - công trình lãnh thổ của người chơi (đặt qua GridBuildingSystem như mọi
+/// công trình khác). Xác định bán kính lãnh thổ (dùng cho vòng hiển thị chuột phải và
+/// <see cref="IHasInfluenceRadius"/>, và cho <see cref="TerritoryAuraBuff"/> buff unit phe người
+/// chơi đứng trong vùng). Placeholder hình ảnh giống <see cref="CrystalNode"/>: SpriteRenderer
+/// sprite tròn mặc định, tô màu tối - đổi sang asset thật sau chỉ cần đổi field
 /// <see cref="bodyRenderer"/>.
 /// </summary>
 [DisallowMultipleComponent]
 public class TerritoryController : MonoBehaviour, IHasInfluenceRadius
 {
-    [Tooltip("Bán kính vùng lãnh thổ - unit phe người chơi ra khỏi vùng này bị giảm chỉ số.")]
+    [Tooltip("Bán kính vùng lãnh thổ - unit phe người chơi đứng TRONG vùng này được buff chỉ số.")]
     [SerializeField] private float territoryRadius = 15f;
 
     [Tooltip("Màu vòng hiển thị khi chuột phải vào pha lê đen.")]

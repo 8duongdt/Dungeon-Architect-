@@ -64,3 +64,12 @@ MonoBehaviour:
     maxLevel: 3
     effect: 5
     valuePerLevel: 1
+  - id: ObeliskAuraBonus
+    displayName: Dark Ward
+    description: Each level increases the Obelisk's territory buff (damage, max HP,
+      attack speed, move speed) for allied units by 5%. Base 20%, capped at 40% total.
+    branch: 1
+    tier: 3
+    maxLevel: 4
+    effect: 6
+    valuePerLevel: 0.05

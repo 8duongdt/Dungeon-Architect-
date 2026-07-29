@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3355090968015165569}
   - component: {fileID: 8742319828275224232}
   - component: {fileID: 5994439808158844014}
+  - component: {fileID: 2106557014083988480}
   m_Layer: 0
   m_Name: Void_Obsidian_Obelisk
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDurability
   maxDurability: 1000
   currentDurability: 1000
+--- !u!114 &2106557014083988480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8405850495915307151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6513c6bd4174ea3989c036ad7236401, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::TerritoryAuraBuff
+  refreshInterval: 0.2

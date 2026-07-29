@@ -17,7 +17,8 @@ public enum BuildingUpgradeEffect
     CycleTimeReduction, // -% thời gian chu kỳ sản xuất (cap cứng ở BuildingProgressionEffects).
     Phase2Damage,       // +% sát thương skill của người chơi trong Phase 2.
     Phase2Shield,       // Khiên HP cấp sẵn khi vào Phase 2.
-    Phase2Regen         // HP hồi mỗi giây trong Phase 2.
+    Phase2Regen,        // HP hồi mỗi giây trong Phase 2.
+    ObeliskAuraBonus    // +% cộng thêm vào buff lãnh thổ Obelisk (dmg/HP/tốc-đánh/tốc-chạy).
 }
 
 /// <summary>

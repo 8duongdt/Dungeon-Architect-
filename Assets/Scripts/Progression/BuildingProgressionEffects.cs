@@ -14,6 +14,10 @@ public static class BuildingProgressionEffects
     // nên tổng mức giảm chu kỳ bị cap cứng dù cây có mở rộng thêm bậc sau này.
     public const float MaxCycleTimeReduction = 0.5f;
 
+    // Buff lãnh thổ Obelisk: 20% cố định + tối đa 20% cộng thêm từ nâng cấp, trần cứng 40%.
+    public const float ObeliskBaseBonus = 0.2f;
+    public const float ObeliskMaxBonus = 0.4f;
+
     private static BuildingUpgradeTreeSO cachedTree;
     private static bool hasWarnedMissingTree;
 
@@ -49,6 +53,20 @@ public static class BuildingProgressionEffects
     public static float GetPhase2RegenPerSecond()
     {
         return GetTotalEffectValue(BuildingUpgradeEffect.Phase2Regen);
+    }
+
+    /// <summary>Tổng % buff lãnh thổ Obelisk (20% gốc + bậc đã mua), không vượt trần 40%.</summary>
+    public static float GetObeliskBonusFraction()
+    {
+        float bonus = ObeliskBaseBonus + GetTotalEffectValue(BuildingUpgradeEffect.ObeliskAuraBonus);
+        return Mathf.Min(bonus, ObeliskMaxBonus);
+    }
+
+    /// <summary>Hệ số nhân sẵn dùng cho UnitEffectModifier.ApplyBuff: (dame, máu tối đa, tốc-đánh, tốc-chạy).</summary>
+    public static (float damage, float maxHealth, float attackCooldown, float moveSpeed) GetObeliskMultipliers()
+    {
+        float bonus = GetObeliskBonusFraction();
+        return (1f + bonus, 1f + bonus, 1f - bonus, 1f + bonus);
     }
 
     // Lợi ích tuyến tính: bậc đã mua × giá trị mỗi bậc của node mang hiệu ứng đó.

@@ -298,6 +298,7 @@ public class LobbyController : MonoBehaviour
             case BuildingUpgradeEffect.Phase2Damage: return $"+{percent}% damage (Phase 2){suffix}";
             case BuildingUpgradeEffect.Phase2Shield: return $"{value:0.#} HP shield at Phase 2 start{suffix}";
             case BuildingUpgradeEffect.Phase2Regen: return $"Regen {value:0.#} HP/s (Phase 2){suffix}";
+            case BuildingUpgradeEffect.ObeliskAuraBonus: return $"+{percent}% territory buff (dmg/HP/atk/move speed){suffix}";
             default: return string.Empty;
         }
     }

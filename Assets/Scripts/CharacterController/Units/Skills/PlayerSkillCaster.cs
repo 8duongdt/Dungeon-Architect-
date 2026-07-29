@@ -28,6 +28,15 @@ public class PlayerSkillCaster : MonoBehaviour
     [Tooltip("Nửa góc hình quạt trước mặt nhân vật để tự bắt mục tiêu (độ).")]
     [SerializeField] private float aimConeHalfAngle = 40f;
 
+    [Tooltip("Tầm bắt mục tiêu RIÊNG cho skill nảy chuỗi (ChainStrike, vd Lightning) - rộng hơn "
+        + "castRange chung vì đây là skill tầm xa, không phải cận chiến.")]
+    [SerializeField] private float chainStrikeCastRange = 10f;
+
+    [Tooltip("Nửa góc hình quạt RIÊNG cho ChainStrike (độ) - lớn hơn nhiều aimConeHalfAngle chung, "
+        + "gần như tự khóa địch gần nhất bất kể hướng nhìn, để không bị từ chối cast âm thầm vì "
+        + "lệch hướng nhìn một chút.")]
+    [SerializeField] private float chainStrikeAimConeHalfAngle = 150f;
+
     // Bộ đệm quét vật lý dùng lại giữa các lần cast - không cấp phát rác mỗi lần bấm skill.
     private static readonly List<Collider2D> overlapResults = new List<Collider2D>(64);
     private static readonly ContactFilter2D anyColliderFilter = CreateAnyColliderFilter();
@@ -117,7 +126,8 @@ public class PlayerSkillCaster : MonoBehaviour
         }
 
         Vector2 facing = ResolveFacingDirection();
-        target = FindTargetInFacingCone(facing);
+        (float range, float coneHalfAngle) = ResolveAimParameters(skill.Mechanic);
+        target = FindTargetInFacingCone(facing, range, coneHalfAngle);
         if (target == null && RequiresUnitTarget(skill.Mechanic))
         {
             aimPoint = default;
@@ -134,6 +144,17 @@ public class PlayerSkillCaster : MonoBehaviour
         return mechanic == SkillMechanic.InstantStrike
             || mechanic == SkillMechanic.ChainStrike
             || mechanic == SkillMechanic.ExecuteStrike;
+    }
+
+    /// <summary>
+    /// Tầm/góc bắt mục tiêu theo cơ chế skill - ChainStrike (Lightning) dùng cặp riêng rộng hơn hẳn
+    /// vì đây là skill tầm xa, không nên bị từ chối cast chỉ vì lệch hướng nhìn một chút.
+    /// </summary>
+    private (float range, float coneHalfAngle) ResolveAimParameters(SkillMechanic mechanic)
+    {
+        return mechanic == SkillMechanic.ChainStrike
+            ? (chainStrikeCastRange, chainStrikeAimConeHalfAngle)
+            : (castRange, aimConeHalfAngle);
     }
 
     /// <summary>Hướng nhìn của nhân vật; thiếu PlayerControll thì suy từ nhân vật tới chuột.</summary>
@@ -220,21 +241,21 @@ public class PlayerSkillCaster : MonoBehaviour
     }
 
     /// <summary>Kẻ địch gần nhất nằm trong hình quạt trước mặt nhân vật (tâm quạt = hướng nhìn).</summary>
-    private UnitHealth FindTargetInFacingCone(Vector2 facing)
+    private UnitHealth FindTargetInFacingCone(Vector2 facing, float range, float coneHalfAngle)
     {
         UnitHealth closestTarget = null;
         float closestSqrDistance = float.MaxValue;
-        int hitCount = Physics2D.OverlapCircle(transform.position, castRange, anyColliderFilter, overlapResults);
+        int hitCount = Physics2D.OverlapCircle(transform.position, range, anyColliderFilter, overlapResults);
         for (int i = 0; i < hitCount; i++)
         {
             UnitHealth candidate = overlapResults[i].GetComponentInParent<UnitHealth>();
-            if (candidate == closestTarget || !IsCastableTarget(candidate))
+            if (candidate == closestTarget || !IsCastableTarget(candidate, range))
             {
                 continue;
             }
 
             Vector2 toCandidate = candidate.transform.position - transform.position;
-            bool isInsideAimCone = Vector2.Angle(facing, toCandidate) <= aimConeHalfAngle;
+            bool isInsideAimCone = Vector2.Angle(facing, toCandidate) <= coneHalfAngle;
             bool isCloser = toCandidate.sqrMagnitude < closestSqrDistance;
             if (isInsideAimCone && isCloser)
             {
@@ -246,14 +267,14 @@ public class PlayerSkillCaster : MonoBehaviour
         return closestTarget;
     }
 
-    private bool IsCastableTarget(UnitHealth candidate)
+    private bool IsCastableTarget(UnitHealth candidate, float range)
     {
         if (candidate == null || candidate.IsDead)
         {
             return false;
         }
 
-        bool isInCastRange = Vector2.Distance(transform.position, candidate.transform.position) <= castRange;
+        bool isInCastRange = Vector2.Distance(transform.position, candidate.transform.position) <= range;
         UnitFaction targetFaction = candidate.GetComponentInParent<UnitFaction>();
         return isInCastRange && faction != null && faction.CanAttack(targetFaction);
     }
@@ -283,5 +304,7 @@ public class PlayerSkillCaster : MonoBehaviour
         magicPower = Mathf.Max(0f, magicPower);
         castRange = Mathf.Max(0f, castRange);
         aimConeHalfAngle = Mathf.Clamp(aimConeHalfAngle, 1f, 180f);
+        chainStrikeCastRange = Mathf.Max(0f, chainStrikeCastRange);
+        chainStrikeAimConeHalfAngle = Mathf.Clamp(chainStrikeAimConeHalfAngle, 1f, 180f);
     }
 }

@@ -38,4 +38,4 @@ MonoBehaviour:
   torchPrefab: {fileID: 0}
   chestPrefab: {fileID: 0}
   portalPrefab: {fileID: 2757332645986801505, guid: de8e68926d76623428a0d774cb03d52a, type: 3}
-  portalCount: 4
+  portalCount: 1

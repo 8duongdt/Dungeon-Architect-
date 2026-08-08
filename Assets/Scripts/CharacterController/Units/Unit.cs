@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour, ISpeedModifiable
     private UnitAI unitAI;
     private UnitHealth health;
     private UnitStatusEffects statusEffects;
+    private UnitPathFollower pathFollower;
     private Rigidbody2D rb;
     private Vector3 targetPosition;
     private Vector2 currentMoveDirection;
@@ -142,10 +143,10 @@ public class Unit : MonoBehaviour, ISpeedModifiable
         }
 
         Vector2 currentPosition = rb != null ? rb.position : (Vector2)transform.position;
-        Vector2 targetPosition2D = targetPosition;
-        Vector2 toTarget = targetPosition2D - currentPosition;
+        Vector2 finalDestination = targetPosition;
+        Vector2 toFinalDestination = finalDestination - currentPosition;
 
-        if (toTarget.sqrMagnitude <= stoppingDistance * stoppingDistance)
+        if (toFinalDestination.sqrMagnitude <= stoppingDistance * stoppingDistance)
         {
             currentMoveDirection = Vector2.zero;
             if (rb != null)
@@ -156,10 +157,23 @@ public class Unit : MonoBehaviour, ISpeedModifiable
             return;
         }
 
-        currentMoveDirection = toTarget.normalized;
+        // Component do UnitAI thêm lúc runtime nên phải dò lại khi chưa có (thứ tự Awake không đảm bảo).
+        if (pathFollower == null)
+        {
+            pathFollower = GetComponent<UnitPathFollower>();
+        }
+
+        // Đi theo waypoint A* thay vì lao thẳng xuyên tường - điểm "đã tới nơi" ở trên vẫn tính
+        // theo đích thật, không phải waypoint, để không kết thúc lệnh giữa chừng.
+        Vector2 steeringPoint = pathFollower != null
+            ? (Vector2)pathFollower.GetSteeringPoint(targetPosition).Point
+            : finalDestination;
+        Vector2 toSteeringPoint = steeringPoint - currentPosition;
+
+        currentMoveDirection = toSteeringPoint.sqrMagnitude > 0.0001f ? toSteeringPoint.normalized : Vector2.zero;
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition,
-            targetPosition2D,
+            steeringPoint,
             moveSpeed * speedMultiplier * Time.fixedDeltaTime
         );
 

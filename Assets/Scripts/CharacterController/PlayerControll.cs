@@ -80,6 +80,11 @@ public class PlayerControll : MonoBehaviour, ISpeedModifiable
 
     private void Update()
     {
+        if (PauseManager.IsPaused)
+        {
+            return;
+        }
+
         if (health != null && health.IsDead)
         {
             moveInput = Vector2.zero;

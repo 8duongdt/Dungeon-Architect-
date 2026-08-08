@@ -87,6 +87,11 @@ public class GridBuildingSystem : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.IsPaused)
+        {
+            return;
+        }
+
         if (Mouse.current == null || grid == null)
         {
             return;

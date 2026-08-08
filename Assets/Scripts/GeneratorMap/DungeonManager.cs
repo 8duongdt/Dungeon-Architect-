@@ -54,6 +54,10 @@ public class DungeonManager : MonoBehaviour
     private float[] islandCountFactorByLevel = { 1f, 1.7f, 2.9f };
 
     [Header("Cổng sinh quái")]
+    // Số cổng theo cỡ map (index = cỡ-1) - tách riêng khỏi hệ số map/đảo để chỉnh độc lập.
+    [SerializeField]
+    private int[] portalCountByLevel = { 1, 2, 3 };
+
     // Vật chứa các cổng đã sinh (để Hierarchy gọn). Bỏ trống sẽ tự tạo.
     [SerializeField]
     private Transform portalParent;
@@ -96,7 +100,7 @@ public class DungeonManager : MonoBehaviour
         // mutate asset gốc - sửa runtime sẽ ghi đè asset trong editor); hủy bản sao sau khi sinh xong.
         int sizeLevel = MapSizeProgression.LevelFor(skillTree);
         DungeonData data = CreateSizedData(baseData, sizeLevel);
-        int portalCount = sizeLevel;
+        int portalCount = PortalCountFor(sizeLevel);
 
         switch (data.generatorType)
         {
@@ -136,6 +140,17 @@ public class DungeonManager : MonoBehaviour
             return 1f;
         }
         return factors[index];
+    }
+
+    // Số cổng ứng với cỡ map; mảng thiếu phần tử thì rơi về sizeLevel (hành vi cũ) để không văng.
+    private int PortalCountFor(int sizeLevel)
+    {
+        int index = Mathf.Clamp(sizeLevel - 1, 0, MapSizeProgression.MaxLevel - 1);
+        if (portalCountByLevel == null || index < 0 || index >= portalCountByLevel.Length)
+        {
+            return sizeLevel;
+        }
+        return portalCountByLevel[index];
     }
 
     // Giữ tên ContextMenu quen thuộc; trỏ về luồng sinh thống nhất.
@@ -381,7 +396,7 @@ public class DungeonManager : MonoBehaviour
     private const float FirstSpawnDelaySeconds = 60f;
     private const float MapWideWaveIntervalSeconds = 25f;
 
-    // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ theme.portalCount).
+    // Rải cổng vào tâm một vài phòng ngẫu nhiên (số lượng lấy từ portalCountByLevel).
     private void SpawnPortals(MapThemeSO theme, IReadOnlyList<RectInt> rooms, int portalCount)
     {
         if (theme.portalPrefab == null || portalCount <= 0 || rooms == null || rooms.Count == 0)
@@ -391,7 +406,7 @@ public class DungeonManager : MonoBehaviour
 
         EnsurePortalParent();
 
-        List<Vector2Int> centers = ShuffledRoomCenters(rooms);
+        List<Vector2Int> centers = WalkableRoomCenters(rooms);
         int portalsToSpawn = Mathf.Min(portalCount, centers.Count);
         for (int i = 0; i < portalsToSpawn; i++)
         {
@@ -423,6 +438,34 @@ public class DungeonManager : MonoBehaviour
             portalParent = new GameObject("Portals").transform;
             portalParent.SetParent(transform, false);
         }
+    }
+
+    // Tâm các phòng đi lại được, đã trộn ngẫu nhiên - loại bỏ tâm nào lỡ rơi ra ngoài vùng đã vẽ
+    // (tường/rỗng) trước khi rải cổng, để cổng không bao giờ kẹt ngoài map.
+    private List<Vector2Int> WalkableRoomCenters(IReadOnlyList<RectInt> rooms)
+    {
+        List<Vector2Int> centers = ShuffledRoomCenters(rooms);
+        centers.RemoveAll(center => !IsWalkableCell(center));
+        return centers;
+    }
+
+    // Ô hợp lệ để đặt cổng: nằm trong lưới CurrentMap và là Floor/Gate (không phải Wall/Empty/nước).
+    private bool IsWalkableCell(Vector2Int cell)
+    {
+        if (CurrentMap == null)
+        {
+            return false;
+        }
+
+        int width = CurrentMap.GetLength(0);
+        int height = CurrentMap.GetLength(1);
+        if (cell.x < 0 || cell.y < 0 || cell.x >= width || cell.y >= height)
+        {
+            return false;
+        }
+
+        TileType tile = CurrentMap[cell.x, cell.y];
+        return tile == TileType.Floor || tile == TileType.Gate;
     }
 
     // Tâm các phòng, đã trộn ngẫu nhiên -> mỗi phòng tối đa một cổng, vị trí ngẫu nhiên.

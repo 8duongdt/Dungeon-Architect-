@@ -32,6 +32,7 @@ GameObject:
   - component: {fileID: 6211206080423088465}
   - component: {fileID: 4773455434262535291}
   - component: {fileID: 1274264762605008581}
+  - component: {fileID: 6957322812956276119}
   m_Layer: 0
   m_Name: TheTank_Master
   m_TagString: Untagged
@@ -441,8 +442,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c4e5ebb56ce59b43843d181159c4d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrystalCampaignAgent
-  repathSeconds: 2
-  waypointTolerance: 0.35
   arriveRadiusFactor: 0.7
 --- !u!114 &4773455434262535291
 MonoBehaviour:
@@ -468,11 +467,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: db22b2bc6a776664a8e6915ad17048d0, type: 3}
   - {fileID: 8300000, guid: 8ebd7a40beafe744081f86eb3931101c, type: 3}
   hurtClips:
-  - {fileID: 8300000, guid: 943791bf1d0750242965f66310e410e0, type: 3}
-  - {fileID: 8300000, guid: ba92ebddc53088a4ba413df36f3f5bee, type: 3}
-  - {fileID: 8300000, guid: 6faf3c2a7216a5746a7107f815473d48, type: 3}
-  - {fileID: 8300000, guid: 1e153b026015063499913b21366a3c54, type: 3}
-  - {fileID: 8300000, guid: 053416390c95e2e47a5d2fedbd65a208, type: 3}
+  - {fileID: 8300000, guid: bdb2f505248147545ae6b4c68480e208, type: 3}
+  - {fileID: 8300000, guid: eb12b0bcc688eda43950536c7e8a8732, type: 3}
+  - {fileID: 8300000, guid: 1cab2cdc95fa09b4a9ccb3cc62105b72, type: 3}
+  - {fileID: 8300000, guid: 1e4352768b6402244ba420f3a9af553e, type: 3}
   deathClips:
   - {fileID: 8300000, guid: c84b8d23cd84cf34e83861fdde772a83, type: 3}
   - {fileID: 8300000, guid: 31689dff808721343acb883adcfe5b47, type: 3}
@@ -493,6 +491,21 @@ MonoBehaviour:
   magicPower: 10
   castWhileChasing: 1
   chaseCastRange: 5
+--- !u!114 &6957322812956276119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196072619999929052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10e658d95310ce040850d2b7e71d6471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitPathFollower
+  repathSeconds: 0.4
+  waypointTolerance: 0.35
+  destinationJumpThreshold: 1
 --- !u!1 &1174905261294665001
 GameObject:
   m_ObjectHideFlags: 0

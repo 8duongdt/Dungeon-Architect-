@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2861734950627483519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4462718905337261984}
+  - component: {fileID: 6357904128174510225}
+  m_Layer: 6
+  m_Name: PhysicalBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4462718905337261984
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861734950627483519}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1695315389152696127}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6357904128174510225
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861734950627483519}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 1.2
 --- !u!1 &7146623117625161502
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,7 +103,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4462718905337261984}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5524803976936987134
@@ -200,13 +269,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00faf14b1e55c654a8889c309393de0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrystalReinforcementSpawner
-  meleePrefabs:
-  - {fileID: 6459916382713945916, guid: e625c1294443c7e4da42cc80c8f73395, type: 3}
-  - {fileID: 545617725787841532, guid: a9e8076a5d98bd0499aba8940e18a471, type: 3}
-  - {fileID: 5185853700990493794, guid: e6f60800e30a37d45a845c17a78c0662, type: 3}
-  rangedPrefabs:
-  - {fileID: 7287126120717978554, guid: 327027d88d011d643a0626a9c832fddd, type: 3}
-  - {fileID: 6800576660072495815, guid: 6b664826fbd5ebf4cbaa5743bd21349b, type: 3}
+  meleeEntries:
+  - prefab: {fileID: 6459916382713945916, guid: e625c1294443c7e4da42cc80c8f73395, type: 3}
+    minSizeLevel: 1
+  - prefab: {fileID: 545617725787841532, guid: a9e8076a5d98bd0499aba8940e18a471, type: 3}
+    minSizeLevel: 2
+  - prefab: {fileID: 5185853700990493794, guid: e6f60800e30a37d45a845c17a78c0662, type: 3}
+    minSizeLevel: 2
+  rangedEntries:
+  - prefab: {fileID: 7287126120717978554, guid: 327027d88d011d643a0626a9c832fddd, type: 3}
+    minSizeLevel: 1
+  - prefab: {fileID: 6800576660072495815, guid: 6b664826fbd5ebf4cbaa5743bd21349b, type: 3}
+    minSizeLevel: 3
+  skillTree: {fileID: 11400000, guid: d2cf0c82f768bcd49aa65e2e4db5f4ae, type: 2}
   spawnInterval: 20
   maxAlive: 5
   spawnRadius: 1.2

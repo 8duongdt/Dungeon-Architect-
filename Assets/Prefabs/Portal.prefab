@@ -131,18 +131,25 @@ MonoBehaviour:
   budgetEntries:
   - prefab: {fileID: 6459916382713945916, guid: e625c1294443c7e4da42cc80c8f73395, type: 3}
     cost: 1
+    minSizeLevel: 1
   - prefab: {fileID: 545617725787841532, guid: a9e8076a5d98bd0499aba8940e18a471, type: 3}
     cost: 2
+    minSizeLevel: 2
   - prefab: {fileID: 986122579456199077, guid: 9a661185044a8e44991a6a46dd21d83e, type: 3}
     cost: 5
+    minSizeLevel: 3
   - prefab: {fileID: 5185853700990493794, guid: e6f60800e30a37d45a845c17a78c0662, type: 3}
     cost: 2
+    minSizeLevel: 2
   - prefab: {fileID: 196072619999929052, guid: 73c31a965cf402b40bac6af3a1c913f4, type: 3}
     cost: 5
+    minSizeLevel: 3
   - prefab: {fileID: 7287126120717978554, guid: 327027d88d011d643a0626a9c832fddd, type: 3}
     cost: 2
+    minSizeLevel: 2
   - prefab: {fileID: 6800576660072495815, guid: 6b664826fbd5ebf4cbaa5743bd21349b, type: 3}
     cost: 5
+    minSizeLevel: 3
   enemyPrefab: {fileID: 0}
   waveBudget: 8
   budgetGrowthPerMinute: 2
@@ -154,6 +161,7 @@ MonoBehaviour:
   maxEnemies: 8
   maxTotalSpawns: 0
   spawnRadius: 1.5
+  skillTree: {fileID: 11400000, guid: d2cf0c82f768bcd49aa65e2e4db5f4ae, type: 2}
 --- !u!114 &4294458914778348828
 MonoBehaviour:
   m_ObjectHideFlags: 0

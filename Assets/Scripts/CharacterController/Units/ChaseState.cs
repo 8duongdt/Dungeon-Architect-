@@ -6,12 +6,15 @@ public class ChaseState : MonoBehaviour
     private UnitAI ai;
     private UnitMovement movement;
     private AttackAreaBase attackArea;
+    private UnitPathFollower pathFollower;
 
-    public void Initialize(UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea)
+    public void Initialize(
+        UnitAI unitAI, UnitMovement unitMovement, AttackAreaBase unitAttackArea, UnitPathFollower unitPathFollower)
     {
         ai = unitAI;
         movement = unitMovement;
         attackArea = unitAttackArea;
+        pathFollower = unitPathFollower;
     }
 
     public void Tick()
@@ -38,6 +41,8 @@ public class ChaseState : MonoBehaviour
             return;
         }
 
-        movement.MoveTowards(target.position, attackArea.AttackApproachRange);
+        UnitPathFollower.SteeringResult steering = pathFollower.GetSteeringPoint(target.position);
+        float stopDistance = steering.IsFinalDestination ? attackArea.AttackApproachRange : 0f;
+        movement.MoveTowards(steering.Point, stopDistance);
     }
 }

@@ -33,6 +33,11 @@ public class UnitController : MonoBehaviour
 
     private void Update()
     {
+        if (PauseManager.IsPaused)
+        {
+            return;
+        }
+
         if (Mouse.current == null || Camera.main == null)
         {
             return;

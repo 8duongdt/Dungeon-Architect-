@@ -21,9 +21,9 @@ MonoBehaviour:
   chestSpawnRate: 5
   roomFirstMapWidth: 40
   roomFirstMapHeight: 40
-  roomFirstMinRoomWidth: 8
-  roomFirstMinRoomHeight: 8
-  roomFirstOffset: 1
+  roomFirstMinRoomWidth: 14
+  roomFirstMinRoomHeight: 14
+  roomFirstOffset: 3
   squareMapSize: 100
   swampRoomChance: 65
   swampWaterPercentage: 25

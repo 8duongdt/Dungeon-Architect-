@@ -9,8 +9,13 @@ using UnityEngine;
 /// Kiêm luôn ÁP LỰC THÍCH ỨNG (rubber-band): người chơi càng đông quân thì quái càng ra nhanh và
 /// trần dân số càng cao - chống việc quái vừa ra đã bị quây giết sạch nên trận đấu hoá nhạt.
 ///
+/// Kiêm luôn TỔNG SỐ QUÁI ĐÃ GIẾT (<see cref="TotalKills"/>, Phase2Director đọc để xét thắng) và
+/// NHỊP SÓNG TOÀN CỤC (<see cref="TryClaimWaveSlot"/>, chặn hai nguồn sinh nhả quân cùng lúc làm
+/// người chơi bị ngợp) - tận dụng chung điểm hẹn mọi nguồn sinh đã gọi vào sẵn.
+///
 /// Là singleton scene tối giản theo mẫu <see cref="ResourceManager"/> - không có limiter trong scene
-/// thì các nguồn sinh hoạt động như cũ (không giới hạn toàn cục, không rubber-band).
+/// thì các nguồn sinh hoạt động như cũ (không giới hạn toàn cục, không rubber-band, không đếm kill,
+/// luôn cho nhả sóng).
 /// </summary>
 public class EnemyPopulationLimiter : MonoBehaviour
 {
@@ -54,7 +59,15 @@ public class EnemyPopulationLimiter : MonoBehaviour
     [Min(0f)]
     private float intervalReductionPerStep = 0.1f;
 
+    [Header("Nhịp sóng toàn cục (chống dồn quái)")]
+    [Tooltip("Khoảng cách tối thiểu giữa hai đợt quái BẤT KỲ trên toàn bản đồ (cổng hoặc tiếp viện tinh thể).")]
+    [SerializeField]
+    [Min(0f)]
+    private float globalWaveCooldownSeconds = 8f;
+
     private int alivePopulation;
+    private int totalKills;
+    private float lastWaveFiredTime = -999f;
 
     // Giá trị dẫn xuất từ số quân người chơi, tính lại theo nhịp thưa rồi cache cho các nguồn sinh đọc.
     private int bonusPopulation;
@@ -72,6 +85,31 @@ public class EnemyPopulationLimiter : MonoBehaviour
     public static float SpawnIntervalMultiplier()
     {
         return Instance == null ? 1f : Instance.intervalMultiplier;
+    }
+
+    /// <summary>Tổng số quái đã chết kể từ đầu trận - không có limiter thì trả 0 (chưa có trận nào tính).</summary>
+    public static int TotalKills()
+    {
+        return Instance == null ? 0 : Instance.totalKills;
+    }
+
+    /// <summary>Giành quyền bắn một đợt quái mới - không có limiter thì luôn cho qua (degrade an toàn).
+    /// Nguồn sinh gọi hàm này TRƯỚC khi thực sự nhả quân; nếu trả false thì KHÔNG reset đồng hồ riêng
+    /// của mình, để tick sau thử lại ngay thay vì bỏ lỡ nguyên một chu kỳ sinh quái.</summary>
+    public static bool TryClaimWaveSlot()
+    {
+        if (Instance == null)
+        {
+            return true;
+        }
+
+        if (Time.time - Instance.lastWaveFiredTime < Instance.globalWaveCooldownSeconds)
+        {
+            return false;
+        }
+
+        Instance.lastWaveFiredTime = Time.time;
+        return true;
     }
 
     private int EffectiveMaxPopulation => maxAlivePopulation + bonusPopulation;
@@ -158,5 +196,6 @@ public class EnemyPopulationLimiter : MonoBehaviour
     {
         health.Died -= OnUnitDied;
         alivePopulation = Mathf.Max(0, alivePopulation - 1);
+        totalKills++;
     }
 }

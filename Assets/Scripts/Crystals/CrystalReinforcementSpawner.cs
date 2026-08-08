@@ -7,16 +7,33 @@ using UnityEngine;
 /// Progress không sinh. Giới hạn <see cref="maxAlive"/> quân sống do cục này quản lý để không tràn
 /// màn (theo mẫu death-tracking của <see cref="EnemySpawner"/>). Quân sinh ra có sẵn
 /// <see cref="CrystalCampaignAgent"/> nên tự nhập đồn trú/chiến dịch qua IdleState.
-/// Mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ (<see cref="EnemyPopulationLimiter"/>).
+/// Mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ (<see cref="EnemyPopulationLimiter"/>)
+/// và nhịp sóng toàn cục (<see cref="EnemyPopulationLimiter.TryClaimWaveSlot"/> - tránh trùng lúc với
+/// cổng/tinh thể khác). Mỗi loại quân còn có <see cref="CrystalSpawnEntry.minSizeLevel"/> - tự suy ra
+/// cỡ map hiện tại từ <see cref="MapSizeProgression"/> (giống EnemySpawner) để chỉ chọn loại đã mở khóa.
 /// </summary>
 [RequireComponent(typeof(CrystalNode))]
 public class CrystalReinforcementSpawner : MonoBehaviour
 {
+    [System.Serializable]
+    public class CrystalSpawnEntry
+    {
+        [Tooltip("Prefab quân của loại này.")]
+        public GameObject prefab;
+
+        [Tooltip("Cỡ map tối thiểu để loại quân này được chọn (1 = luôn có thể xuất hiện).")]
+        [Min(1)]
+        public int minSizeLevel = 1;
+    }
+
     [Tooltip("Quân cận chiến sinh ra khi tinh thể GOLD bị chiếm.")]
-    [SerializeField] private List<GameObject> meleePrefabs = new List<GameObject>();
+    [SerializeField] private List<CrystalSpawnEntry> meleeEntries = new List<CrystalSpawnEntry>();
 
     [Tooltip("Quân tầm xa sinh ra khi tinh thể MANA bị chiếm.")]
-    [SerializeField] private List<GameObject> rangedPrefabs = new List<GameObject>();
+    [SerializeField] private List<CrystalSpawnEntry> rangedEntries = new List<CrystalSpawnEntry>();
+
+    [Tooltip("Cây kỹ năng - dùng suy ra cỡ map hiện tại (giống DungeonManager) để lọc quân theo minSizeLevel.")]
+    [SerializeField] private SkillTreeSO skillTree;
 
     [Tooltip("Khoảng thời gian (giây) giữa hai lần sinh tiếp viện.")]
     [SerializeField]
@@ -36,6 +53,7 @@ public class CrystalReinforcementSpawner : MonoBehaviour
     private CrystalNode crystalNode;
     private float timer;
     private int aliveCount;
+    private int currentSizeLevel = 1;
 
     // Nhịp thực tế sau khi áp áp lực thích ứng: người chơi càng đông quân, tiếp viện về càng dày.
     private float EffectiveSpawnInterval => spawnInterval * EnemyPopulationLimiter.SpawnIntervalMultiplier();
@@ -43,6 +61,7 @@ public class CrystalReinforcementSpawner : MonoBehaviour
     private void Awake()
     {
         crystalNode = GetComponent<CrystalNode>();
+        currentSizeLevel = MapSizeProgression.LevelFor(skillTree);
     }
 
     private void Update()
@@ -56,35 +75,52 @@ public class CrystalReinforcementSpawner : MonoBehaviour
             return;
         }
 
-        List<GameObject> pool = ReinforcementPool();
+        List<CrystalSpawnEntry> pool = UnlockedReinforcementPool();
         if (pool.Count == 0)
         {
             return;
         }
 
         timer += Time.deltaTime;
-        if (timer >= EffectiveSpawnInterval)
+        // Chưa tới lượt (nguồn sinh khác vừa nhả sóng) thì KHÔNG reset timer - tick sau thử lại ngay
+        // thay vì bỏ lỡ nguyên một chu kỳ spawnInterval.
+        if (timer >= EffectiveSpawnInterval && EnemyPopulationLimiter.TryClaimWaveSlot())
         {
             timer = 0f;
-            SpawnReinforcement(pool[Random.Range(0, pool.Count)]);
+            SpawnReinforcement(pool[Random.Range(0, pool.Count)].prefab);
         }
     }
 
-    // Loại quân theo loại tinh thể: Gold nuôi cận chiến, Mana nuôi tầm xa, Progress không nuôi gì.
-    private List<GameObject> ReinforcementPool()
+    // Loại quân theo loại tinh thể (Gold nuôi cận chiến, Mana nuôi tầm xa, Progress không nuôi gì),
+    // đã lọc theo cỡ map hiện tại.
+    private List<CrystalSpawnEntry> UnlockedReinforcementPool()
+    {
+        List<CrystalSpawnEntry> pool = ReinforcementPool();
+        var unlocked = new List<CrystalSpawnEntry>();
+        foreach (CrystalSpawnEntry entry in pool)
+        {
+            if (entry.prefab != null && entry.minSizeLevel <= currentSizeLevel)
+            {
+                unlocked.Add(entry);
+            }
+        }
+        return unlocked;
+    }
+
+    private List<CrystalSpawnEntry> ReinforcementPool()
     {
         switch (crystalNode.Type)
         {
             case CrystalType.Gold:
-                return meleePrefabs;
+                return meleeEntries;
             case CrystalType.Mana:
-                return rangedPrefabs;
+                return rangedEntries;
             default:
                 return EmptyPool;
         }
     }
 
-    private static readonly List<GameObject> EmptyPool = new List<GameObject>();
+    private static readonly List<CrystalSpawnEntry> EmptyPool = new List<CrystalSpawnEntry>();
 
     private void SpawnReinforcement(GameObject prefab)
     {

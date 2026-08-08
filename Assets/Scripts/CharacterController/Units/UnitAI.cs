@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(UnitDamageAnimation))]
 [RequireComponent(typeof(UnitMovement))]
 [RequireComponent(typeof(UnitLineOfSight))]
+[RequireComponent(typeof(UnitPathFollower))]
 [RequireComponent(typeof(IdleState))]
 [RequireComponent(typeof(ChaseState))]
 [RequireComponent(typeof(AttackState))]
@@ -25,6 +26,7 @@ public class UnitAI : MonoBehaviour
     private UnitHealth health;
     private UnitFaction faction;
     private UnitMovement movement;
+    private UnitPathFollower pathFollower;
     private AttackAreaBase attackArea;
     private IdleState idleState;
     private ChaseState chaseState;
@@ -48,7 +50,7 @@ public class UnitAI : MonoBehaviour
     {
         ResolveComponents();
         idleState.Initialize(this, movement, attackArea);
-        chaseState.Initialize(this, movement, attackArea);
+        chaseState.Initialize(this, movement, attackArea, pathFollower);
         attackState.Initialize(this, movement, attackArea);
     }
 
@@ -204,6 +206,7 @@ public class UnitAI : MonoBehaviour
         GetOrAdd<UnitDamageAnimation>();
         faction = GetOrAdd<UnitFaction>();
         movement = GetOrAdd<UnitMovement>();
+        pathFollower = GetOrAdd<UnitPathFollower>();
         attackArea = GetComponent<MeleeAttackArea>();
         if (attackArea == null)
         {

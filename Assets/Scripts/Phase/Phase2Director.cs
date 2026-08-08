@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Trọng tài của TRẬN ĐÁNH PHASE 2 - định nghĩa thắng/thua của phase:
-///   THẮNG: mọi cổng sinh quái đã cạn hạn ngạch VÀ không còn quái sống
+///   THẮNG: diệt đủ số quái mục tiêu (<see cref="killTargetBySizeLevel"/>, theo cỡ map hiện tại)
 ///          -> thưởng điểm kỹ năng + điểm công trình rồi về sảnh chờ.
 ///   THUA:  người chơi chết -> về sảnh chờ tay trắng.
-/// Kiểm tra thắng theo nhịp thưa (không cần mỗi frame); kết quả hiện trên panel HUD
-/// một khoảng ngắn trước khi chuyển scene. Scene-local, không singleton.
+/// Số quái đã diệt đọc từ <see cref="EnemyPopulationLimiter.TotalKills"/> - đếm chung mọi nguồn sinh
+/// (cổng lẫn tiếp viện tinh thể) map-wide. Kiểm tra thắng theo nhịp thưa (không cần mỗi frame); kết
+/// quả hiện trên panel HUD một khoảng ngắn trước khi chuyển scene. Scene-local, không singleton.
 /// </summary>
 public class Phase2Director : MonoBehaviour
 {
@@ -37,7 +38,13 @@ public class Phase2Director : MonoBehaviour
     [Tooltip("Tên scene sảnh chờ - phải có trong Build Settings.")]
     [SerializeField] private string lobbySceneName = "Lobby";
 
-    private EnemySpawner[] spawners;
+    [Tooltip("Cây kỹ năng - dùng suy ra cỡ map hiện tại (giống DungeonManager) để chọn mục tiêu số quái cần diệt.")]
+    [SerializeField] private SkillTreeSO skillTree;
+
+    [Tooltip("Số quái cần diệt để thắng, theo cỡ map (index = cỡ-1).")]
+    [SerializeField] private int[] killTargetBySizeLevel = { 20, 25, 30 };
+
+    private int killTarget;
     private float nextWinCheckTime;
     private bool hasEnded;
 
@@ -46,11 +53,23 @@ public class Phase2Director : MonoBehaviour
 
     private void Start()
     {
-        spawners = FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None);
+        killTarget = KillTargetFor(MapSizeProgression.LevelFor(skillTree));
+
         if (playerHealth != null)
         {
             playerHealth.Died += OnPlayerDied;
         }
+    }
+
+    // Mục tiêu số quái cần diệt ứng với cỡ map; mảng thiếu phần tử thì rơi về sizeLevel để không văng.
+    private int KillTargetFor(int sizeLevel)
+    {
+        int index = Mathf.Clamp(sizeLevel - 1, 0, MapSizeProgression.MaxLevel - 1);
+        if (killTargetBySizeLevel == null || index < 0 || index >= killTargetBySizeLevel.Length)
+        {
+            return sizeLevel;
+        }
+        return killTargetBySizeLevel[index];
     }
 
     private void OnDestroy()
@@ -70,7 +89,7 @@ public class Phase2Director : MonoBehaviour
         }
 
         nextWinCheckTime = Time.time + WinCheckInterval;
-        if (AllEnemiesDefeated())
+        if (EnemyPopulationLimiter.TotalKills() >= killTarget)
         {
             // Thắng phase cuối: reset checkpoint về Phase 1 cho lượt chơi mới. Thua thì giữ nguyên
             // Phase 2 (OnPlayerDied) để lần Tiếp tục sau chơi lại đúng phase đang thua.
@@ -79,26 +98,6 @@ public class Phase2Director : MonoBehaviour
                 $"VICTORY!\n+{winSkillPointReward} skill points, +{winBuildingPointReward} building points",
                 winSkillPointReward, winBuildingPointReward, isVictory: true);
         }
-    }
-
-    /// <summary>Thắng khi có ít nhất một cổng, mọi cổng đã sinh đủ hạn ngạch và sạch bóng quái.</summary>
-    private bool AllEnemiesDefeated()
-    {
-        if (spawners == null || spawners.Length == 0)
-        {
-            return false;
-        }
-
-        foreach (EnemySpawner spawner in spawners)
-        {
-            bool spawnerStillActive = !spawner.HasFinishedSpawning || spawner.AliveEnemyCount > 0;
-            if (spawnerStillActive)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     private void OnPlayerDied(UnitHealth health)

@@ -15,7 +15,10 @@ using UnityEngine;
 /// <see cref="OverrideSchedule"/> (so le các cổng để toàn bản đồ mỗi chu kỳ chỉ một cổng ra đợt).
 /// Giới hạn tổng quái sống bằng <see cref="maxEnemies"/>; quái chết trả lại chỗ trống.
 /// Ngoài cap riêng của cổng, mỗi lần sinh còn tôn trọng trần dân số chung toàn bản đồ
-/// (<see cref="EnemyPopulationLimiter"/>) - không có limiter trong scene thì bỏ qua.
+/// (<see cref="EnemyPopulationLimiter"/>) - không có limiter trong scene thì bỏ qua. Mỗi loại quái
+/// trong <see cref="BudgetSpawnEntry"/> còn có <see cref="BudgetSpawnEntry.minSizeLevel"/> - cổng tự
+/// suy ra cỡ map hiện tại từ <see cref="MapSizeProgression"/> (giống DungeonManager) để chỉ rút thăm
+/// những loại đã "mở khóa", quái mạnh chỉ xuất hiện khi người chơi đã lên cỡ map cao hơn.
 /// </summary>
 public class EnemySpawner : MonoBehaviour
 {
@@ -28,6 +31,10 @@ public class EnemySpawner : MonoBehaviour
         [Tooltip("Giá điểm ngân sách - quái thường rẻ, elite đắt.")]
         [Min(1)]
         public int cost = 1;
+
+        [Tooltip("Cỡ map tối thiểu để loại quái này được rút thăm (1 = luôn có thể xuất hiện).")]
+        [Min(1)]
+        public int minSizeLevel = 1;
     }
 
     [Header("Thành phần đợt quái (Budget System)")]
@@ -92,6 +99,13 @@ public class EnemySpawner : MonoBehaviour
     [Min(0f)]
     private float spawnRadius = 1.5f;
 
+    [Header("Cỡ map")]
+    [Tooltip("Cây kỹ năng - dùng suy ra cỡ map hiện tại (giống DungeonManager) để lọc quái theo minSizeLevel.")]
+    [SerializeField]
+    private SkillTreeSO skillTree;
+
+    private int currentSizeLevel = 1;
+
     // Giãn cách giữa hai con trong cùng một đợt - tránh khựng hình vì Instantiate dồn
     // một frame và tránh cả đợt đè chồng lên nhau tại cổng.
     private const float SpawnStaggerSeconds = 0.15f;
@@ -120,6 +134,11 @@ public class EnemySpawner : MonoBehaviour
     {
         initialSpawnDelay = Mathf.Max(0f, firstWaveDelay);
         spawnInterval = Mathf.Max(0.01f, interval);
+    }
+
+    private void Awake()
+    {
+        currentSizeLevel = MapSizeProgression.LevelFor(skillTree);
     }
 
     private void OnEnable()
@@ -154,7 +173,10 @@ public class EnemySpawner : MonoBehaviour
         timer += Time.deltaTime;
 
         bool isWaveInProgress = waveRoutine != null;
-        if (timer >= EffectiveSpawnInterval && !isWaveInProgress)
+        bool readyToFire = timer >= EffectiveSpawnInterval && !isWaveInProgress;
+        // Chưa tới lượt (cổng khác vừa nhả sóng) thì KHÔNG reset timer - tick sau thử lại ngay
+        // thay vì bỏ lỡ nguyên một chu kỳ spawnInterval.
+        if (readyToFire && EnemyPopulationLimiter.TryClaimWaveSlot())
         {
             waveRoutine = StartCoroutine(SpawnWaveStaggered(ComposeWave(CurrentBudget(), NextWaveEnemyLimit())));
             hasSpawnedFirstWave = true;
@@ -213,7 +235,7 @@ public class EnemySpawner : MonoBehaviour
         var affordable = new List<BudgetSpawnEntry>();
         foreach (BudgetSpawnEntry entry in budgetEntries)
         {
-            if (entry.prefab != null && entry.cost <= remaining)
+            if (entry.prefab != null && entry.cost <= remaining && entry.minSizeLevel <= currentSizeLevel)
             {
                 affordable.Add(entry);
             }

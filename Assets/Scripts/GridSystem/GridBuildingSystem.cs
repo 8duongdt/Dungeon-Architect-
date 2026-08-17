@@ -26,6 +26,10 @@ public class GridBuildingSystem : MonoBehaviour
     [SerializeField]
     private LayerMask crystalPickLayer = ~0;
 
+    // Bề dày trục Z của khối cập nhật graph - graph 2D nằm trên mặt phẳng XY nên chỉ cần đủ dày
+    // để khối chắc chắn cắt qua mặt phẳng đó.
+    private const float GraphUpdateDepth = 10f;
+
     private GridXY<GridObject> grid;
     private PlacedObjectTypeSO activeType;
 
@@ -248,6 +252,7 @@ public class GridBuildingSystem : MonoBehaviour
             grid.GetGridObject(cell).SetPlacedObject(placedObject);
         }
 
+        PathfindingGraphBuilder.UpdateArea(FootprintBounds(placedObject));
         Placed?.Invoke(placedObject);
 
         // Đặt xong một công trình thì thoát chế độ xây - muốn xây tiếp phải chọn lại nút UI.
@@ -300,7 +305,9 @@ public class GridBuildingSystem : MonoBehaviour
         }
 
         RefundBuildCost(placedObject.Type);
+        Bounds footprint = FootprintBounds(placedObject);
         placedObject.DestroySelf();
+        PathfindingGraphBuilder.MarkAreaWalkable(footprint);
         Demolished?.Invoke();
 
         // Ô vừa giải phóng cần đổi lại màu overlay nếu đang ở chế độ xây.
@@ -324,8 +331,19 @@ public class GridBuildingSystem : MonoBehaviour
             grid.GetGridObject(cell)?.ClearPlacedObject();
         }
 
+        PathfindingGraphBuilder.MarkAreaWalkable(FootprintBounds(placedObject));
         DestroyedInCombat?.Invoke();
         BuildStateChanged?.Invoke();
+    }
+
+    // Khối world mà công trình chiếm chỗ. PlacedObject.Create đặt prefab đúng tâm footprint
+    // (GetPlacementWorldPosition) nên transform.position chính là tâm khối.
+    private Bounds FootprintBounds(PlacedObject placedObject)
+    {
+        PlacedObjectTypeSO type = placedObject.Type;
+        float cellSize = tilemapVisualizer.CellSize;
+        var size = new Vector3(type.width * cellSize, type.height * cellSize, GraphUpdateDepth);
+        return new Bounds(placedObject.transform.position, size);
     }
 
     /// <summary>Số Vàng hoàn lại khi phá loại công trình này.</summary>

@@ -222,6 +222,27 @@ public class TilemapVisualizer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Ép collider tường dựng lại hình dạng NGAY lập tức. TilemapCollider2D bình thường gom thay
+    /// đổi tới cuối frame, nên ai quét vật lý ngay sau khi vẽ tile (A* Scan) sẽ đọc trúng hình
+    /// dạng của map CŨ và tưởng cả bản đồ đều đi được.
+    /// </summary>
+    public void RefreshWallCollider()
+    {
+        if (wallTilemap == null)
+        {
+            return;
+        }
+
+        var wallCollider = wallTilemap.GetComponent<TilemapCollider2D>();
+        if (wallCollider != null)
+        {
+            wallCollider.ProcessTilemapChanges();
+        }
+
+        Physics2D.SyncTransforms();
+    }
+
     // Chuyển tọa độ ô (cell) thành tọa độ tâm ô trong không gian thế giới (world),
     // dùng để đặt các GameObject (ví dụ: Cổng sinh quái) vào đúng giữa phòng.
     public Vector3 CellToWorldCenter(Vector2Int cellPosition)

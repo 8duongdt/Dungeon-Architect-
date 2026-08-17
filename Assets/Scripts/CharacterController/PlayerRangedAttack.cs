@@ -25,6 +25,10 @@ public class PlayerRangedAttack : MonoBehaviour
     [Tooltip("Thời gian hồi dự phòng giữa hai phát bắn khi thiếu UnitStats (giây).")]
     [SerializeField] private float fallbackCooldown = 0.5f;
 
+    [Tooltip("Hệ số nhân sát thương đánh thường của người chơi - chỉnh ở đây thay vì sửa "
+        + "asset chỉ số, vì Player_Stats đang dùng chung với unit khác.")]
+    [SerializeField] private float damageMultiplier = 1.2f;
+
     [Tooltip("Điểm phóng so với gốc nhân vật - nâng lên ngang thân thay vì bắn từ chân.")]
     [SerializeField] private Vector2 muzzleOffset = new Vector2(0f, 0.5f);
 
@@ -72,7 +76,8 @@ public class PlayerRangedAttack : MonoBehaviour
     private float ResolveDamage()
     {
         bool hasStats = stats != null && stats.Stats != null;
-        return hasStats ? stats.Stats.AttackDamage : fallbackDamage;
+        float baseDamage = hasStats ? stats.Stats.AttackDamage : fallbackDamage;
+        return baseDamage * damageMultiplier;
     }
 
     private float ResolveCooldown()
@@ -87,5 +92,6 @@ public class PlayerRangedAttack : MonoBehaviour
         maxRange = Mathf.Max(0.1f, maxRange);
         fallbackDamage = Mathf.Max(0f, fallbackDamage);
         fallbackCooldown = Mathf.Max(0.05f, fallbackCooldown);
+        damageMultiplier = Mathf.Max(0f, damageMultiplier);
     }
 }

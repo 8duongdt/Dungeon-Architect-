@@ -15,7 +15,7 @@ public class PathfindingGraphBuilder : MonoBehaviour
     [Tooltip("Quy đổi ô lưới -> tọa độ world cho tâm graph.")]
     [SerializeField] private TilemapVisualizer tilemapVisualizer;
 
-    [Tooltip("Layer chứa collider tường - node chạm collider layer này bị coi là không đi được.")]
+    [Tooltip("Layer chứa collider tường (Obstacle) - node chạm collider layer này bị coi là không đi được.")]
     [SerializeField] private LayerMask obstacleMask = 1 << 6;
 
     [Tooltip("Đường kính vòng kiểm tra va chạm mỗi node (theo đơn vị node) - nhỏ hơn 1 để cửa rộng 1 ô vẫn đi lọt.")]
@@ -69,7 +69,45 @@ public class PathfindingGraphBuilder : MonoBehaviour
         graph.collision.diameter = collisionDiameter;
         graph.collision.mask = obstacleMask;
 
+        // Tile vừa vẽ xong ngay trên stack này - phải ép collider tường thành hình trước khi quét,
+        // nếu không graph sẽ lấy mẫu vật lý của map cũ và coi mọi ô đều đi được.
+        visualizer.RefreshWallCollider();
         AstarPath.active.Scan(graph);
+    }
+
+    /// <summary>
+    /// Lấy mẫu vật lý lại một vùng nhỏ của graph - dùng khi vừa DỰNG thêm vật cản (công trình).
+    /// Rẻ hơn Scan toàn map rất nhiều. Null-safe: chưa có AstarPath thì bỏ qua.
+    /// </summary>
+    public static void UpdateArea(Bounds area)
+    {
+        if (AstarPath.active == null)
+        {
+            return;
+        }
+
+        // Collider của công trình vừa sinh chưa chắc đã vào không gian vật lý - ép đồng bộ trước.
+        Physics2D.SyncTransforms();
+        AstarPath.active.UpdateGraphs(area);
+    }
+
+    /// <summary>
+    /// Mở lại một vùng thành đi được mà KHÔNG lấy mẫu vật lý - dùng khi PHÁ công trình, vì
+    /// Destroy chỉ có hiệu lực cuối frame nên quét lại ngay sẽ vẫn thấy collider cũ. An toàn vì
+    /// công trình chỉ được đặt trên ô sàn (GridBuildingSystem.IsFloorCell).
+    /// </summary>
+    public static void MarkAreaWalkable(Bounds area)
+    {
+        if (AstarPath.active == null)
+        {
+            return;
+        }
+
+        AstarPath.active.UpdateGraphs(new GraphUpdateObject(area)
+        {
+            modifyWalkability = true,
+            setWalkability = true
+        });
     }
 
     private static GridGraph GetOrCreateGridGraph()

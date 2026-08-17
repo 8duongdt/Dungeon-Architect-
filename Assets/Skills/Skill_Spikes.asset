@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: -400226559669796482, guid: 5ead276c06fcb1b44b9cf08d8395da69, type: 3}
   vfxPrefab: {fileID: 5159199253299695930, guid: fb7c340a73678a248a8085aba6dec5c3, type: 3}
   castSfx: {fileID: 8300000, guid: df69858c05da08748a959403f008f14e, type: 3}
-  baseDamage: 15
+  baseDamage: 20
   statScaling: 1
   cooldown: 5
   impactDelay: 0
@@ -45,5 +45,9 @@ MonoBehaviour:
   pullSpeed: 4
   shieldAmount: 50
   shieldDuration: 6
+  chargeSpeed: 12
+  chargeMaxDistance: 5
+  chargeImpactRadius: 1.5
+  chargeKnockbackDistance: 1.5
   executeHealthThreshold: 0.1
   executeGoldReward: 25

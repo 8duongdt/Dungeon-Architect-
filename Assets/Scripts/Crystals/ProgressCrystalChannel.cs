@@ -26,6 +26,10 @@ public class ProgressCrystalChannel : MonoBehaviour
     private CrystalNode crystalNode;
     private readonly HashSet<UnitHealth> occupants = new HashSet<UnitHealth>();
 
+    /// <summary>Đang có unit người chơi đứng kênh tiến trình ngay lúc này - đọc bởi
+    /// <see cref="HumanLockoutMeter"/> để biết tinh thể nào người chơi đang thực sự giữ.</summary>
+    public bool IsChanneling { get; private set; }
+
     private void Awake()
     {
         crystalNode = GetComponent<CrystalNode>();
@@ -36,16 +40,21 @@ public class ProgressCrystalChannel : MonoBehaviour
         // Phòng hờ unit bị Destroy không qua Died (vd tắt scene con): dọn phần tử fake-null trước khi đếm.
         occupants.RemoveWhere(occupant => occupant == null);
 
-        bool isChanneling = occupants.Count > 0
+        IsChanneling = occupants.Count > 0
             && crystalNode.Type == CrystalType.Progress
             && crystalNode.State == CrystalState.Active;
 
-        if (!isChanneling || PhaseManager.Instance == null)
+        if (!IsChanneling || PhaseManager.Instance == null)
         {
             return;
         }
 
-        PhaseManager.Instance.AddProgress(progressPerSecond * PercentToFraction * Time.deltaTime);
+        // Human khống chế một phần tinh thể Progress còn lại thì tốc độ tích thức tỉnh bị giảm -
+        // xem HumanLockoutMeter.PlayerProgressRateMultiplier.
+        float rateMultiplier = HumanLockoutMeter.Instance != null
+            ? HumanLockoutMeter.Instance.PlayerProgressRateMultiplier
+            : 1f;
+        PhaseManager.Instance.AddProgress(progressPerSecond * PercentToFraction * Time.deltaTime * rateMultiplier);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

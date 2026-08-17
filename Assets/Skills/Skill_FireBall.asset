@@ -45,5 +45,9 @@ MonoBehaviour:
   pullSpeed: 4
   shieldAmount: 50
   shieldDuration: 6
+  chargeSpeed: 12
+  chargeMaxDistance: 5
+  chargeImpactRadius: 1.5
+  chargeKnockbackDistance: 1.5
   executeHealthThreshold: 0.1
   executeGoldReward: 25

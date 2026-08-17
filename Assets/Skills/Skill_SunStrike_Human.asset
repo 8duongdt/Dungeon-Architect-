@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fc14cdaf19c5e44bb5ad1aa51b08e2d, type: 3}
-  m_Name: Skill_BlackHole
+  m_Name: Skill_SunStrike_Human
   m_EditorClassIdentifier: Assembly-CSharp::SkillDefinitionSO
-  skillName: BlackHole
-  icon: {fileID: -2444177217275189379, guid: 1a84d44b79db53344a0ed7120e04d99f, type: 3}
-  vfxPrefab: {fileID: 7408961044307817514, guid: f04b4143f56df8147b28a4077fa256b1, type: 3}
-  castSfx: {fileID: 8300000, guid: dec3f194c53b1234a9992a25d89f522f, type: 3}
+  skillName: SunStrikeHuman
+  icon: {fileID: -2910468133434121427, guid: 5edced445ad6f9648b6af326a514c182, type: 3}
+  vfxPrefab: {fileID: 3549010372944540835, guid: 09f3715f13250634688718e8e380e157, type: 3}
+  castSfx: {fileID: 8300000, guid: 816344a1c12707145bd2c379511f5793, type: 3}
   baseDamage: 30
   statScaling: 1
-  cooldown: 15
-  impactDelay: 0
-  manaCost: 50
-  mechanic: 6
+  cooldown: 8
+  impactDelay: 1.5
+  manaCost: 30
+  mechanic: 3
   projectilePrefab: {fileID: 0}
   projectileSpeed: 6
   projectileMaxRange: 12
   maxChainTargets: 2
   chainRadius: 3
   chainDamageFactor: 0.5
-  areaRadius: 2.5
-  knockbackDistance: 1.5
+  areaRadius: 2
+  knockbackDistance: 0
   zonePrefab: {fileID: 0}
   zoneDuration: 3
   zoneTickInterval: 0.5
@@ -39,7 +39,7 @@ MonoBehaviour:
   trapPrefab: {fileID: 0}
   trapArmDelay: 0.5
   trapRootDuration: 1.2
-  vortexPrefab: {fileID: 3218387189030182299, guid: 728783ce3c0725a4e84dbc7cb8abbc82, type: 3}
+  vortexPrefab: {fileID: 0}
   pullRadius: 4
   pullDuration: 2.5
   pullSpeed: 4

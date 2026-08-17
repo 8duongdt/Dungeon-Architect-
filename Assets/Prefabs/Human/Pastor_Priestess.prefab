@@ -888,7 +888,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12930948232b994aa6255da38036c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSkillCaster
-  skill: {fileID: 11400000, guid: eadeb67e30aa22c45b35c0d4a69c0cc3, type: 2}
+  skill: {fileID: 11400000, guid: 03903d146135f764fa16b45e8f8796eb, type: 2}
   magicPower: 10
   castWhileChasing: 0
   chaseCastRange: 5

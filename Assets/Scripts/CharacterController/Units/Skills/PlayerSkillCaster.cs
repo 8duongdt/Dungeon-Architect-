@@ -22,6 +22,10 @@ public class PlayerSkillCaster : MonoBehaviour
     [Tooltip("Sức mạnh phép của người chơi - nhân với statScaling của skill.")]
     [SerializeField] private float magicPower = 10f;
 
+    [Tooltip("Hệ số sát thương nền của mọi skill người chơi (cân bằng tay) - nhân chồng lên "
+        + "bậc kỹ năng và buff ngoài, không thay thế chúng.")]
+    [SerializeField] private float baseDamageMultiplier = 1.2f;
+
     [Tooltip("Tầm thi triển tối đa tính từ nhân vật.")]
     [SerializeField] private float castRange = 8f;
 
@@ -91,7 +95,8 @@ public class PlayerSkillCaster : MonoBehaviour
 
         // Bậc nâng cấp nhân sát thương; riêng Shield dùng hệ số này nhân lượng khiên + thời gian.
         float upgradeMultiplier = PlayerProgression.GetSkillMultiplier(skill.SkillName);
-        float damage = skill.ComputeDamage(magicPower) * upgradeMultiplier * ExternalDamageMultiplier;
+        float damage = skill.ComputeDamage(magicPower) * upgradeMultiplier
+            * baseDamageMultiplier * ExternalDamageMultiplier;
         var context = new SkillCastContext(
             transform, faction, damage, target, aimPoint, this, upgradeMultiplier);
         SkillExecutor.Execute(skill, context);
@@ -302,6 +307,7 @@ public class PlayerSkillCaster : MonoBehaviour
     private void OnValidate()
     {
         magicPower = Mathf.Max(0f, magicPower);
+        baseDamageMultiplier = Mathf.Max(0f, baseDamageMultiplier);
         castRange = Mathf.Max(0f, castRange);
         aimConeHalfAngle = Mathf.Clamp(aimConeHalfAngle, 1f, 180f);
         chainStrikeCastRange = Mathf.Max(0f, chainStrikeCastRange);

@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttackArea
   detectionRadius: 7
-  attackRange: 0.35
+  attackRange: 0.5
   loseTargetRadiusMultiplier: 1.1
   attackApproachFactor: 0.9
   enemyLayer:

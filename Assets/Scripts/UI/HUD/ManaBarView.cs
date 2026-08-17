@@ -3,14 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Thanh Mana trên HUD. Mana không có trần (ResourceManager) nên thanh chỉ mang tính
-/// hiển thị tương đối theo displayMaxMana; số chữ luôn là giá trị thật, không bị cắt.
+/// Thanh Mana trên HUD. Trần Mana lấy thẳng từ <see cref="ResourceManager.MaxMana"/> nên
+/// thanh và nhãn "hiện tại/tối đa" luôn khớp kho thật, không cần con số cấu hình song song.
 /// Đăng ký sự kiện ManaChanged như ResourceHudBinder - không poll mỗi frame.
 /// </summary>
 public class ManaBarView : MonoBehaviour
 {
-    [Tooltip("Mana dùng để quy đổi độ đầy của thanh (chỉ để vẽ - Mana thật không có trần).")]
-    [SerializeField] private float displayMaxMana = 100f;
     [SerializeField] private ResourceManager resourceManager;
     [SerializeField] private Image manaFill;
     [SerializeField] private TMP_Text manaLabel;
@@ -40,19 +38,16 @@ public class ManaBarView : MonoBehaviour
 
     private void OnManaChanged(int mana)
     {
+        int maxMana = resourceManager.MaxMana;
+
         if (manaFill != null)
         {
-            manaFill.fillAmount = displayMaxMana > 0f ? Mathf.Clamp01(mana / displayMaxMana) : 0f;
+            manaFill.fillAmount = maxMana > 0 ? Mathf.Clamp01((float)mana / maxMana) : 0f;
         }
 
         if (manaLabel != null)
         {
-            manaLabel.text = mana.ToString();
+            manaLabel.text = $"{mana}/{maxMana}";
         }
-    }
-
-    private void OnValidate()
-    {
-        displayMaxMana = Mathf.Max(1f, displayMaxMana);
     }
 }

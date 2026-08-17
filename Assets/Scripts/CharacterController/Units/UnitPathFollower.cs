@@ -35,7 +35,7 @@ public class UnitPathFollower : MonoBehaviour
     private Seeker seeker;
     private Path currentPath;
     private int waypointIndex;
-    private float repathTimer;
+    private float nextRepathTime;
     private bool waitingForPath;
     private bool hasRequestedPath;
     private Vector3 lastRequestedDestination;
@@ -43,6 +43,14 @@ public class UnitPathFollower : MonoBehaviour
     private void Awake()
     {
         seeker = GetComponent<Seeker>();
+    }
+
+    private void OnDisable()
+    {
+        // Seeker huỷ yêu cầu đang bay khi bị tắt - phải hạ cờ, nếu không lúc bật lại unit sẽ
+        // vĩnh viễn "đang chờ đường" và đứng im.
+        waitingForPath = false;
+        ReleaseCurrentPath();
     }
 
     /// <summary>Điểm kế tiếp trên đường A* tới destination - gọi mỗi tick khi cần bám đường.</summary>
@@ -57,13 +65,15 @@ public class UnitPathFollower : MonoBehaviour
         bool destinationJumped = hasRequestedPath
             && Vector2.Distance(destination, lastRequestedDestination) >= destinationJumpThreshold;
 
-        repathTimer -= Time.deltaTime;
-        if (!destinationJumped && (repathTimer > 0f || waitingForPath))
+        // Dùng mốc thời gian tuyệt đối chứ không trừ dần: hàm này bị gọi từ cả Update (ChaseState)
+        // lẫn FixedUpdate (Unit.MoveTowardsTarget) nên đếm lùi sẽ trôi nhanh gấp đôi.
+        bool isRepathDue = Time.time >= nextRepathTime;
+        if (!destinationJumped && (!isRepathDue || waitingForPath))
         {
             return;
         }
 
-        repathTimer = repathSeconds;
+        nextRepathTime = Time.time + repathSeconds;
         waitingForPath = true;
         hasRequestedPath = true;
         lastRequestedDestination = destination;
@@ -78,8 +88,23 @@ public class UnitPathFollower : MonoBehaviour
             return;
         }
 
+        // Phải Claim: ngay sau callback, Seeker trả đường CŨ về pool - mà đường cũ chính là
+        // currentPath. Không giữ chỗ thì ta sẽ đọc tiếp một Path đã được tái dùng cho unit khác.
+        path.Claim(this);
+        ReleaseCurrentPath();
         currentPath = path;
         waypointIndex = 0;
+    }
+
+    private void ReleaseCurrentPath()
+    {
+        if (currentPath == null)
+        {
+            return;
+        }
+
+        currentPath.Release(this);
+        currentPath = null;
     }
 
     private SteeringResult NextWaypoint(Vector3 destination)

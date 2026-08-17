@@ -7443,6 +7443,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 743279453}
     m_Modifications:
+    - target: {fileID: 70486342920126500, guid: 9dc325f68e759924f8b07362e3021c3e, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
     - target: {fileID: 1961759916867619397, guid: 9dc325f68e759924f8b07362e3021c3e, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
@@ -7450,6 +7454,10 @@ PrefabInstance:
     - target: {fileID: 2345216755802002438, guid: 9dc325f68e759924f8b07362e3021c3e, type: 3}
       propertyPath: m_Name
       value: TutorialOverlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 3894460775582010979, guid: 9dc325f68e759924f8b07362e3021c3e, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
       objectReference: {fileID: 0}
     - target: {fileID: 5255296283993462463, guid: 9dc325f68e759924f8b07362e3021c3e, type: 3}
       propertyPath: m_Pivot.x

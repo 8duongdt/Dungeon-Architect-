@@ -253,6 +253,7 @@ MonoBehaviour:
   attackParameter: Attack
   hurtTriggerParameter: takeDamage
   deathTriggerParameter: die
+  skillTriggerParameter: Skill
   idleStateName: idle
   hurtStateName: hurt
   deathStateName: death
@@ -331,8 +332,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a50d5283d985a245b9124991a35cb22, type: 2}
   - {fileID: 11400000, guid: eadeb67e30aa22c45b35c0d4a69c0cc3, type: 2}
   magicPower: 10
+  baseDamageMultiplier: 1.2
   castRange: 8
   aimConeHalfAngle: 40
+  chainStrikeCastRange: 10
+  chainStrikeAimConeHalfAngle: 150
 --- !u!114 &99546247067036251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,8 +349,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2935511b15c44f78ad1ce9b3240fdd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitHealth
-  baseMaxHealth: 100
-  currentHealth: 100
+  baseMaxHealth: 500
+  currentHealth: 500
   defense: 0
   healthBar: {fileID: 0}
   destroyOnDeath: 1
@@ -363,7 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4844e78d0895cb478a9155ec4c63604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManaRegen
-  regenPerSecond: 8
+  regenPerSecond: 4
 --- !u!114 &6485944102768308069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,4 +426,5 @@ MonoBehaviour:
   maxRange: 8
   fallbackDamage: 10
   fallbackCooldown: 0.5
+  damageMultiplier: 1.2
   muzzleOffset: {x: 0, y: 0.5}

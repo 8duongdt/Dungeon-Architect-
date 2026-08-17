@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerManaRegen : MonoBehaviour
 {
     [Tooltip("Lượng Mana hồi mỗi giây.")]
-    [SerializeField] private float regenPerSecond = 8f;
+    [SerializeField] private float regenPerSecond = 4f;
 
     private float accumulatedMana;
 

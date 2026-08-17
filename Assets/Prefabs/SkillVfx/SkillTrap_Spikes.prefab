@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8695948742689166566}
   - component: {fileID: 2887105079124572541}
-  - component: {fileID: 1161190007297807352}
   m_Layer: 0
   m_Name: SkillTrap_Spikes
   m_TagString: Untagged
@@ -46,19 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93ce0d540bece24397040f58ad03d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillTrap
---- !u!114 &1161190007297807352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2481284450133823261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb705d2d9006004199925dbda151975, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkillDirection
-  spriteFacingOffsetDegrees: -90
 --- !u!1 &6300379451003115157
 GameObject:
   m_ObjectHideFlags: 0

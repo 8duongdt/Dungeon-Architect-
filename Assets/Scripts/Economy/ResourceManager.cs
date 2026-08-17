@@ -16,9 +16,16 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private int startGold = 500;
     [SerializeField] private int startMana = 0;
 
-    // Cả Vàng lẫn Mana đều tăng KHÔNG giới hạn (không có trần).
+    [Header("Giới hạn")]
+    [Tooltip("Trần Mana của người chơi - sản lượng vượt trần bị bỏ phí.")]
+    [SerializeField] private int maxMana = 250;
+
+    // Vàng tăng KHÔNG giới hạn; Mana bị kẹp ở maxMana (thanh Mana là 0..maxMana).
     public int Gold { get; private set; }
     public int Mana { get; private set; }
+
+    /// <summary>Trần Mana - HUD dùng để vẽ độ đầy và nhãn "hiện tại/tối đa".</summary>
+    public int MaxMana => maxMana;
 
     /// <summary>Bắn khi lượng Vàng đổi (giá trị mới).</summary>
     public event Action<int> GoldChanged;
@@ -36,7 +43,7 @@ public class ResourceManager : MonoBehaviour
 
         Instance = this;
         Gold = Mathf.Max(0, startGold);
-        Mana = Mathf.Max(0, startMana);
+        Mana = Mathf.Clamp(startMana, 0, maxMana);
     }
 
     private void Start()
@@ -72,7 +79,15 @@ public class ResourceManager : MonoBehaviour
             return;
         }
 
-        Mana += amount;
+        // Đang đầy trần thì không bắn sự kiện - tránh spam HUD mỗi chu kỳ của lò Mana/hồi Mana.
+        int cappedMana = Mathf.Min(Mana + amount, maxMana);
+        bool isUnchanged = cappedMana == Mana;
+        if (isUnchanged)
+        {
+            return;
+        }
+
+        Mana = cappedMana;
         ManaChanged?.Invoke(Mana);
     }
 
@@ -104,5 +119,10 @@ public class ResourceManager : MonoBehaviour
     public bool CanAfford(int goldCost, int manaCost)
     {
         return Gold >= goldCost && Mana >= manaCost;
+    }
+
+    private void OnValidate()
+    {
+        maxMana = Mathf.Max(1, maxMana);
     }
 }

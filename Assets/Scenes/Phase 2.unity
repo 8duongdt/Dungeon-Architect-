@@ -1310,6 +1310,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a50d5283d985a245b9124991a35cb22, type: 2}
   - {fileID: 11400000, guid: eadeb67e30aa22c45b35c0d4a69c0cc3, type: 2}
   magicPower: 10
+  baseDamageMultiplier: 1.2
   castRange: 8
   aimConeHalfAngle: 40
   chainStrikeCastRange: 10
@@ -1424,7 +1425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4844e78d0895cb478a9155ec4c63604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManaRegen
-  regenPerSecond: 8
+  regenPerSecond: 4
 --- !u!114 &273957690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1483,6 +1484,7 @@ MonoBehaviour:
   maxRange: 8
   fallbackDamage: 10
   fallbackCooldown: 0.5
+  damageMultiplier: 1.2
   muzzleOffset: {x: 0, y: 0.5}
 --- !u!1 &275802797
 GameObject:
@@ -2830,7 +2832,7 @@ MonoBehaviour:
   initialSpawnDelay: 40
   spawnInterval: 60
   maxEnemies: 3
-  maxTotalSpawns: 0
+  maxTotalSpawns: 2
   spawnRadius: 1.5
   skillTree: {fileID: 11400000, guid: d2cf0c82f768bcd49aa65e2e4db5f4ae, type: 2}
 --- !u!1 &463876117
@@ -3637,7 +3639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: AstarPathfindingProject::AstarPath
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAA4IezObfVDWgIAABEFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMzk0HSAikt9YhpIckTGknF1/W1hprkCWPPgIkw3/vSraxQ6cnxHtvd9+uVv5gQtkac6fNygj+pDmybyMWzuzLqCcf8QBbrTbiHTvNq+CuDCKIml/ghCZ8EsKsrtAZkX9XWxnEYwK9EoU21ZJvMdHWWYILkBaJMtqFaEXQx4gd6OfqLoQc6TSdh9M7ne7GoxMdc1QOTS/thJ2sUXmVS6hq5MFyL74+p51FmaJmWkUwnmsphW2dMHesY6cJ1NZTHyTgAqizWD7oSxTb0oV0w+CXorDoWksGjvfC0ICarOyHbqZWgd01vt5A+lDn9iZaanI+/UNfTSJdGF09dmUn41DClSLf/YJjDtYNpjqE7z/79moPcgeZxNcS1bNeGe0VJ9IZH0K9xel9//fcWVJivuvxxuoF6Ov/303o4RSbPyRSVFmgvt40wEbqOO5482joYn6S4bgXtk1BaHDxx+Jv2A4XqCUehLGOqLZLFexl2psgZcs4s9CNd4k2CiPcmq5RgXTHNaVxlzd4wQ3KXjAPEJ5KW7zluhdwERLhXj8eX1BrvT9fli31/glt+eKdFAp704F4pjklWqlmwYYz6cI23hSQD8K2XvDPq8Xmt4vpIoPZ4m4+y4rs+iqbZpxPOCzm80UxgwmLuycU9Qly3Rhtx0O3pvrkivas+4KMVgbquOzcwH4l3is9GLlQhd7kBlG9NBnOxtFQEXqUfMkFDWiDzgkV75t9pEzqfIc8PSdKY6fLgzOQ9llSVos37QKSsiR+MlIW4PMurw2+CdyH4l2yEzv9BVBLAwQUAAAICAAAOCHsXwzqWW0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0krmZhZFFUqKphaW5aVJakrFuklFSSophSqKFublFmmmioVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAOCHszm31Q1oCAAARBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAOCHsXwzqWW0AAAB4AAAACQAkAAAAAAAAAAAAAACnAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAF8DAAAAAA==
+    dataString: UEsDBBQAAAgIAAA4IexLikWVXgIAABMFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE2P2jAQ/SvI51IFFhborQ0s2wML2rTaSy5OPCEWjh3ZDl8r/nvHTkJSqp4Y3ryZefPhfBIuTQmpVXqtOdsoBuTbgDibfBl0zlc4072SEb9Cy/ngzOaORD3nnVquEB+5MKMKsJqn3+VeOHKAYCV5pnSxYnsIlbEG4YwKA+jSyrpoidDngJzxZ7hwIRe0xjNnXdFaBIMbmilIC7qjtsSWVrMqmQpalMCc5I78NG7Yk5omsZmG4YSnSghuGiXEXkrfaVTmoMG1yjjFxnz14OsCgRz4PrdOZj96m2UGbKNJ08uSa5xQnZb8UPXYCmoOtbAjFZUr9Dzxmuqcm3/cw5F3Z1oVr23ZUeBK2Jynh3d6SamxvbH24WWnfOTHc6LiQBMBHznIN7XWqpIMnVZXLrQyMF52f++dhTmkhw6vpbZgW7cq/78d18TNd38OBS8SP8lJDURC+YH73YPG1fxExf4yTJMCUSfjt4FfdN8/ocbxwrWx6GralE5foirtqGTlh+baqWyotAQPN62UIKmwlx2msY8rfPD1yj54Xqh7LE3xxte+gYcQD3f8IHhw7dTpvi2Tq9MGTL6trOASOtHO8YZzCpWU9YX1Z9KGRZXOaNoL21ec/X1bZPY8H88TOp0vZtMkS56GyThhbMTofDabZ1M6Iv74uMQ+qdjVQpvx4NZkl1ziobXfkMFa09JfO9P0tObXQvVGzmWmolQDyG2d4S4cNBbBZ8lWjOOAIrCWS79v8hkTodIDsPieKPadrs5W07jLEpOSH5V1SExC/9GIiYPvx7zTcORwcsXbZDdy+wNQSwMEFAAACAgAADgh7F8M6lltAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTXUVBKL0osyCgGihiCOKWZKSB2tJK5mYWRRVKiqYWluWlSWpKxbpJRUkqKYUqihbm5RZppoqFSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAADgh7EuKRZVeAgAAEwUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAADgh7F8M6lltAAAAeAAAAAkAJAAAAAAAAAAAAAAAqwIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABjAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -4004,6 +4006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceManager
   startGold: 500
   startMana: 50
+  maxMana: 250
 --- !u!4 &752361857
 Transform:
   m_ObjectHideFlags: 0
@@ -5391,7 +5394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4329a340688e4cf49b79c8cb4e26f466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ManaBarView
-  displayMaxMana: 100
   resourceManager: {fileID: 752361856}
   manaFill: {fileID: 847243994}
   manaLabel: {fileID: 1204876679}
@@ -6341,7 +6343,7 @@ MonoBehaviour:
   initialSpawnDelay: 60
   spawnInterval: 60
   maxEnemies: 3
-  maxTotalSpawns: 0
+  maxTotalSpawns: 2
   spawnRadius: 1.5
   skillTree: {fileID: 11400000, guid: d2cf0c82f768bcd49aa65e2e4db5f4ae, type: 2}
 --- !u!1 &1432616664
@@ -8031,7 +8033,7 @@ MonoBehaviour:
   initialSpawnDelay: 20
   spawnInterval: 60
   maxEnemies: 3
-  maxTotalSpawns: 0
+  maxTotalSpawns: 2
   spawnRadius: 1.5
   skillTree: {fileID: 11400000, guid: d2cf0c82f768bcd49aa65e2e4db5f4ae, type: 2}
 --- !u!1 &2050139317

@@ -16,7 +16,7 @@ MonoBehaviour:
   prefab: {fileID: 9093047791341306923, guid: 70f0f3750e6c465b8678fb9df05c336d, type: 3}
   visual: {fileID: 9093047791341306923, guid: 70f0f3750e6c465b8678fb9df05c336d, type: 3}
   icon: {fileID: -1808982527863717971, guid: 40846c487369c3d429c020f7f64723b8, type: 3}
-  goldCost: 0
+  goldCost: 100
   manaCost: 0
   description: "Khai th\xE1c & tinh luy\u1EC7n Mana - n\xE2ng c\u1EA5p \u0111\u1EC3
     \u0111\u1ED5i di\u1EC7n m\u1EA1o v\xE0 t\u0103ng s\u1EA3n l\u01B0\u1EE3ng."

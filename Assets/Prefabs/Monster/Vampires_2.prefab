@@ -532,7 +532,6 @@ GameObject:
   - component: {fileID: 1064509105371875866}
   - component: {fileID: 2216956598108993948}
   - component: {fileID: 1292959887658111188}
-  - component: {fileID: 7203985941580383409}
   - component: {fileID: 4288434643795957058}
   - component: {fileID: 5737677870279015894}
   - component: {fileID: 4222597267347159555}
@@ -777,21 +776,6 @@ MonoBehaviour:
   moveSpeed: 5
   stoppingDistance: 0.1
   collisionRecoveryDamping: 12
---- !u!114 &7203985941580383409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8787793029696314022}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acb642f9f39a3484baf03caa9ccdf552, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerControll
-  moveSpeed: 5
-  animationController: {fileID: 4288434643795957058}
-  audioPlayer: {fileID: 0}
 --- !u!114 &4288434643795957058
 MonoBehaviour:
   m_ObjectHideFlags: 0
